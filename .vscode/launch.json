@@ -9,7 +9,7 @@
       "name": "Launch Main",
       "request": "launch",
       "mainClass": "frc.robot.Main",
-      "projectName": "boob"
+      "projectName": "troy-frc-2022"
     },
     {
       "type": "wpilib",
