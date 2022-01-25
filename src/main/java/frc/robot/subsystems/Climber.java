@@ -24,7 +24,7 @@ public class Climber extends SubsystemBase {
 
 
   private void setArmHeight(double height) {
-
+    mArmTalon.set(height);
   }
 
   private void setHookDisplacement(double displacement) {
