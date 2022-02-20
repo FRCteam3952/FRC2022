@@ -7,12 +7,15 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.simulation.JoystickSim;
 import frc.robot.commands.AutonomousCommand;
 import frc.robot.commands.CollectBalls;
 import frc.robot.commands.ManualDrive;
+import frc.robot.commands.ServoMove;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Ingester;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
@@ -35,11 +38,12 @@ public class RobotContainer {
 
   private final AutonomousCommand autonomousCommand = new AutonomousCommand(driveTrain);
 
+  private final ServoMove servoMove = new ServoMove(driveTrain);
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-
   }
 
   /**
@@ -53,6 +57,8 @@ public class RobotContainer {
     coDriverStick.btn_1.whileHeld(shootBall);
     coDriverStick.btn_12.whenPressed(turretPresets);
     */
+    JoystickButton a = new JoystickButton(driverStick.joystick, 6);
+    a.whenPressed(servoMove);
     JoystickButton collectButton = new JoystickButton(driverStick.joystick, 1);
     collectButton.whileHeld(autonomousCommand);
 

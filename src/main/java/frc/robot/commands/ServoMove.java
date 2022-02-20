@@ -4,45 +4,49 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.Climber;
-import frc.robot.subsystems.Ingester;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class GrabPoles extends CommandBase {
-  private final Climber climber;
+/** An example command that uses an example subsystem. */
+public class ServoMove extends CommandBase {
+  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+  private final DriveTrain drive_train;
+
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public GrabPoles(Climber subsystem) {
-    climber = subsystem;
+  public ServoMove(DriveTrain subsystem) {
+    drive_train = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-      System.out.println("climbing");
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      // climber.turnOnHookMotor();
+      double hor = RobotContainer.driverStick.getHorizontalMovement();
+      double lat = RobotContainer.driverStick.getLateralMovement();
+
+    //   drive_train.drive(lat, hor);
+
+      System.out.println("Lat: " + lat + " Hor: "+ hor);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-      // climber.turnOffHookMotor();
+
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    // return climber.getHookLimitSwitch();
-    return true;
+    return false;
   }
 }
