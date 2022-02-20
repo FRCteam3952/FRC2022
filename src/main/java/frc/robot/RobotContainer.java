@@ -14,6 +14,7 @@ import frc.robot.commands.ManualDrive;
 import frc.robot.commands.ServoMove;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Ingester;
+import frc.robot.subsystems.Servos;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -29,6 +30,7 @@ public class RobotContainer {
   private final DriveTrain driveTrain = new DriveTrain();
 
   private final ManualDrive driveCommand = new ManualDrive(driveTrain);
+  private final Servos servos = new Servos();
 
   private final Ingester ingester = new Ingester();
 
@@ -38,12 +40,13 @@ public class RobotContainer {
 
   private final AutonomousCommand autonomousCommand = new AutonomousCommand(driveTrain);
 
-  private final ServoMove servoMove = new ServoMove(driveTrain);
+  private final ServoMove servoMove = new ServoMove(servos);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+    driveTrain.setDefaultCommand(driveCommand);
   }
 
   /**
