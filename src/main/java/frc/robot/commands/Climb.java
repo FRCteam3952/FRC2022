@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Ingester;
+import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class Climb extends CommandBase {
@@ -15,13 +16,13 @@ public class Climb extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  private boolean shutOff;
+  private boolean auto;
 
   public Climb(Climber subsystem) {
     climber = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
-    shutOff = false;
+    auto = false; //turn on when right shoulder button is pressed
   }
 
   // Called when the command is initially scheduled.
@@ -33,8 +34,9 @@ public class Climb extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
       // climber.turnOnHookMotor();
-      while (!climber.bottomLimitPressed() && !shutOff) {
+      while (!climber.bottomLimitPressed() && auto) {
         climber.slideHook(-1);
         climber.changeArmAngle(-1); 
       } //lift robot off of floor and position arm underneath second pole
@@ -42,7 +44,7 @@ public class Climb extends CommandBase {
       climber.slideHook(0); //reset motor
       climber.changeArmAngle(0); //reset motor
 
-      while (!climber.topLimitPressed() && !shutOff) {
+      while (!climber.topLimitPressed() && auto) {
         climber.slideHook(1);
         climber.changeArmAngle(1);
       } //position arm directly underneath second pole and slide hooks up to attatch to second pole
@@ -50,24 +52,24 @@ public class Climb extends CommandBase {
       climber.slideHook(0); //reset motor
       climber.changeArmAngle(0);  //reset motor
       
-      while (!climber.bottomLimitPressed() && !shutOff) {
+      while (!climber.bottomLimitPressed() && auto) {
         climber.slideHook(-1);
       } //slide robot up forward
 
       climber.slideHook(0); //reset motor
 
-      while (!climber.bottomLimitPressed() && !shutOff ) {
+      while (!climber.bottomLimitPressed() && auto) {
         climber.slideHook(1);
       } //slide hooks back up to the top
 
     //either manual control or use third limit switch  
-      if (climber.topOrBottomLimitPressed() && !shutOff)  
+      if (climber.topOrBottomLimitPressed() && auto)  
         while (!climber.bottomLimitPressed()) {
           climber.slideHook(1);
           climber.changeArmAngle(-1);
         }   
       else
-        while (!climber.bottomLimitPressed()&& !shutOff) {
+        while (!climber.bottomLimitPressed()&& auto) {
           climber.slideHook(1);
           climber.changeArmAngle(-1);
         }
@@ -79,9 +81,11 @@ public class Climb extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    double hor = RobotContainer.driverStick.getHorizontalMovement();
       climber.slideHook(0);
       climber.changeArmAngle(0);
-      shutOff = true;
+      auto = false;
+      
   }
 
   // Returns true when the command should end.
