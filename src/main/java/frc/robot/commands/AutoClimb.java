@@ -5,11 +5,10 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.Climber;
-import frc.robot.subsystems.Ingester;
 import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class Climb extends CommandBase {
+public class AutoClimb extends CommandBase {
   private final Climber climber;
   /**
    * Creates a new ExampleCommand.
@@ -17,12 +16,14 @@ public class Climb extends CommandBase {
    * @param subsystem The subsystem used by this command.
    */
   private boolean auto;
+  private double power;
 
-  public Climb(Climber subsystem) {
+  public AutoClimb(Climber subsystem) {
     climber = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
     auto = false; //turn on when right shoulder button is pressed
+    power = 0.5;
   }
 
   // Called when the command is initially scheduled.
@@ -37,41 +38,41 @@ public class Climb extends CommandBase {
 
       // climber.turnOnHookMotor();
       while (!climber.bottomLimitPressed() && auto) {
-        climber.slideHook(-1);
-        climber.changeArmAngle(-1); 
+        climber.slideHook(-power);
+        climber.changeArmAngle(-power); 
       } //lift robot off of floor and position arm underneath second pole
       
       climber.slideHook(0); //reset motor
       climber.changeArmAngle(0); //reset motor
 
       while (!climber.topLimitPressed() && auto) {
-        climber.slideHook(1);
-        climber.changeArmAngle(1);
+        climber.slideHook(power);
+        climber.changeArmAngle(power);
       } //position arm directly underneath second pole and slide hooks up to attatch to second pole
 
       climber.slideHook(0); //reset motor
       climber.changeArmAngle(0);  //reset motor
       
       while (!climber.bottomLimitPressed() && auto) {
-        climber.slideHook(-1);
+        climber.slideHook(-power);
       } //slide robot up forward
 
       climber.slideHook(0); //reset motor
 
       while (!climber.bottomLimitPressed() && auto) {
-        climber.slideHook(1);
+        climber.slideHook(power);
       } //slide hooks back up to the top
 
     //either manual control or use third limit switch  
       if (climber.topOrBottomLimitPressed() && auto)  
         while (!climber.bottomLimitPressed()) {
-          climber.slideHook(1);
-          climber.changeArmAngle(-1);
+          climber.slideHook(power);
+          climber.changeArmAngle(-power);
         }   
       else
         while (!climber.bottomLimitPressed()&& auto) {
-          climber.slideHook(1);
-          climber.changeArmAngle(-1);
+          climber.slideHook(power);
+          climber.changeArmAngle(-power);
         }
       
       climber.slideHook(0); //reset motor
