@@ -70,9 +70,9 @@ public class RobotContainer {
     JoystickButton collectButton = new JoystickButton(driverStickL.joystick, 1);
     collectButton.whileHeld(autonomousCommand);
 
-    JoystickButton d = new JoystickButton(driverStick.joystick, 6);
+    JoystickButton d = new JoystickButton(driverStickR.joystick, 6);
     d.whenPressed(servoMove);
-    JoystickButton manualButton = new JoystickButton(driverStick.joystick, 2);
+    JoystickButton manualButton = new JoystickButton(driverStickR.joystick, 2);
     collectButton.whileHeld(autonomousCommand);
 
   }
