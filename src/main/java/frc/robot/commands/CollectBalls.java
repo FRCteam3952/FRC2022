@@ -26,7 +26,7 @@ public class CollectBalls extends CommandBase {
   @Override
   public void initialize() {
       ingest.setIngestRollerSpeed(0);
-      System.out.println("ingesting");
+      System.out.println("inges   ,ting");
   }
 
   // Called every time the scheduler runs while the command is scheduled.

@@ -33,9 +33,12 @@ public class ServoMove extends CommandBase {
   public void execute() {
       double hor = RobotContainer.driverStick.getHorizontalMovement();
       double lat = RobotContainer.driverStick.getLateralMovement();
+      
 
-    //   drive_train.drive(lat, hor);
-      servos.servo1.setAngle(- (hor * 180));
+    // drive_train.drive(lat, hor);
+      // servos.servo1.setAngle(- (hor * 180));
+     servos.servo1.setAngle(- (hor * 180));
+      //servos.servo1.setAngle(hor - 0.5);
       System.out.println("Lat: " + lat + " Hor: "+ hor);
   }
 

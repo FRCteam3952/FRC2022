@@ -81,10 +81,14 @@ public class Climb extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    double hor = RobotContainer.driverStick.getHorizontalMovement();
-      climber.slideHook(0);
-      climber.changeArmAngle(0);
-      auto = false;
+    //boolean manualButton = RobotContainer.
+    //double hor = RobotContainer.driverStick.getHorizontalMovement();
+    //while(hor > 0) {
+    
+    //}
+    climber.slideHook(0);
+    climber.changeArmAngle(0);
+    auto = false;
       
   }
 
