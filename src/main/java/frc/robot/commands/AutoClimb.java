@@ -15,14 +15,12 @@ public class AutoClimb extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  private boolean auto;
   private double power;
 
   public AutoClimb(Climber subsystem) {
     climber = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
-    auto = false; //turn on when right shoulder button is pressed
     power = 0.5;
   }
 
@@ -37,7 +35,7 @@ public class AutoClimb extends CommandBase {
   public void execute() {
 
       // climber.turnOnHookMotor();
-      while (!climber.bottomLimitPressed() && auto) {
+      while (!climber.bottomLimitPressed()) {
         climber.slideHook(-power);
         climber.changeArmAngle(-power); 
       } //lift robot off of floor and position arm underneath second pole
@@ -45,7 +43,7 @@ public class AutoClimb extends CommandBase {
       climber.slideHook(0); //reset motor
       climber.changeArmAngle(0); //reset motor
 
-      while (!climber.topLimitPressed() && auto) {
+      while (!climber.topLimitPressed()) {
         climber.slideHook(power);
         climber.changeArmAngle(power);
       } //position arm directly underneath second pole and slide hooks up to attatch to second pole
@@ -53,24 +51,24 @@ public class AutoClimb extends CommandBase {
       climber.slideHook(0); //reset motor
       climber.changeArmAngle(0);  //reset motor
       
-      while (!climber.bottomLimitPressed() && auto) {
+      while (!climber.bottomLimitPressed()) {
         climber.slideHook(-power);
       } //slide robot up forward
 
       climber.slideHook(0); //reset motor
 
-      while (!climber.bottomLimitPressed() && auto) {
+      while (!climber.bottomLimitPressed()) {
         climber.slideHook(power);
       } //slide hooks back up to the top
 
     //either manual control or use third limit switch  
-      if (climber.topOrBottomLimitPressed() && auto)  
+      if (climber.topOrBottomLimitPressed())  
         while (!climber.bottomLimitPressed()) {
           climber.slideHook(power);
           climber.changeArmAngle(-power);
         }   
       else
-        while (!climber.bottomLimitPressed()&& auto) {
+        while (!climber.bottomLimitPressed()) {
           climber.slideHook(power);
           climber.changeArmAngle(-power);
         }
@@ -89,7 +87,6 @@ public class AutoClimb extends CommandBase {
     //}
     climber.slideHook(0);
     climber.changeArmAngle(0);
-    auto = false;
       
   }
 

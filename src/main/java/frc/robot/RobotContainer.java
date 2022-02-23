@@ -21,7 +21,7 @@ import frc.robot.subsystems.Climber;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
+import edu.wpi.first.wpilibj2.command.button.Button;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -33,6 +33,7 @@ public class RobotContainer {
   private final DriveTrain driveTrain = new DriveTrain();
 
   private final ManualDrive driveCommand = new ManualDrive(driveTrain);
+ 
   private final Servos servos = new Servos();
 
   private final Ingester ingester = new Ingester();
@@ -44,6 +45,10 @@ public class RobotContainer {
   public static Controller driverStickR = new Controller(new Joystick(1));
 
   private final AutonomousCommand autonomousCommand = new AutonomousCommand(driveTrain);
+
+  private final Climber climber = new Climber();
+
+  private final AutoClimb autoClimb = new AutoClimb(climber);
 
   private final ServoMove servoMove = new ServoMove(servos);
 
@@ -65,16 +70,17 @@ public class RobotContainer {
     coDriverStick.btn_1.whileHeld(shootBall);
     coDriverStick.btn_12.whenPressed(turretPresets);
     */
-    JoystickButton a = new JoystickButton(driverStickL.joystick, 6);
-    a.whenPressed(servoMove);
+    JoystickButton dL = new JoystickButton(driverStickL.joystick, 6);
+    dL.whenPressed(servoMove);
     JoystickButton collectButton = new JoystickButton(driverStickL.joystick, 1);
     collectButton.whileHeld(autonomousCommand);
 
-    JoystickButton d = new JoystickButton(driverStickR.joystick, 6);
-    d.whenPressed(servoMove);
+    JoystickButton dR = new JoystickButton(driverStickR.joystick, 6);
+    dR.whenPressed(servoMove);
     JoystickButton manualButton = new JoystickButton(driverStickR.joystick, 2);
-    collectButton.whileHeld(autonomousCommand);
+    manualButton.whileHeld(autoClimb);
 
+     
   }
 
   /**
