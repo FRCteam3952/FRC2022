@@ -12,7 +12,8 @@ import frc.robot.commands.AutonomousCommand;
 import frc.robot.commands.CollectBalls;
 import frc.robot.commands.ManualDrive;
 import frc.robot.commands.ServoMove;
-import frc.robot.commands.Climb;
+import frc.robot.commands.AutoClimb;
+import frc.robot.commands.ManualClimb;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Ingester;
 import frc.robot.subsystems.Servos;
@@ -38,7 +39,9 @@ public class RobotContainer {
 
   private final CollectBalls collect = new CollectBalls(ingester);
 
-  public static Controller driverStick = new Controller(new Joystick(0));
+  public static Controller driverStickL = new Controller(new Joystick(0));
+
+  public static Controller driverStickR = new Controller(new Joystick(1));
 
   private final AutonomousCommand autonomousCommand = new AutonomousCommand(driveTrain);
 
@@ -62,9 +65,9 @@ public class RobotContainer {
     coDriverStick.btn_1.whileHeld(shootBall);
     coDriverStick.btn_12.whenPressed(turretPresets);
     */
-    JoystickButton a = new JoystickButton(driverStick.joystick, 6);
+    JoystickButton a = new JoystickButton(driverStickL.joystick, 6);
     a.whenPressed(servoMove);
-    JoystickButton collectButton = new JoystickButton(driverStick.joystick, 1);
+    JoystickButton collectButton = new JoystickButton(driverStickL.joystick, 1);
     collectButton.whileHeld(autonomousCommand);
 
   }
