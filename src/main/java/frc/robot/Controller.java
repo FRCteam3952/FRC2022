@@ -47,5 +47,11 @@ public class Controller {
     public double throttle() {
         return joystick.getThrottle();
     }
+
+    //go into joystick directly and great new method
+    public boolean isInputed() {
+        boolean x= false;
+        return x;
+    }
     
 }
