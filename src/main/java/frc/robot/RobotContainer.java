@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.HIDType;
 import edu.wpi.first.wpilibj.simulation.JoystickSim;
 import frc.robot.commands.AutonomousCommand;
 import frc.robot.commands.CollectBalls;
@@ -79,7 +80,15 @@ public class RobotContainer {
     JoystickButton manualButton = new JoystickButton(driverStick.joystick, 2);
     manualButton.whenHeld(autoClimb);
 
-     
+    //????? wut lets find out
+    Joystick testBumper = new Joystick(6);
+    testBumper.getTopPressed();
+    Joystick righJoystick = new Joystick(6);
+    righJoystick.getX();
+
+    //dR.whenPressed(servoMove);
+    //JoystickButton manualButton = new JoystickButton(driverStick.joystick, 2);
+    //manualButton.whenHeld(autoClimb);
   }
 
   /**
