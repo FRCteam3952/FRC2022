@@ -40,9 +40,7 @@ public class RobotContainer {
 
   private final CollectBalls collect = new CollectBalls(ingester);
 
-  public static Controller driverStickL = new Controller(new Joystick(0));
-
-  public static Controller driverStickR = new Controller(new Joystick(1));
+  public static Controller driverStick = new Controller(new Joystick(0));
 
   private final AutonomousCommand autonomousCommand = new AutonomousCommand(driveTrain);
 
@@ -70,15 +68,16 @@ public class RobotContainer {
     coDriverStick.btn_1.whileHeld(shootBall);
     coDriverStick.btn_12.whenPressed(turretPresets);
     */
-    JoystickButton dL = new JoystickButton(driverStickL.joystick, 6);
+    //controller might not actually have any buttons, might be useless code
+    JoystickButton dL = new JoystickButton(driverStick.joystick, 1);
     dL.whenPressed(servoMove);
-    JoystickButton collectButton = new JoystickButton(driverStickL.joystick, 1);
+    JoystickButton collectButton = new JoystickButton(driverStick.joystick, 1);
     collectButton.whileHeld(autonomousCommand);
 
-    JoystickButton dR = new JoystickButton(driverStickR.joystick, 6);
+    JoystickButton dR = new JoystickButton(driverStick.joystick, 6);
     dR.whenPressed(servoMove);
-    JoystickButton manualButton = new JoystickButton(driverStickR.joystick, 2);
-    manualButton.whileHeld(autoClimb);
+    JoystickButton manualButton = new JoystickButton(driverStick.joystick, 2);
+    manualButton.whenHeld(autoClimb);
 
      
   }

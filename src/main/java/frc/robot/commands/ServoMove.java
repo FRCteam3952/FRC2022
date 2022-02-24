@@ -33,14 +33,22 @@ public class ServoMove extends CommandBase {
   public void execute() {
       
 
-      double hor = RobotContainer.driverStickL.getHorizontalMovement();
-      double lat = RobotContainer.driverStickL.getLateralMovement();
+      double hor = RobotContainer.driverStick.getHorizontalMovement();
+      double lat = RobotContainer.driverStick.getLateralMovement();
+      double rot = RobotContainer.driverStick.getRotation();
+      boolean trigger = RobotContainer.driverStick.triggerPressed();
+      double twist = RobotContainer.driverStick.twist();
+      double throttle = RobotContainer.driverStick.throttle();
 
     // drive_train.drive(lat, hor);
       // servos.servo1.setAngle(- (hor * 180));
-     servos.servo1.setAngle(- (hor * 180));
+     servos.servo1.setAngle(- (lat * 180));
+    
+      System.out.println(trigger);
+    
+
       //servos.servo1.setAngle(hor - 0.5);
-      System.out.println("Lat: " + lat + " Hor: "+ hor);
+      //System.out.println("Lat: " + lat + " Hor: "+ hor);
   }
 
   // Called once the command ends or is interrupted.

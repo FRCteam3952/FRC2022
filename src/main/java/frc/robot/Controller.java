@@ -34,4 +34,18 @@ public class Controller {
         double t = joystick.getZ();
         return Math.abs(t) >= deadzoneT ? kT * Math.signum(t) * (Math.log(Math.abs(t) + 1 - deadzoneT) + cT) : 0;
     }
+
+    public boolean triggerPressed() {
+        return joystick.getTrigger();
+    }
+
+    public double twist() {
+        double h = joystick.getTwist();
+        return h;
+    }
+
+    public double throttle() {
+        return joystick.getThrottle();
+    }
+    
 }

@@ -53,6 +53,8 @@ public class AutonomousCommand extends CommandBase {
        System.out.println("running");
        frontLeftWheel.set(x/100.0);
        frontRightWheel.set(x/100.0);
+
+       System.out.println("sus sus sus sus sus sus");
     }
   
     // Called once the command ends or is interrupted.

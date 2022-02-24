@@ -33,7 +33,7 @@ public class AutoClimb extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
+      System.out.println("climb gh\\thing wheee");
       // climber.turnOnHookMotor();
       while (!climber.bottomLimitPressed()) {
         climber.slideHook(-power);

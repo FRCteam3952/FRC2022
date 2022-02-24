@@ -22,7 +22,7 @@ public class Climber extends SubsystemBase {
 
   /** Creates a new ExampleSubsystem. */
   public Climber() {
-    mArmAngleTalon = new Talon(8);
+    mArmAngleTalon = new Talon(6);
     mHookTalon = new Talon(7);
     topLimitSwitch = new DigitalInput(1); 
     bottomLimitSwitch = new DigitalInput(2);

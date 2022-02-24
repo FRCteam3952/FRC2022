@@ -32,8 +32,8 @@ public class ManualClimb extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      double armSpeed = RobotContainer.driverStickL.getLateralMovement();
-      double hookSpeed = RobotContainer.driverStickR.getLateralMovement();
+      double armSpeed = RobotContainer.driverStick.getLateralMovement();
+      double hookSpeed = RobotContainer.driverStick.getLateralMovement();
       armSpeed *= 10;
       hookSpeed *= 10;
       armSpeed = (int) armSpeed;
