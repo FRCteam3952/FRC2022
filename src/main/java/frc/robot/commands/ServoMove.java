@@ -46,14 +46,7 @@ public class ServoMove extends CommandBase {
       // drive_train.drive(lat, hor);
       // servos.servo1.setAngle(- (hor * 180));
      servos.servo1.setAngle(- (lat * 180));
-     if (RobotContainer.driverStick.getRotation()>0)
-     {
-      System.out.println("l");
-     }
-     else
-    {
-      System.out.println("2");
-    }
+     
     
 
       //servos.servo1.setAngle(hor - 0.5);

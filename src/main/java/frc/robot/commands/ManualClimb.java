@@ -20,6 +20,7 @@ public class ManualClimb extends CommandBase {
    */
   public ManualClimb(Climber subsystem) {
     climber = subsystem;
+    addRequirements(subsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -32,8 +33,9 @@ public class ManualClimb extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if (!RobotContainer.driverStick.rightShoulderPressed()) {
       double armSpeed = RobotContainer.driverStick.getLateralMovement();
-      double hookSpeed = RobotContainer.driverStick.getLateralMovement();
+      double hookSpeed = RobotContainer.driverStick.getRotation();
       armSpeed *= 10;
       hookSpeed *= 10;
       armSpeed = (int) armSpeed;
@@ -44,6 +46,7 @@ public class ManualClimb extends CommandBase {
       climber.slideHook(hookSpeed);
 
       System.out.println("Arm speed: " + armSpeed + " Hook speed: "+ hookSpeed);
+    }
   }
 
   // Called once the command ends or is interrupted.

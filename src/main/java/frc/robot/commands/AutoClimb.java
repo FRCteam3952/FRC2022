@@ -28,11 +28,14 @@ public class AutoClimb extends CommandBase {
   @Override
   public void initialize() {
       System.out.println("climbing");
-  }
+      RobotContainer.driverStick.setChannelForStickButton();
+      }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if (RobotContainer.driverStick.getRotation()>0)
+    {
       System.out.println("climb gh\\thing wheee");
       // climber.turnOnHookMotor();
       while (!climber.bottomLimitPressed()) {
@@ -75,6 +78,10 @@ public class AutoClimb extends CommandBase {
       
       climber.slideHook(0); //reset motor
       climber.changeArmAngle(0);  //reset motor
+    }
+    else{
+      end(true);
+    }
   }
 
   // Called once the command ends or is interrupted.
