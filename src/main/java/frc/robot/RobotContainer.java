@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import org.opencv.core.RotatedRect;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -81,10 +83,17 @@ public class RobotContainer {
     manualButton.whenHeld(autoClimb);
 
     //????? wut lets find out
-    Joystick testBumper = new Joystick(6);
+    Joystick testBumper = new Joystick(3);
+    // Joystick.kDefaultThrottleChannel = 6;
     testBumper.getTopPressed();
-    Joystick righJoystick = new Joystick(6);
+    Joystick righJoystick = new Joystick(1);
     righJoystick.getX();
+
+    /**
+   * Get the slider position of the HID.
+   *
+   * @return the z position
+   */
 
     //dR.whenPressed(servoMove);
     //JoystickButton manualButton = new JoystickButton(driverStick.joystick, 2);
