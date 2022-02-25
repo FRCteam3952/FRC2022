@@ -40,12 +40,20 @@ public class ServoMove extends CommandBase {
       double twist = RobotContainer.driverStick.twist();
       double throttle = RobotContainer.driverStick.throttle();
       boolean isInputed = RobotContainer.driverStick.isInputed();
+      boolean topPressed = RobotContainer.driverStick.top();
 
-    // drive_train.drive(lat, hor);
+      RobotContainer.driverStick.setChannelForStickButton();
+      // drive_train.drive(lat, hor);
       // servos.servo1.setAngle(- (hor * 180));
      servos.servo1.setAngle(- (lat * 180));
-    
-      System.out.println(isInputed);
+     if (RobotContainer.driverStick.getRotation()>0)
+     {
+      System.out.println("l");
+     }
+     else
+    {
+      System.out.println("2");
+    }
     
 
       //servos.servo1.setAngle(hor - 0.5);

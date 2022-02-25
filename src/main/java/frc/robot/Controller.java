@@ -46,7 +46,13 @@ public class Controller {
 
     public double throttle() {
         return joystick.getThrottle();
+        
     }
+
+    public boolean top() {
+        return joystick.getTop();
+    }
+
 
     //go into joystick directly and great new method
     public boolean isInputed() {
@@ -54,4 +60,8 @@ public class Controller {
         return x;
     }
     
+    //the button was a joystick so replaced z axis
+    public void setChannelForStickButton() {
+        joystick.setZChannel(6);
+    }
 }
