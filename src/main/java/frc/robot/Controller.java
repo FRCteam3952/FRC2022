@@ -61,11 +61,18 @@ public class Controller {
     }
     
     //the button was a joystick so replaced z axis
+    public void setChannelforAimthingy() {
+        joystick.setYChannel(4);
+    }
     public void setChannelForStickButton() {
         joystick.setThrottleChannel(6);
     }
 
     public boolean rightShoulderPressed() {
         return joystick.getThrottle()>0;
+    }
+
+    public boolean leftShoulderPressed() {
+        return joystick.getYChannel() > 0;
     }
 }

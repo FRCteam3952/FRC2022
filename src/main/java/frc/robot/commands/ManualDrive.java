@@ -7,6 +7,9 @@ package frc.robot.commands;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.networktables.NetworkTable;
 
 /** An example command that uses an example subsystem. */
 public class ManualDrive extends CommandBase {
@@ -33,10 +36,30 @@ public class ManualDrive extends CommandBase {
       double hor = RobotContainer.driverStick.getHorizontalMovement();
       double lat = RobotContainer.driverStick.getLateralMovement();
 
-      drive_train.drive(lat, hor);
+      // drive_train.drive(lat, hor);
 
       System.out.println("Lat: " + lat + " Hor: "+ hor);
-  }
+
+      float Kp = -0.1f;
+      NetworkTable networkTable = NetworkTableInstance.getDefault().getTable("limelight");
+      float min_command = 0.5f;
+      float tx = (float) networkTable.getEntry("tx").getDouble(100000);
+
+      if(!(tx > 98000)) {
+        if(!RobotContainer.driverStick.leftShoulderPressed()) {
+          float headingError = -tx;
+          float steering_adjust = 0.0f;
+          if(tx > 1.0) {
+            steering_adjust = Kp*headingError - min_command;
+          } else if(tx < 1.0) {
+            steering_adjust = Kp*headingError + min_command;
+          }
+          lat += 2*(steering_adjust);
+        }
+      }
+
+      drive_train.drive(lat, hor);
+    }
 
   // Called once the command ends or is interrupted.
   @Override
