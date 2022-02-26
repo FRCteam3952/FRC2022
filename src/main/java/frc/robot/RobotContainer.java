@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.GenericHID.HIDType;
 import edu.wpi.first.wpilibj.simulation.JoystickSim;
 import frc.robot.commands.AutonomousCommand;
 import frc.robot.commands.CollectBalls;
+import frc.robot.commands.LoadBalls;
 import frc.robot.commands.ManualDrive;
 import frc.robot.commands.ServoMove;
 import frc.robot.commands.AutoClimb;
@@ -60,6 +61,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     servos.setDefaultCommand(servoMove);
+    // ingester.setDefaultCommand();
     climber.setDefaultCommand(manualClimb);
   }
 

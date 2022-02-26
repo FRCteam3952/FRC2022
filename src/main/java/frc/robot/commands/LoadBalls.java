@@ -32,6 +32,7 @@ public class LoadBalls extends CommandBase {
   @Override
   public void execute() {
     ingest.setLoadingRollerSpeed(power);
+    System.out.println("sus");
   }
 
   // Called once the command ends or is interrupted.
