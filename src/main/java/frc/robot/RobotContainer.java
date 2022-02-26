@@ -43,7 +43,7 @@ public class RobotContainer {
 
   private final CollectBalls collect = new CollectBalls(ingester);
 
-  public static Controller driverStick = new Controller(new Joystick(0));
+  public static Controller driverStick = new Controller(new JoystickPlus(0));
 
   private final AutonomousCommand autonomousCommand = new AutonomousCommand(driveTrain);
 
