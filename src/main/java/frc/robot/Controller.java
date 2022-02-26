@@ -1,5 +1,6 @@
 package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.JoystickPlus;
 
 public class Controller {
     public static final double c = 0.1;
@@ -12,9 +13,9 @@ public class Controller {
     public static final double maxT = 0.4;
     public static final double kT = (maxT - cT) / Math.log(2 - deadzoneT);
 
-    public Joystick joystick;
+    public JoystickPlus joystick;
 
-    public Controller(Joystick joystick) {
+    public Controller(JoystickPlus joystick) {
         this.joystick = joystick;
     }
 
@@ -35,6 +36,26 @@ public class Controller {
         return Math.abs(t) >= deadzoneT ? kT * Math.signum(t) * (Math.log(Math.abs(t) + 1 - deadzoneT) + cT) : 0;
     }
 
+    public double getXRotation() {
+        double xr = joystick.getXRotate();
+        return xr;
+    }
+
+    public double getYRotation() {
+        double yr = joystick.getYRotate();
+        return yr;
+    }
+
+    public double getZRotation() {
+        double zr = joystick.getZRotate();
+        return zr;
+    }
+
+    public double getSlider() {
+        double s = joystick.getSlider();
+        return s;
+    }
+
     public boolean triggerPressed() {
         return joystick.getTrigger();
     }
@@ -53,7 +74,6 @@ public class Controller {
         return joystick.getTop();
     }
 
-
     //go into joystick directly and great new method
     public boolean isInputed() {
         boolean x= false;
@@ -69,7 +89,7 @@ public class Controller {
     }
 
     public boolean rightShoulderPressed() {
-        return joystick.getThrottle()>0;
+        return joystick.getSlider()>0;
     }
 
     public boolean leftShoulderPressed() {
