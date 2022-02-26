@@ -33,8 +33,8 @@ public class ManualDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      double hor = RobotContainer.driverStick.getHorizontalMovement();
-      double lat = RobotContainer.driverStick.getLateralMovement();
+      double hor = RobotContainer.climberStick.getHorizontalMovement();
+      double lat = RobotContainer.climberStick.getLateralMovement();
 
       // drive_train.drive(lat, hor);
 
@@ -46,7 +46,7 @@ public class ManualDrive extends CommandBase {
       float tx = (float) networkTable.getEntry("tx").getDouble(100000);
 
       if(!(tx > 98000)) {
-        if(!RobotContainer.driverStick.leftShoulderPressed()) {
+        if(!RobotContainer.climberStick.leftShoulderPressed()) {
           float headingError = -tx;
           float steering_adjust = 0.0f;
           if(tx > 1.0) {

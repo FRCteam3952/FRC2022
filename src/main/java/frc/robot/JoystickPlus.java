@@ -9,11 +9,7 @@ import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj.Joystick;
 
 /**
- * Handle input from Flight Joysticks connected to the Driver Station.
- *
- * <p>This class handles standard input that comes from the Driver Station. Each time a value is
- * requested the most recent value is returned. There is a single class instance for each joystick
- * and the mapping of ports to hardware buttons depends on the code in the Driver Station.
+ * This class contains additional methods to the Joysick class that access additional axis values
  */
 public class JoystickPlus extends Joystick {
   public static final byte kDefaultXRotateChannel = 3;
@@ -23,6 +19,11 @@ public class JoystickPlus extends Joystick {
 
   /** Represents an analog axis on a joystick. */
   public enum AxisType {
+    kX(0),
+    kY(1),
+    kZ(2),
+    kTwist(3),
+    kThrottle(4),
     kXRotate(5),
     kYRotate(6),
     kZRotate(7),
@@ -36,6 +37,7 @@ public class JoystickPlus extends Joystick {
   }
 
   private final byte[] m_axes = new byte[AxisType.values().length];
+  
 
   /**
    * Construct an instance of a joystick.

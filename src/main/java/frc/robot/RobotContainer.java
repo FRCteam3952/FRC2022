@@ -22,6 +22,7 @@ import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Ingester;
 import frc.robot.subsystems.Servos;
 import frc.robot.subsystems.Climber;
+import frc.robot.JoystickPlus;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -44,7 +45,7 @@ public class RobotContainer {
 
   private final CollectBalls collect = new CollectBalls(ingester);
 
-  public static Controller driverStick = new Controller(new JoystickPlus(0));
+  public static Controller climberStick = new Controller(new JoystickPlus(0));
 
   private final AutonomousCommand autonomousCommand = new AutonomousCommand(driveTrain);
 
@@ -77,22 +78,17 @@ public class RobotContainer {
     coDriverStick.btn_12.whenPressed(turretPresets);
     */
     //controller might not actually have any buttons, might be useless code
-    JoystickButton dL = new JoystickButton(driverStick.joystick, 1);
-    dL.whenPressed(servoMove);
-    JoystickButton collectButton = new JoystickButton(driverStick.joystick, 1);
-    collectButton.whileHeld(autonomousCommand);
+    /*JoystickButton dL = new JoystickButton(driverStick.joystick, 1);
+    dL.whenPressed(servoMove); */
+    //JoystickButton collectButton = new JoystickButton(driverStick.joystick, 1);
+    //collectButton.whileHeld(autonomousCommand);
 
-    JoystickButton dR = new JoystickButton(driverStick.joystick, 6);
+    JoystickButton dR = new JoystickButton(climberStick.joystick, 6);
     dR.whenPressed(servoMove);
-    JoystickButton manualButton = new JoystickButton(driverStick.joystick, 2);
+    JoystickButton manualButton = new JoystickButton(climberStick.joystick, 2);
     manualButton.whenHeld(autoClimb);
 
-    //????? wut lets find out
-    Joystick testBumper = new Joystick(3);
-    // Joystick.kDefaultThrottleChannel = 6;
-    testBumper.getTopPressed();
-    Joystick righJoystick = new Joystick(1);
-    righJoystick.getX();
+    
 
     /**
    * Get the slider position of the HID.

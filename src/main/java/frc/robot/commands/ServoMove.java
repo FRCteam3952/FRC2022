@@ -33,8 +33,8 @@ public class ServoMove extends CommandBase {
   public void execute() {
       
 
-      double hor = RobotContainer.driverStick.getHorizontalMovement();
-      double lat = RobotContainer.driverStick.getLateralMovement();
+      double hor = RobotContainer.climberStick.getHorizontalMovement();
+      double lat = RobotContainer.climberStick.getLateralMovement();
       /*double rot = RobotContainer.driverStick.getRotation();
       boolean trigger = RobotContainer.driverStick.triggerPressed();
       double twist = RobotContainer.driverStick.twist();

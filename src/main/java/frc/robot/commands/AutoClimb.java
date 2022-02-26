@@ -37,20 +37,19 @@ public class AutoClimb extends CommandBase {
   @Override
   public void initialize() {
       System.out.println("climbing");
-      RobotContainer.driverStick.setChannelForStickButton();
       }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-  
+    System.out.println("climb");
       // climber.turnOnHookMotor();
       while (!climber.bottomLimitPressed() && auto) {
         climber.slideHook(-power);
         climber.changeArmAngle(-power); 
         System.out.println("climb1");
       } //lift robot off of floor and position arm underneath second pole
-      
+      System.out.println("notClimb1");
       climber.slideHook(0); //reset motor
       climber.changeArmAngle(0); //reset motor
 
@@ -59,7 +58,7 @@ public class AutoClimb extends CommandBase {
         climber.changeArmAngle(power);
         System.out.println("climb2");
       } //position arm directly underneath second pole and slide hooks up to attatch to second pole
-
+      System.out.println("notClimb2");
       climber.slideHook(0); //reset motor
       climber.changeArmAngle(0);  //reset motor
       

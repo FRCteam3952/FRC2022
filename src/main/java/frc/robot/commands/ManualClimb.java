@@ -14,6 +14,7 @@ public class ManualClimb extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Climber climber;
   private final AutoClimb autoClimb;
+  private boolean isClimbing;
   /**
    * Creates a new ExampleCommand.
    *
@@ -22,6 +23,7 @@ public class ManualClimb extends CommandBase {
   public ManualClimb(Climber subsystem) {
     climber = subsystem;
     autoClimb = new AutoClimb(climber);
+    isClimbing = false;
     addRequirements(subsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -29,16 +31,17 @@ public class ManualClimb extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("Manual climb initiated");
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (!RobotContainer.driverStick.rightShoulderPressed()) {
+    if (!RobotContainer.climberStick.rightShoulderPressed()) {
       autoClimb.autoClimbOff();
-      double armSpeed = RobotContainer.driverStick.getLateralMovement();
-      double hookSpeed = RobotContainer.driverStick.getRotation();
+      isClimbing = false;
+      double armSpeed = RobotContainer.climberStick.getLateralMovement();
+      double hookSpeed = RobotContainer.climberStick.getRotation();
       armSpeed *= 10;
       hookSpeed *= 10;
       armSpeed = (int) armSpeed;
@@ -48,9 +51,13 @@ public class ManualClimb extends CommandBase {
       climber.changeArmAngle(armSpeed);
       climber.slideHook(hookSpeed);
       System.out.println("Arm speed: " + armSpeed + " Hook speed: "+ hookSpeed);
-    } else {
-      autoClimb.autoClimbOn();
-      autoClimb.schedule();
+    }  
+    else {
+      if (!isClimbing) {
+        isClimbing = true;
+        autoClimb.autoClimbOn();
+        autoClimb.schedule();
+      }
     }
     
   }
