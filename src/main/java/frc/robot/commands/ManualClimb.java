@@ -7,12 +7,13 @@ package frc.robot.commands;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Climber;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.commands.AutoClimb;
 
 /** An example command that uses an example subsystem. */
 public class ManualClimb extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Climber climber;
-
+  private final AutoClimb autoClimb;
   /**
    * Creates a new ExampleCommand.
    *
@@ -20,6 +21,7 @@ public class ManualClimb extends CommandBase {
    */
   public ManualClimb(Climber subsystem) {
     climber = subsystem;
+    autoClimb = new AutoClimb(climber);
     addRequirements(subsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -34,6 +36,7 @@ public class ManualClimb extends CommandBase {
   @Override
   public void execute() {
     if (!RobotContainer.driverStick.rightShoulderPressed()) {
+      autoClimb.autoClimbOff();
       double armSpeed = RobotContainer.driverStick.getLateralMovement();
       double hookSpeed = RobotContainer.driverStick.getRotation();
       armSpeed *= 10;
@@ -44,15 +47,18 @@ public class ManualClimb extends CommandBase {
       hookSpeed /= 10.0; //rounds speeds to one decimal
       climber.changeArmAngle(armSpeed);
       climber.slideHook(hookSpeed);
-
       System.out.println("Arm speed: " + armSpeed + " Hook speed: "+ hookSpeed);
+    } else {
+      autoClimb.autoClimbOn();
+      autoClimb.schedule();
     }
+    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
+      System.out.println("auto time");
   }
 
   // Returns true when the command should end.

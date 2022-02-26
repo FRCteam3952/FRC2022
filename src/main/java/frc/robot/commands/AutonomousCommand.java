@@ -54,7 +54,7 @@ public class AutonomousCommand extends CommandBase {
        frontLeftWheel.set(x/100.0);
        frontRightWheel.set(x/100.0);
 
-       System.out.println("sus sus sus sus sus sus");
+       System.out.println("a");
     }
   
     // Called once the command ends or is interrupted.

@@ -61,7 +61,6 @@ public class RobotContainer {
     configureButtonBindings();
     servos.setDefaultCommand(servoMove);
     climber.setDefaultCommand(manualClimb);
-
   }
 
   /**
