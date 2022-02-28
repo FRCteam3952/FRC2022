@@ -69,12 +69,13 @@ public class AutoClimb extends CommandBase {
 
       climber.slideHook(0); //reset motor
 
-      while (!climber.bottomLimitPressed() && auto) {
+      while (!climber.topLimitPressed() && auto) {
         climber.slideHook(power);
         System.out.println("climb4");
       } //slide hooks back up to the top
 
-    //either manual control or use third limit switch  
+      //twas decided we will use manual control
+    /*either manual control or use third limit switch  
       if (climber.topOrBottomLimitPressed())  
         while (!climber.bottomLimitPressed() && auto) {
           climber.slideHook(power);
@@ -90,7 +91,7 @@ public class AutoClimb extends CommandBase {
       
       climber.slideHook(0); //reset motor
       climber.changeArmAngle(0);  //reset motor
-    
+    */
   }
 
   // Called once the command ends or is interrupted.
