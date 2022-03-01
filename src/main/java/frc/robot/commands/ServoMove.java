@@ -6,21 +6,23 @@ package frc.robot.commands;
 
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Servos;
+import frc.robot.subsystems.Climber;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
 public class ServoMove extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Servos servos;
-
+  private final Climber climber;
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ServoMove(Servos subsystem) {
-    servos = subsystem;
-    addRequirements(subsystem);
+  public ServoMove(Servos servos, Climber climber) {
+    this.servos = servos;
+    this.climber = climber;
+    addRequirements(servos, climber);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -46,8 +48,8 @@ public class ServoMove extends CommandBase {
       // drive_train.drive(lat, hor);
       // servos.servo1.setAngle(- (hor * 180));
      servos.servo1.setAngle(- (lat * 180));
-     
-    
+     //System.out.println(climber.bottomLimitPressed());
+     System.out.println(climber.topLimitPressed());
 
       //servos.servo1.setAngle(hor - 0.5);
       //System.out.println("Lat: " + lat + " Hor: "+ hor);

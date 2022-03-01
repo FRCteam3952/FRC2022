@@ -18,7 +18,7 @@ public class Climber extends SubsystemBase {
   private final Talon mHookTalon;
   private final DigitalInput topLimitSwitch;
   private final DigitalInput bottomLimitSwitch;
-  private final DigitalInput topOrBottomLimitSwitch;
+  //private final DigitalInput topOrBottomLimitSwitch;
 
   /** Creates a new ExampleSubsystem. */
   public Climber() {
@@ -26,7 +26,7 @@ public class Climber extends SubsystemBase {
     mHookTalon = new Talon(7);
     topLimitSwitch = new DigitalInput(1); 
     bottomLimitSwitch = new DigitalInput(2);
-    topOrBottomLimitSwitch = new DigitalInput(3); //only used if third limit switch is used; not used if using manual control
+    //topOrBottomLimitSwitch = new DigitalInput(3); //only used if third limit switch is used; not used if using manual control
   }
 
   /* public void setMotorSpeed(double speed) {
@@ -61,16 +61,18 @@ public class Climber extends SubsystemBase {
   }
 
   public boolean topLimitPressed() {
+    System.out.println(topLimitSwitch.get());
     return topLimitSwitch.get();
   }
 
   public boolean bottomLimitPressed() {
+    System.out.println(bottomLimitSwitch.get());
     return bottomLimitSwitch.get();
   }
 
-  public boolean topOrBottomLimitPressed() {
+  /*public boolean topOrBottomLimitPressed() {
     return topOrBottomLimitSwitch.get();
-  }
+  }*/
 
   // logic to be continues TODO
 

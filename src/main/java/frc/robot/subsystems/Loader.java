@@ -19,7 +19,7 @@ public class Loader extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
   public Loader() {
 
-    feedingRoller = new Talon(6);
+    feedingRoller = new Talon(5);
   }
 
 

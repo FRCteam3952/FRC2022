@@ -55,7 +55,7 @@ public class RobotContainer {
 
   private final ManualClimb manualClimb = new ManualClimb(climber);
 
-  private final ServoMove servoMove = new ServoMove(servos);
+  private final ServoMove servoMove = new ServoMove(servos, climber);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -63,7 +63,7 @@ public class RobotContainer {
     configureButtonBindings();
     servos.setDefaultCommand(servoMove);
     // ingester.setDefaultCommand();
-    climber.setDefaultCommand(manualClimb);
+    //climber.setDefaultCommand(manualClimb);
   }
 
   /**
