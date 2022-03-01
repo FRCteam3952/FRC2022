@@ -7,7 +7,7 @@ package frc.robot.commands;
 import frc.robot.subsystems.Climber;
 import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
+// this does climb auto
 public class AutoClimb extends CommandBase {
   private final Climber climber;
   /**
