@@ -16,23 +16,18 @@ public class AutoClimb extends CommandBase {
    * @param subsystem The subsystem used by this command.
    */
   private double power;
-  private boolean auto;
+  private int bottomCount;
+  private int topCount;
 
   public AutoClimb(Climber subsystem) {
     climber = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
     power = 0.5;
-    auto = false;
+    bottomCount = 0;
+    topCount = 0;
   }
 
-  public void autoClimbOn() {
-    auto = true;
-  }
-
-  public void autoClimbOff() {
-    auto = false;
-  }
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
@@ -44,35 +39,48 @@ public class AutoClimb extends CommandBase {
   public void execute() {
     System.out.println("climb");
       // climber.turnOnHookMotor();
-      while (!climber.bottomLimitPressed() && auto) {
+      if (bottomCount == 0) {
         climber.slideHook(-power);
         climber.changeArmAngle(-power); 
         System.out.println("climb1");
+        if (climber.bottomLimitPressed()) 
+          bottomCount++;
       } //lift robot off of floor and position arm underneath second pole
+      else{
+        if (topCount == 0) {
+          climber.slideHook(power);
+          climber.changeArmAngle(power);
+          System.out.println("climb2");
+          if (climber.topLimitPressed())
+            topCount++;
+        } //position arm directly underneath second pole and slide hooks up to attatch to second pole
+        else{
+          if (bottomCount == 1) {
+            climber.slideHook(-power);
+            System.out.println("climb3");
+            if (climber.bottomLimitPressed())
+              bottomCount++;
+          } //slide robot up forward
+          else{
+            if (topCount == 1) {
+              climber.slideHook(power);
+              System.out.println("climb4");
+              topCount++;
+            }
+          }
+          
+    
+          climber.slideHook(0); //reset motor
+        }
+        System.out.println("notClimb2");
+        climber.slideHook(0); //reset motor
+        climber.changeArmAngle(0);  //reset motor
+      }
       System.out.println("notClimb1");
       climber.slideHook(0); //reset motor
       climber.changeArmAngle(0); //reset motor
-
-      while (!climber.topLimitPressed() && auto) {
-        climber.slideHook(power);
-        climber.changeArmAngle(power);
-        System.out.println("climb2");
-      } //position arm directly underneath second pole and slide hooks up to attatch to second pole
-      System.out.println("notClimb2");
-      climber.slideHook(0); //reset motor
-      climber.changeArmAngle(0);  //reset motor
       
-      while (!climber.bottomLimitPressed() && auto) {
-        climber.slideHook(-power);
-        System.out.println("climb3");
-      } //slide robot up forward
-
-      climber.slideHook(0); //reset motor
-
-      while (!climber.topLimitPressed() && auto) {
-        climber.slideHook(power);
-        System.out.println("climb4");
-      } //slide hooks back up to the top
+       //slide hooks back up to the top
 
       //twas decided we will use manual control
     /*either manual control or use third limit switch  
@@ -104,13 +112,14 @@ public class AutoClimb extends CommandBase {
     //}
     climber.slideHook(0);
     climber.changeArmAngle(0);
-      
+    bottomCount = 0;
+    topCount = 0;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     // return climber.getHookLimitSwitch();
-    return true;
+    return false;
   }
 }

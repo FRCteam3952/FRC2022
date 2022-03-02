@@ -38,8 +38,10 @@ public class ManualClimb extends CommandBase {
   @Override
   public void execute() {
     if (!RobotContainer.climberStick.rightShoulderPressed()) {
-      autoClimb.autoClimbOff();
-      isClimbing = false;
+      if (isClimbing) {
+        autoClimb.cancel();
+        isClimbing = false;
+      }
       double armSpeed = RobotContainer.climberStick.getLateralMovement();
       double hookSpeed = RobotContainer.climberStick.getRotation();
       armSpeed *= 10;
@@ -55,7 +57,6 @@ public class ManualClimb extends CommandBase {
     else {
       if (!isClimbing) {
         isClimbing = true;
-        autoClimb.autoClimbOn();
         autoClimb.schedule();
       }
     }
