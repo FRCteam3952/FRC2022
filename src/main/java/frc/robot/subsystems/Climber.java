@@ -61,12 +61,12 @@ public class Climber extends SubsystemBase {
   }
 
   public boolean topLimitPressed() {
-    System.out.println(topLimitSwitch.get());
+    //System.out.println(topLimitSwitch.get());
     return topLimitSwitch.get();
   }
 
   public boolean bottomLimitPressed() {
-    System.out.println(bottomLimitSwitch.get());
+    //System.out.println(bottomLimitSwitch.get());
     return bottomLimitSwitch.get();
   }
 
