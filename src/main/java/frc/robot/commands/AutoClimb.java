@@ -61,8 +61,9 @@ public class AutoClimb extends CommandBase {
     else if (topCount == 1) {
       climber.slideHook(power);
       System.out.println("climb4");
-      topCount++;
-    }
+      if (climber.topLimitPressed())
+        topCount++;
+    } //
   }
           
     
