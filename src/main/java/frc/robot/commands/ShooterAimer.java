@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.networktables.NetworkTable;
 
 /** An example command that uses an example subsystem. */
-public class ManualDrive extends CommandBase {
+public class ShooterAimer extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final DriveTrain drive_train;
 
@@ -22,13 +22,11 @@ public class ManualDrive extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ManualDrive(DriveTrain subsystem) {
+  public ShooterAimer(DriveTrain subsystem) {
     drive_train = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
   }
-  Joystick joystick = new Joystick(0);
-  JoystickButton joystickButton = new JoystickButton(joystick, 1);
-
+  
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {}
@@ -36,21 +34,20 @@ public class ManualDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      double hor = RobotContainer.climberStick.getHorizontalMovement();
-      double lat = RobotContainer.climberStick.getLateralMovement();
+      double hor = 0;
+      double lat = 0;
 
       // drive_train.drive(lat, hor);
 
-      System.out.println("Lat: " + lat + " Hor: "+ hor);
+      // System.out.println("Lat: " + lat + " Hor: "+ hor);
 
-      /*
       float Kp = -0.1f;
       NetworkTable networkTable = NetworkTableInstance.getDefault().getTable("limelight");
       float min_command = 0.5f;
       float tx = (float) networkTable.getEntry("tx").getDouble(100000);
 
       if(!(tx > 98000)) {
-        if(joystickButton.get()) {
+        //if(joystickButton.get()) {
           float headingError = -tx;
           float steering_adjust = 0.0f;
           if(tx > 1.0) {
@@ -59,10 +56,10 @@ public class ManualDrive extends CommandBase {
             steering_adjust = Kp*headingError + min_command;
           }
           lat += 2*(steering_adjust);
-        }
+        //}
       }
-      */
-
+      System.out.println("Lat: " + lat + " Hor: "+ hor);
+      System.out.println("this is auto aim btw");
       drive_train.drive(lat, hor);
     }
 

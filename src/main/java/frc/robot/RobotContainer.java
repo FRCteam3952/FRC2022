@@ -16,6 +16,7 @@ import frc.robot.commands.CollectBalls;
 import frc.robot.commands.LoadBalls;
 import frc.robot.commands.ManualDrive;
 import frc.robot.commands.ServoMove;
+import frc.robot.commands.ShooterAimer;
 import frc.robot.commands.AutoClimb;
 import frc.robot.commands.ManualClimb;
 import frc.robot.subsystems.DriveTrain;
@@ -56,6 +57,7 @@ public class RobotContainer {
   private final ManualClimb manualClimb = new ManualClimb(climber);
 
   private final ServoMove servoMove = new ServoMove(servos, climber);
+  ShooterAimer shooterAimer = new ShooterAimer(driveTrain);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -87,6 +89,11 @@ public class RobotContainer {
     dR.whenPressed(servoMove);
     JoystickButton manualButton = new JoystickButton(climberStick.joystick, 2);
     manualButton.whenHeld(autoClimb);
+
+    Joystick joystick = new Joystick(0);
+    JoystickButton joystickButton = new JoystickButton(joystick, 1);
+    joystickButton.toggleWhenActive(shooterAimer);
+
 
     
 
