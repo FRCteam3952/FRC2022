@@ -28,6 +28,9 @@ public class AutoClimb extends CommandBase {
     topCount = 0;
   }
 
+
+  
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
@@ -38,32 +41,50 @@ public class AutoClimb extends CommandBase {
   @Override
   public void execute() {
     // climber.turnOnHookMotor();
+    if (!RobotContainer.climberStick.rightShoulderPressed())
+      cancel();
+
     if (bottomCount == 0) {
-      climber.slideHook(-power);
-      climber.changeArmAngle(-power); 
-      System.out.println("climb1");
-      if (climber.bottomLimitPressed()) 
+      double h = climber.slideHook(-power);
+      double a = climber.changeArmAngle(-power); 
+      System.out.println("1. Arm speed: " + a + " Hook speed: " + h);
+      if (climber.bottomLimitPressed()) {
         bottomCount++;
+        climber.slideHook(0);
+        climber.changeArmAngle(0);
+      }
     } //lift robot off of floor and position arm underneath second pole
     else if (topCount == 0) {
-      climber.slideHook(power);
-      climber.changeArmAngle(power);
-      System.out.println("climb2");
-      if (climber.topLimitPressed())
+      double h = climber.slideHook(power);
+      double a = climber.changeArmAngle(power);
+      System.out.println("2. Arm speed: " + a + " Hook speed: " + h);      
+      if (climber.topLimitPressed()) {
         topCount++;
+        climber.slideHook(0);
+        climber.changeArmAngle(0);
+      }
     } //position arm directly underneath second pole and slide hooks up to attatch to second pole
     else if (bottomCount == 1) {
-      climber.slideHook(-power);
-      System.out.println("climb3");
-      if (climber.bottomLimitPressed())
+      double h = climber.slideHook(-power);
+      System.out.println("3. Arm speed: 0 Hook speed: " + h);      
+      if (climber.bottomLimitPressed()) {
         bottomCount++;
-      } //slide robot up forward
+        climber.slideHook(0);
+        climber.changeArmAngle(0);
+      }
+    } //slide robot up forward
     else if (topCount == 1) {
-      climber.slideHook(power);
-      System.out.println("climb4");
-      if (climber.topLimitPressed())
-        topCount++;
-    } //
+      double h = climber.slideHook(power);
+      System.out.println("4. Arm speed: 0 Hook speed: " + h);      
+      if (climber.topLimitPressed()) {
+        cancel();
+        System.out.println("auto finished, please return to manual drive by releasing right shoulder button");
+        climber.slideHook(0);
+        climber.changeArmAngle(0);
+        
+      }
+    } //slide hooks back up
+    
   }
           
     
@@ -103,6 +124,7 @@ public class AutoClimb extends CommandBase {
     climber.changeArmAngle(0);
     bottomCount = 0;
     topCount = 0;
+    
   }
 
   // Returns true when the command should end.

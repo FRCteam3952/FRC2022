@@ -52,12 +52,14 @@ public class Climber extends SubsystemBase {
   }
   */
 
-  public void slideHook(double speed) {
+  public double slideHook(double speed) {
     mHookTalon.set(speed);
+    return speed;
   }
 
-  public void changeArmAngle(double speed) {
+  public double changeArmAngle(double speed) {
     mArmAngleTalon.set(speed);
+    return speed;
   }
 
   public boolean topLimitPressed() {
