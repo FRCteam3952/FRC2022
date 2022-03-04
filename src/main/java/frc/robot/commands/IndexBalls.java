@@ -10,8 +10,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class IndexBalls extends CommandBase {
   private final Indexer index;
   private double power;
-  private double indexStage = 0;
-  long startTime;
+  private double indexStage;
+  long timeDifference; //milliseconds
   /**
    * Creates a new ExampleCommand.
    *
@@ -20,11 +20,10 @@ public class IndexBalls extends CommandBase {
   public IndexBalls(Indexer subsystem) {
     index = subsystem;
     power = 0.5;
+    indexStage = 0;
+    timeDifference = 0;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
-  }
-  public boolean timer(long time){
-    return (System.currentTimeMillis() - startTime) > time;
   }
 
   // Called when the command is initially scheduled.
@@ -39,7 +38,7 @@ public class IndexBalls extends CommandBase {
     if (index.L1Pressed() && indexStage == 0){
       indexStage++;
       index.setIndexSpeed(power);
-      startTime = System.currentTimeMillis();nce = System.currentTimeMillis() - startTime;
+      timeDifference += 20; 
       if(timeDifference > 500){
         index.setIndexSpeed(0);
         indexStage++;
@@ -56,11 +55,12 @@ public class IndexBalls extends CommandBase {
     else if (index.getRevPerSec() == 69 && indexStage == 4)
     {
       index.setIndexSpeed(power);
-      startTime = System.currentTimeMillis();
-      indexStage++;
+      if (index.getRevPerSec() <= 60)
+        indexStage++;
     }
     else if (indexStage == 5){
-
+      index.setIndexSpeed(0);
+      cancel();
     }
 
   }
