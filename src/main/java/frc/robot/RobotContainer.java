@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.sql.Driver;
+
 import org.opencv.core.RotatedRect;
 
 import edu.wpi.first.wpilibj.GenericHID;
@@ -48,6 +50,8 @@ public class RobotContainer {
 
   public static Controller climberStick = new Controller(new JoystickPlus(0));
 
+  public static Controller driverStick = new Controller(new JoystickPlus(1));
+
   private final AutonomousCommand autonomousCommand = new AutonomousCommand(driveTrain);
 
   private final Climber climber = new Climber();
@@ -57,7 +61,8 @@ public class RobotContainer {
   private final ManualClimb manualClimb = new ManualClimb(climber);
 
   private final ServoMove servoMove = new ServoMove(servos, climber);
-  ShooterAimer shooterAimer = new ShooterAimer(driveTrain);
+  
+  private final ShooterAimer shooterAimer = new ShooterAimer(driveTrain);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -66,6 +71,7 @@ public class RobotContainer {
     //servos.setDefaultCommand(servoMove);
     // ingester.setDefaultCommand();
     climber.setDefaultCommand(manualClimb);
+    driveTrain.setDefaultCommand(shooterAimer);
   }
 
   /**

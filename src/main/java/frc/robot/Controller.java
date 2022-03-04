@@ -87,4 +87,8 @@ public class Controller {
     public boolean leftShoulderPressed() {
         return joystick.getYRotate() > 0;
     }
+
+    public boolean backButtonPressed() {
+        return joystick.getRawButtonPressed(1);
+    }
 }

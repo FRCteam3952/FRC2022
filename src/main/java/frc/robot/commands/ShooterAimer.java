@@ -6,11 +6,13 @@ package frc.robot.commands;
 
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.Controller;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.networktables.NetworkTable;
+
 
 /** An example command that uses an example subsystem. */
 public class ShooterAimer extends CommandBase {
@@ -47,7 +49,7 @@ public class ShooterAimer extends CommandBase {
       float tx = (float) networkTable.getEntry("tx").getDouble(100000);
 
       if(!(tx > 98000)) {
-        //if(joystickButton.get()) {
+        if(RobotContainer.driverStick.backButtonPressed()) {
           float headingError = -tx;
           float steering_adjust = 0.0f;
           if(tx > 1.0) {
@@ -56,7 +58,8 @@ public class ShooterAimer extends CommandBase {
             steering_adjust = Kp*headingError + min_command;
           }
           lat += 2*(steering_adjust);
-        //}
+          System.out.println("button pressed");
+        }
       }
       System.out.println("Lat: " + lat + " Hor: "+ hor);
       System.out.println("this is auto aim btw");
