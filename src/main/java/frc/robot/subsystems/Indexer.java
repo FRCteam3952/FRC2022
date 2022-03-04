@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.counter.Tachometer;
 
 
 public class Indexer extends SubsystemBase {
@@ -15,7 +16,7 @@ public class Indexer extends SubsystemBase {
   private final Talon indexWheels;
   private final DigitalInput L1;
   private final DigitalInput L2;
-
+  private final Tachometer tacheo; 
 
 
   /** Creates a new ExampleSubsystem. */
@@ -23,6 +24,7 @@ public class Indexer extends SubsystemBase {
     indexWheels = new Talon(5);
     L1 = new DigitalInput(3);
     L2 = new DigitalInput(4);
+    tacheo = new Tachometer(new DigitalInput(5));
   }
 
 
@@ -38,8 +40,12 @@ public class Indexer extends SubsystemBase {
     return L2.get();
   }
 
+  public double getRevPerSec() {
+    return tacheo.getRevolutionsPerSecond();
+   
+  }
   @Override
-  public void periodic() {
+ public void periodic() {
     // This method will be called once per scheduler run
   }
 
