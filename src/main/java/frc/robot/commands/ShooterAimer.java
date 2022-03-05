@@ -36,9 +36,8 @@ public class ShooterAimer extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
-    if(!RobotContainer.driverStick.backButtonPressed()){
-      cancel();
+
+    if(RobotContainer.driverStick.getTriggerPressed()){
       System.out.print("canceled");
     }
 
@@ -56,7 +55,7 @@ public class ShooterAimer extends CommandBase {
       float tx = (float) networkTable.getEntry("tx").getDouble(100000);
 
       if(!(tx > 98000)) {
-        if(RobotContainer.driverStick.backButtonPressed()) {
+        if(RobotContainer.driverStick.getTriggerPressed()) {
           float headingError = -tx;
           float steering_adjust = 0.0f;
           if(tx > 1.0) {

@@ -50,7 +50,7 @@ public class RobotContainer {
 
   public static Controller climberStick = new Controller(new JoystickPlus(0));
 
-  public static RobotController driverStick = new RobotController(new Joystick(1));
+  public static RobotController driverStick = new RobotController(new BoardStick(1));
 
   private final AutonomousCommand autonomousCommand = new AutonomousCommand(driveTrain);
 

@@ -1,6 +1,7 @@
 package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.JoystickPlus;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.BoardStick;
 
 public class RobotController {
     public static final double c = 0.1;
@@ -13,10 +14,32 @@ public class RobotController {
     public static final double maxT = 0.4;
     public static final double kT = (maxT - cT) / Math.log(2 - deadzoneT);
 
-    public Joystick joystick;
+    public BoardStick joystick;
 
-    public RobotController(Joystick joystick) {
+    public RobotController(BoardStick joystick) {
         this.joystick = joystick;
+    } 
+
+    public boolean getTriggerPressed() {
+        boolean x= joystick.getAiming();
+        return x;
+    }
+
+
+
+
+
+
+
+
+
+
+
+    /*
+     public boolean getTriggerPressed()
+    {
+        boolean x = joystick.getAiming();
+        return x;
     } 
 
     public double getHorizontalMovement() {
@@ -63,4 +86,5 @@ public class RobotController {
     public boolean backButtonPressed() {
         return joystick.getRawButtonPressed(1);
     }
+    */
 }
