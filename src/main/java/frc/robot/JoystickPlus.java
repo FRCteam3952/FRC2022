@@ -36,6 +36,16 @@ public class JoystickPlus extends Joystick {
     }
   }
 
+    public enum ButtonType {
+        kTrigger(1);
+    
+        public final int value;
+    
+        ButtonType(int value) {
+          this.value = value;
+        }
+      }
+
   private final byte[] m_axes = new byte[AxisType.values().length];
   
 
@@ -167,4 +177,15 @@ public class JoystickPlus extends Joystick {
   public double getSlider() {
     return getRawAxis(m_axes[AxisType.kSlider.value]);
   }
+
+
+  /**
+   *    * Set the channel associated with the X Rotation axis.
+   *
+   * @param channel The channel to set the axis to.
+   */
+  public boolean getAiming() {
+    return getRawButton(ButtonType.kTrigger.value);
+  }
+
 }

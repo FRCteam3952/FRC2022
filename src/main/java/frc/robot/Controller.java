@@ -89,4 +89,9 @@ public class Controller {
     public boolean backButtonPressed() {
         return joystick.getRawButtonPressed(0);
     }
+
+//POV button for the driver stick
+    public int getJoystickPOV() {
+        return joystick.getPOV();
+    }
 }

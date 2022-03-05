@@ -15,7 +15,7 @@ import edu.wpi.first.networktables.NetworkTable;
 
 
 /** An example command that uses an example subsystem. */
-public class ShooterAimer extends CommandBase {
+public class AdjustShooterAim extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final DriveTrain drive_train;
 
@@ -24,8 +24,9 @@ public class ShooterAimer extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ShooterAimer(DriveTrain subsystem) {
+  public AdjustShooterAim(DriveTrain subsystem) {
     drive_train = subsystem;
+    addRequirements(drive_train);
     // Use addRequirements() here to declare subsystem dependencies.
   }
   
@@ -36,44 +37,14 @@ public class ShooterAimer extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.print("executing shooter aimer thingy");
-    /*
-    if(!RobotContainer.driverStick.joystick.getRawButtonPressed(1)){
-      System.out.print("canceled");
-    }
-    */
-
-    // System.out.print("IT WAS PRESED");
-      double hor = 0;
-      double lat = 0;
-
-      // drive_train.drive(lat, hor);
-
-      // System.out.println("Lat: " + lat + " Hor: "+ hor);
-
-      float Kp = -0.1f;
-      NetworkTable networkTable = NetworkTableInstance.getDefault().getTable("limelight");
-      float min_command = 0.5f;
-      float tx = (float) networkTable.getEntry("tx").getDouble(100000);
-
-      if(!(tx > 98000)) {
-        //if(RobotContainer.driverStick.getTriggerPressed()) {
-          float headingError = -tx;
-          float steering_adjust = 0.0f;
-          if(tx > 1.0) {
-            steering_adjust = Kp*headingError - min_command;
-          } else if(tx < 1.0) {
-            steering_adjust = Kp*headingError + min_command;
-          }
-          lat += 2*(steering_adjust);
-          System.out.println("button pressed");
-        //}
-      }
-      System.out.println("Lat: " + lat + " Hor: "+ hor);
-      System.out.println("this is auto aim btw");
-      drive_train.drive(lat, hor);
-    }
-
+    if(RobotContainer.driverStick.getJoystickPOV() == 90) {
+        drive_train.drive(0.5, 5);
+        System.out.println("ok it's aimed to the right");
+      } else if(RobotContainer.driverStick.getJoystickPOV() == 270) {
+        drive_train.drive(0.5, -5);
+        System.out.println("now it's to the left");
+      } 
+  }
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {

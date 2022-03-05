@@ -19,6 +19,7 @@ import frc.robot.commands.LoadBalls;
 import frc.robot.commands.ManualDrive;
 import frc.robot.commands.ServoMove;
 import frc.robot.commands.ShooterAimer;
+import frc.robot.commands.AdjustShooterAim;
 import frc.robot.commands.AutoClimb;
 import frc.robot.commands.ManualClimb;
 import frc.robot.subsystems.DriveTrain;
@@ -50,7 +51,7 @@ public class RobotContainer {
 
   public static Controller climberStick = new Controller(new JoystickPlus(0));
 
-  public static RobotController driverStick = new RobotController(new BoardStick(1));
+  public static Controller driverStick = new Controller(new JoystickPlus(1));
 
   private final AutonomousCommand autonomousCommand = new AutonomousCommand(driveTrain);
 
@@ -62,6 +63,7 @@ public class RobotContainer {
 
   private final ServoMove servoMove = new ServoMove(servos, climber);
   
+  //declare new shooter airmer to be ran, for driverTrain
   private final ShooterAimer shooterAimer = new ShooterAimer(driveTrain);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -70,8 +72,9 @@ public class RobotContainer {
     configureButtonBindings();
     //servos.setDefaultCommand(servoMove);
     // ingester.setDefaultCommand();
-    climber.setDefaultCommand(manualClimb);
-    // driveTrain.setDefaultCommand(shooterAimer);
+    //climber.setDefaultCommand(manualClimb);
+    driveTrain.setDefaultCommand(driveCommand);
+    //driveTrain.setDefaultCommand(shooterAimer);
   }
 
   /**
@@ -96,11 +99,13 @@ public class RobotContainer {
     JoystickButton manualButton = new JoystickButton(climberStick.joystick, 2);
     manualButton.whenHeld(autoClimb);
 
+    //when press button "1" on frc will run shooterAimer, follow shooterAimer for more info
     Joystick joystick = new Joystick(1);
     JoystickButton joystickButton = new JoystickButton(driverStick.joystick, 1);
     System.out.print("joystick made");
     joystickButton.whenHeld(shooterAimer);
-
+    
+    
 
     
 

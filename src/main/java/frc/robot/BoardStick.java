@@ -29,22 +29,6 @@ public class BoardStick extends Joystick {
       this.value = value;
     }
 
-    public enum PowType{
-        up(1),
-        upRight(2),
-        right(3),
-        downRight(4),
-        downLeft(5),
-        left(6),
-        upLeft(7);
-
-        public final int value;
-
-        PowType(int value) {
-            this.value=value;
-        }
-    }
-
 //button for aiming declaration
     public enum ButtonType {
         kTrigger(1);

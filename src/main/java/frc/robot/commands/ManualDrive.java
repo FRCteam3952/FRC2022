@@ -16,6 +16,7 @@ import edu.wpi.first.networktables.NetworkTable;
 public class ManualDrive extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final DriveTrain drive_train;
+  private final AdjustShooterAim adjustShooterAim;
 
   /**
    * Creates a new ExampleCommand.
@@ -24,10 +25,13 @@ public class ManualDrive extends CommandBase {
    */
   public ManualDrive(DriveTrain subsystem) {
     drive_train = subsystem;
+    adjustShooterAim = new AdjustShooterAim(drive_train);
+    addRequirements(drive_train);
     // Use addRequirements() here to declare subsystem dependencies.
   }
   Joystick joystick = new Joystick(0);
   JoystickButton joystickButton = new JoystickButton(joystick, 1);
+  
 
   // Called when the command is initially scheduled.
   @Override
@@ -62,6 +66,8 @@ public class ManualDrive extends CommandBase {
         }
       }
       */
+
+      adjustShooterAim.schedule();
 
       drive_train.drive(lat, hor);
     }
