@@ -35,7 +35,7 @@ public class IndexBalls extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (index.L1Pressed() && indexStage == 0){
+    if (index.bottomShooterPressed() && indexStage == 0){
       indexStage++;
       index.setIndexSpeed(power);
       timeDifference += 20; 
@@ -44,11 +44,11 @@ public class IndexBalls extends CommandBase {
         indexStage++;
       }
     }
-    else if(index.L1Pressed() && indexStage == 2){
+    else if(index.bottomShooterPressed() && indexStage == 2){
       index.setIndexSpeed(power);
       indexStage++;
     }
-    else if(index.L2Pressed() && indexStage == 3){
+    else if(index.ballShooterPressed() && indexStage == 3){
       index.setIndexSpeed(0);
       indexStage++;
     }

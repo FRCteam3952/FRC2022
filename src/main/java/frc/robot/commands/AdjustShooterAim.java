@@ -6,12 +6,8 @@ package frc.robot.commands;
 
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.Controller;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.networktables.NetworkTable;
+
 
 
 /** An example command that uses an example subsystem. */
@@ -40,10 +36,13 @@ public class AdjustShooterAim extends CommandBase {
     if(RobotContainer.driverStick.getJoystickPOV() == 90) {
         drive_train.drive(0.5, 5);
         System.out.println("ok it's aimed to the right");
-      } else if(RobotContainer.driverStick.getJoystickPOV() == 270) {
+    } 
+    else if(RobotContainer.driverStick.getJoystickPOV() == 270) {
         drive_train.drive(0.5, -5);
         System.out.println("now it's to the left");
-      } 
+    } 
+    else 
+        this.cancel();
   }
   // Called once the command ends or is interrupted.
   @Override

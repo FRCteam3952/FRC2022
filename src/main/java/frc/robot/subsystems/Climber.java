@@ -5,11 +5,12 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.RobotBase;
+
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.util.*;
+import frc.robot.Constants;
+
 
 public class Climber extends SubsystemBase {
   // feeding system
@@ -22,10 +23,10 @@ public class Climber extends SubsystemBase {
 
   /** Creates a new ExampleSubsystem. */
   public Climber() {
-    mArmAngleTalon = new Talon(6);
-    mHookTalon = new Talon(7);
-    topLimitSwitch = new DigitalInput(1); 
-    bottomLimitSwitch = new DigitalInput(2);
+    mArmAngleTalon = new Talon(Constants.armAngleTalonPort);
+    mHookTalon = new Talon(Constants.armHookTalonPort);
+    topLimitSwitch = new DigitalInput(Constants.topLimitSwitchClimberPort); 
+    bottomLimitSwitch = new DigitalInput(Constants.bottomLimitSwitchClimberPort);
     //topOrBottomLimitSwitch = new DigitalInput(3); //only used if third limit switch is used; not used if using manual control
   }
 

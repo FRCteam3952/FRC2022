@@ -34,8 +34,6 @@ public class ServoMove extends CommandBase {
   @Override
   public void execute() {
       
-
-      double hor = RobotContainer.climberStick.getHorizontalMovement();
       double lat = RobotContainer.climberStick.getLateralMovement();
       /*double rot = RobotContainer.driverStick.getRotation();
       boolean trigger = RobotContainer.driverStick.triggerPressed();

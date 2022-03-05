@@ -8,9 +8,9 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.networktables.NetworkTableInstance;
+
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.networktables.NetworkTable;
+
 
 /** An example command that uses an example subsystem. */
 public class ManualDrive extends CommandBase {
@@ -40,8 +40,8 @@ public class ManualDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      double hor = RobotContainer.climberStick.getHorizontalMovement();
-      double lat = RobotContainer.climberStick.getLateralMovement();
+      double hor = RobotContainer.driverStick.getHorizontalMovement();
+      double lat = RobotContainer.driverStick.getLateralMovement();
 
       // drive_train.drive(lat, hor);
 
@@ -67,15 +67,16 @@ public class ManualDrive extends CommandBase {
       }
       */
 
-      adjustShooterAim.schedule();
-
+      if (RobotContainer.driverStick.getJoystickPOV() == 90 || RobotContainer.driverStick.getJoystickPOV() == 270)
+        adjustShooterAim.schedule();
+      
       drive_train.drive(lat, hor);
     }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
+    drive_train.stopMotors();
   }
 
   // Returns true when the command should end.
@@ -83,4 +84,5 @@ public class ManualDrive extends CommandBase {
   public boolean isFinished() {
     return false;
   }
+
 }

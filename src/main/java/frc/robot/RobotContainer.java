@@ -4,33 +4,30 @@
 
 package frc.robot;
 
-import java.sql.Driver;
-
-import org.opencv.core.RotatedRect;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.GenericHID.HIDType;
-import edu.wpi.first.wpilibj.simulation.JoystickSim;
+
 import frc.robot.commands.AutonomousCommand;
 import frc.robot.commands.CollectBalls;
-import frc.robot.commands.LoadBalls;
+
 import frc.robot.commands.ManualDrive;
 import frc.robot.commands.ServoMove;
 import frc.robot.commands.ShooterAimer;
-import frc.robot.commands.AdjustShooterAim;
+import frc.robot.controllers.JoystickPlus;
+
 import frc.robot.commands.AutoClimb;
 import frc.robot.commands.ManualClimb;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Ingester;
 import frc.robot.subsystems.Servos;
 import frc.robot.subsystems.Climber;
-import frc.robot.JoystickPlus;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
+
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Button;
+
+import frc.robot.controllers.*;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -49,9 +46,9 @@ public class RobotContainer {
 
   private final CollectBalls collect = new CollectBalls(ingester);
 
-  public static Controller climberStick = new Controller(new JoystickPlus(0));
+  public static RemoteController climberStick = new RemoteController(new JoystickPlus(0));
 
-  public static Controller driverStick = new Controller(new JoystickPlus(1));
+  public static FlightJoystickController driverStick = new FlightJoystickController(new JoystickPlus(1));
 
   private final AutonomousCommand autonomousCommand = new AutonomousCommand(driveTrain);
 
@@ -72,8 +69,8 @@ public class RobotContainer {
     configureButtonBindings();
     //servos.setDefaultCommand(servoMove);
     // ingester.setDefaultCommand();
-    //climber.setDefaultCommand(manualClimb);
-    driveTrain.setDefaultCommand(driveCommand);
+    climber.setDefaultCommand(manualClimb);
+    //driveTrain.setDefaultCommand(driveCommand);
     //driveTrain.setDefaultCommand(shooterAimer);
   }
 
@@ -94,13 +91,17 @@ public class RobotContainer {
     //JoystickButton collectButton = new JoystickButton(driverStick.joystick, 1);
     //collectButton.whileHeld(autonomousCommand);
 
+
+    // binds button for controlling servo????????
     JoystickButton dR = new JoystickButton(climberStick.joystick, 6);
     dR.whenPressed(servoMove);
+
+    // binds button for autoclimb
     JoystickButton manualButton = new JoystickButton(climberStick.joystick, 2);
     manualButton.whenHeld(autoClimb);
 
     //when press button "1" on frc will run shooterAimer, follow shooterAimer for more info
-    Joystick joystick = new Joystick(1);
+    // Joystick joystick = new Joystick(0);
     JoystickButton joystickButton = new JoystickButton(driverStick.joystick, 1);
     System.out.print("joystick made");
     joystickButton.whenHeld(shooterAimer);

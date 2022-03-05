@@ -2,11 +2,15 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot;
+package frc.robot.controllers;
 
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj.Joystick;
+
+
+//new joystick
+
 
 /**
  * This class contains additional methods to the Joysick class that access additional axis values

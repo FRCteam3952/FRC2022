@@ -23,7 +23,7 @@ public class AutoClimb extends CommandBase {
     climber = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
-    power = 0.5;
+    power = 0.3;
     bottomCount = 0;
     topCount = 0;
   }

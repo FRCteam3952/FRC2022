@@ -4,13 +4,10 @@
 
 package frc.robot.commands;
 
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.Controller;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.Joystick;
+
 import edu.wpi.first.networktables.NetworkTable;
 
 
@@ -36,7 +33,7 @@ public class ShooterAimer extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.print("executing shooter aimer thingy");
+    System.out.println("executing shooter aimer thingy");
     /*
     if(!RobotContainer.driverStick.joystick.getRawButtonPressed(1)){
       System.out.print("canceled");

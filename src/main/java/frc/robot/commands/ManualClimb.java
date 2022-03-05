@@ -7,7 +7,6 @@ package frc.robot.commands;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Climber;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.commands.AutoClimb;
 
 /** An example command that uses an example subsystem. */
 public class ManualClimb extends CommandBase {

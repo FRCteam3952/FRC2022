@@ -12,4 +12,23 @@ package frc.robot;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class Constants {}
+public final class Constants {
+    //PWM ports declaration  
+    public static final int frontLeftMotorPort = 0;
+    public static final int frontRightMotorPort = 1;
+    public static final int rearLeftMotorPort = 2;
+    public static final int rearRighttMotorPort = 3;
+    public static final int armAngleTalonPort = 4;
+    public static final int armHookTalonPort = 5;
+    public static final int indexerWheels = 6;
+
+
+    //DIO port declaration
+    public static final int topLimitSwitchClimberPort = 0;
+    public static final int bottomLimitSwitchClimberPort = 1;
+    public static final int shooterBottomLimitPort = 2;
+    public static final int shooterShootingLimitPort = 3;
+    public static final int shooterTachometerPort = 4;
+    
+    
+}

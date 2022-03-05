@@ -8,23 +8,24 @@ import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.counter.Tachometer;
+import frc.robot.Constants;
 
 
 public class Indexer extends SubsystemBase {
 
   //feeding system
   private final Talon indexWheels;
-  private final DigitalInput L1;
-  private final DigitalInput L2;
+  private final DigitalInput bottomShooterLim;
+  private final DigitalInput ballShooterLim;
   private final Tachometer tacheo; 
 
 
   /** Creates a new ExampleSubsystem. */
   public Indexer() {
-    indexWheels = new Talon(5);
-    L1 = new DigitalInput(3);
-    L2 = new DigitalInput(4);
-    tacheo = new Tachometer(new DigitalInput(5));
+    indexWheels = new Talon(Constants.indexerWheels);
+    bottomShooterLim = new DigitalInput(Constants.bottomLimitSwitchClimberPort);
+    ballShooterLim = new DigitalInput(Constants.topLimitSwitchClimberPort);
+    tacheo = new Tachometer(new DigitalInput(Constants.shooterTachometerPort));
   }
 
 
@@ -32,12 +33,12 @@ public class Indexer extends SubsystemBase {
     indexWheels.set(speed);
   }
 
-  public boolean L1Pressed() {
-    return L1.get();
+  public boolean bottomShooterPressed() {
+    return bottomShooterLim.get();
   }
 
-  public boolean L2Pressed() {
-    return L2.get();
+  public boolean ballShooterPressed() {
+    return ballShooterLim.get();
   }
 
   public double getRevPerSec() {
