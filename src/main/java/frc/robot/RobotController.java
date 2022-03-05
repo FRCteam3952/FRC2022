@@ -2,7 +2,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.JoystickPlus;
 
-public class Controller {
+public class RobotController {
     public static final double c = 0.1;
     public static final double deadzone = 0.2;
     public static final double max = 0.8;
@@ -13,9 +13,9 @@ public class Controller {
     public static final double maxT = 0.4;
     public static final double kT = (maxT - cT) / Math.log(2 - deadzoneT);
 
-    public JoystickPlus joystick;
+    public Joystick joystick;
 
-    public Controller(JoystickPlus joystick) {
+    public RobotController(Joystick joystick) {
         this.joystick = joystick;
     } 
 
@@ -34,25 +34,7 @@ public class Controller {
         return Math.abs(t) >= deadzoneT ? kT * Math.signum(t) * (Math.log(Math.abs(t) + 1 - deadzoneT) + cT) : 0;
     }
 
-    public double getXRotation() {
-        double xr = joystick.getXRotate();
-        return xr;
-    }
-
-    public double getYRotation() {
-        double yr = joystick.getYRotate();
-        return yr;
-    }
-
-    public double getZRotation() {
-        double zr = joystick.getZRotate();
-        return zr;
-    }
-
-    public double getSlider() {
-        double s = joystick.getSlider();
-        return s;
-    }
+    
 
     public boolean triggerPressed() {
         return joystick.getTrigger();
@@ -77,16 +59,8 @@ public class Controller {
         boolean x= false;
         return x;
     }
-    
-    public boolean rightShoulderPressed() {
-        return joystick.getSlider() > 0;
-    }
-
-    public boolean leftShoulderPressed() {
-        return joystick.getYRotate() > 0;
-    }
 
     public boolean backButtonPressed() {
-        return joystick.getRawButtonPressed(0);
+        return joystick.getRawButtonPressed(1);
     }
 }

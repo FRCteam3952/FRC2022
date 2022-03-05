@@ -36,6 +36,13 @@ public class ShooterAimer extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    
+    if(!RobotContainer.driverStick.backButtonPressed()){
+      cancel();
+      System.out.print("canceled");
+    }
+
+    System.out.print("IT WAS PRESED");
       double hor = 0;
       double lat = 0;
 

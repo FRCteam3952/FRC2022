@@ -50,7 +50,7 @@ public class RobotContainer {
 
   public static Controller climberStick = new Controller(new JoystickPlus(0));
 
-  public static Controller driverStick = new Controller(new JoystickPlus(1));
+  public static RobotController driverStick = new RobotController(new Joystick(1));
 
   private final AutonomousCommand autonomousCommand = new AutonomousCommand(driveTrain);
 
@@ -71,7 +71,7 @@ public class RobotContainer {
     //servos.setDefaultCommand(servoMove);
     // ingester.setDefaultCommand();
     climber.setDefaultCommand(manualClimb);
-    driveTrain.setDefaultCommand(shooterAimer);
+    // driveTrain.setDefaultCommand(shooterAimer);
   }
 
   /**
@@ -96,9 +96,10 @@ public class RobotContainer {
     JoystickButton manualButton = new JoystickButton(climberStick.joystick, 2);
     manualButton.whenHeld(autoClimb);
 
-    Joystick joystick = new Joystick(0);
-    JoystickButton joystickButton = new JoystickButton(joystick, 1);
-    joystickButton.toggleWhenActive(shooterAimer);
+    Joystick joystick = new Joystick(1);
+    JoystickButton joystickButton = new JoystickButton(driverStick.joystick, 1);
+    System.out.print("joystick made");
+    joystickButton.whenHeld(shooterAimer);
 
 
     
