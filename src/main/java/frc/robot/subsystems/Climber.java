@@ -7,24 +7,28 @@ package frc.robot.subsystems;
 
 
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
+import edu.wpi.first.wpilibj.CAN;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 
 
 public class Climber extends SubsystemBase {
   // feeding system
 
-  private final Talon mArmAngleTalon;
-  private final Talon mHookTalon;
+  private final VictorSPX armAngle;
+  private final VictorSPX hook;
   private final DigitalInput topLimitSwitch;
   private final DigitalInput bottomLimitSwitch;
   //private final DigitalInput topOrBottomLimitSwitch;
 
   /** Creates a new ExampleSubsystem. */
   public Climber() {
-    mArmAngleTalon = new Talon(Constants.armAngleTalonPort);
-    mHookTalon = new Talon(Constants.armHookTalonPort);
+    armAngle = new VictorSPX(Constants.armAnglePort);
+    hook = new VictorSPX(Constants.hookPort);
     topLimitSwitch = new DigitalInput(Constants.topLimitSwitchClimberPort); 
     bottomLimitSwitch = new DigitalInput(Constants.bottomLimitSwitchClimberPort);
     //topOrBottomLimitSwitch = new DigitalInput(3); //only used if third limit switch is used; not used if using manual control
@@ -53,14 +57,25 @@ public class Climber extends SubsystemBase {
   }
   */
 
+//sets the angle and speed for sliding hook for VSPX talon
   public double slideHook(double speed) {
-    mHookTalon.set(speed);
+    hook.set(ControlMode.PercentOutput, speed);
     return speed;
   }
 
+//return speed of motor for hook motor
+  public double getHookSpeed() {
+    return hook.getMotorOutputPercent();
+  }
+
   public double changeArmAngle(double speed) {
-    mArmAngleTalon.set(speed);
+    armAngle.set(ControlMode.PercentOutput, speed);
     return speed;
+  }
+
+//return speed of motor for the arm angle motor
+  public double getArmAngleSpeed() {
+    return armAngle.getMotorOutputPercent();
   }
 
   public boolean topLimitPressed() {

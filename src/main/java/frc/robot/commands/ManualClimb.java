@@ -41,17 +41,13 @@ public class ManualClimb extends CommandBase {
         autoClimb.cancel();
         isClimbing = false;
       }
-      double armSpeed = RobotContainer.climberStick.getLateralMovement();
-      double hookSpeed = RobotContainer.climberStick.getRotation();
-      armSpeed *= 10;
-      hookSpeed *= 10;
-      armSpeed = (int) armSpeed;
-      hookSpeed = (int) hookSpeed;
-      armSpeed /= 10.0;
-      hookSpeed /= 10.0; //rounds speeds to one decimal
-      climber.changeArmAngle(armSpeed);
-      climber.slideHook(hookSpeed);
-      System.out.println("Arm speed: " + armSpeed + " Hook speed: "+ hookSpeed);
+      double armSpeed = RobotContainer.climberStick.getYValue() * 1/3;
+      double hookSpeed = RobotContainer.climberStick.getZValue() * 1/3;
+      climber.changeArmAngle((armSpeed));
+      climber.slideHook((hookSpeed));
+      System.out.println("Arm speed: " + climber.getArmAngleSpeed() + " Hook speed: " + climber.getHookSpeed());
+     
+      
     }  
     else {
       if (!isClimbing) {

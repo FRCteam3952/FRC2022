@@ -32,6 +32,7 @@ public class DriveTrain extends SubsystemBase {
     right = new MotorControllerGroup(rearLeft, rearRight);
   
     m_dDrive = new DifferentialDrive(left,right);
+    m_dDrive.setSafetyEnabled(false); // MAKE SURE TO DISABLE THIS BEFORE TESTING BOT TODO
 
     //m_left.setInverted(true);
 

@@ -11,17 +11,17 @@ public class RemoteController {
         this.joystick = joystick;
     } 
 
-    public double getHorizontalMovement() {
+    public double getXValue() {
         double x = joystick.getX();
         return x;
     }
 
-    public double getLateralMovement() {
-        double y = -joystick.getY();
+    public double getYValue() {
+        double y = joystick.getY();
         return y;
     }
 
-    public double getRotation() {
+    public double getZValue() {
         double t = joystick.getZ();
         return t;
     }
