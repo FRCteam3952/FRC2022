@@ -1,13 +1,12 @@
 package frc.robot.commands;
+
 import frc.robot.subsystems.DriveTrain;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.IngesterPositioner;
-import frc.robot.commands.UnlockIngester;
 
 
 
@@ -15,12 +14,14 @@ public class AutonomousCommand extends CommandBase {
     /**
      * Creates a new AutonomousCommand.
      */
-
+    private final DriveTrain drive;
 
     private final Shooter shooter = new Shooter();
     private final ShootBalls shootBalls = new ShootBalls(shooter);
     private final IngesterPositioner ingest = new IngesterPositioner();
     private final UnlockIngester unlockIngester= new UnlockIngester(ingest);
+    private final ShooterAimer shooterAimer;
+    
     //private final
 
     public static double distanceToShoot; // DEFINE LATER WHEN YOU KNOW HOW FAR
@@ -28,13 +29,13 @@ public class AutonomousCommand extends CommandBase {
     public static double limelightHeightInch = 30;
     public static double goalHeightInch = 104;
 
-    private final DriveTrain drive;
+    
 
     public AutonomousCommand(DriveTrain subsystem) {
       // Use addRequirements() here to declare subsystem dependencies.
       drive = subsystem;
       addRequirements(drive);
-
+      shooterAimer = new ShooterAimer(drive);
       
     }
   
@@ -50,8 +51,8 @@ public class AutonomousCommand extends CommandBase {
      
        NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
        NetworkTableEntry tx = table.getEntry("tx");
-       NetworkTableEntry ty = table.getEntry("ty");
-       NetworkTableEntry ta = table.getEntry("ta");
+       // NetworkTableEntry ty = table.getEntry("ty");
+       // NetworkTableEntry ta = table.getEntry("ta");
        table.getEntry("ledMode").setNumber(3);
        table.getEntry("camMode").setNumber(0);
        table.getEntry("pipeline").setNumber(0);
@@ -59,13 +60,13 @@ public class AutonomousCommand extends CommandBase {
 
        //read values periodically
        double x = tx.getDouble(0.0);
-       double y = ty.getDouble(0.0);
-       double area = ta.getDouble(0.0);
+       // double y = ty.getDouble(0.0);
+       // double area = ta.getDouble(0.0);
        System.out.println("running");
 
        double adjustOutput = 1/10;
 
-      drive.drive(0, Math.cbrt(x) * adjustOutput);
+       drive.drive(0, Math.cbrt(x) * adjustOutput);
 
 
 
@@ -74,9 +75,8 @@ public class AutonomousCommand extends CommandBase {
        frontRightWheel.set(x/100.0);
        */
 
-       System.out.println("a");
-
-       if(isFarEnoughToShoot() ==  distanceToShoot) {
+       if(isFarEnoughToShoot() == distanceToShoot) {
+          shooterAimer.schedule();
           shootBalls.schedule();
        }
     }

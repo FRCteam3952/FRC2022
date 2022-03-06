@@ -12,6 +12,7 @@ public class IndexBalls extends CommandBase {
   private double power;
   private double indexStage;
   private long timeDifference; //milliseconds
+  private long timeUntilStop = 1000; //milliseconds CHANGE TODO
   /**
    * Creates a new ExampleCommand.
    *
@@ -22,6 +23,7 @@ public class IndexBalls extends CommandBase {
     power = 0.5;
     indexStage = 0;
     timeDifference = 0;
+    
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }
@@ -39,7 +41,7 @@ public class IndexBalls extends CommandBase {
       indexStage++;
       index.setIndexSpeed(power);
       timeDifference += 20; 
-      if(timeDifference > 500){
+      if(timeDifference >= timeUntilStop){
         index.setIndexSpeed(0);
         indexStage++;
       }
@@ -51,15 +53,17 @@ public class IndexBalls extends CommandBase {
     else if(index.ballShooterPressed() && indexStage == 3){
       index.setIndexSpeed(0);
       indexStage++;
+      
     }
-    else if (index.getRevPerSec() == 69 && indexStage == 4)
+    else if (index.getRevPerSec() == 69D && indexStage == 4)
     {
       index.setIndexSpeed(power);
-      if (index.getRevPerSec() <= 60)
+      if (index.getRevPerSec() <= 60D)
         indexStage++;
     }
     else if (indexStage == 5){
       index.setIndexSpeed(0);
+      
       cancel();
     }
 

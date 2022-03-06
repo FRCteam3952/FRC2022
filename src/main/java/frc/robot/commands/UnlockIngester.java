@@ -10,16 +10,18 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 /** An example command that uses an example subsystem. */
 public class UnlockIngester extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final IngesterPositioner ingestSub;
+  private final IngesterPositioner ingest;
+  public long timeDifference; //milliseconds
+  public long timeUntilStop; // CHANGE THIS WHEN FIND OUT TODO
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
   public UnlockIngester(IngesterPositioner subsystem) {
-    ingestSub = subsystem;
-    addRequirements(ingestSub);
-    
+    timeDifference = 0;
+    ingest = subsystem;
+    addRequirements(ingest);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -30,8 +32,10 @@ public class UnlockIngester extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    ingestSub.changeIngestAngle(0.3);
-    cancel();
+    ingest.changeIngestAngle(0.3);
+    timeDifference += 20;
+    if (timeDifference >= timeUntilStop)
+      cancel();
   }
   
   // Called once the command ends or is interrupted.
