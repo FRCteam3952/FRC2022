@@ -6,24 +6,19 @@ package frc.robot;
 
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.commands.AutonomousCommand;
-import frc.robot.commands.CollectBalls;
-
+import frc.robot.commands.ManualClimb;
 import frc.robot.commands.ManualDrive;
 import frc.robot.commands.ShooterAimer;
-import frc.robot.controllers.JoystickPlus;
+import frc.robot.commands.IngestBalls;
 
-import frc.robot.commands.AutoClimb;
-import frc.robot.commands.ManualClimb;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Ingester;
 import frc.robot.subsystems.Climber;
-import edu.wpi.first.wpilibj2.command.Command;
-
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.subsystems.Ingester;
 
 import frc.robot.controllers.*;
 /**
@@ -40,7 +35,7 @@ public class RobotContainer {
  
   private final Ingester ingester = new Ingester();
 
-  private final CollectBalls collect = new CollectBalls(ingester);
+  private final IngestBalls ingest = new IngestBalls(ingester);
 
   public static RemoteController climberStick = new RemoteController(new JoystickPlus(0));
 
@@ -49,8 +44,6 @@ public class RobotContainer {
   private final AutonomousCommand autonomousCommand = new AutonomousCommand(driveTrain);
 
   private final Climber climber = new Climber();
-
-  private final AutoClimb autoClimb = new AutoClimb(climber);
 
   private final ManualClimb manualClimb = new ManualClimb(climber);
   
@@ -61,8 +54,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    //servos.setDefaultCommand(servoMove);
-    //ingester.setDefaultCommand();
+    ingester.setDefaultCommand(ingest);
     climber.setDefaultCommand(manualClimb);
     driveTrain.setDefaultCommand(driveCommand);
   }
@@ -84,12 +76,6 @@ public class RobotContainer {
     //JoystickButton collectButton = new JoystickButton(driverStick.joystick, 1);
     //collectButton.whileHeld(autonomousCommand);
 
-
-    
-
-    // binds button for autoclimb
-    JoystickButton manualButton = new JoystickButton(climberStick.joystick, 2);
-    manualButton.whenHeld(autoClimb);
 
     //when press button "1" on frc will run shooterAimer, follow shooterAimer for more info
     // Joystick joystick = new Joystick(0);
