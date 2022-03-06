@@ -30,8 +30,7 @@ public final class Constants {
     public static final int shooterBottomLimitPort = 2;
     public static final int shooterShootingLimitPort = 3;
     public static final int shooterTachometerPort = 4;
-    public static final int unlockServo1Port = 5;
-    public static final int unlockServo2Port = 6;
+
     
     // CAN Bus, for climber only, not in Drive train, uses phoenix 
     public static final int armAnglePort = 0;

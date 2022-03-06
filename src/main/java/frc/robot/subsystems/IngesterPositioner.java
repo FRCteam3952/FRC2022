@@ -18,28 +18,28 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 
 
 
-public class UnlockIngestSub extends SubsystemBase {
+public class IngesterPositioner extends SubsystemBase {
   // feeding system
 
-  private final Talon unlockIngestAngle;
+  private final Talon lockIngestAngle;
 
   //private final DigitalInput topOrBottomLimitSwitch;
 
   /** Creates a new ExampleSubsystem. */
-  public UnlockIngestSub() {
-    unlockIngestAngle = new Talon(Constants.releaseIngesterPort);
+  public IngesterPositioner() {
+    lockIngestAngle = new Talon(Constants.releaseIngesterPort);
     //topOrBottomLimitSwitch = new DigitalInput(3); //only used if third limit switch is used; not used if using manual control
   }
 
 
   public double changeIngestAngle(double speed) {
-    unlockIngestAngle.set(speed);
+    lockIngestAngle.set(speed);
     return speed;
   }
 
 //return speed of motor for the arm angle motor
   public double getIngestSpeed() {
-    return unlockIngestAngle.get();
+    return lockIngestAngle.get();
   }
 
   @Override

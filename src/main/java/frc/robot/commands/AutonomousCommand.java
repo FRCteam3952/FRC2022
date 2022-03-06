@@ -6,9 +6,8 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.UnlockIngestSub;
-import frc.robot.subsystems.Servos;
-import frc.robot.commands.UnlockIngester2;
+import frc.robot.subsystems.IngesterPositioner;
+import frc.robot.commands.UnlockIngester;
 
 
 
@@ -20,15 +19,14 @@ public class AutonomousCommand extends CommandBase {
 
     private final Shooter shooter = new Shooter();
     private final ShootBalls shootBalls = new ShootBalls(shooter);
-    private final Servos servos = new Servos();
-    private final UnlockIngestSub unlockIngestSub = new UnlockIngestSub();
-    private final UnlockIngester2 unlockIngester2= new UnlockIngester2(unlockIngestSub);
+    private final IngesterPositioner ingest = new IngesterPositioner();
+    private final UnlockIngester unlockIngester= new UnlockIngester(ingest);
     //private final
 
     public static double distanceToShoot; // DEFINE LATER WHEN YOU KNOW HOW FAR
     public static double limelightAngleDeg;
     public static double limelightHeightInch = 30;
-    public static double goalHeightInch;
+    public static double goalHeightInch = 104;
 
     private final DriveTrain drive;
 
@@ -43,7 +41,7 @@ public class AutonomousCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-      unlockIngester2.schedule();
+      unlockIngester.schedule();
     }
   
     // Called every time the scheduler runs while the command is scheduled.

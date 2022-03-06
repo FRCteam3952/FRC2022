@@ -4,20 +4,19 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.Servos;
-import frc.robot.subsystems.UnlockIngestSub;
+import frc.robot.subsystems.IngesterPositioner;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
-public class UnlockIngester2 extends CommandBase {
+public class UnlockIngester extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final UnlockIngestSub ingestSub;
+  private final IngesterPositioner ingestSub;
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public UnlockIngester2(UnlockIngestSub subsystem) {
+  public UnlockIngester(IngesterPositioner subsystem) {
     ingestSub = subsystem;
     addRequirements(ingestSub);
     

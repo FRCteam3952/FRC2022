@@ -20,7 +20,6 @@ import frc.robot.commands.AutoClimb;
 import frc.robot.commands.ManualClimb;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Ingester;
-import frc.robot.subsystems.Servos;
 import frc.robot.subsystems.Climber;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -39,8 +38,6 @@ public class RobotContainer {
 
   private final ManualDrive driveCommand = new ManualDrive(driveTrain);
  
-  private final Servos servos = new Servos();
-
   private final Ingester ingester = new Ingester();
 
   private final CollectBalls collect = new CollectBalls(ingester);
