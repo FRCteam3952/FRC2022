@@ -6,19 +6,21 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class Servos extends SubsystemBase {
 
     //feeding system
 
-    public final Servo servo1;
-    
+    public final Servo unlockServo1;
+    public final Servo unlockServo2;
 
 
 
   /** Creates a new ExampleSubsystem. */
   public Servos() {
-    servo1 = new Servo(8);
+    unlockServo1 = new Servo(Constants.unlockServo1Port);
+    unlockServo2 = new Servo(Constants.unlockServo2Port);
   }
 
 

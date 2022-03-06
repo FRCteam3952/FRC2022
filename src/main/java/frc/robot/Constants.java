@@ -18,9 +18,9 @@ public final class Constants {
     public static final int frontRightMotorPort = 1;
     public static final int rearLeftMotorPort = 2;
     public static final int rearRighttMotorPort = 3;
-    public static final int armAngleTalonPort = 4;
-    public static final int armHookTalonPort = 5;
-    public static final int indexerWheels = 6;
+    public static final int indexerWheelsPort = 4;
+    public static final int ingesterCollectingRollerPort = 5;
+    public static final int shooterRollersPort = 6;
 
 
     //DIO port declaration
@@ -29,6 +29,10 @@ public final class Constants {
     public static final int shooterBottomLimitPort = 2;
     public static final int shooterShootingLimitPort = 3;
     public static final int shooterTachometerPort = 4;
+    public static final int unlockServo1Port = 5;
+    public static final int unlockServo2Port = 6;
     
-    
+    // CAN Bus, for climber only, not in Drive train
+    public static final int armAnglePort = 0;
+    public static final int hookPort = 1;
 }

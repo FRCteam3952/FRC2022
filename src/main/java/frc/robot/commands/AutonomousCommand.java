@@ -6,6 +6,8 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Servos;
+import frc.robot.commands.UnlockIngester;
 
 
 
@@ -17,13 +19,15 @@ public class AutonomousCommand extends CommandBase {
 
     private final Shooter shooter = new Shooter();
     private final ShootBalls shootBalls = new ShootBalls(shooter);
+    private final Servos servos = new Servos();
+    private final UnlockIngester unlock = new UnlockIngester(servos);
 
     public static double distanceToShoot; // DEFINE LATER WHEN YOU KNOW HOW FAR
     public static double limelightAngleDeg;
     public static double limelightHeightInch = 30;
     public static double goalHeightInch;
 
-    private final DriveTrain drive ;
+    private final DriveTrain drive;
 
     public AutonomousCommand(DriveTrain subsystem) {
       // Use addRequirements() here to declare subsystem dependencies.
@@ -36,7 +40,7 @@ public class AutonomousCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-      
+      unlock.schedule();
     }
   
     // Called every time the scheduler runs while the command is scheduled.
@@ -60,7 +64,7 @@ public class AutonomousCommand extends CommandBase {
 
        double adjustOutput = 1/10;
 
-      drive.drive(0, Math.pow(x, 1/3) * adjustOutput);
+      drive.drive(0, Math.cbrt(x) * adjustOutput);
 
 
 

@@ -13,7 +13,6 @@ import frc.robot.commands.AutonomousCommand;
 import frc.robot.commands.CollectBalls;
 
 import frc.robot.commands.ManualDrive;
-import frc.robot.commands.ServoMove;
 import frc.robot.commands.ShooterAimer;
 import frc.robot.controllers.JoystickPlus;
 
@@ -57,8 +56,6 @@ public class RobotContainer {
   private final AutoClimb autoClimb = new AutoClimb(climber);
 
   private final ManualClimb manualClimb = new ManualClimb(climber);
-
-  private final ServoMove servoMove = new ServoMove(servos, climber);
   
   //declare new shooter airmer to be ran, for driverTrain
   private final ShooterAimer shooterAimer = new ShooterAimer(driveTrain);
@@ -68,10 +65,9 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     //servos.setDefaultCommand(servoMove);
-    // ingester.setDefaultCommand();
+    //ingester.setDefaultCommand();
     climber.setDefaultCommand(manualClimb);
-    //driveTrain.setDefaultCommand(driveCommand);
-    //driveTrain.setDefaultCommand(shooterAimer);
+    driveTrain.setDefaultCommand(driveCommand);
   }
 
   /**
@@ -92,9 +88,7 @@ public class RobotContainer {
     //collectButton.whileHeld(autonomousCommand);
 
 
-    // binds button for controlling servo????????
-    JoystickButton dR = new JoystickButton(climberStick.joystick, 6);
-    dR.whenPressed(servoMove);
+    
 
     // binds button for autoclimb
     JoystickButton manualButton = new JoystickButton(climberStick.joystick, 2);
@@ -128,6 +122,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return driveCommand;
+    return autonomousCommand;
   }
 }
