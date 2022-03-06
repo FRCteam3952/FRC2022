@@ -11,7 +11,7 @@ public class IndexBalls extends CommandBase {
   private final Indexer index;
   private double power;
   private double indexStage;
-  long timeDifference; //milliseconds
+  private long timeDifference; //milliseconds
   /**
    * Creates a new ExampleCommand.
    *
