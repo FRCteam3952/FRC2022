@@ -21,6 +21,7 @@ public final class Constants {
     public static final int indexerWheelsPort = 4;
     public static final int ingesterCollectingRollerPort = 5;
     public static final int shooterRollersPort = 6;
+    public static final int releaseIngesterPort = 7;
 
 
     //DIO port declaration
@@ -32,7 +33,7 @@ public final class Constants {
     public static final int unlockServo1Port = 5;
     public static final int unlockServo2Port = 6;
     
-    // CAN Bus, for climber only, not in Drive train
+    // CAN Bus, for climber only, not in Drive train, uses phoenix 
     public static final int armAnglePort = 0;
     public static final int hookPort = 1;
 }

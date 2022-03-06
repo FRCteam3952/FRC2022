@@ -5,20 +5,21 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.Servos;
+import frc.robot.subsystems.UnlockIngestSub;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
-public class UnlockIngester extends CommandBase {
+public class UnlockIngester2 extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final Servos servos;
+  private final UnlockIngestSub ingestSub;
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public UnlockIngester(Servos subsystem) {
-    servos = subsystem;
-    addRequirements(servos);
+  public UnlockIngester2(UnlockIngestSub subsystem) {
+    ingestSub = subsystem;
+    addRequirements(ingestSub);
     
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -30,8 +31,7 @@ public class UnlockIngester extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    servos.unlockServo1.setAngle(180);
-    servos.unlockServo2.setAngle(180);
+    ingestSub.changeIngestAngle(0.3);
     cancel();
   }
   
