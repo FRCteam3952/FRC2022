@@ -42,6 +42,7 @@ public class JoystickPlus extends Joystick {
 
     public enum ButtonType {
         kTrigger(1),
+        kButton5(5),
         kButton6(6),
         kButton8(8);
     

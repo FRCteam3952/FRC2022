@@ -24,9 +24,9 @@ public class AutonomousCommand extends CommandBase {
     
     //private final
 
-    public static double distanceToShoot; // DEFINE LATER WHEN YOU KNOW HOW FAR
-    public static double limelightAngleDeg;
-    public static double limelightHeightInch = 30;
+    public static double distanceToShoot; // DEFINE LATER WHEN YOU KNOW HOW FAR TODO
+    public static double limelightAngleDeg = 35;
+    public static double limelightHeightInch = 29;
     public static double goalHeightInch = 104;
 
     

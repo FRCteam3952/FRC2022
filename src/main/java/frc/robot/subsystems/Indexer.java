@@ -41,7 +41,7 @@ public class Indexer extends SubsystemBase {
     return ballShooterLim.get();
   }
 
-  public double getRevPerSec() {
+  public double getShooterRevPerSec() {
     return tacheo.getRevolutionsPerSecond();
    
   }

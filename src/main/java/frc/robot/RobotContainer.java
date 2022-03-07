@@ -15,10 +15,14 @@ import frc.robot.commands.ManualClimb;
 import frc.robot.commands.ManualDrive;
 import frc.robot.commands.ShooterAimer;
 import frc.robot.commands.IngestBalls;
+import frc.robot.commands.IndexBalls;
+import frc.robot.commands.ShootBalls;
 
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Ingester;
+import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.Shooter;
 
 import frc.robot.controllers.*;
 /**
@@ -31,11 +35,19 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveTrain driveTrain = new DriveTrain();
 
-  private final ManualDrive driveCommand = new ManualDrive(driveTrain);
+  private final Shooter shooter = new Shooter();
+
+  private final ShootBalls shootBalls = new ShootBalls(shooter);
  
   private final Ingester ingester = new Ingester();
 
   private final IngestBalls ingest = new IngestBalls(ingester);
+
+  private final Indexer indexer = new Indexer();
+
+  private final ManualDrive driveCommand = new ManualDrive(driveTrain);
+
+  private final IndexBalls index = new IndexBalls(indexer, ingester);
 
   public static RemoteController climberStick = new RemoteController(new JoystickPlus(0));
 
@@ -47,7 +59,7 @@ public class RobotContainer {
 
   private final ManualClimb manualClimb = new ManualClimb(climber);
   
-  //declare new shooter airmer to be ran, for driverTrain
+  //declare new shooter airmer to be ran, for driveTrain
   private final ShooterAimer shooterAimer = new ShooterAimer(driveTrain);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -57,6 +69,8 @@ public class RobotContainer {
     ingester.setDefaultCommand(ingest);
     climber.setDefaultCommand(manualClimb);
     driveTrain.setDefaultCommand(driveCommand);
+    indexer.setDefaultCommand(index);
+    shooter.setDefaultCommand(shootBalls);
   }
 
   /**

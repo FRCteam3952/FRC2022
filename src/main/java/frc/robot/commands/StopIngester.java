@@ -4,21 +4,20 @@
 
 package frc.robot.commands;
 
-import frc.robot.RobotContainer;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Ingester;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-
-public class ShootBalls extends CommandBase {
-  private final Shooter shooter;
-  private double power = 0.5;
+public class StopIngester extends CommandBase {
+  private final Ingester ingest;
+  private double power;
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ShootBalls(Shooter subsystem) {
-    shooter = subsystem;
+  public StopIngester(Ingester subsystem) {
+    ingest = subsystem;
+    power = 0.5;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }
@@ -26,24 +25,20 @@ public class ShootBalls extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-      shooter.setShooterSpeed(0);
+      ingest.setIngestRollerSpeed(0);
+      System.out.println("ingesting");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-     
-     if (RobotContainer.driverStick.button5Held())
-     {
-       shooter.setShooterSpeed(power);
-       System.out.println("accelerating shooter wheel");
-     }
+    ingest.setIngestRollerSpeed(power);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooter.setShooterSpeed(0);
+    ingest.setIngestRollerSpeed(0);
   }
 
   // Returns true when the command should end.
