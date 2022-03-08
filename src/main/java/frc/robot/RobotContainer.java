@@ -68,8 +68,8 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     ingester.setDefaultCommand(ingest);
-    //climber.setDefaultCommand(manualClimb);
-    //driveTrain.setDefaultCommand(driveCommand);
+    climber.setDefaultCommand(manualClimb);
+    driveTrain.setDefaultCommand(driveCommand);
     indexer.setDefaultCommand(index);
     shooter.setDefaultCommand(shootBalls);
   }

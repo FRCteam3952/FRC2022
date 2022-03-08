@@ -17,6 +17,11 @@ public class IndexBalls extends CommandBase {
   private boolean ingestStopped;
   private long timeDifference; //milliseconds
   private long timeUntilStop = 1000; //milliseconds CHANGE TODO
+  private boolean stage1;
+  private boolean stage2;
+  private boolean stage3;
+  private boolean stage4; 
+
   /**
    * Creates a new ExampleCommand.
    *
@@ -45,21 +50,25 @@ public class IndexBalls extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (index.bottomShooterPressed() && indexStage == 0) {
-
+    if (index.bottomShooterPressed() && indexStage == 0 && !stage1) {
+      stage1= true; 
+      System.out.println(index.bottomShooterPressed());
       index.setIndexSpeed(power);
-      if(!index.bottomShooterPressed()){
+      //}
+    } //load first ball
+    else if (!index.bottomShooterPressed() && stage1)
+    {
         index.setIndexSpeed(0);
         indexStage++;
-      }
-    } //load first ball
-    else if (index.bottomShooterPressed() && indexStage == 1) {
-      //index.setIndexSpeed(power);
-     // if(index.ballShooterPressed())
-       // indexStage++;
+    }
+    else if (index.bottomShooterPressed() && indexStage == 1 && stage1 && !stage2) {
+      index.setIndexSpeed(power);
+      stage2 =true;
+      indexStage++;
     } //load second ball
-    else if (indexStage == 2) {
+    else if (indexStage == 2 && stage2 && !stage3) {
       index.setIndexSpeed(0);
+      stage3= true; 
       if (!ingestStopped) {
         stopIngest.schedule();
         ingestStopped = true;
@@ -68,12 +77,13 @@ public class IndexBalls extends CommandBase {
         indexStage++;
       }
     } //stop ingester and wait until shooter wheel is ready
-    else if (indexStage == 3) {
+    else if (indexStage == 3 && !stage4) {
       index.setIndexSpeed(power);
+      stage4= true;
       if (index.getShooterRevPerSec() <= 60D)
         indexStage++;
     } //shoot balls
-    else if (indexStage == 4) {
+    else if (indexStage == 4 && stage4) {
       index.setIndexSpeed(0);
       stopIngest.cancel();
       ingestStopped = false;
