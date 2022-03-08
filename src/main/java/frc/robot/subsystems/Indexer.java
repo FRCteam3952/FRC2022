@@ -23,8 +23,8 @@ public class Indexer extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
   public Indexer() {
     indexWheels = new Talon(Constants.indexerWheelsPort);
-    bottomShooterLim = new DigitalInput(Constants.bottomLimitSwitchClimberPort);
-    ballShooterLim = new DigitalInput(Constants.topLimitSwitchClimberPort);
+    bottomShooterLim = new DigitalInput(Constants.shooterBottomLimitPort);
+    ballShooterLim = new DigitalInput(Constants.shooterShootingLimitPort);
     tacheo = new Tachometer(new DigitalInput(Constants.shooterTachometerPort));
   }
 

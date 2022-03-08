@@ -27,9 +27,9 @@ public final class Constants {
     //DIO port declaration
     public static final int topLimitSwitchClimberPort = 0;
     public static final int bottomLimitSwitchClimberPort = 1;
-    public static final int shooterBottomLimitPort = 2;
+    public static final int shooterBottomLimitPort = 4;
     public static final int shooterShootingLimitPort = 3;
-    public static final int shooterTachometerPort = 4;
+    public static final int shooterTachometerPort = 5;
 
     
     // CAN Bus, for climber only, not in Drive train, uses phoenix 

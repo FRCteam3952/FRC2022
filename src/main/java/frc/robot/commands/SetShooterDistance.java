@@ -20,8 +20,6 @@ public class SetShooterDistance extends CommandBase {
      */
     private final DriveTrain drive;
 
-    private final IngesterPositioner ingest = new IngesterPositioner();
-    private final UnlockIngester unlockIngester= new UnlockIngester(ingest);
     
     //private final
 
@@ -50,7 +48,6 @@ public class SetShooterDistance extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-      unlockIngester.schedule();
     }
   
     // Called every time the scheduler runs while the command is scheduled.

@@ -26,7 +26,7 @@ public class IndexBalls extends CommandBase {
     index = indexer;
     ingest = ingester;
     stopIngest = new StopIngester(ingest);
-    power = 0.5;
+    power = -0.5;
     ingestStopped = false;
     indexStage = 0;
     timeDifference = 0;
@@ -46,17 +46,17 @@ public class IndexBalls extends CommandBase {
   @Override
   public void execute() {
     if (index.bottomShooterPressed() && indexStage == 0) {
+
       index.setIndexSpeed(power);
-      timeDifference += 20; 
-      if(timeDifference >= timeUntilStop){
+      if(!index.bottomShooterPressed()){
         index.setIndexSpeed(0);
         indexStage++;
       }
     } //load first ball
     else if (index.bottomShooterPressed() && indexStage == 1) {
-      index.setIndexSpeed(power);
-      if(index.ballShooterPressed())
-        indexStage++;
+      //index.setIndexSpeed(power);
+     // if(index.ballShooterPressed())
+       // indexStage++;
     } //load second ball
     else if (indexStage == 2) {
       index.setIndexSpeed(0);
