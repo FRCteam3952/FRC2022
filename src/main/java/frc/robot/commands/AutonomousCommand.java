@@ -16,11 +16,12 @@ public class AutonomousCommand extends CommandBase {
      */
     private final DriveTrain drive;
 
-    private final Shooter shooter = new Shooter();
-    private final ShootBalls shootBalls = new ShootBalls(shooter);
+    //private final Shooter shooter = new Shooter();
+    private final ShootBalls shootBalls;
     private final IngesterPositioner ingest = new IngesterPositioner();
     private final UnlockIngester unlockIngester= new UnlockIngester(ingest);
     private final ShooterAimer shooterAimer;
+  
     
     //private final
 
@@ -31,13 +32,14 @@ public class AutonomousCommand extends CommandBase {
 
     
 
-    public AutonomousCommand(DriveTrain subsystem) {
+    public AutonomousCommand(DriveTrain subsystem, ShootBalls shootballs) {
       // Use addRequirements() here to declare subsystem dependencies.
+     
       drive = subsystem;
-      addRequirements(drive);
+      shootBalls= shootballs;
       shooterAimer = new ShooterAimer(drive);
-      
-    }
+      addRequirements(drive);
+      }
   
     // Called when the command is initially scheduled.
     @Override

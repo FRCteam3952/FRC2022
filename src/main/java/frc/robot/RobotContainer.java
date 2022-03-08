@@ -54,7 +54,7 @@ public class RobotContainer {
 
   public static FlightJoystickController driverStick = new FlightJoystickController(new JoystickPlus(1));
 
-  private final AutonomousCommand autonomousCommand = new AutonomousCommand(driveTrain);
+  private final AutonomousCommand autonomousCommand = new AutonomousCommand(driveTrain, shootBalls);
 
   private final Climber climber = new Climber();
 

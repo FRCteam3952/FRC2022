@@ -20,10 +20,8 @@ public class SetShooterDistance extends CommandBase {
      */
     private final DriveTrain drive;
 
-    private final Shooter shooter = new Shooter();
     private final IngesterPositioner ingest = new IngesterPositioner();
     private final UnlockIngester unlockIngester= new UnlockIngester(ingest);
-    private final ShooterAimer shooterAimer;
     
     //private final
 
@@ -38,7 +36,6 @@ public class SetShooterDistance extends CommandBase {
       // Use addRequirements() here to declare subsystem dependencies.
       drive = subsystem;
       addRequirements(drive);
-      shooterAimer = new ShooterAimer(drive);
       
     }
 
