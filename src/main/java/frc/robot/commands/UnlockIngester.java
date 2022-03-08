@@ -11,15 +11,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class UnlockIngester extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final IngesterPositioner ingest;
-  public long timeDifference; //milliseconds
-  public long timeUntilStop; // CHANGE THIS WHEN FIND OUT TODO
+  public long timeDifference = 0; //milliseconds
+  public long timeUntilStop = 1000; // CHANGE THIS WHEN FIND OUT TODO
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
   public UnlockIngester(IngesterPositioner subsystem) {
-    timeDifference = 0;
     ingest = subsystem;
     addRequirements(ingest);
     // Use addRequirements() here to declare subsystem dependencies.

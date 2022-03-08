@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.Ingester;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -32,7 +33,10 @@ public class IngestBalls extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    ingest.setIngestRollerSpeed(power);
+    if (RobotContainer.driverStick.button7Pressed())
+      ingest.setIngestRollerSpeed(power);
+    else
+      ingest.setIngestRollerSpeed(0);
   }
 
   // Called once the command ends or is interrupted.

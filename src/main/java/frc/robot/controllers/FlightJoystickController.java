@@ -53,6 +53,10 @@ public class FlightJoystickController {
         return joystick.getRawButtonPressed(6);
     }
 
+    public boolean button7Pressed() {
+        return joystick.getRawButtonPressed(7);
+    }
+
     public boolean button8Pressed() {
         return joystick.getRawButtonPressed(8);
     }

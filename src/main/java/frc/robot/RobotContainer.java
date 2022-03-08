@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AutonomousCommand;
 import frc.robot.commands.ManualClimb;
 import frc.robot.commands.ManualDrive;
+import frc.robot.commands.SetShooterDistance;
 import frc.robot.commands.ShooterAimer;
 import frc.robot.commands.IngestBalls;
 import frc.robot.commands.IndexBalls;
@@ -60,7 +61,7 @@ public class RobotContainer {
   private final ManualClimb manualClimb = new ManualClimb(climber);
   
   //declare new shooter airmer to be ran, for driveTrain
-  private final ShooterAimer shooterAimer = new ShooterAimer(driveTrain);
+  private final SetShooterDistance setShooterDistance = new SetShooterDistance(driveTrain);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -95,7 +96,7 @@ public class RobotContainer {
     // Joystick joystick = new Joystick(0);
     JoystickButton joystickButton = new JoystickButton(driverStick.joystick, 1);
     System.out.print("joystick made");
-    joystickButton.whenHeld(shooterAimer);
+    joystickButton.whenHeld(setShooterDistance);
     
     
 
