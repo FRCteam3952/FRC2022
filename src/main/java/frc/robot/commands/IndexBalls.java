@@ -14,6 +14,7 @@ public class IndexBalls extends CommandBase {
   private final StopIngester stopIngest;
   private double power;
   private double indexStage;
+  private boolean ingestStopped;
   private long timeDifference; //milliseconds
   private long timeUntilStop = 1000; //milliseconds CHANGE TODO
   /**
@@ -26,6 +27,7 @@ public class IndexBalls extends CommandBase {
     ingest = ingester;
     stopIngest = new StopIngester(ingest);
     power = 0.5;
+    ingestStopped = false;
     indexStage = 0;
     timeDifference = 0;
     
@@ -58,7 +60,10 @@ public class IndexBalls extends CommandBase {
     } //load second ball
     else if (indexStage == 2) {
       index.setIndexSpeed(0);
-      stopIngest.schedule();
+      if (!ingestStopped) {
+        stopIngest.schedule();
+        ingestStopped = true;
+      }
       if (index.getShooterRevPerSec() >= 69D) {
         indexStage++;
       }
@@ -71,6 +76,7 @@ public class IndexBalls extends CommandBase {
     else if (indexStage == 4) {
       index.setIndexSpeed(0);
       stopIngest.cancel();
+      ingestStopped = false;
       indexStage = 0;
     } //reset index wheels and start ingester
 

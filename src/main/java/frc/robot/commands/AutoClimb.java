@@ -56,14 +56,13 @@ public class AutoClimb extends CommandBase {
     } //lift robot off of floor and position arm underneath second pole
     else if (topCount == 0) {
       double h = climber.slideHook(power);
-      double a = climber.changeArmAngle(power);
-      System.out.println("2. Arm speed: " + a + " Hook speed: " + h);      
+      System.out.println("2. Arm speed: " + 0 + " Hook speed: " + h);      
       if (climber.topLimitPressed()) {
         topCount++;
         climber.slideHook(0);
         climber.changeArmAngle(0);
       }
-    } //position arm directly underneath second pole and slide hooks up to attatch to second pole
+    } //slide hooks up to attatch to second pole
     else if (bottomCount == 1) {
       double h = climber.slideHook(-power);
       System.out.println("3. Arm speed: 0 Hook speed: " + h);      
@@ -86,40 +85,11 @@ public class AutoClimb extends CommandBase {
     } //slide hooks back up
     
   }
-          
-    
-    
-      
-      //slide hooks back up to the top
-
-    //twas decided we will use manual control
-  /*either manual control or use third limit switch  
-    if (climber.topOrBottomLimitPressed())  
-      while (!climber.bottomLimitPressed() && auto) {
-        climber.slideHook(power);
-        climber.changeArmAngle(-power);
-        System.out.println("climb5");
-      }   
-    else
-      while (!climber.bottomLimitPressed() && auto) {
-        climber.slideHook(power);
-        climber.changeArmAngle(-power);
-        System.out.println("climb5");
-      }
-      
-    climber.slideHook(0); //reset motor
-    climber.changeArmAngle(0);  //reset motor
-  */
-  
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    //boolean manualButton = RobotContainer.
-    //double hor = RobotContainer.driverStick.getHorizontalMovement();
-    //while(hor > 0) {
     
-    //}
     climber.slideHook(0);
     climber.changeArmAngle(0);
     bottomCount = 0;
