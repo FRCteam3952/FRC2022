@@ -24,7 +24,7 @@ public class AutonomousCommand extends CommandBase {
     
     //private final
 
-    public static double distanceToShoot; // DEFINE LATER WHEN YOU KNOW HOW FAR TODO
+    public static double distanceToShoot = 153; // DEFINE LATER WHEN YOU KNOW HOW FAR TODO
     public static double limelightAngleDeg = 35;
     public static double limelightHeightInch = 29;
     public static double goalHeightInch = 104;
@@ -48,7 +48,6 @@ public class AutonomousCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-     
        NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
        NetworkTableEntry tx = table.getEntry("tx");
        // NetworkTableEntry ty = table.getEntry("ty");
@@ -84,7 +83,7 @@ public class AutonomousCommand extends CommandBase {
       NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
       double targetOffsetAngleVert = table.getEntry("ty").getDouble(0.0);
       double angletoGoalDeg = limelightAngleDeg + targetOffsetAngleVert;
-      double angletoGoalRad = angletoGoalDeg * (3.14159 / 180);
+      double angletoGoalRad = angletoGoalDeg * (Math.PI / 180);
       return (goalHeightInch - limelightHeightInch)/Math.tan(angletoGoalRad);
     }
   
