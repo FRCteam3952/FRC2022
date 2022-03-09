@@ -14,12 +14,15 @@ public class IndexBalls extends CommandBase {
   private double power = -0.35;
   private IndexBallState indexState = IndexBallState.SEARCHING;
   private double delta = 0;
-  private int ballsLoaded = 0;
+  private double shooterSpeed = 69; //change later, rpm? rps? test later lol
+  private boolean shooterSpeedReached = false;
 
   private enum IndexBallState {
     SEARCHING,
     PULLING,
-    HALT,
+    SEARCHING2,
+    PULLING2,
+    SHOOTING,
   }
 
   /**
@@ -60,11 +63,32 @@ public class IndexBalls extends CommandBase {
         else {
           System.out.println("stopped pulling");
           delta = 0;
-          ballsLoaded++;
           index.setIndexSpeed(0);
-          indexState = IndexBallState.SEARCHING;
+          indexState = IndexBallState.SEARCHING2;
         }
         break;
+      case SEARCHING2:
+        if (index.bottomShooterPressed()) {
+          System.out.println("switching to pulling2");
+          indexState = IndexBallState.PULLING2;
+        }
+        break;
+      case PULLING2:
+        if (delta != 20) {
+          System.out.println("switching t2");
+          index.setIndexSpeed(power);
+          delta++;
+        } 
+        else {
+          System.out.println("stopped pulling2");
+          delta = 0;
+          index.setIndexSpeed(0);
+          indexState = IndexBallState.SHOOTING;
+        }
+        break;
+      case SHOOTING:
+        if (index.getShooterRevPerSec() > shooterSpeed)
+          index.setIndexSpeed(power);
       default:
       }
   }
@@ -73,7 +97,7 @@ public class IndexBalls extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     indexState = IndexBallState.SEARCHING;
-    ballsLoaded = 0;
+    shooterSpeedReached = false;
   }
 
   // Returns true when the command should end.
