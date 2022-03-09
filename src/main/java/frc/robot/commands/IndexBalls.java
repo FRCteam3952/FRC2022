@@ -70,18 +70,18 @@ public class IndexBalls extends CommandBase {
         break;
       case SEARCHING2:
         if (index.bottomShooterPressed()) {
-          System.out.println("switching to pulling2");
+          System.out.println("switching to pulling 2");
           indexState = IndexBallState.PULLING2;
         }
         break;
       case PULLING2:
         if (delta != 20) {
-          System.out.println("switching t2");
+          System.out.println("switching t 2");
           index.setIndexSpeed(power);
           delta++;
         } 
         else {
-          System.out.println("stopped pulling2");
+          System.out.println("stopped pulling 2");
           delta = 0;
           index.setIndexSpeed(0);
           indexState = IndexBallState.SHOOTING;
@@ -92,8 +92,9 @@ public class IndexBalls extends CommandBase {
           index.setIndexSpeed(power);
           shooterSpeedReached = true;
         }
-        if (index.getShooterRevPerSec() <= shooterFinishedSpeed) 
+        if (index.getShooterRevPerSec() <= shooterFinishedSpeed && shooterSpeedReached) 
           indexState = IndexBallState.SEARCHING;
+        break;
       default:
       }
   }
