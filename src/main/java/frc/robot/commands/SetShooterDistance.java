@@ -79,7 +79,6 @@ public class SetShooterDistance extends CommandBase {
       else if (distanceToHoop() - delta > distanceToShoot) 
         drive.drive(-0.3, 0);
       else
-        cancel();
         drive.setShooterDistanceFinished();
        
 

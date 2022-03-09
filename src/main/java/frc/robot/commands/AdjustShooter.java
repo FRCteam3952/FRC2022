@@ -14,9 +14,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class AdjustShooter extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final DriveTrain drive_train;
-  private final AdjustShooterAim adjustAim;
+  private final ShooterAimer adjustAim;
   private final SetShooterDistance setDistance;
-  private boolean settingDistance = true;
   /**
    * Creates a new ExampleCommand.
    *
@@ -24,7 +23,7 @@ public class AdjustShooter extends CommandBase {
    */
   public AdjustShooter(DriveTrain subsystem) {
     drive_train = subsystem;
-    adjustAim = new AdjustShooterAim(subsystem);
+    adjustAim = new ShooterAimer(subsystem);
     setDistance = new SetShooterDistance(subsystem);
     addRequirements(drive_train);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -39,10 +38,8 @@ public class AdjustShooter extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (settingDistance) {
+    if (drive_train.isSettingShooterDistance()) {
       setDistance.schedule();
-      
-        settingDistance = false;
     }
     else {
       adjustAim.schedule();
@@ -51,7 +48,7 @@ public class AdjustShooter extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    settingDistance = true;
+    drive_train.setShooterDistanceReset();
   }
 
   // Returns true when the command should end.
