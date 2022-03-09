@@ -15,14 +15,15 @@ public class IndexBalls extends CommandBase {
   private IndexBallState indexState = IndexBallState.SEARCHING;
   private double delta = 0;
   private double shooterSpeed = 69; //change later, rpm? rps? test later lol
+  private double shooterFinishedSpeed = 60; //speed of shooter wheel when indexer wheels should stop, test later
   private boolean shooterSpeedReached = false;
 
   private enum IndexBallState {
-    SEARCHING,
-    PULLING,
-    SEARCHING2,
-    PULLING2,
-    SHOOTING,
+    SEARCHING, //searching for first ball
+    PULLING, //index first ball into shooter
+    SEARCHING2, //searching for second ball
+    PULLING2, //index second ball into shooter
+    SHOOTING, //wait for shooter wheel to gain enough speed, then index balls into shooter
   }
 
   /**
@@ -87,8 +88,12 @@ public class IndexBalls extends CommandBase {
         }
         break;
       case SHOOTING:
-        if (index.getShooterRevPerSec() > shooterSpeed)
+        if (index.getShooterRevPerSec() >= shooterSpeed) {
           index.setIndexSpeed(power);
+          shooterSpeedReached = true;
+        }
+        if (index.getShooterRevPerSec() <= shooterFinishedSpeed) 
+          indexState = IndexBallState.SEARCHING;
       default:
       }
   }
