@@ -9,7 +9,8 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.AutoClimb;
 import frc.robot.commands.AutonomousCommand;
 import frc.robot.commands.ManualClimb;
 import frc.robot.commands.ManualDrive;
@@ -18,6 +19,7 @@ import frc.robot.commands.ShooterAimer;
 import frc.robot.commands.IngestBalls;
 import frc.robot.commands.IndexBalls;
 import frc.robot.commands.ShootBalls;
+import frc.robot.commands.AdjustShooter;
 
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Climber;
@@ -26,52 +28,42 @@ import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Shooter;
 
 import frc.robot.controllers.*;
-/**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
- * subsystems, commands, and button mappings) should be declared here.
- */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
   private final DriveTrain driveTrain = new DriveTrain();
+  private final ManualDrive driveCommand = new ManualDrive(driveTrain);
 
   private final Shooter shooter = new Shooter();
-
   private final ShootBalls shootBalls = new ShootBalls(shooter);
  
   private final Ingester ingester = new Ingester();
-
   private final IngestBalls ingest = new IngestBalls(ingester);
+  
 
   private final Indexer indexer = new Indexer();
-
-  private final ManualDrive driveCommand = new ManualDrive(driveTrain);
-
   private final IndexBalls index = new IndexBalls(indexer, ingester);
 
   public static RemoteController climberStick = new RemoteController(new JoystickPlus(0));
-
   public static FlightJoystickController driverStick = new FlightJoystickController(new JoystickPlus(1));
 
   private final AutonomousCommand autonomousCommand = new AutonomousCommand(driveTrain, shootBalls);
 
   private final Climber climber = new Climber();
-
   private final ManualClimb manualClimb = new ManualClimb(climber);
+  private final AutoClimb autoClimb = new AutoClimb(climber);
   
   //declare new shooter airmer to be ran, for driveTrain
-  private final SetShooterDistance setShooterDistance = new SetShooterDistance(driveTrain);
+  private final AdjustShooter adjustShooter = new AdjustShooter(driveTrain);
+  
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    ingester.setDefaultCommand(ingest);
+    // ingester.setDefaultCommand(ingest);
     climber.setDefaultCommand(manualClimb);
     driveTrain.setDefaultCommand(driveCommand);
     indexer.setDefaultCommand(index);
-    shooter.setDefaultCommand(shootBalls);
+    // shooter.setDefaultCommand(shootBalls);
   }
 
   /**
@@ -94,13 +86,16 @@ public class RobotContainer {
 
     //when press button "1" on frc will run shooterAimer, follow shooterAimer for more info
     // Joystick joystick = new Joystick(0);
-    JoystickButton joystickButton = new JoystickButton(driverStick.joystick, 1);
-    System.out.print("joystick made");
-    joystickButton.whenHeld(setShooterDistance);
+    JoystickButton shooterButton = new JoystickButton(driverStick.joystick, 1);
+    shooterButton.whenHeld(adjustShooter);
     
-    
+    Trigger autoTrigger = new Trigger(() -> climberStick.getSlider() > .5);
+    autoTrigger.whenActive(autoClimb);
+    autoTrigger.whenInactive(manualClimb);
 
-    
+    // JoystickButton spitBallButton = new JoystickButton(driverStick.joystick, 6);
+    // spitBallButton.whenHeld();
+    // spitBallButton.whenReleased();
 
     /**
    * Get the slider position of the HID.

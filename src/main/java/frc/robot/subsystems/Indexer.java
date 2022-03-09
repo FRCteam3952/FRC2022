@@ -34,7 +34,7 @@ public class Indexer extends SubsystemBase {
   }
 
   public boolean bottomShooterPressed() {
-    return bottomShooterLim.get();
+    return !bottomShooterLim.get();
   }
 
   public boolean ballShooterPressed() {

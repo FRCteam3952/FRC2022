@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class ManualClimb extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Climber climber;
-  private final AutoClimb autoClimb;
   private boolean isClimbing;
   /**
    * Creates a new ExampleCommand.
@@ -21,7 +20,6 @@ public class ManualClimb extends CommandBase {
    */
   public ManualClimb(Climber subsystem) {
     climber = subsystem;
-    autoClimb = new AutoClimb(climber);
     isClimbing = false;
     addRequirements(subsystem);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -36,26 +34,14 @@ public class ManualClimb extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (!RobotContainer.climberStick.rightShoulderPressed()) {
-      if (isClimbing) {
-        autoClimb.cancel();
-        isClimbing = false;
-      }
-      double armSpeed = RobotContainer.climberStick.getYValue() * 1/3;
-      double hookSpeed = RobotContainer.climberStick.getZValue() * 1/3;
-      climber.changeArmAngle((armSpeed));
-      climber.slideHook((hookSpeed));
-      System.out.println("Arm speed: " + climber.getArmAngleSpeed() + " Hook speed: " + climber.getHookSpeed());
-     
-      
-    }  
-    else {
-      if (!isClimbing) {
-        isClimbing = true;
-        autoClimb.schedule();
-      }
-    }
-    
+    double armSpeed = RobotContainer.climberStick.getYValue();
+    double hookSpeed = RobotContainer.climberStick.getZValue();
+
+    // System.out.print("" + armSpeed + " " + hookSpeed);
+
+    climber.changeArmAngle((armSpeed));
+    climber.slideHook(hookSpeed);
+    // System.out.println("Arm speed: " + climber.getArmAngleSpeed() + " Hook speed: " + climber.getHookSpeed());    
   }
 
   // Called once the command ends or is interrupted.

@@ -28,7 +28,7 @@ public class FlightJoystickController {
     }
 
     public double getLateralMovement() {
-        double y = -joystick.getY();
+        double y = joystick.getY();
         return Math.abs(y) >= deadzone ? k * Math.signum(y) * (Math.log(Math.abs(y) + 1 - deadzone) + c) : 0;
     }
 

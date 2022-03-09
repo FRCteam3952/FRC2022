@@ -19,7 +19,6 @@ public class SetShooterDistance extends CommandBase {
      * Creates a new AutonomousCommand.
      */
     private final DriveTrain drive;
-
     
     //private final
 
@@ -81,6 +80,7 @@ public class SetShooterDistance extends CommandBase {
         drive.drive(-0.3, 0);
       else
         cancel();
+        drive.setShooterDistanceFinished();
        
 
        

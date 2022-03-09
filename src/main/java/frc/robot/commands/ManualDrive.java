@@ -28,8 +28,6 @@ public class ManualDrive extends CommandBase {
     addRequirements(drive_train);
     // Use addRequirements() here to declare subsystem dependencies.
   }
-  Joystick joystick = new Joystick(0);
-  JoystickButton joystickButton = new JoystickButton(joystick, 1);
   
 
   // Called when the command is initially scheduled.
@@ -39,12 +37,12 @@ public class ManualDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      double hor = RobotContainer.driverStick.getHorizontalMovement();
-      double lat = RobotContainer.driverStick.getLateralMovement();
+      double hor = (RobotContainer.driverStick.getHorizontalMovement());
+      double lat = (RobotContainer.driverStick.getLateralMovement());
 
       // drive_train.drive(lat, hor);
 
-      System.out.println("Lat: " + lat + " Hor: "+ hor);
+      // System.out.println("Lat: " + lat + " Hor: "+ hor);
 
       /*
       float Kp = -0.1f;

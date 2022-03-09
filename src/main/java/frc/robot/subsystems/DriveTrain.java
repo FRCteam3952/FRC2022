@@ -20,6 +20,8 @@ public class DriveTrain extends SubsystemBase {
   private MotorControllerGroup right;
 
   private DifferentialDrive m_dDrive;
+
+  private boolean settingDistance = true;
   /** Creates a new ExampleSubsystem. */
   public DriveTrain() {
     frontLeft = new Talon(Constants.frontLeftMotorPort);
@@ -27,19 +29,32 @@ public class DriveTrain extends SubsystemBase {
     rearLeft = new Talon(Constants.rearLeftMotorPort);
     rearRight = new Talon(Constants.rearRighttMotorPort);
 
-    left = new MotorControllerGroup(frontRight, frontLeft);
-    right = new MotorControllerGroup(rearLeft, rearRight);
+    left = new MotorControllerGroup(frontLeft, rearLeft);
+    right = new MotorControllerGroup(frontRight, rearRight);
   
     m_dDrive = new DifferentialDrive(left,right);
-    //m_dDrive.setSafetyEnabled(false); // MAKE SURE TO DISABLE THIS BEFORE TESTING BOT TODO
+    m_dDrive.setSafetyEnabled(false); // MAKE SURE TO DISABLE THIS BEFORE TESTING BOT TODO
 
-    //m_left.setInverted(true);
+    left.setInverted(true);
+    frontLeft.setInverted(true);
 
   }
 
 
   public void drive(double speed, double rot){
     m_dDrive.arcadeDrive(speed, rot);
+  }
+
+  public void setShooterDistanceFinished() {
+    settingDistance = false;
+  }
+  
+  public void setShooterDistanceReset() {
+    settingDistance = true;
+  }
+
+  public boolean isSettingShooterDistance() {
+    return settingDistance;
   }
 
   @Override

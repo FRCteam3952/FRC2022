@@ -11,16 +11,16 @@ import frc.robot.subsystems.Ingester;
 public class IndexBalls extends CommandBase {
   private final Indexer index;
   private final Ingester ingest;
-  private final StopIngester stopIngest;
-  private double power;
-  private double indexStage;
-  private boolean ingestStopped;
-  private long timeDifference; //milliseconds
-  private long timeUntilStop = 1000; //milliseconds CHANGE TODO
-  private boolean stage1;
-  private boolean stage2;
-  private boolean stage3;
-  private boolean stage4; 
+  private double power = -0.35;
+  private IndexBallState indexState = IndexBallState.SEARCHING;
+  private double delta = 0;
+  private int ballsLoaded = 0;
+
+  private enum IndexBallState {
+    SEARCHING,
+    PULLING,
+    HALT,
+  }
 
   /**
    * Creates a new ExampleCommand.
@@ -30,13 +30,6 @@ public class IndexBalls extends CommandBase {
   public IndexBalls(Indexer indexer, Ingester ingester) {
     index = indexer;
     ingest = ingester;
-    stopIngest = new StopIngester(ingest);
-    power = -0.5;
-    ingestStopped = false;
-    indexStage = 0;
-    timeDifference = 0;
-    
-    
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(index, ingest);
   }
@@ -44,58 +37,43 @@ public class IndexBalls extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+    System.out.println("init indexballs");
+    index.setIndexSpeed(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (index.bottomShooterPressed() && indexStage == 0 && !stage1) {
-      stage1= true; 
-      System.out.println(index.bottomShooterPressed());
-      index.setIndexSpeed(power);
-      //}
-    } //load first ball
-    else if (!index.bottomShooterPressed() && stage1)
-    {
-        index.setIndexSpeed(0);
-        indexStage++;
-    }
-    else if (index.bottomShooterPressed() && indexStage == 1 && stage1 && !stage2) {
-      index.setIndexSpeed(power);
-      stage2 =true;
-      indexStage++;
-    } //load second ball
-    else if (indexStage == 2 && stage2 && !stage3) {
-      index.setIndexSpeed(0);
-      stage3= true; 
-      if (!ingestStopped) {
-        stopIngest.schedule();
-        ingestStopped = true;
+    switch (indexState) {
+      case SEARCHING:
+        if (index.bottomShooterPressed()) {
+          System.out.println("switching to pulling");
+          indexState = IndexBallState.PULLING;
+        }
+        break;
+      case PULLING:
+        if (delta != 20) {
+          System.out.println("switching t");
+          index.setIndexSpeed(power);
+          delta++;
+        } 
+        else {
+          System.out.println("stopped pulling");
+          delta = 0;
+          ballsLoaded++;
+          index.setIndexSpeed(0);
+          indexState = IndexBallState.SEARCHING;
+        }
+        break;
+      default:
       }
-      if (index.getShooterRevPerSec() >= 69D) {
-        indexStage++;
-      }
-    } //stop ingester and wait until shooter wheel is ready
-    else if (indexStage == 3 && !stage4) {
-      index.setIndexSpeed(power);
-      stage4= true;
-      if (index.getShooterRevPerSec() <= 60D)
-        indexStage++;
-    } //shoot balls
-    else if (indexStage == 4 && stage4) {
-      index.setIndexSpeed(0);
-      stopIngest.cancel();
-      ingestStopped = false;
-      indexStage = 0;
-    } //reset index wheels and start ingester
-
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    
+    indexState = IndexBallState.SEARCHING;
+    ballsLoaded = 0;
   }
 
   // Returns true when the command should end.
