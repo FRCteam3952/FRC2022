@@ -7,18 +7,21 @@ package frc.robot.commands;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Indexer;
 
 
 public class ShootBalls extends CommandBase {
   private final Shooter shooter;
+  private final Indexer index;
   private double power = 0.5;
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ShootBalls(Shooter subsystem) {
+  public ShootBalls(Shooter subsystem, Indexer indexer) {
     shooter = subsystem;
+    index = indexer;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }
@@ -32,12 +35,11 @@ public class ShootBalls extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-     
-     if (RobotContainer.driverStick.button5Held())
-     {
-       shooter.setShooterSpeed(power);
-       System.out.println("accelerating shooter wheel");
-     }
+    index.getShooterRevPerSec();
+    if (RobotContainer.driverStick.button5Pressed())
+      shooter.setShooterSpeed(power);
+    else
+      shooter.setShooterSpeed(0);
   }
 
   // Called once the command ends or is interrupted.

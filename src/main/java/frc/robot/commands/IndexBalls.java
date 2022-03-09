@@ -7,11 +7,13 @@ package frc.robot.commands;
 import frc.robot.subsystems.Indexer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Ingester;
+import frc.robot.RobotContainer;
 
 public class IndexBalls extends CommandBase {
   private final Indexer index;
   private final Ingester ingest;
-  private double power = -0.35;
+  private double lowPower = -0.20;
+  private double highPower = -0.35;
   private IndexBallState indexState = IndexBallState.SEARCHING;
   private double delta = 0;
   private double shooterSpeed = 69; //change later, rpm? rps? test later lol
@@ -20,9 +22,10 @@ public class IndexBalls extends CommandBase {
 
   private enum IndexBallState {
     SEARCHING, //searching for first ball
-    PULLING, //index first ball into shooter
+    PULLING, //pulling first ball with higher power
     SEARCHING2, //searching for second ball
-    PULLING2, //index second ball into shooter
+    PULLING2, //pulling second ball with higher power
+    REVERSEINDEX, //waits for shooter trigger and starts reversing indexing
     SHOOTING, //wait for shooter wheel to gain enough speed, then index balls into shooter
   }
 
@@ -51,45 +54,64 @@ public class IndexBalls extends CommandBase {
     switch (indexState) {
       case SEARCHING:
         if (index.bottomShooterPressed()) {
+          index.setIndexSpeed(highPower); //switch to highpower once L1 is detected
           System.out.println("switching to pulling");
           indexState = IndexBallState.PULLING;
         }
         break;
+
       case PULLING:
-        if (delta != 20) {
-          System.out.println("switching t");
-          index.setIndexSpeed(power);
+        if (delta < 50) {
+          System.out.println("switching t" + delta);
+          index.setIndexSpeed(highPower);
           delta++;
         } 
         else {
           System.out.println("stopped pulling");
           delta = 0;
-          index.setIndexSpeed(0);
+          index.setIndexSpeed(lowPower);
           indexState = IndexBallState.SEARCHING2;
         }
         break;
+
       case SEARCHING2:
         if (index.bottomShooterPressed()) {
-          System.out.println("switching to pulling 2");
+          index.setIndexSpeed(highPower); //switch to highpower once L1 is detected
+          System.out.println("switching to pulling");
           indexState = IndexBallState.PULLING2;
         }
         break;
+
       case PULLING2:
-        if (delta != 20) {
-          System.out.println("switching t 2");
-          index.setIndexSpeed(power);
+        if (delta < 30) {
+          System.out.println("switching t 2 " + delta);
+          index.setIndexSpeed(highPower);
           delta++;
         } 
         else {
           System.out.println("stopped pulling 2");
-          delta = 0;
-          index.setIndexSpeed(0);
-          indexState = IndexBallState.SHOOTING;
+          index.setIndexSpeed(lowPower);
+          if(RobotContainer.driverStick.button5Pressed()) {
+            delta = 0;
+            indexState = IndexBallState.REVERSEINDEX;
+          }
         }
         break;
+        
+      case REVERSEINDEX: 
+        System.out.println("reversing index");
+        index.setIndexSpeed(-lowPower);
+        if(index.ballShooterPressed()) {
+          indexState = IndexBallState.SHOOTING;
+          index.setIndexSpeed(0);
+        }
+        break;
+        
       case SHOOTING:
+        if (index.getShooterRevPerSec() <= shooterFinishedSpeed && !shooterSpeedReached) 
+          index.setIndexSpeed(0);
         if (index.getShooterRevPerSec() >= shooterSpeed) {
-          index.setIndexSpeed(power);
+          index.setIndexSpeed(lowPower);
           shooterSpeedReached = true;
         }
         if (index.getShooterRevPerSec() <= shooterFinishedSpeed && shooterSpeedReached) 

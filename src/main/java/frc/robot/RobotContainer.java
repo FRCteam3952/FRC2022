@@ -33,16 +33,15 @@ public class RobotContainer {
   private final DriveTrain driveTrain = new DriveTrain();
   private final ManualDrive driveCommand = new ManualDrive(driveTrain);
 
-  private final Shooter shooter = new Shooter();
-  private final ShootBalls shootBalls = new ShootBalls(shooter);
- 
   private final Ingester ingester = new Ingester();
   private final IngestBalls ingest = new IngestBalls(ingester);
-  
 
   private final Indexer indexer = new Indexer();
   private final IndexBalls index = new IndexBalls(indexer, ingester);
 
+  private final Shooter shooter = new Shooter();
+  private final ShootBalls shootBalls = new ShootBalls(shooter, indexer);
+ 
   public static RemoteController climberStick = new RemoteController(new JoystickPlus(0));
   public static FlightJoystickController driverStick = new FlightJoystickController(new JoystickPlus(1));
 
@@ -61,12 +60,12 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     // ingester.setDefaultCommand(ingest);
-    climber.setDefaultCommand(manualClimb);
-    driveTrain.setDefaultCommand(driveCommand);
-    indexer.setDefaultCommand(index);
+    // climber.setDefaultCommand(manualClimb);
+    // driveTrain.setDefaultCommand(driveCommand);
+    // indexer.setDefaultCommand(index);
 
     CameraServer.startAutomaticCapture();
-    // shooter.setDefaultCommand(shootBalls);
+    shooter.setDefaultCommand(shootBalls);
   }
 
   /**

@@ -26,6 +26,8 @@ public class Indexer extends SubsystemBase {
     bottomShooterLim = new DigitalInput(Constants.shooterBottomLimitPort);
     ballShooterLim = new DigitalInput(Constants.shooterShootingLimitPort);
     tacheo = new Tachometer(new DigitalInput(Constants.shooterTachometerPort));
+    tacheo.setEdgesPerRevolution(1);
+    
   }
 
 
@@ -42,6 +44,10 @@ public class Indexer extends SubsystemBase {
   }
 
   public double getShooterRevPerSec() {
+    //System.out.println(tacheo.getRevolutionsPerSecond());
+    System.out.println(tacheo.getPeriod());
+    System.out.println(tacheo.getEdgesPerRevolution());
+    System.out.println(tacheo.getFrequency());
     return tacheo.getRevolutionsPerSecond();
    
   }

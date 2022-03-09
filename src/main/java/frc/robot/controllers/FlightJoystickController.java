@@ -45,8 +45,8 @@ public class FlightJoystickController {
         return joystick.getPOV();
     }
 
-    public boolean button5Held() {
-        return joystick.getRawButtonReleased(5);
+    public boolean button5Pressed() {
+        return joystick.getRawButton(5);
     }
 
     public boolean button6Pressed() {
