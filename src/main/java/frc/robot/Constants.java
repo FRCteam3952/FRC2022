@@ -33,6 +33,6 @@ public final class Constants {
 
     
     // CAN Bus, for climber only, not in Drive train, uses phoenix 
-    public static final int armAnglePort = 2;
-    public static final int hookPort = 1;
+    public static final int armAnglePort = 1;
+    public static final int hookPort = 2;
 }

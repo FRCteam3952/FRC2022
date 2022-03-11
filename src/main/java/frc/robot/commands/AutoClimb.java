@@ -94,7 +94,6 @@ public class AutoClimb extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     climber.slideHook(0);
-    climber.changeArmAngle(0);
   }
 
   // Returns true when the command should end.

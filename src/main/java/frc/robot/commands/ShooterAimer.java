@@ -66,7 +66,7 @@ public class ShooterAimer extends CommandBase {
           System.out.println("button pressed");
         //}
       }
-      System.out.println("Lat: " + lat + " Hor: "+ hor);
+      // System.out.println("Lat: " + lat + " Hor: "+ hor);
       System.out.println("this is auto aim btw");
       drive_train.drive(lat, hor);
     }

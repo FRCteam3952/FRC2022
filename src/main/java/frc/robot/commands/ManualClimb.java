@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class ManualClimb extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Climber climber;
-  private boolean isClimbing;
   /**
    * Creates a new ExampleCommand.
    *
@@ -20,7 +19,6 @@ public class ManualClimb extends CommandBase {
    */
   public ManualClimb(Climber subsystem) {
     climber = subsystem;
-    isClimbing = false;
     addRequirements(subsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -34,20 +32,16 @@ public class ManualClimb extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double armSpeed = RobotContainer.climberStick.getYValue();
     double hookSpeed = RobotContainer.climberStick.getZValue();
+    climber.slideHook(hookSpeed);
 
     // System.out.print("" + armSpeed + " " + hookSpeed);
-
-    climber.changeArmAngle((armSpeed));
-    climber.slideHook(hookSpeed);
     // System.out.println("Arm speed: " + climber.getArmAngleSpeed() + " Hook speed: " + climber.getHookSpeed());    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-      System.out.println("auto time");
   }
 
   // Returns true when the command should end.

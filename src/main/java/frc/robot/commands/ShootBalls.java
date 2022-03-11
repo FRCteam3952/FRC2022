@@ -13,7 +13,7 @@ import frc.robot.subsystems.Indexer;
 public class ShootBalls extends CommandBase {
   private final Shooter shooter;
   private final Indexer index;
-  private double power = 0.5;
+  private double power = 1;
   /**
    * Creates a new ExampleCommand.
    *
@@ -35,7 +35,6 @@ public class ShootBalls extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    index.getShooterRevPerSec();
     if (RobotContainer.driverStick.button5Pressed())
       shooter.setShooterSpeed(power);
     else

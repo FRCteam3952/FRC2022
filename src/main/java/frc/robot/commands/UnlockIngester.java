@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.IngesterPositioner;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -13,6 +14,7 @@ public class UnlockIngester extends CommandBase {
   private final IngesterPositioner ingest;
   public long timeDifference = 0; //milliseconds
   public long timeUntilStop = 1000; // CHANGE THIS WHEN FIND OUT TODO
+  public double speed = .5;
   /**
    * Creates a new ExampleCommand.
    *
@@ -31,10 +33,16 @@ public class UnlockIngester extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    ingest.changeIngestAngle(0.3);
-    timeDifference += 20;
-    if (timeDifference >= timeUntilStop)
-      cancel();
+    double delta = 0.7;
+    double yDisplacement = RobotContainer.driverStick.getLateralMovement();
+    //System.out.println(yDisplacement);
+    if (yDisplacement > delta) {
+      ingest.changeIngestAngle(speed);
+    } else if (yDisplacement < -delta) {
+      ingest.changeIngestAngle(-speed);
+    } else {
+      ingest.changeIngestAngle(0);
+    }
   }
   
   // Called once the command ends or is interrupted.

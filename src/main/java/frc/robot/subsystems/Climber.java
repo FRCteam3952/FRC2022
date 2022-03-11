@@ -18,7 +18,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 public class Climber extends SubsystemBase {
   // feeding system
 
-  private final VictorSPX armAngle;
   private final VictorSPX hook;
   private final DigitalInput topLimitSwitch;
   private final DigitalInput bottomLimitSwitch;
@@ -26,7 +25,6 @@ public class Climber extends SubsystemBase {
 
   /** Creates a new ExampleSubsystem. */
   public Climber() {
-    armAngle = new VictorSPX(Constants.armAnglePort);
     hook = new VictorSPX(Constants.hookPort);
     topLimitSwitch = new DigitalInput(Constants.topLimitSwitchClimberPort); 
     bottomLimitSwitch = new DigitalInput(Constants.bottomLimitSwitchClimberPort);
@@ -67,16 +65,7 @@ public class Climber extends SubsystemBase {
     return hook.getMotorOutputPercent();
   }
 
-  public double changeArmAngle(double speed) {
-    armAngle.set(ControlMode.PercentOutput, speed);
-    return speed;
-  }
-
 //return speed of motor for the arm angle motor
-  public double getArmAngleSpeed() {
-    return armAngle.getMotorOutputPercent();
-  }
-
   public boolean topLimitPressed() {
     //System.out.println(topLimitSwitch.get());
     return topLimitSwitch.get();

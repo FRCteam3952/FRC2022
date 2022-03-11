@@ -5,45 +5,36 @@
 package frc.robot.commands;
 
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.Indexer;
-import frc.robot.subsystems.Ingester;
+import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Indexer;
 
-public class IngestBalls extends CommandBase {
-  private final Ingester ingest;
-  private final Indexer index;
-  private double power;
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
-  public IngestBalls(Ingester subsystem, Indexer indexer) {
-    ingest = subsystem;
-    index = indexer;
-    power = 0.6;
+
+public class ControlArm extends CommandBase {
+  private final Arm arm;
+
+  public ControlArm(Arm subsystem) {
+    arm = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem, indexer);
+    addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-      ingest.setIngestRollerSpeed(0);
-      System.out.println("ingesting");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    ingest.setIngestRollerSpeed(-power);
-    index.setIndexSpeed(-0.6);
+    double armSpeed = RobotContainer.climberStick.getXValue();
+    arm.changeArmAngle((armSpeed));
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    ingest.setIngestRollerSpeed(0);
   }
 
   // Returns true when the command should end.

@@ -37,12 +37,13 @@ public class ManualDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      double hor = (RobotContainer.driverStick.getHorizontalMovement());
-      double lat = (RobotContainer.driverStick.getLateralMovement());
+      double hor = -(RobotContainer.climberStick.joystick.getXRotate());
+      double lat = -(RobotContainer.climberStick.joystick.getZ());
 
       // drive_train.drive(lat, hor);
 
       // System.out.println("Lat: " + lat + " Hor: "+ hor);
+
 
       /*
       float Kp = -0.1f;
