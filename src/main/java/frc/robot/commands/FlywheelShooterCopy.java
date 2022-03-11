@@ -4,7 +4,6 @@ import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
 
 public class FlywheelShooterCopy extends CommandBase {
     private final Indexer index;

@@ -12,7 +12,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class IngestBalls extends CommandBase {
   private final Ingester ingest;
   private final Indexer index;
-  private double power;
+  private final double INGEST_SPEED = 0.6;
+  private final double INDEX_SPEED = 0.4;
+  
   /**
    * Creates a new ExampleCommand.
    *
@@ -21,7 +23,6 @@ public class IngestBalls extends CommandBase {
   public IngestBalls(Ingester subsystem, Indexer indexer) {
     ingest = subsystem;
     index = indexer;
-    power = 0.6;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem, indexer);
   }
@@ -36,8 +37,8 @@ public class IngestBalls extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    ingest.setIngestRollerSpeed(-power);
-    index.setIndexSpeed(-0.6);
+    ingest.setIngestRollerSpeed(-INGEST_SPEED);
+    index.setIndexSpeed(-INDEX_SPEED);
   }
 
   // Called once the command ends or is interrupted.

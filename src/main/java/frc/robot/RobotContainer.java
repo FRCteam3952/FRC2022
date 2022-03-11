@@ -4,14 +4,18 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Timer;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AutoClimb;
-import frc.robot.commands.AutonomousCommand;
+import frc.robot.commands.AutonomousGroup;
+import frc.robot.commands.AutonomousSetup;
 import frc.robot.commands.ControlArm;
 import frc.robot.commands.FlywheelShooter;
 import frc.robot.commands.ManualClimb;
@@ -35,44 +39,42 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.controllers.*;
 
 public class RobotContainer {
-  private final DriveTrain driveTrain = new DriveTrain();
-  private final ManualDrive manualDrive = new ManualDrive(driveTrain);
+  public static boolean inTeleop = true;
+  private final static DriveTrain driveTrain = new DriveTrain();
+  private final static ManualDrive manualDrive = new ManualDrive(driveTrain);
 
-  private final Ingester ingester = new Ingester();
-  private final IngesterPositioner ingestPos = new IngesterPositioner();
-  private final UnlockIngester unlockIngester = new UnlockIngester(ingestPos);
+  private final static Ingester ingester = new Ingester();
+  private final static IngesterPositioner ingestPos = new IngesterPositioner();
+  private final static UnlockIngester unlockIngester = new UnlockIngester(ingestPos);
 
-  private final Shooter shooter = new Shooter();
+  private final static Shooter shooter = new Shooter();
 
-  private final Indexer indexer = new Indexer();
+  private final static Indexer indexer = new Indexer();
 
-  private final ShootBalls shootBalls = new ShootBalls(shooter, indexer);
-
+  private final static ShootBalls shootBalls = new ShootBalls(shooter, indexer);
 
   public static RemoteController climberStick = new RemoteController(new JoystickPlus(0));
   public static FlightJoystickController driverStick = new FlightJoystickController(new JoystickPlus(1));
 
-
-  private final Climber climber = new Climber();
-  private final Arm arm = new Arm();
-  private final ControlArm controlArm = new ControlArm(arm);
-  private final ManualClimb manualClimb = new ManualClimb(climber);
-  // private final AutoClimb autoClimb = new AutoClimb(climber);
+  private final static Climber climber = new Climber();
+  private final static Arm arm = new Arm();
+  private final static ControlArm controlArm = new ControlArm(arm);
+  private final static ManualClimb manualClimb = new ManualClimb(climber);
+  // private final static AutoClimb autoClimb = new AutoClimb(climber);
 
   // declare new shooter airmer to be ran, for driveTrain
-  private final AdjustShooter adjustShooter = new AdjustShooter(driveTrain);
-  private final IndexBalls index = new IndexBalls(indexer, shooter);
-  private final AutonomousCommand autonomousCommand = new AutonomousCommand(driveTrain, climber, arm, ingestPos, shooter, indexer);
-  private final IngestBalls ingest = new IngestBalls(ingester, indexer);
-  private final FlywheelShooter flywheelShooter = new FlywheelShooter(indexer, shooter, index);
-
+  private final static AdjustShooter adjustShooter = new AdjustShooter(driveTrain);
+  private final static IndexBalls index = new IndexBalls(indexer, shooter);
+  private final static IngestBalls ingest = new IngestBalls(ingester, indexer);
+  private final static FlywheelShooter flywheelShooter = new FlywheelShooter(indexer, shooter, index);
+  private final static AutonomousSetup autonomousCommand = new AutonomousSetup(driveTrain, climber, arm, ingestPos, shooter,
+  indexer);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     // Configure the button bindings
-
 
     CameraServer.startAutomaticCapture();
   }
@@ -139,9 +141,11 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return autonomousCommand;
+  public void autonomousInit() {
+    inTeleop = false;
+    autonomousCommand.schedule();
+    // while (!timer.hasElapsed(2)) {}
+    // flywheelShooter.schedule();
   }
 
   public void teleopInit() {

@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveTrain;
@@ -12,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.IngesterPositioner;
 
-public class AutonomousCommand extends CommandBase {
+public class AutonomousSetup extends CommandBase {
   /**
    * Creates a new AutonomousCommand.
    */
@@ -34,7 +35,8 @@ public class AutonomousCommand extends CommandBase {
     Halt
   }
 
-  public AutonomousCommand(DriveTrain drive, Climber climber, Arm arm, IngesterPositioner ingester, Shooter shooter, Indexer indexer) {
+  public AutonomousSetup(DriveTrain drive, Climber climber, Arm arm, IngesterPositioner ingester, Shooter shooter,
+      Indexer indexer) {
     // Use addRequirements() here to declare subsystem dependencies.
 
     this.drive = drive;
@@ -55,45 +57,26 @@ public class AutonomousCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.setShooterSpeed(0.8);
-    System.out.println(indexer.getShooterRPM());
-    // shooter.setShooterSpeed(.3);
-    if (!timer.hasElapsed(1.25)) {
-      //arm.changeArmAngle(-.4);
-      drive.drive(.6, 0);
+
+    if (!timer.hasElapsed(6)) {
+      drive.drive(.65, 0);
     } else {
-      //arm.changeArmAngle(0);
       drive.drive(0, 0);
     }
-    //if (!timer.hasElapsed(3))
-      //ingester.changeIngestAngle(-.5);
-    //else
-      //ingester.changeIngestAngle(0);
-    
-    // if (timer.hasElapsed(3) && !timer.hasElapsed(10))
-    //   shooter.setShooterSpeed(SHOOTER_SPEED);
-    // else 
-    //   shooter.setShooterSpeed(0);
-    // if (timer.hasElapsed(8) && !timer.hasElapsed(10))
-    //   indexer.setIndexSpeed(INDEX_SPEED);
-    // else 
-    //   indexer.setIndexSpeed(0);
 
-    /* switch (state) {
-      case SlideHookToTop:
-        climber.slideHook(SLIDE_HOOK_SPEED);
-      
-        if (climber.topLimitPressed())
-          state = STATES.Halt;
-        break;
-      default:
-        climber.slideHook(0);
-    } */
+    // if (!timer.hasElapsed(3)) {
+    //   ingester.changeIngestAngle(-.5);
+    // } else {
+    //   ingester.changeIngestAngle(0);
+    // }
+
+    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    timer.reset();
   }
 
   // Returns true when the command should end.

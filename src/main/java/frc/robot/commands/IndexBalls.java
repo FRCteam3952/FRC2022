@@ -9,7 +9,7 @@ public class IndexBalls extends CommandBase {
   private final Indexer index;
   private final Shooter shoot;
   public double speed = .25;
-  public final double FLYWHEEL_SPEED = -0.3;
+  public final double FLYWHEEL_SPEED = -0.2;
 
   public IndexBalls(Indexer indexer, Shooter shooter) {
     index = indexer;
