@@ -13,7 +13,7 @@ import frc.robot.subsystems.Indexer;
 public class ShootBalls extends CommandBase {
   private final Shooter shooter;
   private final Indexer index;
-  private double power = 1;
+  private double power = 0.8;
   /**
    * Creates a new ExampleCommand.
    *

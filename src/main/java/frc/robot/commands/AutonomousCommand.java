@@ -56,7 +56,7 @@ public class AutonomousCommand extends CommandBase {
   @Override
   public void execute() {
     shooter.setShooterSpeed(0.8);
-    System.out.println(indexer.getShooterRevPerSec());
+    System.out.println(indexer.getShooterRPM());
     // shooter.setShooterSpeed(.3);
     if (!timer.hasElapsed(1.25)) {
       //arm.changeArmAngle(-.4);

@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.counter.Tachometer;
 import frc.robot.Constants;
 
 
@@ -43,7 +42,7 @@ public class Indexer extends SubsystemBase {
     return ballShooterLim.get();
   }
 
-  public double getShooterRevPerSec() {
+  public double getShooterRPM() {
     double period = tacheo.getPeriod();
     if (period == 0) {
       return 0;
