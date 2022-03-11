@@ -14,7 +14,9 @@ public class FlywheelShooterCopy extends CommandBase {
     private final double INDEX_SPEED = .5;
     private final double SHOOTER_SPEED = .5;
     private final double PULL_TIME = 0.125;
-    private final double SHOOTER_RPM = 3000;
+    private final double LOW_RPM = 1500;
+    private final double HIGH_RPM = 9000; //adjust for high hoop later
+    private double ShooterRPM = LOW_RPM;
     private double curTime = 0;
     private boolean hasShot = false;
 
@@ -36,12 +38,18 @@ public class FlywheelShooterCopy extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        if (RobotContainer.driverStick.button8Pressed()) {
+            if (ShooterRPM == LOW_RPM)
+                ShooterRPM = HIGH_RPM;
+            else
+                ShooterRPM = LOW_RPM;
+        }
         if (timer.get() <= PULL_TIME) {
             index.setIndexSpeed(INDEX_SPEED);
-        } else if (index.getShooterRPM() < SHOOTER_RPM && !hasShot) {
+        } else if (index.getShooterRPM() < ShooterRPM && !hasShot) {
             index.setIndexSpeed(0);
             shooter.setShooterSpeed(SHOOTER_SPEED);
-        } else if (index.getShooterRPM() > SHOOTER_RPM && !hasShot) {
+        } else if (index.getShooterRPM() > ShooterRPM && !hasShot) {
             index.setIndexSpeed(-INDEX_SPEED);
             hasShot = true;
             curTime = timer.get();
