@@ -1,106 +1,104 @@
 package frc.robot.commands;
 
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Indexer;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.IngesterPositioner;
 
-
-
 public class AutonomousCommand extends CommandBase {
-    /**
-     * Creates a new AutonomousCommand.
-     */
-    private final DriveTrain drive;
+  /**
+   * Creates a new AutonomousCommand.
+   */
+  private final DriveTrain drive;
+  private final Climber climber;
+  private final Arm arm;
+  private final IngesterPositioner ingester;
+  private final Shooter shooter;
+  private final Indexer indexer;
+  private final Timer timer = new Timer();
+  private STATES state = STATES.SlideHookToTop;
 
-    //private final Shooter shooter = new Shooter();
-    private final ShootBalls shootBalls;
-    private final IngesterPositioner ingest = new IngesterPositioner();
-    private final UnlockIngester unlockIngester= new UnlockIngester(ingest);
-    private final ShooterAimer shooterAimer;
-  
-    
-    //private final
+  private final double SHOOTER_SPEED = 0.2;
+  private final double INDEX_SPEED = -0.3;
+  private final double SLIDE_HOOK_SPEED = .4;
 
-    public static double distanceToShoot = 153; // DEFINE LATER WHEN YOU KNOW HOW FAR TODO
-    public static double limelightAngleDeg = 35;
-    public static double limelightHeightInch = 29;
-    public static double goalHeightInch = 104;
-
-    
-
-    public AutonomousCommand(DriveTrain subsystem, ShootBalls shootballs) {
-      // Use addRequirements() here to declare subsystem dependencies.
-     
-      drive = subsystem;
-      shootBalls= shootballs;
-      shooterAimer = new ShooterAimer(drive);
-      addRequirements(drive);
-      }
-  
-    // Called when the command is initially scheduled.
-    @Override
-    public void initialize() {
-      unlockIngester.schedule();
-    }
-  
-    // Called every time the scheduler runs while the command is scheduled.
-    @Override
-    public void execute() {
-       NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-       NetworkTableEntry tx = table.getEntry("tx");
-       // NetworkTableEntry ty = table.getEntry("ty");
-       // NetworkTableEntry ta = table.getEntry("ta");
-       table.getEntry("ledMode").setNumber(3);
-       table.getEntry("camMode").setNumber(0);
-       table.getEntry("pipeline").setNumber(0);
-
-
-       //read values periodically
-       double x = tx.getDouble(0.0);
-       // double y = ty.getDouble(0.0);
-       // double area = ta.getDouble(0.0);
-       System.out.println("running");
-
-       double adjustOutput = 1/10;
-
-       drive.drive(0, Math.cbrt(x) * adjustOutput);
-
-
-
-      /*
-       frontLeftWheel.set(x/100.0);
-       frontRightWheel.set(x/100.0);
-       */
-
-       if(isFarEnoughToShoot() == distanceToShoot) {
-          shooterAimer.schedule();
-          shootBalls.schedule();
-       }
-    }
-    public double isFarEnoughToShoot() {
-      NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-      double targetOffsetAngleVert = table.getEntry("ty").getDouble(0.0);
-      double angletoGoalDeg = limelightAngleDeg + targetOffsetAngleVert;
-      double angletoGoalRad = angletoGoalDeg * (Math.PI / 180);
-      return (goalHeightInch - limelightHeightInch)/Math.tan(angletoGoalRad);
-    }
-  
-    // Called once the command ends or is interrupted.
-    @Override
-    public void end(boolean interrupted) {
-      /*
-      frontLeftWheel.stopMotor();
-      frontRightWheel.stopMotor();
-      */
-    }
-  
-    // Returns true when the command should end.
-    @Override
-    public boolean isFinished() {
-      return false;
-    }
+  public enum STATES {
+    SlideHookToTop,
+    Halt
   }
+
+  public AutonomousCommand(DriveTrain drive, Climber climber, Arm arm, IngesterPositioner ingester, Shooter shooter, Indexer indexer) {
+    // Use addRequirements() here to declare subsystem dependencies.
+
+    this.drive = drive;
+    this.climber = climber;
+    this.arm = arm;
+    this.ingester = ingester;
+    this.shooter = shooter;
+    this.indexer = indexer;
+    addRequirements(drive, climber, arm, ingester, shooter, indexer);
+  }
+
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+    timer.start();
+  }
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    shooter.setShooterSpeed(0.8);
+    System.out.println(indexer.getShooterRevPerSec());
+    // shooter.setShooterSpeed(.3);
+    if (!timer.hasElapsed(1.25)) {
+      //arm.changeArmAngle(-.4);
+      drive.drive(.6, 0);
+    } else {
+      //arm.changeArmAngle(0);
+      drive.drive(0, 0);
+    }
+    //if (!timer.hasElapsed(3))
+      //ingester.changeIngestAngle(-.5);
+    //else
+      //ingester.changeIngestAngle(0);
+    
+    // if (timer.hasElapsed(3) && !timer.hasElapsed(10))
+    //   shooter.setShooterSpeed(SHOOTER_SPEED);
+    // else 
+    //   shooter.setShooterSpeed(0);
+    // if (timer.hasElapsed(8) && !timer.hasElapsed(10))
+    //   indexer.setIndexSpeed(INDEX_SPEED);
+    // else 
+    //   indexer.setIndexSpeed(0);
+
+    /* switch (state) {
+      case SlideHookToTop:
+        climber.slideHook(SLIDE_HOOK_SPEED);
+      
+        if (climber.topLimitPressed())
+          state = STATES.Halt;
+        break;
+      default:
+        climber.slideHook(0);
+    } */
+  }
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
+  }
+
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return false;
+  }
+}

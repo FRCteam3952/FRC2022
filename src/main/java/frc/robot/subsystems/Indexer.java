@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.counter.Tachometer;
 import frc.robot.Constants;
@@ -17,7 +18,7 @@ public class Indexer extends SubsystemBase {
   private final Talon indexWheels;
   private final DigitalInput bottomShooterLim;
   private final DigitalInput ballShooterLim;
-  private final Tachometer tacheo; 
+  private final Counter tacheo; 
 
 
   /** Creates a new ExampleSubsystem. */
@@ -25,8 +26,7 @@ public class Indexer extends SubsystemBase {
     indexWheels = new Talon(Constants.indexerWheelsPort);
     bottomShooterLim = new DigitalInput(Constants.shooterBottomLimitPort);
     ballShooterLim = new DigitalInput(Constants.shooterShootingLimitPort);
-    tacheo = new Tachometer(new DigitalInput(Constants.shooterTachometerPort));
-    tacheo.setEdgesPerRevolution(1);
+    tacheo = new Counter(new DigitalInput(Constants.shooterTachometerPort));
     
   }
 
@@ -44,13 +44,17 @@ public class Indexer extends SubsystemBase {
   }
 
   public double getShooterRevPerSec() {
-    //System.out.println(tacheo.getRevolutionsPerSecond());
-    System.out.println(tacheo.getPeriod());
-    System.out.println(tacheo.getEdgesPerRevolution());
-    System.out.println(tacheo.getFrequency());
-    return tacheo.getRevolutionsPerSecond();
-   
+    double period = tacheo.getPeriod();
+    if (period == 0) {
+      return 0;
+    }
+    int edgesPerRevolution = 1;
+    if (edgesPerRevolution == 0) {
+      return 0;
+    }
+    return ((1.0 / edgesPerRevolution) / period) * 60;
   }
+
   @Override
  public void periodic() {
     // This method will be called once per scheduler run
