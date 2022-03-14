@@ -104,9 +104,10 @@ public class AutoClimb extends CommandBase {
 
       case TRAVERSE:
         hooks.slideHook(-HOOK_POWER);
-        if (timer.hasElapsed(2))
+        if (timer.hasElapsed(2)) {
           hooks.slideHook(0);
           cancel();
+        }
         break;
 
       default:
