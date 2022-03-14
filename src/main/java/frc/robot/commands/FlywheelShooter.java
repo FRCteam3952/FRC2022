@@ -35,7 +35,7 @@ public class FlywheelShooter extends CommandBase {
     }
 
     public void calculateSpeed() {
-        double slider = 1 - (RobotContainer.driverStick.joystick.getXRotate() + 1) / 2;
+        double slider = 1 - (RobotContainer.shooterStick.joystick.getThrottle() + 1) / 2;
         System.out.println(slider);
         ShooterRPM = LOW_RPM + (slider * (HIGH_RPM - LOW_RPM));
         ShooterPower = LOW_POWER + (slider * (HIGH_POWER - LOW_POWER));
@@ -50,7 +50,7 @@ public class FlywheelShooter extends CommandBase {
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
-    public void execute() {
+    public void execute(){ 
         System.out.println("sadsad");
         calculateSpeed();
         if (!timer.hasElapsed(1)) {

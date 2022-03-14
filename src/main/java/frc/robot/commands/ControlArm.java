@@ -7,14 +7,14 @@ package frc.robot.commands;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ClimberArm;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Indexer;
 
 
 public class ControlArm extends CommandBase {
-  private final ClimberArm arm;
+  private final Arm arm;
 
-  public ControlArm(ClimberArm subsystem) {
+  public ControlArm(Arm subsystem) {
     arm = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);

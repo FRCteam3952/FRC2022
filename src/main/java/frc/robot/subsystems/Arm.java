@@ -15,10 +15,10 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 
 
 
-public class ClimberArm extends SubsystemBase {
+public class Arm extends SubsystemBase {
   private final VictorSPX armAngle;
   /** Creates a new ExampleSubsystem. */
-  public ClimberArm() {
+  public Arm() {
     armAngle = new VictorSPX(Constants.armAnglePort);
   }
 

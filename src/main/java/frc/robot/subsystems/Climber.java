@@ -15,7 +15,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 
 
 
-public class ClimberHooks extends SubsystemBase {
+public class Climber extends SubsystemBase {
   // feeding system
 
   private final VictorSPX hook;
@@ -24,7 +24,7 @@ public class ClimberHooks extends SubsystemBase {
   private final DigitalInput topOrBottomLimitSwitch;
 
   /** Creates a new ExampleSubsystem. */
-  public ClimberHooks() {
+  public Climber() {
     hook = new VictorSPX(Constants.hookPort);
     topLimitSwitch = new DigitalInput(Constants.topLimitSwitchClimberPort); 
     bottomLimitSwitch = new DigitalInput(Constants.bottomLimitSwitchClimberPort);

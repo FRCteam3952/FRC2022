@@ -4,8 +4,8 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.ClimberHooks;
-import frc.robot.subsystems.ClimberArm;
+import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Arm;
 import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -21,8 +21,8 @@ public class AutoClimb extends CommandBase {
     TRAVERSE,
   }
 
-  private final ClimberHooks hooks;
-  private final ClimberArm arm;
+  private final Climber hooks;
+  private final Arm arm;
   /**
    * Creates a new ExampleCommand.
    *
@@ -33,7 +33,7 @@ public class AutoClimb extends CommandBase {
   private ClimbingStates state = ClimbingStates.LIFTING;
   private Timer timer = new Timer();
 
-  public AutoClimb(ClimberHooks hooks, ClimberArm arm) {
+  public AutoClimb(Climber hooks, Arm arm) {
     this.hooks = hooks;
     this.arm = arm;
     addRequirements(hooks, arm);
