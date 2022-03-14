@@ -40,7 +40,7 @@ public class FlywheelShooterCopy extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        if (RobotContainer.driverStick.button8Pressed()) {
+        if (RobotContainer.shooterStick.button8Pressed()) {
             if (ShooterRPM == LOW_RPM) {
                 ShooterRPM = HIGH_RPM;
                 ShooterPower = HIGH_POWER;

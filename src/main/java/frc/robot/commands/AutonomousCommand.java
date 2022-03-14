@@ -1,7 +1,7 @@
 package frc.robot.commands;
 
-import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.ClimberArm;
+import frc.robot.subsystems.ClimberHooks;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Indexer;
 import edu.wpi.first.networktables.NetworkTable;
@@ -17,8 +17,8 @@ public class AutonomousCommand extends CommandBase {
    * Creates a new AutonomousCommand.
    */
   private final DriveTrain drive;
-  private final Climber climber;
-  private final Arm arm;
+  private final ClimberHooks climber;
+  private final ClimberArm arm;
   private final IngesterPositioner ingester;
   private final Shooter shooter;
   private final Indexer indexer;
@@ -34,7 +34,7 @@ public class AutonomousCommand extends CommandBase {
     Halt
   }
 
-  public AutonomousCommand(DriveTrain drive, Climber climber, Arm arm, IngesterPositioner ingester, Shooter shooter, Indexer indexer) {
+  public AutonomousCommand(DriveTrain drive, ClimberHooks climber, ClimberArm arm, IngesterPositioner ingester, Shooter shooter, Indexer indexer) {
     // Use addRequirements() here to declare subsystem dependencies.
 
     this.drive = drive;

@@ -7,14 +7,14 @@ package frc.robot.commands;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.ClimberArm;
 import frc.robot.subsystems.Indexer;
 
 
 public class ControlArm extends CommandBase {
-  private final Arm arm;
+  private final ClimberArm arm;
 
-  public ControlArm(Arm subsystem) {
+  public ControlArm(ClimberArm subsystem) {
     arm = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
@@ -28,7 +28,7 @@ public class ControlArm extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double armSpeed = RobotContainer.climberStick.getXValue();
+    double armSpeed = RobotContainer.climberDriverController.getXValue();
     arm.changeArmAngle((armSpeed));
   }
 

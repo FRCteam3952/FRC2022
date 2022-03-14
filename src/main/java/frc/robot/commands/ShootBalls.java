@@ -35,7 +35,7 @@ public class ShootBalls extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (RobotContainer.driverStick.button5Pressed())
+    if (RobotContainer.shooterStick.button5Pressed())
       shooter.setShooterSpeed(power);
     else
       shooter.setShooterSpeed(0);

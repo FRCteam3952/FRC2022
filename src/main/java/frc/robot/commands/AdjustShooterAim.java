@@ -33,11 +33,11 @@ public class AdjustShooterAim extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(RobotContainer.driverStick.getJoystickPOV() == 90) {
+    if(RobotContainer.shooterStick.getJoystickPOV() == 90) {
         drive_train.drive(0, 0.5);
         System.out.println("ok it's aimed to the right");
     } 
-    else if(RobotContainer.driverStick.getJoystickPOV() == 270) {
+    else if(RobotContainer.shooterStick.getJoystickPOV() == 270) {
         drive_train.drive(0, -0.5);
         System.out.println("now it's to the left");
     } 
