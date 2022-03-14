@@ -19,7 +19,6 @@ import frc.robot.commands.AutonomousSetup;
 import frc.robot.commands.ControlArm;
 import frc.robot.commands.FlywheelShooter;
 import frc.robot.commands.ControlHooks;
-import frc.robot.commands.ManualDrive;
 import frc.robot.commands.SetShooterDistance;
 import frc.robot.commands.ShooterAimer;
 import frc.robot.commands.UnlockIngester;
@@ -29,8 +28,8 @@ import frc.robot.commands.ShootBalls;
 import frc.robot.commands.AdjustShooter;
 
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.ClimberArm;
+import frc.robot.subsystems.ClimberHooks;
 import frc.robot.subsystems.Ingester;
 import frc.robot.subsystems.IngesterPositioner;
 import frc.robot.subsystems.Indexer;
@@ -42,7 +41,6 @@ import edu.wpi.first.wpilibj.Joystick;
 public class RobotContainer {
   public static boolean inTeleop = true;
   public final static DriveTrain driveTrain = new DriveTrain();
-  public final static ManualDrive manualDrive = new ManualDrive(driveTrain);
 
   public final static Ingester ingester = new Ingester();
   public final static IngesterPositioner ingestPos = new IngesterPositioner();
@@ -57,10 +55,10 @@ public class RobotContainer {
   public static Tango2Controller climberDriverController = new Tango2Controller(new Tango2Joystick(0));
   public static FlightJoystickController shooterStick = new FlightJoystickController(new Joystick(1));
 
-  public final static Climber climber = new Climber();
-  public final static Arm arm = new Arm();
+  public final static ClimberHooks climber = new ClimberHooks();
+  public final static ClimberArm arm = new ClimberArm();
   public final static ControlArm controlArm = new ControlArm(arm);
-  public final static ControlHooks manualClimb = new ControlHooks(climber);
+  public final static ControlHooks controlHooks = new ControlHooks(climber);
   // public final static AutoClimb autoClimb = new AutoClimb(climber);
 
   // declare new shooter airmer to be ran, for driveTrain
@@ -68,9 +66,7 @@ public class RobotContainer {
   public final static IndexBalls index = new IndexBalls(indexer, shooter);
   public final static IngestBalls ingest = new IngestBalls(ingester, indexer);
   public final static FlywheelShooter flywheelShooter = new FlywheelShooter(indexer, shooter, index);
-  public final static AutonomousSetup autonomousCommand = new AutonomousSetup(driveTrain, climber, arm, ingestPos,
-      shooter,
-      indexer);
+  public final static AutonomousSetup autonomousCommand = new AutonomousSetup(driveTrain, climber, arm, ingestPos, shooter, indexer);
   //
   // public final static SequentialCommandGroup a = new
   // SequentialCommandGroup(flywheelShooter, autonomousCommand);
@@ -112,12 +108,12 @@ public class RobotContainer {
     shooterButton.whenHeld(adjustShooter);
 
     Trigger hookTrigger = new Trigger(() -> climberDriverController.getSlider() > .5);
-    hookTrigger.whileActiveContinuous(manualClimb);
-    hookTrigger.whenActive(() -> manualDrive.cancel());
+    hookTrigger.whileActiveContinuous(controlHooks);
+    hookTrigger.whenActive(() -> controlHooks.cancel());
 
     Trigger driveTrigger = new Trigger(() -> climberDriverController.getSlider() <= .5);
-    driveTrigger.whileActiveContinuous(manualDrive);
-    driveTrigger.whenActive(() -> manualClimb.cancel());
+    driveTrigger.whileActiveContinuous(controlHooks);
+    driveTrigger.whenActive(() -> controlHooks.cancel());
 
     JoystickButton flywheelButton = new JoystickButton(shooterStick.joystick, 5);
     flywheelButton.whenPressed(flywheelShooter);

@@ -5,19 +5,19 @@
 package frc.robot.commands;
 
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.ClimberHooks;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
 public class ControlHooks extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final Climber climber;
+  private final ClimberHooks climber;
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ControlHooks(Climber subsystem) {
+  public ControlHooks(ClimberHooks subsystem) {
     climber = subsystem;
     addRequirements(subsystem);
     // Use addRequirements() here to declare subsystem dependencies.
