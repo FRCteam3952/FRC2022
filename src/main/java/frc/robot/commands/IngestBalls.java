@@ -14,6 +14,7 @@ public class IngestBalls extends CommandBase {
   private final Indexer index;
   private final double INGEST_SPEED = 0.6;
   private final double INDEX_SPEED = 0.4;
+  public boolean isTopHit = false;
   
   /**
    * Creates a new ExampleCommand.
@@ -38,7 +39,18 @@ public class IngestBalls extends CommandBase {
   @Override
   public void execute() {
     ingest.setIngestRollerSpeed(-INGEST_SPEED);
-    index.setIndexSpeed(-INDEX_SPEED);
+    // index.setIndexSpeed(INDEX_SPEED * (index.ballShooterPressed() ? 1: -1));
+    // index.setIndexSpeed(-INDEX_SPEED);
+    if (index.ballShooterPressed()) {
+      isTopHit = true;
+    }
+    if (!isTopHit && !index.ballShooterPressed()) {
+      index.setIndexSpeed(-INDEX_SPEED);
+    } else if (isTopHit && !index.bottomShooterPressed()) {
+      index.setIndexSpeed(INDEX_SPEED);
+    } else {
+
+    }
   }
 
   // Called once the command ends or is interrupted.

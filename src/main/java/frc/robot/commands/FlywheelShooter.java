@@ -12,12 +12,18 @@ public class FlywheelShooter extends CommandBase {
     private final Timer timer = new Timer();
     private final Shooter shooter;
     private final IndexBalls indexBalls;
-    private final double INDEX_SPEED = .5;
-    private final double SECOND_INDEX_MULTIPLIER = .75;
-    private final double SHOOTER_SPEED = .5;
-    private final double PULL_TIME = 0.125;
-    private final double SHOOTER_RPM = 1500;
-    private double curTime = 0;
+    private final double INDEX_SPEED = .25;
+    private final double SECOND_INDEX_MULTIPLIER = 1.5;
+    private final double PULL_TIME = 0.3;
+    private final double HIGH_RPM = 9000;
+    private final double LOW_RPM = 2000;
+    private final double HIGH_POWER = .75;
+    private final double LOW_POWER = 0.5;
+    private double ShooterRPM = LOW_RPM;
+    private double ShooterPower = LOW_POWER;
+    private double delta = 1000;
+    private double currentTime = 0;
+    private boolean done = false;
     private boolean hasShot = false;
 
     public FlywheelShooter(Indexer indexer, Shooter shooter, IndexBalls indexBalls) {
@@ -26,6 +32,13 @@ public class FlywheelShooter extends CommandBase {
         this.indexBalls = indexBalls;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(index, shooter);
+    }
+
+    public void calculateSpeed() {
+        double slider = 1 - (RobotContainer.driverStick.joystick.getXRotate() + 1) / 2;
+        System.out.println(slider);
+        ShooterRPM = LOW_RPM + (slider * (HIGH_RPM - LOW_RPM));
+        ShooterPower = LOW_POWER + (slider * (HIGH_POWER - LOW_POWER));
     }
 
     // Called when the command is initially scheduled.
@@ -38,27 +51,29 @@ public class FlywheelShooter extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        if (timer.get() <= PULL_TIME) {
-            index.setIndexSpeed(INDEX_SPEED);
-        } else if (index.getShooterRPM() < SHOOTER_RPM && !hasShot) {
+        System.out.println("sadsad");
+        calculateSpeed();
+        if (!timer.hasElapsed(1)) {
             index.setIndexSpeed(0);
-            shooter.setShooterSpeed(SHOOTER_SPEED);
-        } else if (index.getShooterRPM() > SHOOTER_RPM && !hasShot) {
-            index.setIndexSpeed(-SECOND_INDEX_MULTIPLIER * INDEX_SPEED);
-            hasShot = true;
-            curTime = timer.get();
-        } else if (timer.get() > (curTime + 1)) {
+            shooter.setShooterSpeed(-0.75);
+        }
+        else if (!timer.hasElapsed(1 + PULL_TIME)) {
+            index.setIndexSpeed(INDEX_SPEED); //pull in balls
+        } else if (index.getShooterRPM() < ShooterRPM && !hasShot) {
+            index.setIndexSpeed(0);
+            shooter.setShooterSpeed(ShooterPower); //rev up shooter
+        } else if (index.getShooterRPM() > ShooterRPM && index.getShooterRPM() < ShooterRPM + delta && !hasShot) {
+            index.setIndexSpeed(-SECOND_INDEX_MULTIPLIER * INDEX_SPEED); 
+            hasShot = true; //index balls into shooter
+            currentTime = timer.get();
+        } else if (timer.get() > (currentTime + 2.69)) {
             index.setIndexSpeed(0);
             shooter.setShooterSpeed(0);
-            hasShot = false;
+            timer.stop();
             if (RobotContainer.inTeleop) {
                 indexBalls.schedule();
-            } else {
-                // driver command here
             }
-            timer.stop();
             cancel();
- 
         }
     }
 
@@ -68,12 +83,11 @@ public class FlywheelShooter extends CommandBase {
         shooter.setShooterSpeed(0);
         timer.reset();
         hasShot = false;
-        curTime = 0;
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return false;
+        return done;
     }
 }

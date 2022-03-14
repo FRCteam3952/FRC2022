@@ -13,6 +13,7 @@ public class LockIngester extends CommandBase {
   private final IngesterPositioner ingest;
   public long timeDifference = 0; //milliseconds
   public long timeUntilStop = 1000; //milliseconds CHANGE THIS LATER
+  public boolean done = false;
   /**
    * Creates a new ExampleCommand.
    *
@@ -35,7 +36,7 @@ public class LockIngester extends CommandBase {
     ingest.changeIngestAngle(-0.3);
     timeDifference += 20;
     if (timeDifference >= timeUntilStop)
-      cancel();
+      done = true;
   }
   
   // Called once the command ends or is interrupted.
@@ -47,6 +48,6 @@ public class LockIngester extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return done;
   }
 }

@@ -40,35 +40,39 @@ import frc.robot.controllers.*;
 
 public class RobotContainer {
   public static boolean inTeleop = true;
-  private final static DriveTrain driveTrain = new DriveTrain();
-  private final static ManualDrive manualDrive = new ManualDrive(driveTrain);
+  public final static DriveTrain driveTrain = new DriveTrain();
+  public final static ManualDrive manualDrive = new ManualDrive(driveTrain);
 
-  private final static Ingester ingester = new Ingester();
-  private final static IngesterPositioner ingestPos = new IngesterPositioner();
-  private final static UnlockIngester unlockIngester = new UnlockIngester(ingestPos);
+  public final static Ingester ingester = new Ingester();
+  public final static IngesterPositioner ingestPos = new IngesterPositioner();
+  public final static UnlockIngester unlockIngester = new UnlockIngester(ingestPos);
 
-  private final static Shooter shooter = new Shooter();
+  public final static Shooter shooter = new Shooter();
 
-  private final static Indexer indexer = new Indexer();
+  public final static Indexer indexer = new Indexer();
 
-  private final static ShootBalls shootBalls = new ShootBalls(shooter, indexer);
+  public final static ShootBalls shootBalls = new ShootBalls(shooter, indexer);
 
   public static RemoteController climberStick = new RemoteController(new JoystickPlus(0));
   public static FlightJoystickController driverStick = new FlightJoystickController(new JoystickPlus(1));
 
-  private final static Climber climber = new Climber();
-  private final static Arm arm = new Arm();
-  private final static ControlArm controlArm = new ControlArm(arm);
-  private final static ManualClimb manualClimb = new ManualClimb(climber);
-  // private final static AutoClimb autoClimb = new AutoClimb(climber);
+  public final static Climber climber = new Climber();
+  public final static Arm arm = new Arm();
+  public final static ControlArm controlArm = new ControlArm(arm);
+  public final static ManualClimb manualClimb = new ManualClimb(climber);
+  // public final static AutoClimb autoClimb = new AutoClimb(climber);
 
   // declare new shooter airmer to be ran, for driveTrain
-  private final static AdjustShooter adjustShooter = new AdjustShooter(driveTrain);
-  private final static IndexBalls index = new IndexBalls(indexer, shooter);
-  private final static IngestBalls ingest = new IngestBalls(ingester, indexer);
-  private final static FlywheelShooter flywheelShooter = new FlywheelShooter(indexer, shooter, index);
-  private final static AutonomousSetup autonomousCommand = new AutonomousSetup(driveTrain, climber, arm, ingestPos, shooter,
-  indexer);
+  public final static AdjustShooter adjustShooter = new AdjustShooter(driveTrain);
+  public final static IndexBalls index = new IndexBalls(indexer, shooter);
+  public final static IngestBalls ingest = new IngestBalls(ingester, indexer);
+  public final static FlywheelShooter flywheelShooter = new FlywheelShooter(indexer, shooter, index);
+  public final static AutonomousSetup autonomousCommand = new AutonomousSetup(driveTrain, climber, arm, ingestPos,
+      shooter,
+      indexer);
+  //
+  // public final static SequentialCommandGroup a = new
+  // SequentialCommandGroup(flywheelShooter, autonomousCommand);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -87,7 +91,7 @@ public class RobotContainer {
    * it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {
+  public void configureButtonBindings() {
     /*
      * coDriverStick.btn_1.whileHeld(shootBall);
      * coDriverStick.btn_12.whenPressed(turretPresets);
@@ -141,14 +145,57 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
+
+   /*
+    inTeleop = false;
+    Timer t = new Timer();
+    t.start();
+    indexer.setIndexSpeed(.3);
+    ingester.setIngestRollerSpeed(.5);
+
+    // autonomousCommand.schedule();
+    // while (!timer.hasElapsed(2)) {}
+    // shooter.setShooterSpeed(.36); // do change lol .3 old
+    while (t.get() <3) {
+      // ingestPos.changeIngestAngle(-0.5);
+      driveTrain.drive(.6 * (t.get() / 2.5), 0);
+
+    }
+    driveTrain.drive(0, 0);
+    indexer.setIndexSpeed(0);
+    ingester.setIngestRollerSpeed(0);
+    // ingestPos.changeIngestAngle(0);
+*/
   public void autonomousInit() {
     inTeleop = false;
-    autonomousCommand.schedule();
+    Timer t = new Timer();
+    t.start();
+    indexer.setIndexSpeed(0);
+
+    // autonomousCommand.schedule();
     // while (!timer.hasElapsed(2)) {}
-    // flywheelShooter.schedule();
+    shooter.setShooterSpeed(.56); // do change lol .3 old
+    while (t.get() < 3) {
+    }
+    indexer.setIndexSpeed(-.3);
+    while (t.get() < 4) {
+    }
+    shooter.setShooterSpeed(0);
+    indexer.setIndexSpeed(0);
+    while (t.get() < 7.5) {
+      if (t.get() < 6) {
+        driveTrain.drive(.4 * (t.get() / 3.5), 0);
+
+      } else {
+        driveTrain.drive(0, 0);
+
+      }
+    }
+
   }
 
   public void teleopInit() {
+    inTeleop = true;
     configureButtonBindings();
     arm.setDefaultCommand(controlArm);
     // ingester.setDefaultCommand(ingest);

@@ -62,6 +62,7 @@ public class Climber extends SubsystemBase {
 
 //return speed of motor for hook motor
   public double getHookSpeed() {
+    System.out.println(hook.getMotorOutputPercent());
     return hook.getMotorOutputPercent();
   }
 

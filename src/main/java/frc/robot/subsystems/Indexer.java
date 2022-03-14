@@ -44,14 +44,11 @@ public class Indexer extends SubsystemBase {
 
   public double getShooterRPM() {
     double period = tacheo.getPeriod();
-    if (period == 0) {
-      return 0;
-    }
-    int edgesPerRevolution = 1;
-    if (edgesPerRevolution == 0) {
-      return 0;
-    }
-    return ((1.0 / edgesPerRevolution) / period) * 60;
+    return (1 / period) * 60;
+  }
+
+  public void resetT() {
+    tacheo.reset();
   }
 
   @Override

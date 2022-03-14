@@ -8,7 +8,7 @@ import frc.robot.RobotContainer;
 public class IndexBalls extends CommandBase {
   private final Indexer index;
   private final Shooter shoot;
-  public double speed = .25;
+  public double speed = .28;
   public final double FLYWHEEL_SPEED = -0.2;
 
   public IndexBalls(Indexer indexer, Shooter shooter) {
@@ -28,8 +28,8 @@ public class IndexBalls extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    index.setIndexSpeed(-speed);
-    shoot.setShooterSpeed(FLYWHEEL_SPEED);
+    // index.setIndexSpeed(-speed);
+    shoot.setShooterSpeed(FLYWHEEL_SPEED - (index.ballShooterPressed() ? 0 : 0));
   }
 
   // Called once the command ends or is interrupted.

@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.IngesterPositioner;
+import frc.robot.subsystems.Indexer;
 
 public class AutonomousSetup extends CommandBase {
   /**
@@ -57,12 +58,12 @@ public class AutonomousSetup extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    if (!timer.hasElapsed(6)) {
-      drive.drive(.65, 0);
+    if (!timer.hasElapsed(3)) {
+      drive.drive(.8 * (timer.get()/ 5), 0);
     } else {
       drive.drive(0, 0);
     }
+
 
     // if (!timer.hasElapsed(3)) {
     //   ingester.changeIngestAngle(-.5);
