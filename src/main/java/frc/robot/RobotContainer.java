@@ -18,7 +18,7 @@ import frc.robot.commands.AutonomousGroup;
 import frc.robot.commands.AutonomousSetup;
 import frc.robot.commands.ControlArm;
 import frc.robot.commands.FlywheelShooter;
-import frc.robot.commands.ManualClimb;
+import frc.robot.commands.ControlHooks;
 import frc.robot.commands.ManualDrive;
 import frc.robot.commands.SetShooterDistance;
 import frc.robot.commands.ShooterAimer;
@@ -37,6 +37,7 @@ import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Shooter;
 
 import frc.robot.controllers.*;
+import edu.wpi.first.wpilibj.Joystick;
 
 public class RobotContainer {
   public static boolean inTeleop = true;
@@ -53,13 +54,13 @@ public class RobotContainer {
 
   public final static ShootBalls shootBalls = new ShootBalls(shooter, indexer);
 
-  public static RemoteController climberStick = new RemoteController(new JoystickPlus(0));
-  public static FlightJoystickController driverStick = new FlightJoystickController(new JoystickPlus(1));
+  public static Tango2Controller climberDriverController = new Tango2Controller(new Tango2Joystick(0));
+  public static FlightJoystickController shooterStick = new FlightJoystickController(new Joystick(1));
 
   public final static Climber climber = new Climber();
   public final static Arm arm = new Arm();
   public final static ControlArm controlArm = new ControlArm(arm);
-  public final static ManualClimb manualClimb = new ManualClimb(climber);
+  public final static ControlHooks manualClimb = new ControlHooks(climber);
   // public final static AutoClimb autoClimb = new AutoClimb(climber);
 
   // declare new shooter airmer to be ran, for driveTrain
@@ -107,21 +108,21 @@ public class RobotContainer {
     // when press button "1" on frc will run shooterAimer, follow shooterAimer for
     // more info
     // Joystick joystick = new Joystick(0);
-    JoystickButton shooterButton = new JoystickButton(driverStick.joystick, 1);
+    JoystickButton shooterButton = new JoystickButton(shooterStick.joystick, 1);
     shooterButton.whenHeld(adjustShooter);
 
-    Trigger hookTrigger = new Trigger(() -> climberStick.getSlider() > .5);
+    Trigger hookTrigger = new Trigger(() -> climberDriverController.getSlider() > .5);
     hookTrigger.whileActiveContinuous(manualClimb);
     hookTrigger.whenActive(() -> manualDrive.cancel());
 
-    Trigger driveTrigger = new Trigger(() -> climberStick.getSlider() <= .5);
+    Trigger driveTrigger = new Trigger(() -> climberDriverController.getSlider() <= .5);
     driveTrigger.whileActiveContinuous(manualDrive);
     driveTrigger.whenActive(() -> manualClimb.cancel());
 
-    JoystickButton flywheelButton = new JoystickButton(driverStick.joystick, 5);
+    JoystickButton flywheelButton = new JoystickButton(shooterStick.joystick, 5);
     flywheelButton.whenPressed(flywheelShooter);
 
-    JoystickButton ingestButton = new JoystickButton(driverStick.joystick, 7);
+    JoystickButton ingestButton = new JoystickButton(shooterStick.joystick, 7);
     ingestButton.whenPressed(ingest);
     ingestButton.whenReleased(index);
 
@@ -174,7 +175,7 @@ public class RobotContainer {
 
     // autonomousCommand.schedule();
     // while (!timer.hasElapsed(2)) {}
-    shooter.setShooterSpeed(.56); // do change lol .3 old
+    shooter.setShooterSpeed(.4); // do change lol .3 old
     while (t.get() < 3) {
     }
     indexer.setIndexSpeed(-.3);

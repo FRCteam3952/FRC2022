@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.Joystick;
 /**
  * This class contains additional methods to the Joysick class that access additional axis values
  */
-public class JoystickPlus extends Joystick {
+public class Tango2Joystick extends Joystick {
   public static final byte kDefaultXRotateChannel = 3;
   public static final byte kDefaultYRotateChannel = 4;
   public static final byte kDefaultZRotateChannel = 5;
@@ -62,7 +62,8 @@ public class JoystickPlus extends Joystick {
    *
    * @param port The port index on the Driver Station that the joystick is plugged into.
    */
-  public JoystickPlus(final int port) {
+  public Tango2Joystick
+(final int port) {
     super(port);
 
     m_axes[AxisType.kXRotate.value] = kDefaultXRotateChannel;

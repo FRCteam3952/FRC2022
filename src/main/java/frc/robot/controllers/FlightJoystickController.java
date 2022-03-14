@@ -1,5 +1,5 @@
 package frc.robot.controllers;
-
+import edu.wpi.first.wpilibj.Joystick;
 
 //normal controller the old boi
 
@@ -14,9 +14,9 @@ public class FlightJoystickController {
     public static final double maxT = 0.4;
     public static final double kT = (maxT - cT) / Math.log(2 - deadzoneT);
 
-    public JoystickPlus joystick;
+    public Joystick joystick;
 
-    public FlightJoystickController(JoystickPlus joystick) {
+    public FlightJoystickController(Joystick joystick) {
         this.joystick = joystick;
     }   
 
