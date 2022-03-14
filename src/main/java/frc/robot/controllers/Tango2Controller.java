@@ -3,11 +3,11 @@ package frc.robot.controllers;
 
 //tbs tango two controller
 
-public class RemoteController {
+public class Tango2Controller  {
 
-    public JoystickPlus joystick;
+    public Tango2Joystick joystick;
 
-    public RemoteController(JoystickPlus joystick) {
+    public Tango2Controller (Tango2Joystick joystick) {
         this.joystick = joystick;
     } 
 

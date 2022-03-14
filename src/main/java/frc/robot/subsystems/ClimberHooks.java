@@ -15,20 +15,20 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 
 
 
-public class Climber extends SubsystemBase {
+public class ClimberHooks extends SubsystemBase {
   // feeding system
 
   private final VictorSPX hook;
   private final DigitalInput topLimitSwitch;
   private final DigitalInput bottomLimitSwitch;
-  //private final DigitalInput topOrBottomLimitSwitch;
+  private final DigitalInput topOrBottomLimitSwitch;
 
   /** Creates a new ExampleSubsystem. */
-  public Climber() {
+  public ClimberHooks() {
     hook = new VictorSPX(Constants.hookPort);
     topLimitSwitch = new DigitalInput(Constants.topLimitSwitchClimberPort); 
     bottomLimitSwitch = new DigitalInput(Constants.bottomLimitSwitchClimberPort);
-    //topOrBottomLimitSwitch = new DigitalInput(3); //only used if third limit switch is used; not used if using manual control
+    topOrBottomLimitSwitch = new DigitalInput(Constants.topOrBottomLimitClimberPort); //only used if third limit switch is used; not used if using manual control
   }
 
   /* public void setMotorSpeed(double speed) {
@@ -76,9 +76,9 @@ public class Climber extends SubsystemBase {
     return bottomLimitSwitch.get();
   }
 
-  /*public boolean topOrBottomLimitPressed() {
+  public boolean topOrBottomLimitPressed() {
     return topOrBottomLimitSwitch.get();
-  }*/
+  }
 
   // logic to be continues TODO
 
