@@ -16,6 +16,8 @@ public class Shooter extends SubsystemBase {
     // private final MotorControllerGroup shooter;
     private final Talon shooterRollers;
 
+    private double autoShootRPM = 0;
+
 
   /** Creates a new ExampleSubsystem. */
   public Shooter() {
@@ -29,6 +31,10 @@ public class Shooter extends SubsystemBase {
   public void setShooterSpeed(double speed){
     // shooter.set(speed);
     shooterRollers.set(speed);
+  }
+
+  public void setAutoShootRPM(double rpm) {
+    autoShootRPM = rpm;
   }
 
  

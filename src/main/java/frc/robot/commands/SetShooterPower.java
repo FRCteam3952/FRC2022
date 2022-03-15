@@ -21,34 +21,37 @@ public class SetShooterPower extends CommandBase {
     /**
      * Creates a new AutonomousCommand.
      */
-    private final DriveTrain drive;
+    private final Shooter shoot;
     
     //private final
 
-    public static double shooterPower = 0.5; 
     public static double limelightAngleDeg = 35;
     public static double limelightHeightInch = 29;
     public static double goalHeightInch = 104;
-    public static double tanSpeed = 0;
     
-
+    public double launchSpeed = 0;
+    public double shooterRPM = 0;
+    
+    private final double HOOP_HEIGHT = 2.6416; //in meters
     private final double WHEEL_RADIUS = 0.006; //in meters
     private final double BALL_WEIGHT = 0.907185; //in kilograms
-    private final double g = 9.80665; // in meters per second
-    private final double angle = 75; //degrees, measure later
-    private final double t= 10; //place hold for time will remove
-    private final double fallingSpeed = -(0.5)*g*t*t; //probably won't use 
+    private final double GRAVITY = 9.80665; // in meters per second
+    private final double ANGLE = 75; //degrees, measure later
+
+
+    private final double t = 10; //place hold for time will remove
+    private final double fallingSpeed = -(0.5)*GRAVITY*t*t; //probably won't use 
     private final double RPM= 10; //place hold for speed of ball that will come from tacheo
     private final double ballSpeed= 1/2*RPM*WHEEL_RADIUS* Math.PI; //about the speed the ball travels at
-    private final double xBallSpeed= Math.cos(angle)*ballSpeed; //prob won't use
-    private final double yBallSpeed= Math.sin(angle)*ballSpeed; //prob won't use
-    private final double maxHeight= ballSpeed*ballSpeed * Math.sin(angle)*Math.sin(angle)/(2*g); //max height
-    private final double arrivingDistance= (ballSpeed*ballSpeed * Math.sin(2*angle)/(g))/2; //need to implement delta, a.k.a range of possible goals
+    private final double xBallSpeed= Math.cos(ANGLE)*ballSpeed; //prob won't use
+    private final double yBallSpeed= Math.sin(ANGLE)*ballSpeed; //prob won't use
+    private final double maxHeight= ballSpeed*ballSpeed * Math.sin(ANGLE)*Math.sin(ANGLE)/(2*GRAVITY); //max height
+    private final double arrivingDistance= (ballSpeed*ballSpeed * Math.sin(2*ANGLE)/(GRAVITY))/2; //need to implement delta, a.k.a range of possible goals
 
-    public SetShooterPower(DriveTrain drive) {
+    public SetShooterPower(Shooter shoot) {
       // Use addRequirements() here to declare subsystem dependencies.
-      this.drive = drive;
-      addRequirements(drive);
+      this.shoot = shoot;
+      addRequirements(shoot);
       
     }
 
@@ -57,7 +60,7 @@ public class SetShooterPower extends CommandBase {
       double targetOffsetAngleVert = table.getEntry("ty").getDouble(0.0);
       double angletoGoalDeg = limelightAngleDeg + targetOffsetAngleVert;
       double angletoGoalRad = angletoGoalDeg * (Math.PI / 180);
-      return (goalHeightInch - limelightHeightInch)/Math.tan(angletoGoalRad);
+      return (goalHeightInch - limelightHeightInch)/Math.tan(angletoGoalRad) * 0.0254;
     }
   
     public double calculateAngularVelocity() {
@@ -68,10 +71,20 @@ public class SetShooterPower extends CommandBase {
       return 0;
     }
 
-    public void setTangentialSpeed() {
-
+    public void setLaunchSpeed() {
+      double x = distanceToHoop();
+      double y = HOOP_HEIGHT;
+      double a = Math.toRadians(ANGLE);
+      double g = GRAVITY;
+      double velocity = Math.sqrt((g * Math.pow(x, 2)) / ((2 * Math.pow(Math.cos(a), 2)) * (y - x * Math.tan(a))));
+      launchSpeed = velocity;
     }
 
+    public void setShooterRPM() { //how to find RPM for specific launch speed?
+      double wheelTanSpeed = launchSpeed; //find out how to find the necessary wheel speed for a specific launch speed
+      double angularVelocity = wheelTanSpeed / WHEEL_RADIUS;
+      shooterRPM = (angularVelocity * 60) / (2 * Math.PI);
+    }
 
 
     // Called when the command is initially scheduled.
@@ -111,9 +124,10 @@ public class SetShooterPower extends CommandBase {
       // else
       //   drive.setShooterDistanceFinished();
        
-
-
-       
+      setLaunchSpeed();
+      setShooterRPM();
+      shoot.setAutoShootRPM(shooterRPM);
+      cancel();
     }
     
   

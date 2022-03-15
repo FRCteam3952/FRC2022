@@ -64,7 +64,7 @@ public class RobotContainer {
   // public final static AutoClimb autoClimb = new AutoClimb(climber);
 
   // declare new shooter airmer to be ran, for driveTrain
-  public final static AdjustShooter adjustShooter = new AdjustShooter(driveTrain);
+  public final static AdjustShooter adjustShooter = new AdjustShooter(driveTrain, shooter);
   public final static IndexBalls index = new IndexBalls(indexer, shooter);
   public final static IngestBalls ingest = new IngestBalls(ingester, indexer);
   public final static FlywheelShooter flywheelShooter = new FlywheelShooter(tacheo, shooter, indexer, index);
