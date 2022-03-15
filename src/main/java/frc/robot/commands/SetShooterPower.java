@@ -6,6 +6,8 @@ import frc.robot.subsystems.Tachometer;
 
 import javax.lang.model.util.ElementScanner6;
 
+import com.fasterxml.jackson.databind.type.PlaceholderForType;
+
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -34,8 +36,14 @@ public class SetShooterPower extends CommandBase {
     private final double BALL_WEIGHT = 0.907185; //in kilograms
     private final double g = 9.80665; // in meters per second
     private final double angle = 75; //degrees, measure later
-    
-    
+    private final double t= 10; //place hold for time will remove
+    private final double fallingSpeed = -(0.5)*g*t*t; //probably won't use 
+    private final double RPM= 10; //place hold for speed of ball that will come from tacheo
+    private final double ballSpeed= 1/2*RPM*WHEEL_RADIUS* Math.PI; //about the speed the ball travels at
+    private final double xBallSpeed= Math.cos(angle)*ballSpeed; //prob won't use
+    private final double yBallSpeed= Math.sin(angle)*ballSpeed; //prob won't use
+    private final double maxHeight= ballSpeed*ballSpeed * Math.sin(angle)*Math.sin(angle)/(2*g); //max height
+    private final double arrivingDistance= (ballSpeed*ballSpeed * Math.sin(2*angle)/(g))/2; //need to implement delta, a.k.a range of possible goals
 
     public SetShooterPower(DriveTrain drive) {
       // Use addRequirements() here to declare subsystem dependencies.
@@ -53,7 +61,10 @@ public class SetShooterPower extends CommandBase {
     }
   
     public double calculateAngularVelocity() {
-      
+      if ( (maxHeight == (2.64+(0.0095))) && ((arrivingDistance-distanceToHoop())== 0))  //implement delta possibilities to replace 0 and test some more
+      {
+          //return shootstuff
+      }
       return 0;
     }
 
