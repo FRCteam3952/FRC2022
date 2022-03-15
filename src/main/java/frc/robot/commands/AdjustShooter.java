@@ -41,12 +41,11 @@ public class AdjustShooter extends CommandBase {
   public void execute() {
     setPower.schedule();
     adjustAim.schedule();
-    cancel();
   }
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    drive_train.setShooterDistanceReset();
+    
   }
 
   // Returns true when the command should end.
