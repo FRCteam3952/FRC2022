@@ -107,7 +107,8 @@ public class RobotContainer {
     // more info
     // Joystick joystick = new Joystick(0);
     JoystickButton shooterButton = new JoystickButton(shooterStick.joystick, 1);
-    shooterButton.whenHeld(adjustShooter);
+    shooterButton.whileActiveContinuous(adjustShooter);
+    shooterButton.whenReleased(adjustShooter.cancel());
 
     Trigger hookTrigger = new Trigger(() -> climberDriverController.getSlider() > .5);
     hookTrigger.whileActiveContinuous(controlHooks);
