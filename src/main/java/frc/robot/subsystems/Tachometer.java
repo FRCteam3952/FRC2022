@@ -11,35 +11,27 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants;
 
 
-public class Indexer extends SubsystemBase {
+public class Tachometer extends SubsystemBase {
 
   //feeding system
-  private final Talon indexWheels;
-  private final DigitalInput bottomShooterLim;
-  private final DigitalInput ballShooterLim;
+  private final Counter tacheo; 
 
 
   /** Creates a new ExampleSubsystem. */
-  public Indexer() {
-    indexWheels = new Talon(Constants.indexerWheelsPort);
-    bottomShooterLim = new DigitalInput(Constants.shooterBottomLimitPort);
-    ballShooterLim = new DigitalInput(Constants.shooterShootingLimitPort);
+  public Tachometer() {
+
+    tacheo = new Counter(new DigitalInput(Constants.shooterTachometerPort));
     
   }
 
-
-  public void setIndexSpeed(double speed){
-    indexWheels.set(speed);
+  public double getShooterRPM() {
+    double period = tacheo.getPeriod();
+    return (1 / period) * 60;
   }
 
-  public boolean bottomShooterPressed() {
-    return !bottomShooterLim.get();
+  public void resetT() {
+    tacheo.reset();
   }
-
-  public boolean ballShooterPressed() {
-    return ballShooterLim.get();
-  }
-
 
   @Override
  public void periodic() {

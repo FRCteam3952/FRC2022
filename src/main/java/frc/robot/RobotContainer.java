@@ -19,7 +19,7 @@ import frc.robot.commands.AutonomousSetup;
 import frc.robot.commands.ControlArm;
 import frc.robot.commands.FlywheelShooter;
 import frc.robot.commands.ControlHooks;
-import frc.robot.commands.SetShooterDistance;
+import frc.robot.commands.SetShooterPower;
 import frc.robot.commands.ShooterAimer;
 import frc.robot.commands.UnlockIngester;
 import frc.robot.commands.IngestBalls;
@@ -32,6 +32,7 @@ import frc.robot.subsystems.ClimberArm;
 import frc.robot.subsystems.ClimberHooks;
 import frc.robot.subsystems.Ingester;
 import frc.robot.subsystems.IngesterPositioner;
+import frc.robot.subsystems.Tachometer;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Shooter;
 
@@ -48,9 +49,10 @@ public class RobotContainer {
 
   public final static Shooter shooter = new Shooter();
 
+  public final static Tachometer tacheo = new Tachometer();
   public final static Indexer indexer = new Indexer();
 
-  public final static ShootBalls shootBalls = new ShootBalls(shooter, indexer);
+  public final static ShootBalls shootBalls = new ShootBalls(shooter);
 
   public static Tango2Controller climberDriverController = new Tango2Controller(new Tango2Joystick(0));
   public static FlightJoystickController shooterStick = new FlightJoystickController(new Joystick(1));
@@ -65,8 +67,8 @@ public class RobotContainer {
   public final static AdjustShooter adjustShooter = new AdjustShooter(driveTrain);
   public final static IndexBalls index = new IndexBalls(indexer, shooter);
   public final static IngestBalls ingest = new IngestBalls(ingester, indexer);
-  public final static FlywheelShooter flywheelShooter = new FlywheelShooter(indexer, shooter, index);
-  public final static AutonomousSetup autonomousCommand = new AutonomousSetup(driveTrain, climber, arm, ingestPos, shooter, indexer);
+  public final static FlywheelShooter flywheelShooter = new FlywheelShooter(tacheo, shooter, indexer, index);
+  public final static AutonomousSetup autonomousCommand = new AutonomousSetup(driveTrain, climber, arm, ingestPos, shooter, tacheo);
   //
   // public final static SequentialCommandGroup a = new
   // SequentialCommandGroup(flywheelShooter, autonomousCommand);

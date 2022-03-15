@@ -15,7 +15,7 @@ public class AdjustShooter extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final DriveTrain drive_train;
   private final ShooterAimer adjustAim;
-  private final SetShooterDistance setDistance;
+  private final SetShooterPower setDistance;
   /**
    * Creates a new ExampleCommand.
    *
@@ -24,7 +24,7 @@ public class AdjustShooter extends CommandBase {
   public AdjustShooter(DriveTrain subsystem) {
     drive_train = subsystem;
     adjustAim = new ShooterAimer(subsystem);
-    setDistance = new SetShooterDistance(subsystem);
+    setDistance = new SetShooterPower(subsystem);
     addRequirements(drive_train);
     // Use addRequirements() here to declare subsystem dependencies.
   }

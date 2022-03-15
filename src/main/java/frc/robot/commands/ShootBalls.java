@@ -7,21 +7,19 @@ package frc.robot.commands;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.Tachometer;
 
 
 public class ShootBalls extends CommandBase {
   private final Shooter shooter;
-  private final Indexer index;
   private double power = 0.8;
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ShootBalls(Shooter subsystem, Indexer indexer) {
+  public ShootBalls(Shooter subsystem) {
     shooter = subsystem;
-    index = indexer;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }

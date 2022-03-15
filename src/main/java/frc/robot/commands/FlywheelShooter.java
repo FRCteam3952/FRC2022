@@ -2,12 +2,15 @@ package frc.robot.commands;
 
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.Tachometer;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+
 public class FlywheelShooter extends CommandBase {
+    private final Tachometer tacheo;
     private final Indexer index;
     private final Timer timer = new Timer();
     private final Shooter shooter;
@@ -26,12 +29,13 @@ public class FlywheelShooter extends CommandBase {
     private boolean done = false;
     private boolean hasShot = false;
 
-    public FlywheelShooter(Indexer indexer, Shooter shooter, IndexBalls indexBalls) {
+    public FlywheelShooter(Tachometer tacheo, Shooter shooter, Indexer index, IndexBalls indexBalls) {
         this.shooter = shooter;
-        this.index = indexer;
+        this.tacheo = tacheo;
+        this.index = index;
         this.indexBalls = indexBalls;
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(index, shooter);
+        addRequirements(tacheo, shooter, index);
     }
 
     public void calculateSpeed() {
@@ -59,10 +63,10 @@ public class FlywheelShooter extends CommandBase {
         }
         else if (!timer.hasElapsed(1 + PULL_TIME)) {
             index.setIndexSpeed(INDEX_SPEED); //pull in balls
-        } else if (index.getShooterRPM() < ShooterRPM && !hasShot) {
+        } else if (tacheo.getShooterRPM() < ShooterRPM && !hasShot) {
             index.setIndexSpeed(0);
             shooter.setShooterSpeed(ShooterPower); //rev up shooter
-        } else if (index.getShooterRPM() > ShooterRPM && index.getShooterRPM() < ShooterRPM + delta && !hasShot) {
+        } else if (tacheo.getShooterRPM() > ShooterRPM && tacheo.getShooterRPM() < ShooterRPM + delta && !hasShot) {
             index.setIndexSpeed(-SECOND_INDEX_MULTIPLIER * INDEX_SPEED); 
             hasShot = true; //index balls into shooter
             currentTime = timer.get();
