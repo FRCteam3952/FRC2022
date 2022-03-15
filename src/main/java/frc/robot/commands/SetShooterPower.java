@@ -81,7 +81,7 @@ public class SetShooterPower extends CommandBase {
     }
 
     public void setShooterRPM() { //how to find RPM for specific launch speed?
-      double wheelTanSpeed = launchSpeed; //find out how to find the necessary wheel speed for a specific launch speed
+      double wheelTanSpeed = 2 * launchSpeed; //find out how to find the necessary wheel speed for a specific launch speed
       double angularVelocity = wheelTanSpeed / WHEEL_RADIUS;
       shooterRPM = (angularVelocity * 60) / (2 * Math.PI);
     }
