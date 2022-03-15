@@ -34,19 +34,20 @@ public class SetShooterPower extends CommandBase {
     
     private final double HOOP_HEIGHT = 2.6416; //in meters
     private final double WHEEL_RADIUS = 0.006; //in meters
-    private final double BALL_WEIGHT = 0.907185; //in kilograms
+    private final double BALL_MASS = 0.907185; //in kilograms
+    private final double WHEEL_MASS = 0.3; //in kilograms, find out later
     private final double GRAVITY = 9.80665; // in meters per second
     private final double ANGLE = 75; //degrees, measure later
 
 
-    private final double t = 10; //place hold for time will remove
-    private final double fallingSpeed = -(0.5)*GRAVITY*t*t; //probably won't use 
-    private final double RPM= 10; //place hold for speed of ball that will come from tacheo
-    private final double ballSpeed= 1/2*RPM*WHEEL_RADIUS* Math.PI; //about the speed the ball travels at
-    private final double xBallSpeed= Math.cos(ANGLE)*ballSpeed; //prob won't use
-    private final double yBallSpeed= Math.sin(ANGLE)*ballSpeed; //prob won't use
-    private final double maxHeight= ballSpeed*ballSpeed * Math.sin(ANGLE)*Math.sin(ANGLE)/(2*GRAVITY); //max height
-    private final double arrivingDistance= (ballSpeed*ballSpeed * Math.sin(2*ANGLE)/(GRAVITY))/2; //need to implement delta, a.k.a range of possible goals
+//     private final double t = 10; //place hold for time will remove
+//     private final double fallingSpeed = -(0.5)*GRAVITY*t*t; //probably won't use 
+//     private final double RPM= 10; //place hold for speed of ball that will come from tacheo
+//     private final double ballSpeed= 1/2*RPM*WHEEL_RADIUS* Math.PI; //about the speed the ball travels at
+//     private final double xBallSpeed= Math.cos(ANGLE)*ballSpeed; //prob won't use
+//     private final double yBallSpeed= Math.sin(ANGLE)*ballSpeed; //prob won't use
+//     private final double maxHeight= ballSpeed*ballSpeed * Math.sin(ANGLE)*Math.sin(ANGLE)/(2*GRAVITY); //max height
+//     private final double arrivingDistance= (ballSpeed*ballSpeed * Math.sin(2*ANGLE)/(GRAVITY))/2; //need to implement delta, a.k.a range of possible goals
 
     public SetShooterPower(Shooter shoot) {
       // Use addRequirements() here to declare subsystem dependencies.
@@ -63,13 +64,13 @@ public class SetShooterPower extends CommandBase {
       return (goalHeightInch - limelightHeightInch)/Math.tan(angletoGoalRad) * 0.0254;
     }
   
-    public double calculateAngularVelocity() {
-      if ( (maxHeight == (2.64+(0.0095))) && ((arrivingDistance-distanceToHoop())== 0))  //implement delta possibilities to replace 0 and test some more
-      {
-          //return shootstuff
-      }
-      return 0;
-    }
+//     public double calculateAngularVelocity() {
+//       if ( (maxHeight == (2.64+(0.0095))) && ((arrivingDistance-distanceToHoop())== 0))  //implement delta possibilities to replace 0 and test some more
+//       {
+//           //return shootstuff
+//       }
+//       return 0;
+//     }
 
     public void setLaunchSpeed() {
       double x = distanceToHoop();
@@ -80,8 +81,8 @@ public class SetShooterPower extends CommandBase {
       launchSpeed = velocity;
     }
 
-    public void setShooterRPM() { //how to find RPM for specific launch speed?
-      double wheelTanSpeed = 2 * launchSpeed; //find out how to find the necessary wheel speed for a specific launch speed
+    public void setShooterRPM() {
+      double wheelTanSpeed = 2 * launchSpeed * ((WHEEL_MASS + (7/5) * BALL_MASS) / WHEEL_MASS); 
       double angularVelocity = wheelTanSpeed / WHEEL_RADIUS;
       shooterRPM = (angularVelocity * 60) / (2 * Math.PI);
     }
