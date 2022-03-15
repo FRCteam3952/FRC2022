@@ -57,18 +57,17 @@ public class RobotContainer {
   public static Tango2Controller climberDriverController = new Tango2Controller(new Tango2Joystick(0));
   public static FlightJoystickController shooterStick = new FlightJoystickController(new Joystick(1));
 
-  public final static ClimberHooks climber = new ClimberHooks();
+  public final static ClimberHooks hooks = new ClimberHooks();
   public final static ClimberArm arm = new ClimberArm();
   public final static ControlArm controlArm = new ControlArm(arm);
-  public final static ControlHooks controlHooks = new ControlHooks(climber);
-  // public final static AutoClimb autoClimb = new AutoClimb(climber);
+  public final static ControlHooks controlHooks = new ControlHooks(hooks);
 
   // declare new shooter airmer to be ran, for driveTrain
   public final static AdjustShooter adjustShooter = new AdjustShooter(driveTrain, shooter);
   public final static IndexBalls index = new IndexBalls(indexer, shooter);
   public final static IngestBalls ingest = new IngestBalls(ingester, indexer);
   public final static FlywheelShooter flywheelShooter = new FlywheelShooter(tacheo, shooter, indexer, index);
-  public final static AutonomousSetup autonomousCommand = new AutonomousSetup(driveTrain, climber, arm, ingestPos, shooter, tacheo);
+  public final static AutonomousSetup autonomousCommand = new AutonomousSetup(driveTrain, hooks, arm, ingestPos, shooter, tacheo);
   //
   // public final static SequentialCommandGroup a = new
   // SequentialCommandGroup(flywheelShooter, autonomousCommand);
@@ -200,7 +199,7 @@ public class RobotContainer {
     arm.setDefaultCommand(controlArm);
     // ingester.setDefaultCommand(ingest);
     ingestPos.setDefaultCommand(unlockIngester);
-    // climber.setDefaultCommand(manualClimb);
+    // hooks.setDefaultCommand(manualClimb);
     // driveTrain.setDefaultCommand(manualDrive);
     indexer.setDefaultCommand(index);
   }
