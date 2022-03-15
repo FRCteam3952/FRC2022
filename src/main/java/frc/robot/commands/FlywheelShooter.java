@@ -24,10 +24,11 @@ public class FlywheelShooter extends CommandBase {
     private final double LOW_POWER = 0.5;
     private double ShooterRPM = LOW_RPM;
     private double ShooterPower = LOW_POWER;
-    private double delta = 1000;
+    private double delta = 500;
     private double currentTime = 0;
     private boolean done = false;
     private boolean hasShot = false;
+    private boolean manualShoot = false;
 
     public FlywheelShooter(Tachometer tacheo, Shooter shooter, Indexer index, IndexBalls indexBalls) {
         this.shooter = shooter;
@@ -39,10 +40,15 @@ public class FlywheelShooter extends CommandBase {
     }
 
     public void calculateSpeed() {
-        double slider = 1 - (RobotContainer.shooterStick.joystick.getThrottle() + 1) / 2;
-        System.out.println(slider);
-        ShooterRPM = LOW_RPM + (slider * (HIGH_RPM - LOW_RPM));
-        ShooterPower = LOW_POWER + (slider * (HIGH_POWER - LOW_POWER));
+        if (manualShoot) {
+            double slider = 1 - (RobotContainer.shooterStick.joystick.getThrottle() + 1) / 2;
+            System.out.println(slider);
+            ShooterRPM = LOW_RPM + (slider * (HIGH_RPM - LOW_RPM));
+            ShooterPower = LOW_POWER + (slider * (HIGH_POWER - LOW_POWER));
+        }
+        else {
+            ShooterRPM = shooter.getAutoShootRPM();
+        }
     }
 
     // Called when the command is initially scheduled.
@@ -70,7 +76,7 @@ public class FlywheelShooter extends CommandBase {
             index.setIndexSpeed(-SECOND_INDEX_MULTIPLIER * INDEX_SPEED); 
             hasShot = true; //index balls into shooter
             currentTime = timer.get();
-        } else if (timer.get() > (currentTime + 2.69)) {
+        } else if (timer.get() > (currentTime + 2)) {
             index.setIndexSpeed(0);
             shooter.setShooterSpeed(0);
             timer.stop();

@@ -35,11 +35,9 @@ public class AdjustShooterAim extends CommandBase {
   public void execute() {
     if(RobotContainer.shooterStick.getJoystickPOV() == 90) {
         drive_train.drive(0, 0.2);
-        System.out.println("ok it's aimed to the right");
     } 
     else if(RobotContainer.shooterStick.getJoystickPOV() == 270) {
         drive_train.drive(0, -0.2);
-        System.out.println("now it's to the left");
     } 
     else 
         this.cancel();
