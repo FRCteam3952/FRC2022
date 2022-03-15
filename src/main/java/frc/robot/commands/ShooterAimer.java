@@ -7,8 +7,9 @@ package frc.robot.commands;
 import frc.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.networktables.NetworkTableInstance;
-
 import edu.wpi.first.networktables.NetworkTable;
+
+import java.util.function.Consumer;
 
 
 /** An example command that uses an example subsystem. */
@@ -28,47 +29,34 @@ public class ShooterAimer extends CommandBase {
   
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    System.out.println("executing shooter aimer thingy");
-    /*
-    if(!RobotContainer.driverStick.joystick.getRawButtonPressed(1)){
-      System.out.print("canceled");
-    }
-    */
+  public void execute() {    
 
-    // System.out.print("IT WAS PRESED");
-      double hor = 0;
-      double lat = 0;
+      double speed = 0;
+      double rot = 0;
 
-      // drive_train.drive(lat, hor);
-
-      // System.out.println("Lat: " + lat + " Hor: "+ hor);
-
-      float Kp = -0.1f;
+      float Kp = -0.1f; //proportional control constant
       NetworkTable networkTable = NetworkTableInstance.getDefault().getTable("limelight");
-      float min_command = 0.5f;
-      float tx = (float) networkTable.getEntry("tx").getDouble(100000);
+      float min_command = 0.05f;
+      float tx = table->GetNumber("tx");
 
-      if(!(tx > 98000)) {
-        //if(RobotContainer.driverStick.getTriggerPressed()) {
-          float headingError = -tx;
-          float steering_adjust = 0.0f;
-          if(tx > 1.0) {
-            steering_adjust = Kp*headingError - min_command;
-          } else if(tx < 1.0) {
-            steering_adjust = Kp*headingError + min_command;
-          }
-          lat += 2*(steering_adjust);
-          System.out.println("button pressed");
-        //}
+      float heading_error = -tx;
+      float steering_adjust = 0.0f;
+      if (tx > 1.0) {
+        steering_adjust = Kp * heading_error - min_command;
       }
-      // System.out.println("Lat: " + lat + " Hor: "+ hor);
-      System.out.println("this is auto aim btw");
-      drive_train.drive(hor, lat);
+      else if (tx < 1.0) {
+        steering_adjust = Kp * heading_error + min_command;
+      }
+      rot += steering_adjust;
+      System.out.println("auto aim rotation: " rot);
+
+      drive_train.drive(speed, rot);
     }
 
   // Called once the command ends or is interrupted.
