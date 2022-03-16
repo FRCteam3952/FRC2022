@@ -41,6 +41,7 @@ public class AdjustShooter extends CommandBase {
   public void execute() {
     setPower.schedule();
     adjustAim.schedule();
+    cancel();
   }
   // Called once the command ends or is interrupted.
   @Override

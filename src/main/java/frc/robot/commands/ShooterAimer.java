@@ -43,7 +43,7 @@ public class ShooterAimer extends CommandBase {
       float Kp = -0.1f; //proportional control constant
       NetworkTable networkTable = NetworkTableInstance.getDefault().getTable("limelight");
       float min_command = 0.05f;
-      float tx = table->GetNumber("tx");
+      float tx = (float) networkTable.getEntry("tx").getDouble(0.0);
 
       float heading_error = -tx;
       float steering_adjust = 0.0f;
@@ -54,7 +54,7 @@ public class ShooterAimer extends CommandBase {
         steering_adjust = Kp * heading_error + min_command;
       }
       rot += steering_adjust;
-      System.out.println("auto aim rotation: " rot);
+      System.out.println("auto aim rotation: " + rot);
 
       drive_train.drive(speed, rot);
     }

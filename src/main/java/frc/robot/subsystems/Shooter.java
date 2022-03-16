@@ -37,6 +37,10 @@ public class Shooter extends SubsystemBase {
     autoShootRPM = rpm;
   }
 
+  public double getAutoShootRPM() {
+    return autoShootRPM;
+  }
+
  
   @Override
   public void periodic() {

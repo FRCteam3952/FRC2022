@@ -37,8 +37,8 @@ public class ManualDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      double hor = -(RobotContainer.climberDriverController.joystick.getXRotate());
-      double lat = -(RobotContainer.climberDriverController.joystick.getZ());
+      double speed = -(RobotContainer.climberDriverController.joystick.getXRotate());
+      double rot = -(RobotContainer.climberDriverController.joystick.getZ());
 
       // drive_train.drive(lat, hor);
 
@@ -68,7 +68,7 @@ public class ManualDrive extends CommandBase {
       if (RobotContainer.shooterStick.getJoystickPOV() == 90 || RobotContainer.shooterStick.getJoystickPOV() == 270)
         adjustShooterAim.schedule();
       
-      drive_train.drive(lat, hor);
+      drive_train.drive(speed, rot);
 
      
     }
