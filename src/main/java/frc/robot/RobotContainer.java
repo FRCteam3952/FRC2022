@@ -66,6 +66,7 @@ public class RobotContainer {
   public final static IndexBalls index = new IndexBalls(indexer, shooter);
   public final static IngestBalls ingest = new IngestBalls(ingester, indexer);
   public final static FlywheelShooter flywheelShooter = new FlywheelShooter(tacheo, shooter, indexer, index);
+  public final static ShooterAimer adjustAim = new ShooterAimer(driveTrain);
   public final static AutonomousSetup autonomousCommand = new AutonomousSetup(driveTrain, hooks, arm, ingestPos, shooter, tacheo);
   public final static ManualDrive driveCommand = new ManualDrive(driveTrain);
   //
@@ -196,6 +197,7 @@ public class RobotContainer {
   public void teleopInit() {
     inTeleop = true;
     configureButtonBindings();
+    driveTrain.setDefaultCommand(adjustAim);
     arm.setDefaultCommand(controlArm);
     // ingester.setDefaultCommand(ingest);
     ingestPos.setDefaultCommand(unlockIngester);
