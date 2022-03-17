@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants;
+import frc.robot.subsystems.Ingester;
 
 
 public class Indexer extends SubsystemBase {
@@ -17,7 +18,6 @@ public class Indexer extends SubsystemBase {
   private final Talon indexWheels;
   private final DigitalInput bottomShooterLim;
   private final DigitalInput ballShooterLim;
-
 
   /** Creates a new ExampleSubsystem. */
   public Indexer() {

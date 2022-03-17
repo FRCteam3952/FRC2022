@@ -33,21 +33,31 @@ public class SetShooterPower extends CommandBase {
     public double shooterRPM = 0;
     
     private final double HOOP_HEIGHT = 2.6416; //in meters
-    private final double WHEEL_RADIUS = 0.12065; //in meters
+    private final double HOOP_RADIUS = 0.6096; //in meters
+    private final double WHEEL_RADIUS = 0.123825; //in meters
     private final double BALL_MASS = 0.26932047; //in kilograms
-    private final double WHEEL_MASS = 0.0175767; //in kilograms, find out later
-    private final double GRAVITY = 9.80665; // in meters per second
+    private final double WHEEL_MASS = 0.144582568; //in kilograms, find out later
+    private final double GRAVITY = 9.80665; // in meters per second squared
     private final double ANGLE = 75; //degrees, measure later
+    private final double MIN_LAUNCH_SPEED = 8.07844884; //in meters per second
+    private final double MIN_DISTANCE = 2.6919; //in meters
+    private final double delta = 3 - MIN_DISTANCE;
 
 
 //     private final double t = 10; //place hold for time will remove
 //     private final double fallingSpeed = -(0.5)*GRAVITY*t*t; //probably won't use 
 //     private final double RPM= 10; //place hold for speed of ball that will come from tacheo
-//     private final double ballSpeed= 1/2*RPM*WHEEL_RADIUS* Math.PI; //about the speed the ball travels at
+//     private final double ballSpeed= RPM*WHEEL_RADIUS* Math.PI; //about the speed the ball travels at
 //     private final double xBallSpeed= Math.cos(ANGLE)*ballSpeed; //prob won't use
 //     private final double yBallSpeed= Math.sin(ANGLE)*ballSpeed; //prob won't use
 //     private final double maxHeight= ballSpeed*ballSpeed * Math.sin(ANGLE)*Math.sin(ANGLE)/(2*GRAVITY); //max height
-//     private final double arrivingDistance= (ballSpeed*ballSpeed * Math.sin(2*ANGLE)/(GRAVITY))/2; //need to implement delta, a.k.a range of possible goals
+//     private final double arrivingDistance= (ballSpeed*ballSpeed * Math.sin(2*ANGLE)/(GRAVITY))/2; //need to implement delta, a.k.a range of possible goals, taking half the distance
+//     private final double 
+
+/* PSEUDO CODE
+distanceToHoop())
+*/
+//not popout shooter, two motor 
 
     public SetShooterPower(Shooter shoot) {
       // Use addRequirements() here to declare subsystem dependencies.
@@ -73,11 +83,11 @@ public class SetShooterPower extends CommandBase {
 //     }
 
     public void setLaunchSpeed() {
-      double x = distanceToHoop();
+      double x = distanceToHoop() + HOOP_RADIUS;
       double y = HOOP_HEIGHT;
       double a = Math.toRadians(ANGLE);
       double g = GRAVITY;
-      double velocity = Math.sqrt((g * Math.pow(x, 2)) / ((2 * Math.pow(Math.cos(a), 2)) * (y - x * Math.tan(a))));
+      double velocity = Math.sqrt((-(g/2) * Math.pow(x, 2)) / ((y - x * Math.tan(a)) * Math.pow(Math.cos(a), 2)));
       launchSpeed = velocity;
     }
 
@@ -125,6 +135,11 @@ public class SetShooterPower extends CommandBase {
       // else
       //   drive.setShooterDistanceFinished();
        
+      if (distanceToHoop() + HOOP_RADIUS < MIN_DISTANCE + delta) {
+        System.err.println("Robot too close to hub to shoot");
+        launchSpeed = 0;
+        cancel();
+      }
       setLaunchSpeed();
       setShooterRPM();
       shoot.setAutoShootRPM(shooterRPM);

@@ -18,7 +18,8 @@ public final class Constants {
     public static final int frontRightMotorPort = 1;
     public static final int rearLeftMotorPort = 2;
     public static final int rearRighttMotorPort = 3;
-    public static final int ingesterCollectingRollerPort = 4;
+    public static final int ingesterCollectingRollerBottomPort = 4;
+    public static final int ingesterCollectingRollerTopPort= 8;
     public static final int indexerWheelsPort = 5;
     public static final int shooterRollersPort = 6;
     public static final int releaseIngesterPort = 7;
