@@ -33,6 +33,7 @@ public class SetShooterPower extends CommandBase {
     public double shooterRPM = 0;
     
     private final double HOOP_HEIGHT = 2.6416; //in meters
+    private final double HOOP_RADIUS = 0.6096; //in meters
     private final double WHEEL_RADIUS = 0.123825; //in meters
     private final double BALL_MASS = 0.26932047; //in kilograms
     private final double WHEEL_MASS = 0.144582568; //in kilograms, find out later
@@ -82,7 +83,7 @@ distanceToHoop())
 //     }
 
     public void setLaunchSpeed() {
-      double x = distanceToHoop();
+      double x = distanceToHoop() + HOOP_RADIUS;
       double y = HOOP_HEIGHT;
       double a = Math.toRadians(ANGLE);
       double g = GRAVITY;
@@ -134,7 +135,7 @@ distanceToHoop())
       // else
       //   drive.setShooterDistanceFinished();
        
-      if (distanceToHoop() < MIN_DISTANCE + delta) {
+      if (distanceToHoop() + HOOP_RADIUS < MIN_DISTANCE + delta) {
         System.err.println("Robot too close to hub to shoot");
         launchSpeed = 0;
         cancel();
