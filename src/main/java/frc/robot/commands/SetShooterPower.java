@@ -40,6 +40,7 @@ public class SetShooterPower extends CommandBase {
     private final double ANGLE = 75; //degrees, measure later
     private final double MIN_LAUNCH_SPEED = 8.07844884; //in meters per second
     private final double MIN_DISTANCE = 2.6919; //in meters
+    private final double delta = 3 - MIN_DISTANCE;
 
 
 //     private final double t = 10; //place hold for time will remove
@@ -133,7 +134,7 @@ distanceToHoop())
       // else
       //   drive.setShooterDistanceFinished();
        
-      if (distanceToHoop() < MIN_DISTANCE) {
+      if (distanceToHoop() < MIN_DISTANCE + delta) {
         System.err.println("Robot too close to hub to shoot");
         launchSpeed = 0;
         cancel();
