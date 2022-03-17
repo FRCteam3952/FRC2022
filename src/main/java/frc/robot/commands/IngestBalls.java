@@ -24,6 +24,7 @@ public class IngestBalls extends CommandBase {
   public IngestBalls(Ingester subsystem, Indexer indexer) {
     ingest = subsystem;
     index = indexer;
+    
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem, indexer);
   }
@@ -45,9 +46,11 @@ public class IngestBalls extends CommandBase {
       isTopHit = true;
     }
     if (!isTopHit && !index.ballShooterPressed()) {
-      index.setIndexSpeed(-INDEX_SPEED);
+      ingest.setTopRollerSpeed(-INDEX_SPEED);
+      // ingest.setIngestRollerSpeed(0);
     } else if (isTopHit && !index.bottomShooterPressed()) {
-      index.setIndexSpeed(INDEX_SPEED);
+      ingest.setTopRollerSpeed(INDEX_SPEED);
+      ingest.setIngestRollerSpeed(0);
     } else {
 
     }

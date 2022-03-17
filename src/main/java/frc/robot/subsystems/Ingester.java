@@ -11,20 +11,26 @@ import frc.robot.Constants;
 public class Ingester extends SubsystemBase {
 
     //feeding system
-    private final Talon collectingRoller;
+    private final Talon collectingRollerBottom;
+    private final Talon collectingRollerTop;
 
     
-
+//pushing ball backwards in limit switch is activated, greenwheel at bottom spins when ingesting
 
 
   /** Creates a new ExampleSubsystem. */
   public Ingester() {
-    collectingRoller = new Talon(Constants.ingesterCollectingRollerPort);
+    collectingRollerBottom = new Talon(Constants.ingesterCollectingRollerBottomPort);
+    collectingRollerTop = new Talon(Constants.ingesterCollectingRollerTopPort);
   }
 
 
   public void setIngestRollerSpeed(double speed){
-    collectingRoller.set(speed);
+    collectingRollerBottom.set(speed);
+  }
+
+  public void setTopRollerSpeed(double speed){
+    collectingRollerTop.set(speed);
   }
 
 
