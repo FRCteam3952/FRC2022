@@ -56,7 +56,7 @@ public class ShooterAimer extends CommandBase {
       rot += steering_adjust;
       System.out.println("auto aim rotation: " + rot);
 
-      drive_train.drive(speed, rot);
+      drive_train.drive(speed, speed, rot);
     }
 
   // Called once the command ends or is interrupted.

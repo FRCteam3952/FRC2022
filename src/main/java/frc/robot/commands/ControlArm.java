@@ -28,7 +28,7 @@ public class ControlArm extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double armSpeed = RobotContainer.climberDriverController.getXValue();
+    double armSpeed = RobotContainer.tangoIIController.getXValue();
     arm.changeArmAngle((armSpeed));
   }
 

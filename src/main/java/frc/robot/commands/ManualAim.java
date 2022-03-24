@@ -33,11 +33,11 @@ public class ManualAim extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(RobotContainer.shooterStick.getJoystickPOV() == 90) {
-        drive_train.drive(0, 0.2);
+    if(RobotContainer.flightJoystick.getJoystickPOV() == 90) {
+        drive_train.drive(0, 0, 0.2);
     } 
-    else if(RobotContainer.shooterStick.getJoystickPOV() == 270) {
-        drive_train.drive(0, -0.2);
+    else if(RobotContainer.flightJoystick.getJoystickPOV() == 270) {
+        drive_train.drive(0, 0, -0.2);
     } 
     else 
         this.cancel();

@@ -32,7 +32,7 @@ public class ControlHooks extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double hookSpeed = RobotContainer.climberDriverController.getZValue();
+    double hookSpeed = RobotContainer.tangoIIController.getZValue();
     climber.slideHook(hookSpeed);
 
     // System.out.print("" + armSpeed + " " + hookSpeed);

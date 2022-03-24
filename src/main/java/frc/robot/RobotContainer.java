@@ -52,8 +52,8 @@ public class RobotContainer {
   public final static Tachometer tacheo = new Tachometer();
   public final static Indexer indexer = new Indexer();
 
-  public static Tango2Controller climberDriverController = new Tango2Controller(new Tango2Joystick(0));
-  public static FlightJoystickController shooterStick = new FlightJoystickController(new Joystick(1));
+  public static Tango2Controller tangoIIController = new Tango2Controller(new Tango2Joystick(0));
+  public static FlightJoystickController flightJoystick = new FlightJoystickController(new Joystick(1));
 
   public final static ClimberHooks hooks = new ClimberHooks();
   public final static ClimberArm arm = new ClimberArm();
@@ -106,22 +106,22 @@ public class RobotContainer {
     // when press button "1" on frc will run shooterAimer, follow shooterAimer for
     // more info
     // Joystick joystick = new Joystick(0);
-    JoystickButton shooterButton = new JoystickButton(shooterStick.joystick, 1);
+    JoystickButton shooterButton = new JoystickButton(flightJoystick.joystick, 1);
     shooterButton.whileActiveContinuous(adjustShooter);
     shooterButton.whenReleased(() -> adjustShooter.cancel());
 
-    Trigger hookTrigger = new Trigger(() -> climberDriverController.getSlider() > .5);
+    Trigger hookTrigger = new Trigger(() -> tangoIIController.getSlider() > .5);
     hookTrigger.whileActiveContinuous(controlHooks);
     hookTrigger.whenActive(() -> controlHooks.cancel());
 
-    Trigger driveTrigger = new Trigger(() -> climberDriverController.getSlider() <= .5);
+    Trigger driveTrigger = new Trigger(() -> tangoIIController.getSlider() <= .5);
     driveTrigger.whileActiveContinuous(driveCommand);
     driveTrigger.whenActive(() -> driveCommand.cancel());
 
-    JoystickButton flywheelButton = new JoystickButton(shooterStick.joystick, 5);
+    JoystickButton flywheelButton = new JoystickButton(flightJoystick.joystick, 5);
     flywheelButton.whenPressed(flywheelShooter);
 
-    JoystickButton ingestButton = new JoystickButton(shooterStick.joystick, 7);
+    JoystickButton ingestButton = new JoystickButton(flightJoystick.joystick, 7);
     ingestButton.whenPressed(ingest);
     ingestButton.whenReleased(index);
 
@@ -184,10 +184,10 @@ public class RobotContainer {
     indexer.setIndexSpeed(0);
     while (t.get() < 7.5) {
       if (t.get() < 6) {
-        driveTrain.drive(.4 * (t.get() / 3.5), 0);
+        //driveTrain.drive(.4 * (t.get() / 3.5), 0);
 
       } else {
-        driveTrain.drive(0, 0);
+        //driveTrain.drive(0, 0);
 
       }
     }

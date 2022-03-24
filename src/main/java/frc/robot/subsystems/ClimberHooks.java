@@ -7,10 +7,12 @@ package frc.robot.subsystems;
 
 
 
+import edu.wpi.first.wpilibj.CAN;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 
@@ -18,14 +20,14 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 public class ClimberHooks extends SubsystemBase {
   // feeding system
 
-  private final VictorSPX hook;
+  private final CANSparkMax hook;
   private final DigitalInput topLimitSwitch;
   private final DigitalInput bottomLimitSwitch;
   private final DigitalInput topOrBottomLimitSwitch;
 
   /** Creates a new ExampleSubsystem. */
   public ClimberHooks() {
-    hook = new VictorSPX(Constants.hookPort);
+    hook = new CANSparkMax(Constants.hookPort, MotorType.kBrushless);
     topLimitSwitch = new DigitalInput(Constants.topLimitSwitchClimberPort); 
     bottomLimitSwitch = new DigitalInput(Constants.bottomLimitSwitchClimberPort);
     topOrBottomLimitSwitch = new DigitalInput(Constants.topOrBottomLimitClimberPort); //only used if third limit switch is used; not used if using manual control
@@ -56,14 +58,14 @@ public class ClimberHooks extends SubsystemBase {
 
 //sets the angle and speed for sliding hook for VSPX talon
   public double slideHook(double speed) {
-    hook.set(ControlMode.PercentOutput, speed);
+    hook.set(speed);
     return speed;
   }
 
 //return speed of motor for hook motor
   public double getHookSpeed() {
-    System.out.println(hook.getMotorOutputPercent());
-    return hook.getMotorOutputPercent();
+    System.out.println(hook.get());
+    return hook.get();
   }
 
 //return speed of motor for the arm angle motor

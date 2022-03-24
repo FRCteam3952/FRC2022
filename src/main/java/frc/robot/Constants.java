@@ -37,4 +37,15 @@ public final class Constants {
     // CAN Bus, for climber only, not in Drive train, uses phoenix 
     public static final int armAnglePort = 1;
     public static final int hookPort = 2;
+
+
+    //encoder channels, find values later
+    public static final int frontLeftEncoderChannelA = 1;
+    public static final int frontLeftEncoderChannelB = 2;
+    public static final int frontRightEncoderChannelA = 3;
+    public static final int frontRightEncoderChannelB = 4;
+    public static final int rearLeftEncoderChannelA = 5;
+    public static final int rearLeftEncoderChannelB = 6;
+    public static final int rearRightEncoderChannelA = 7;
+    public static final int rearRightEncoderChannelB = 8;
 }

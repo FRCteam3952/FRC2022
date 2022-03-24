@@ -59,9 +59,9 @@ public class AutonomousSetup extends CommandBase {
   @Override
   public void execute() {
     if (!timer.hasElapsed(3)) {
-      drive.drive(.8 * (timer.get()/ 5), 0);
+      drive.drive(.8 * (timer.get()/ 5), 0, 0);
     } else {
-      drive.drive(0, 0);
+      drive.drive(0, 0, 0);
     }
 
 
