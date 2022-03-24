@@ -10,20 +10,24 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.SparkMaxAlternateEncoder;
+import com.revrobotics.SparkMaxRelativeEncoder;
+import com.fasterxml.jackson.annotation.SimpleObjectIdResolver;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 
 
 public class ClimberArm extends SubsystemBase {
-  private final VictorSPX armAngle;
+  private final CANSparkMax armAngle;
   /** Creates a new ExampleSubsystem. */
   public ClimberArm() {
-    armAngle = new VictorSPX(Constants.armAnglePort);
+    armAngle = new CANSparkMax(Constants.armAnglePort, MotorType.kBrushless);
   }
 
   public double changeArmAngle(double speed) {
-    armAngle.set(ControlMode.PercentOutput, speed);
+    armAngle.set(speed);
     return speed;
   }
 

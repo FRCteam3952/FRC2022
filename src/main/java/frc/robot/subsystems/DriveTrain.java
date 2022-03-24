@@ -5,44 +5,78 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+
+import java.security.spec.EncodedKeySpec;
+
+import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.Encoder;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxAlternateEncoder;
+import com.revrobotics.SparkMaxRelativeEncoder;
 import frc.robot.Constants;
+
+
 public class DriveTrain extends SubsystemBase {
 
-  private final Talon frontLeft;
-  private final Talon frontRight;
-  private final Talon rearLeft;
-  private final Talon rearRight;
+  private final CANSparkMax frontLeft;
+  private final CANSparkMax frontRight;
+  private final CANSparkMax rearLeft;
+  private final CANSparkMax rearRight;
 
-  private MotorControllerGroup left;
-  private MotorControllerGroup right;
+  private final RelativeEncoder frontLeftEncoder;
+  private final RelativeEncoder frontRightEncoder;
+  private final RelativeEncoder rearLeftEncoder;
+  private final RelativeEncoder rearRightEncoder;
+  private final PIDController driveEncoders;
+  private double yMeasurement;
+  private double xMeasurement;
+  private double zMeasurement;
+  private double setpoint;
 
-  private DifferentialDrive m_dDrive;
+  private double kp = 0.0015;
+  private double ki = 0.001;
+  private double kd = 0;
+
+  private MecanumDrive m_dDrive;
 
   private boolean settingDistance = true;
   /** Creates a new ExampleSubsystem. */
   public DriveTrain() {
-    frontLeft = new Talon(Constants.frontLeftMotorPort);
-    frontRight = new Talon(Constants.frontRightMotorPort);
-    rearLeft = new Talon(Constants.rearLeftMotorPort);
-    rearRight = new Talon(Constants.rearRighttMotorPort);
+    frontLeft = new CANSparkMax(Constants.frontLeftMotorPort, MotorType.kBrushless);
+    frontRight = new CANSparkMax(Constants.frontRightMotorPort, MotorType.kBrushless);
+    rearLeft = new CANSparkMax(Constants.rearLeftMotorPort, MotorType.kBrushless);
+    rearRight = new CANSparkMax(Constants.rearRighttMotorPort, MotorType.kBrushless);
 
-    left = new MotorControllerGroup(frontLeft, rearLeft);
-    right = new MotorControllerGroup(frontRight, rearRight);
-  
-    m_dDrive = new DifferentialDrive(left,right);
+    frontLeftEncoder = frontLeft.getEncoder();
+    frontRightEncoder = frontRight.getEncoder();
+    rearLeftEncoder = rearLeft.getEncoder();
+    rearRightEncoder = rearRight.getEncoder();
+    driveEncoders = new PIDController(kp, ki, kd);  
+
+    m_dDrive = new MecanumDrive(frontLeft, rearLeft, frontRight, rearRight);
+
     m_dDrive.setSafetyEnabled(false); // MAKE SURE TO DISABLE THIS BEFORE TESTING BOT TODO
 
-    left.setInverted(true);
-    frontLeft.setInverted(true);
+
 
   }
 
 
-  public void drive(double speed, double rot){
-    m_dDrive.arcadeDrive(speed, rot);
+  public void drive(double ySpeed, double xSpeed, double zRotation) {
+    double y = ySpeed;
+    double x = xSpeed;
+    double z = zRotation;
+    
+    driveEncoders.calculate(yMeasurement, y);
+    driveEncoders.calculate(xMeasurement, x);
+    driveEncoders.calculate(zMeasurement, z);
+    m_dDrive.driveCartesian(y, x, z);
   }
 
   public void setShooterDistanceFinished() {
