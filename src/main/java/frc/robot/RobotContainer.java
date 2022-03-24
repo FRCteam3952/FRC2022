@@ -200,12 +200,12 @@ public class RobotContainer {
   public void teleopInit() {
     inTeleop = true;
     configureButtonBindings();
-    driveTrain.setDefaultCommand(adjustAim);
+    // driveTrain.setDefaultCommand(adjustAim);
     arm.setDefaultCommand(driveMecanum);
     // ingester.setDefaultCommand(ingest);
-    ingestPos.setDefaultCommand(unlockIngester);
+    // ingestPos.setDefaultCommand(unlockIngester);
     // hooks.setDefaultCommand(manualClimb);
     // driveTrain.setDefaultCommand(manualDrive);
-    indexer.setDefaultCommand(index);
+    // indexer.setDefaultCommand(index);
   }
 }
