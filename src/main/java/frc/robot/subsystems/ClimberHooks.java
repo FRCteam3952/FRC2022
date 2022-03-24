@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
@@ -25,9 +26,12 @@ public class ClimberHooks extends SubsystemBase {
   private final DigitalInput bottomLimitSwitch;
   private final DigitalInput topOrBottomLimitSwitch;
 
+  private final RelativeEncoder hookEncoder;
+
   /** Creates a new ExampleSubsystem. */
   public ClimberHooks() {
     hook = new CANSparkMax(Constants.hookPort, MotorType.kBrushless);
+    hookEncoder = hook.getEncoder();
     topLimitSwitch = new DigitalInput(Constants.topLimitSwitchClimberPort); 
     bottomLimitSwitch = new DigitalInput(Constants.bottomLimitSwitchClimberPort);
     topOrBottomLimitSwitch = new DigitalInput(Constants.topOrBottomLimitClimberPort); //only used if third limit switch is used; not used if using manual control
@@ -81,6 +85,14 @@ public class ClimberHooks extends SubsystemBase {
 
   public boolean topOrBottomLimitPressed() {
     return topOrBottomLimitSwitch.get();
+  }
+
+  public double getEncoderPosition() {
+    return hookEncoder.getPosition();
+  }
+
+  public void setPosition(double position) {
+    hookEncoder.setPosition(position);
   }
 
   // logic to be continues TODO

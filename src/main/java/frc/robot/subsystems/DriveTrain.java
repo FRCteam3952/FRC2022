@@ -24,10 +24,10 @@ import frc.robot.Constants;
 
 public class DriveTrain extends SubsystemBase {
 
-  private final CANSparkMax frontLeft;
-  private final CANSparkMax frontRight;
-  private final CANSparkMax rearLeft;
-  private final CANSparkMax rearRight;
+  private static CANSparkMax frontLeft;
+  private static CANSparkMax frontRight;
+  private static CANSparkMax rearLeft;
+  private static CANSparkMax rearRight;
 
   private final RelativeEncoder frontLeftEncoder;
   private final RelativeEncoder frontRightEncoder;
@@ -37,7 +37,6 @@ public class DriveTrain extends SubsystemBase {
   private double yMeasurement;
   private double xMeasurement;
   private double zMeasurement;
-  private double setpoint;
 
   private double kp = 0.0015;
   private double ki = 0.001;
@@ -69,14 +68,7 @@ public class DriveTrain extends SubsystemBase {
 
 
   public void drive(double ySpeed, double xSpeed, double zRotation) {
-    double y = ySpeed;
-    double x = xSpeed;
-    double z = zRotation;
-    
-    driveEncoders.calculate(yMeasurement, y);
-    driveEncoders.calculate(xMeasurement, x);
-    driveEncoders.calculate(zMeasurement, z);
-    m_dDrive.driveCartesian(y, x, z);
+    m_dDrive.driveCartesian(ySpeed, xSpeed, zRotation);
   }
 
   public void setShooterDistanceFinished() {
@@ -90,6 +82,31 @@ public class DriveTrain extends SubsystemBase {
   public boolean isSettingShooterDistance() {
     return settingDistance;
   }
+
+  public static void setMecanumDrive(double translationAngle, double translationPower, double turnPower)
+{
+    // calculate motor power
+    double ADPower = translationPower * Math.sqrt(2) * 0.5 * (Math.sin(translationAngle) + Math.cos(translationAngle));
+    double BCPower = translationPower * Math.sqrt(2) * 0.5 * (Math.sin(translationAngle) - Math.cos(translationAngle));
+
+    // check if turning power will interfere with normal translation
+    // check ADPower to see if trying to apply turnPower would put motor power over 1.0 or under -1.0
+    double turningScale = Math.max(Math.abs(ADPower + turnPower), Math.abs(ADPower - turnPower)); 
+    // check BCPower to see if trying to apply turnPower would put motor power over 1.0 or under -1.0
+    turningScale = Math.max(turningScale, Math.max(Math.abs(BCPower + turnPower), Math.abs(BCPower - turnPower)));
+
+    // adjust turn power scale correctly
+    if (Math.abs(turningScale) < 1.0)
+    {
+        turningScale = 1.0;
+    }
+
+    // set the motors, and divide them by turningScale to make sure none of them go over the top, which would alter the translation angle
+    frontLeft.set((ADPower - turningScale) / turningScale);
+    rearLeft.set((BCPower - turningScale) / turningScale);
+    frontRight.set((BCPower + turningScale) / turningScale);
+    rearRight.set((ADPower + turningScale) / turningScale);
+}
 
   @Override
   public void periodic() {

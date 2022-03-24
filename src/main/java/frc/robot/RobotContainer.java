@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -26,6 +27,7 @@ import frc.robot.commands.UnlockIngester;
 import frc.robot.commands.IngestBalls;
 import frc.robot.commands.IndexBalls;
 import frc.robot.commands.AdjustShooter;
+import frc.robot.commands.DriveMecanum;
 
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.ClimberArm;
@@ -69,6 +71,7 @@ public class RobotContainer {
   public final static ShooterAimer adjustAim = new ShooterAimer(driveTrain);
   public final static AutonomousSetup autonomousCommand = new AutonomousSetup(driveTrain, hooks, arm, ingestPos, shooter, tacheo);
   public final static ManualDrive driveCommand = new ManualDrive(driveTrain);
+  public final static DriveMecanum driveMecanum = new DriveMecanum(driveTrain);
   //
   // public final static SequentialCommandGroup a = new
   // SequentialCommandGroup(flywheelShooter, autonomousCommand);
@@ -198,7 +201,7 @@ public class RobotContainer {
     inTeleop = true;
     configureButtonBindings();
     driveTrain.setDefaultCommand(adjustAim);
-    arm.setDefaultCommand(controlArm);
+    arm.setDefaultCommand(driveMecanum);
     // ingester.setDefaultCommand(ingest);
     ingestPos.setDefaultCommand(unlockIngester);
     // hooks.setDefaultCommand(manualClimb);
