@@ -21,17 +21,17 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 public class ClimberHooks extends SubsystemBase {
   // feeding system
 
-  private final CANSparkMax hook;
+  //private final CANSparkMax hook;
   private final DigitalInput topLimitSwitch;
   private final DigitalInput bottomLimitSwitch;
   private final DigitalInput topOrBottomLimitSwitch;
 
-  private final RelativeEncoder hookEncoder;
+  //private final RelativeEncoder hookEncoder;
 
   /** Creates a new ExampleSubsystem. */
   public ClimberHooks() {
-    hook = new CANSparkMax(Constants.hookPort, MotorType.kBrushless);
-    hookEncoder = hook.getEncoder();
+    //hook = new CANSparkMax(2, MotorType.kBrushless);
+    //hookEncoder = hook.getEncoder();
     topLimitSwitch = new DigitalInput(Constants.topLimitSwitchClimberPort); 
     bottomLimitSwitch = new DigitalInput(Constants.bottomLimitSwitchClimberPort);
     topOrBottomLimitSwitch = new DigitalInput(Constants.topOrBottomLimitClimberPort); //only used if third limit switch is used; not used if using manual control
@@ -62,14 +62,15 @@ public class ClimberHooks extends SubsystemBase {
 
 //sets the angle and speed for sliding hook for VSPX talon
   public double slideHook(double speed) {
-    hook.set(speed);
+    //hook.set(speed);
     return speed;
   }
 
 //return speed of motor for hook motor
   public double getHookSpeed() {
-    System.out.println(hook.get());
-    return hook.get();
+    //System.out.println(hook.get());
+    //return hook.get();
+    return 0;
   }
 
 //return speed of motor for the arm angle motor
@@ -88,11 +89,12 @@ public class ClimberHooks extends SubsystemBase {
   }
 
   public double getEncoderPosition() {
-    return hookEncoder.getPosition();
+    //return hookEncoder.getPosition();
+    return 0;
   }
 
   public void setPosition(double position) {
-    hookEncoder.setPosition(position);
+    //hookEncoder.setPosition(position);
   }
 
   // logic to be continues TODO

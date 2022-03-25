@@ -29,12 +29,12 @@ public class DriveTrain extends SubsystemBase {
   private static CANSparkMax rearLeft;
   private static CANSparkMax rearRight;
 
-  private final RelativeEncoder frontLeftEncoder;
-  private final RelativeEncoder frontRightEncoder;
-  private final RelativeEncoder rearLeftEncoder;
-  private final RelativeEncoder rearRightEncoder;
-  private final PIDController driveEncoders;
-  private double yMeasurement;
+  // private final RelativeEncoder frontLeftEncoder;
+  // private final RelativeEncoder frontRightEncoder;
+  // private final RelativeEncoder rearLeftEncoder;
+  // private final RelativeEncoder rearRightEncoder;
+  // private final PIDController driveEncoders;
+  // private double yMeasurement;
   private double xMeasurement;
   private double zMeasurement;
 
@@ -52,11 +52,19 @@ public class DriveTrain extends SubsystemBase {
     rearLeft = new CANSparkMax(Constants.rearLeftMotorPort, MotorType.kBrushless);
     rearRight = new CANSparkMax(Constants.rearRighttMotorPort, MotorType.kBrushless);
 
-    frontLeftEncoder = frontLeft.getEncoder();
-    frontRightEncoder = frontRight.getEncoder();
-    rearLeftEncoder = rearLeft.getEncoder();
-    rearRightEncoder = rearRight.getEncoder();
-    driveEncoders = new PIDController(kp, ki, kd);  
+    frontRight.setInverted(false);
+    rearRight.setInverted(false);
+    frontLeft.setInverted(true);
+    rearLeft.setInverted(true);
+    
+  
+    
+
+    // frontLeftEncoder = frontLeft.getEncoder();
+    // frontRightEncoder = frontRight.getEncoder();
+    // rearLeftEncoder = rearLeft.getEncoder();
+    // rearRightEncoder = rearRight.getEncoder();
+    // driveEncoders = new PIDController(kp, ki, kd);  
 
     m_dDrive = new MecanumDrive(frontLeft, rearLeft, frontRight, rearRight);
 
@@ -68,6 +76,7 @@ public class DriveTrain extends SubsystemBase {
 
 
   public void drive(double ySpeed, double xSpeed, double zRotation) {
+    // System.out.println("y: " + ySpeed + " x: " + xSpeed + " rot: " + zRotation);
     m_dDrive.driveCartesian(ySpeed, xSpeed, zRotation);
   }
 
@@ -83,12 +92,13 @@ public class DriveTrain extends SubsystemBase {
     return settingDistance;
   }
 
-  public static void setMecanumDrive(double translationAngle, double translationPower, double turnPower)
+  public void setMecanumDrive(double translationAngle, double translationPower, double turnPower)
 {
     // calculate motor power
     double ADPower = translationPower * Math.sqrt(2) * 0.5 * (Math.sin(translationAngle) + Math.cos(translationAngle));
     double BCPower = translationPower * Math.sqrt(2) * 0.5 * (Math.sin(translationAngle) - Math.cos(translationAngle));
 
+    // System.out.println( "front left: " + frontLeft.isFollower() + " front right " + frontRight.isFollower() + " rear left " + rearLeft.isFollower() + " rear right " + rearRight.isFollower());
     // check if turning power will interfere with normal translation
     // check ADPower to see if trying to apply turnPower would put motor power over 1.0 or under -1.0
     double turningScale = Math.max(Math.abs(ADPower + turnPower), Math.abs(ADPower - turnPower)); 
@@ -102,11 +112,15 @@ public class DriveTrain extends SubsystemBase {
     }
 
     // set the motors, and divide them by turningScale to make sure none of them go over the top, which would alter the translation angle
-    frontLeft.set((ADPower - turningScale) / turningScale);
-    rearLeft.set((BCPower - turningScale) / turningScale);
-    frontRight.set((BCPower + turningScale) / turningScale);
-    rearRight.set((ADPower + turningScale) / turningScale);
-}
+//     frontLeft.set((ADPower - turningScale) / turningScale);
+//     rearLeft.set((BCPower - turningScale) / turningScale);
+//     frontRight.set((BCPower + turningScale) / turningScale);
+//     rearRight.set((ADPower + turningScale) / turningScale);
+System.out.println((ADPower - turningScale) / turningScale);
+System.out.println((BCPower - turningScale) / turningScale);
+System.out.println((BCPower + turningScale) / turningScale);
+System.out.println((ADPower + turningScale) / turningScale);
+  }
 
   @Override
   public void periodic() {

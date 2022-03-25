@@ -37,12 +37,12 @@ public class ManualDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      double ySpeed = (RobotContainer.flightJoystick.joystick.getY());
-      double xSpeed = (RobotContainer.flightJoystick.joystick.getX());
-      double zRotation = (RobotContainer.flightJoystick.joystick.getTwist());
+      double ySpeed = (RobotContainer.flightJoystick.getLateralMovement());
+      double xSpeed = (-RobotContainer.flightJoystick.getHorizontalMovement());
+      double zRotation = (-RobotContainer.flightJoystick.getRotation());
 
 
-      // System.out.println("Lat: " + lat + " Hor: "+ hor);
+      System.out.println("y: " + ySpeed + " x: "+ xSpeed + " z: " + zRotation);
 
 
       /*

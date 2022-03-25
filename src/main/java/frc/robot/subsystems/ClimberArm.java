@@ -20,14 +20,14 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 
 
 public class ClimberArm extends SubsystemBase {
-  private final CANSparkMax armAngle;
+  //private final CANSparkMax armAngle;
   /** Creates a new ExampleSubsystem. */
   public ClimberArm() {
-    armAngle = new CANSparkMax(Constants.armAnglePort, MotorType.kBrushless);
+    //armAngle = new CANSparkMax(1, MotorType.kBrushless);
   }
 
   public double changeArmAngle(double speed) {
-    armAngle.set(speed);
+    //armAngle.set(speed);
     return speed;
   }
 

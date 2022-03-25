@@ -54,8 +54,8 @@ public class RobotContainer {
   public final static Tachometer tacheo = new Tachometer();
   public final static Indexer indexer = new Indexer();
 
-  public static Tango2Controller tangoIIController = new Tango2Controller(new Tango2Joystick(0));
-  public static FlightJoystickController flightJoystick = new FlightJoystickController(new Joystick(1));
+  public static Tango2Controller tangoIIController = new Tango2Controller(new Tango2Joystick(1));
+  public static FlightJoystickController flightJoystick = new FlightJoystickController(new Joystick(0));
 
   public final static ClimberHooks hooks = new ClimberHooks();
   public final static ClimberArm arm = new ClimberArm();
@@ -109,24 +109,24 @@ public class RobotContainer {
     // when press button "1" on frc will run shooterAimer, follow shooterAimer for
     // more info
     // Joystick joystick = new Joystick(0);
-    JoystickButton shooterButton = new JoystickButton(flightJoystick.joystick, 1);
-    shooterButton.whileActiveContinuous(adjustShooter);
-    shooterButton.whenReleased(() -> adjustShooter.cancel());
+    // JoystickButton shooterButton = new JoystickButton(flightJoystick.joystick, 1);
+    // shooterButton.whileActiveContinuous(adjustShooter);
+    // shooterButton.whenReleased(() -> adjustShooter.cancel());
 
-    Trigger hookTrigger = new Trigger(() -> tangoIIController.getSlider() > .5);
-    hookTrigger.whileActiveContinuous(controlHooks);
-    hookTrigger.whenActive(() -> controlHooks.cancel());
+    // Trigger hookTrigger = new Trigger(() -> tangoIIController.getSlider() > .5);
+    // hookTrigger.whileActiveContinuous(controlHooks);
+    // hookTrigger.whenActive(() -> controlHooks.cancel());
 
-    Trigger driveTrigger = new Trigger(() -> tangoIIController.getSlider() <= .5);
-    driveTrigger.whileActiveContinuous(driveCommand);
-    driveTrigger.whenActive(() -> driveCommand.cancel());
+    // Trigger driveTrigger = new Trigger(() -> tangoIIController.getSlider() <= .5);
+    // driveTrigger.whileActiveContinuous(driveCommand);
+    // driveTrigger.whenActive(() -> driveCommand.cancel());
 
-    JoystickButton flywheelButton = new JoystickButton(flightJoystick.joystick, 5);
-    flywheelButton.whenPressed(flywheelShooter);
+    // JoystickButton flywheelButton = new JoystickButton(flightJoystick.joystick, 5);
+    // flywheelButton.whenPressed(flywheelShooter);
 
-    JoystickButton ingestButton = new JoystickButton(flightJoystick.joystick, 7);
-    ingestButton.whenPressed(ingest);
-    ingestButton.whenReleased(index);
+    // JoystickButton ingestButton = new JoystickButton(flightJoystick.joystick, 7);
+    // ingestButton.whenPressed(ingest);
+    // ingestButton.whenReleased(index);
 
     // JoystickButton spitBallButton = new JoystickButton(driverStick.joystick, 6);
     // spitBallButton.whenHeld();
@@ -201,7 +201,7 @@ public class RobotContainer {
     inTeleop = true;
     configureButtonBindings();
     // driveTrain.setDefaultCommand(adjustAim);
-    arm.setDefaultCommand(driveMecanum);
+    driveTrain.setDefaultCommand(driveCommand);
     // ingester.setDefaultCommand(ingest);
     // ingestPos.setDefaultCommand(unlockIngester);
     // hooks.setDefaultCommand(manualClimb);
