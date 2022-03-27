@@ -27,7 +27,9 @@ import frc.robot.commands.UnlockIngester;
 import frc.robot.commands.IngestBalls;
 import frc.robot.commands.IndexBalls;
 import frc.robot.commands.AdjustShooter;
+import frc.robot.commands.AimbotBall;
 import frc.robot.commands.DriveMecanum;
+
 
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.ClimberArm;
@@ -54,6 +56,8 @@ public class RobotContainer {
   public final static Tachometer tacheo = new Tachometer();
   public final static Indexer indexer = new Indexer();
 
+  //public final static AimbotBall aimball = new AimbotBall();
+
   public static Tango2Controller tangoIIController = new Tango2Controller(new Tango2Joystick(1));
   public static FlightJoystickController flightJoystick = new FlightJoystickController(new Joystick(0));
 
@@ -72,6 +76,7 @@ public class RobotContainer {
   public final static AutonomousSetup autonomousCommand = new AutonomousSetup(driveTrain, hooks, arm, ingestPos, shooter, tacheo);
   public final static ManualDrive driveCommand = new ManualDrive(driveTrain);
   public final static DriveMecanum driveMecanum = new DriveMecanum(driveTrain);
+
   //
   // public final static SequentialCommandGroup a = new
   // SequentialCommandGroup(flywheelShooter, autonomousCommand);
@@ -202,7 +207,7 @@ public class RobotContainer {
     configureButtonBindings();
     // driveTrain.setDefaultCommand(adjustAim);
     driveTrain.setDefaultCommand(driveCommand);
-    // ingester.setDefaultCommand(ingest);
+    //ingester.setDefaultCommand(ingest);
     // ingestPos.setDefaultCommand(unlockIngester);
     // hooks.setDefaultCommand(manualClimb);
     // driveTrain.setDefaultCommand(manualDrive);

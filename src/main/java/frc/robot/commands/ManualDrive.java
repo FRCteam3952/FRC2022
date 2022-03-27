@@ -16,6 +16,7 @@ public class ManualDrive extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final DriveTrain drive_train;
   private final AdjustShooterAim adjustShooterAim;
+  private final AimbotBall aimBall;
 
   /**
    * Creates a new ExampleCommand.
@@ -25,6 +26,7 @@ public class ManualDrive extends CommandBase {
   public ManualDrive(DriveTrain subsystem) {
     drive_train = subsystem;
     adjustShooterAim = new AdjustShooterAim(drive_train);
+    aimBall = new AimbotBall();
     addRequirements(drive_train);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -68,6 +70,7 @@ public class ManualDrive extends CommandBase {
       if (RobotContainer.flightJoystick.getJoystickPOV() == 90 || RobotContainer.flightJoystick.getJoystickPOV() == 270)
         adjustShooterAim.schedule();
       
+      aimBall.schedule();
       drive_train.drive(ySpeed, xSpeed, zRotation);
 
      
