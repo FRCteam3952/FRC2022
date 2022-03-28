@@ -52,4 +52,7 @@ public final class Constants {
 
     //gyro analog channel
     public static final int gyroChannel = 0;
+
+    //button numbers
+    public static final int aimbotButtonNumber = 2;
 }

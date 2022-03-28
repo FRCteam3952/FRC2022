@@ -76,6 +76,7 @@ public class RobotContainer {
   public final static AutonomousSetup autonomousCommand = new AutonomousSetup(driveTrain, hooks, arm, ingestPos, shooter, tacheo);
   public final static ManualDrive driveCommand = new ManualDrive(driveTrain);
   public final static DriveMecanum driveMecanum = new DriveMecanum(driveTrain);
+  public final static AimbotBall aimBall = new AimbotBall(driveTrain); 
 
   //
   // public final static SequentialCommandGroup a = new
@@ -137,6 +138,8 @@ public class RobotContainer {
     // spitBallButton.whenHeld();
     // spitBallButton.whenReleased();
 
+    JoystickButton aimbotButton = new JoystickButton(flightJoystick.joystick, Constants.aimbotButtonNumber);
+    aimbotButton.whenHeld(aimBall);
     /**
      * Get the slider position of the HID.
      *

@@ -26,7 +26,7 @@ public class ManualDrive extends CommandBase {
   public ManualDrive(DriveTrain subsystem) {
     drive_train = subsystem;
     adjustShooterAim = new AdjustShooterAim(drive_train);
-    aimBall = new AimbotBall();
+    aimBall = new AimbotBall(drive_train);
     addRequirements(drive_train);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -47,30 +47,11 @@ public class ManualDrive extends CommandBase {
       System.out.println("y: " + ySpeed + " x: "+ xSpeed + " z: " + zRotation);
 
 
-      /*
-      float Kp = -0.1f;
-      NetworkTable networkTable = NetworkTableInstance.getDefault().getTable("limelight");
-      float min_command = 0.5f;
-      float tx = (float) networkTable.getEntry("tx").getDouble(100000);
-
-      if(!(tx > 98000)) {
-        if(joystickButton.get()) {
-          float headingError = -tx;
-          float steering_adjust = 0.0f;
-          if(tx > 1.0) {
-            steering_adjust = Kp*headingError - min_command;
-          } else if(tx < 1.0) {
-            steering_adjust = Kp*headingError + min_command;
-          }
-          lat += 2*(steering_adjust);
-        }
-      }
-      */
+      
 
       if (RobotContainer.flightJoystick.getJoystickPOV() == 90 || RobotContainer.flightJoystick.getJoystickPOV() == 270)
         adjustShooterAim.schedule();
       
-      aimBall.schedule();
       drive_train.drive(ySpeed, xSpeed, zRotation);
 
      
