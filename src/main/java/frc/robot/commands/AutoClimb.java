@@ -6,8 +6,6 @@ package frc.robot.commands;
 
 import frc.robot.subsystems.ClimberHooks;
 import frc.robot.subsystems.ClimberArm;
-import frc.robot.RobotContainer;
-import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.Timer;
 // this does climb auto
@@ -23,6 +21,7 @@ public class AutoClimb extends CommandBase {
 
   private final ClimberHooks hooks;
   private final ClimberArm arm;
+  private final double MAX_POSITION = 50; //measured in motor rotations, measure later
   /**
    * Creates a new ExampleCommand.
    *
@@ -62,7 +61,7 @@ public class AutoClimb extends CommandBase {
       
       case SLIDE_HOOK_HIGH:
         hooks.slideHook(HOOK_POWER);
-        if (hooks.topLimitPressed()) {
+        if (hooks.getEncoderPosition() >= MAX_POSITION) {
           hooks.slideHook(0);
           arm.changeArmAngle(0);
           state = ClimbingStates.MOVE_TO_HIGH;
@@ -84,7 +83,7 @@ public class AutoClimb extends CommandBase {
       case SLIDE_HOOK_TRAVERSAL_TOP:
         hooks.slideHook(HOOK_POWER);
         arm.changeArmAngle(-ARM_POWER);
-        if (hooks.topLimitPressed()) {
+        if (hooks.getEncoderPosition() >= MAX_POSITION) {
           hooks.slideHook(0);
           arm.changeArmAngle(0);
           timer.reset();
@@ -94,17 +93,16 @@ public class AutoClimb extends CommandBase {
       
       case SLIDE_HOOK_TRAVERSAL_BOTTOM:
         hooks.slideHook(HOOK_POWER);
-        if (hooks.topLimitPressed()) {
+        if (hooks.getEncoderPosition() >= MAX_POSITION) {
           hooks.slideHook(0);
           arm.changeArmAngle(0);
-          timer.reset();
           state = ClimbingStates.TRAVERSE;
         }
         break;
 
       case TRAVERSE:
         hooks.slideHook(-HOOK_POWER);
-        if (timer.hasElapsed(2)) {
+        if (hooks.getEncoderPosition() <= 40) {
           hooks.slideHook(0);
           cancel();
         }
