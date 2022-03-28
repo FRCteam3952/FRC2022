@@ -49,4 +49,7 @@ public final class Constants {
     public static final int rearLeftEncoderChannelB = 6;
     public static final int rearRightEncoderChannelA = 7;
     public static final int rearRightEncoderChannelB = 8;
+
+    //gyro analog channel
+    public static final int gyroChannel = 0;
 }

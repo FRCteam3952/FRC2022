@@ -88,6 +88,21 @@ distanceToHoop())
       double a = Math.toRadians(ANGLE);
       double g = GRAVITY;
       double velocity = Math.sqrt((-(g/2) * Math.pow(x, 2)) / ((y - x * Math.tan(a)) * Math.pow(Math.cos(a), 2)));
+      /**
+       (-Math.sin(ANGLE)*velocity + Math.sqrt(Math.pow((-Math.sin(ANGLE)*velocity), 2) -  (4*-4.9*-2.64))) / (2*-9.8) = x1
+       (-Math.sin(ANGLE)*velocity - Math.sqrt(Math.pow((-Math.sin(ANGLE)*velocity), 2) -  (4*-4.9*-2.64))) / (2*-9.8) = x2
+      
+       //grab bigger x1
+
+       x_*velocity * Math.cos(ANGLE) = xh
+S
+       if not (xh > distanceToHoop()+ &&  xh < distanceToHoop()+2*HOOP_RADIUS)
+      {
+       (xh - distanceToHoop()) / (t*Math.cos(ANGLE)) = newVelocity
+      }
+       newVelocity= velocity
+
+       */
       launchSpeed = velocity;
     }
 

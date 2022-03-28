@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
@@ -28,6 +29,7 @@ public class DriveTrain extends SubsystemBase {
   private static CANSparkMax frontRight;
   private static CANSparkMax rearLeft;
   private static CANSparkMax rearRight;
+  private static ADIS16470_IMU gyro;
 
   // private final RelativeEncoder frontLeftEncoder;
   // private final RelativeEncoder frontRightEncoder;
@@ -51,7 +53,7 @@ public class DriveTrain extends SubsystemBase {
     frontRight = new CANSparkMax(Constants.frontRightMotorPort, MotorType.kBrushless);
     rearLeft = new CANSparkMax(Constants.rearLeftMotorPort, MotorType.kBrushless);
     rearRight = new CANSparkMax(Constants.rearRighttMotorPort, MotorType.kBrushless);
-
+    gyro = new ADIS16470_IMU();
     frontRight.setInverted(false);
     rearRight.setInverted(false);
     frontLeft.setInverted(true);
@@ -77,7 +79,7 @@ public class DriveTrain extends SubsystemBase {
 
   public void drive(double ySpeed, double xSpeed, double zRotation) {
     //System.out.println("y: " + ySpeed + " x: " + xSpeed + " rot: " + zRotation);
-    m_dDrive.driveCartesian(ySpeed, xSpeed, zRotation);
+    m_dDrive.driveCartesian(ySpeed, xSpeed, zRotation, gyro.getAngle());
     //aimBall.schedule();
   }
 
