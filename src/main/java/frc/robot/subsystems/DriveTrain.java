@@ -72,7 +72,7 @@ public class DriveTrain extends SubsystemBase {
 
   public void drive(double ySpeed, double xSpeed, double zRotation) {
     //System.out.println("y: " + ySpeed + " x: " + xSpeed + " rot: " + zRotation);
-    m_dDrive.driveCartesian(ySpeed, xSpeed, zRotation, gyro.getAngle());
+    m_dDrive.driveCartesian(ySpeed, xSpeed, zRotation, 0);
     //aimBall.schedule();
   }
 
