@@ -4,9 +4,6 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.DriveTrain;
-import frc.robot.RobotContainer;
-import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -14,7 +11,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 
 
 public class AimbotBall extends CommandBase {
-    private DriveTrain drive_train;
+    // private DriveTrain drive_train;
     private NetworkTableInstance inst;
     private NetworkTable table;
     private NetworkTableEntry ball;

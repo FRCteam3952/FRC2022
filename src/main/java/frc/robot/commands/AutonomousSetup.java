@@ -1,18 +1,13 @@
 package frc.robot.commands;
 
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.ClimberArm;
 import frc.robot.subsystems.ClimberHooks;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Tachometer;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.IngesterPositioner;
-import frc.robot.subsystems.Tachometer;
 
 public class AutonomousSetup extends CommandBase {
   /**

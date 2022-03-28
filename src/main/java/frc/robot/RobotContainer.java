@@ -9,25 +9,16 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.drive.MecanumDrive;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.AutoClimb;
-import frc.robot.commands.AutonomousGroup;
 import frc.robot.commands.AutonomousSetup;
 import frc.robot.commands.ManualDrive;
 import frc.robot.commands.ControlArm;
 import frc.robot.commands.FlywheelShooter;
 import frc.robot.commands.ControlHooks;
-import frc.robot.commands.SetShooterPower;
 import frc.robot.commands.ShooterAimer;
 import frc.robot.commands.UnlockIngester;
 import frc.robot.commands.IngestBalls;
 import frc.robot.commands.IndexBalls;
 import frc.robot.commands.AdjustShooter;
-import frc.robot.commands.AimbotBall;
 import frc.robot.commands.DriveMecanum;
 
 

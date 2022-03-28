@@ -6,20 +6,10 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import java.security.spec.EncodedKeySpec;
-
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
-import edu.wpi.first.wpilibj.motorcontrol.Talon;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxAlternateEncoder;
-import com.revrobotics.SparkMaxRelativeEncoder;
 import frc.robot.Constants;
 
 
@@ -37,12 +27,15 @@ public class DriveTrain extends SubsystemBase {
   // private final RelativeEncoder rearRightEncoder;
   // private final PIDController driveEncoders;
   // private double yMeasurement;
+
+  /*
   private double xMeasurement;
   private double zMeasurement;
 
   private double kp = 0.0015;
   private double ki = 0.001;
   private double kd = 0;
+  */
 
   private MecanumDrive m_dDrive;
 

@@ -1,6 +1,5 @@
 package frc.robot.commands;
 
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Tachometer;
 import frc.robot.subsystems.Indexer;

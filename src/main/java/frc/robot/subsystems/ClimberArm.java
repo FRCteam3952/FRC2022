@@ -7,15 +7,8 @@ package frc.robot.subsystems;
 
 
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.SparkMaxAlternateEncoder;
-import com.revrobotics.SparkMaxRelativeEncoder;
-import com.fasterxml.jackson.annotation.SimpleObjectIdResolver;
-import com.ctre.phoenix.motorcontrol.ControlMode;
+
 
 
 
