@@ -19,7 +19,7 @@ public class AimbotBall extends CommandBase {
     private NetworkTable table;
     private NetworkTableEntry ball;
     private NetworkTableEntry xPos;
-    private final int TEAM = 3952;
+    private NetworkTableEntry xRes;
     
     public AimbotBall() {
         System.out.println("Set up Network Table.");
@@ -27,6 +27,8 @@ public class AimbotBall extends CommandBase {
         table = inst.getTable("Vision");
         ball = table.getEntry("seeBall");
         xPos = table.getEntry("ball_x");
+        xRes = table.getEntry("xRes");
+
     
     }
 
@@ -42,6 +44,8 @@ public class AimbotBall extends CommandBase {
         if(ball.getBoolean(false)) {
             double x = xPos.getNumber(100.0).doubleValue();
             System.out.println(x);
+            double error = xRes.getNumber(100.0).doubleValue()/2 - x;
+            
         } else {
             System.out.println("no ball");
         }
