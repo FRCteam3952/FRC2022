@@ -49,10 +49,11 @@ public class ManualDrive extends CommandBase {
     double zRotation = (-RobotContainer.flightJoystick.getRotation());
 
 
-    System.out.println("y: " + ySpeed + " x: "+ xSpeed + " z: " + zRotation);
+    //System.out.println("y: " + ySpeed + " x: "+ xSpeed + " z: " + zRotation);
 
     if (RobotContainer.flightJoystick.button2Pressed()) {
         xSpeed += ball.getNumber(0).doubleValue();
+        System.out.println(ball.getNumber(0).doubleValue());
     }
 
     if (RobotContainer.flightJoystick.getJoystickPOV() == 90 || RobotContainer.flightJoystick.getJoystickPOV() == 270)

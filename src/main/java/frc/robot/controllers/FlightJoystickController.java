@@ -46,7 +46,7 @@ public class FlightJoystickController {
     }
 
     public boolean button2Pressed() {
-        return joystick.getRawButtonPressed(2);
+        return joystick.getRawButton(2);
     }
 
     public boolean button3Pressed() {

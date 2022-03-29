@@ -19,7 +19,7 @@ public class DriveTrain extends SubsystemBase {
   private static CANSparkMax frontRight;
   private static CANSparkMax rearLeft;
   private static CANSparkMax rearRight;
-  private static ADIS16470_IMU gyro;
+  //private static ADIS16470_IMU gyro;
 
   // private final RelativeEncoder frontLeftEncoder;
   // private final RelativeEncoder frontRightEncoder;
@@ -46,7 +46,7 @@ public class DriveTrain extends SubsystemBase {
     frontRight = new CANSparkMax(Constants.frontRightMotorPort, MotorType.kBrushless);
     rearLeft = new CANSparkMax(Constants.rearLeftMotorPort, MotorType.kBrushless);
     rearRight = new CANSparkMax(Constants.rearRighttMotorPort, MotorType.kBrushless);
-    gyro = new ADIS16470_IMU();
+    //gyro = new ADIS16470_IMU();
     frontRight.setInverted(false);
     rearRight.setInverted(false);
     frontLeft.setInverted(true);

@@ -50,7 +50,7 @@ public class RobotContainer {
   public final static Tachometer tacheo = new Tachometer();
   public final static Indexer indexer = new Indexer();
 
-  public final static AimbotBall aimball = new AimbotBall(driveTrain);
+  //public final static AimbotBall aimball = new AimbotBall(driveTrain);
 
   public static Tango2Controller tangoIIController = new Tango2Controller(new Tango2Joystick(1));
   public static FlightJoystickController flightJoystick = new FlightJoystickController(new Joystick(0));
@@ -70,7 +70,7 @@ public class RobotContainer {
   public final static AutonomousSetup autonomousCommand = new AutonomousSetup(driveTrain, hooks, arm, ingestPos, shooter, tacheo);
   public final static ManualDrive driveCommand = new ManualDrive(driveTrain);
   public final static DriveMecanum driveMecanum = new DriveMecanum(driveTrain);
-  public final static AimbotBall aimBall = new AimbotBall(driveTrain); 
+  //public final static AimbotBall aimBall = new AimbotBall(driveTrain); 
 
   //
   // public final static SequentialCommandGroup a = new
@@ -132,8 +132,8 @@ public class RobotContainer {
     // spitBallButton.whenHeld();
     // spitBallButton.whenReleased();
 
-    JoystickButton aimbotButton = new JoystickButton(flightJoystick.joystick, Constants.aimbotButtonNumber);
-    aimbotButton.whenHeld(aimBall);
+    //JoystickButton aimbotButton = new JoystickButton(flightJoystick.joystick, Constants.aimbotButtonNumber);
+    //aimbotButton.whenHeld(aimBall);
     /**
      * Get the slider position of the HID.
      *
