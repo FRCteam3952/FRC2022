@@ -7,6 +7,9 @@ package frc.robot.commands;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
 
 /** An example command that uses an example subsystem. */
@@ -14,7 +17,10 @@ public class ManualDrive extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final DriveTrain drive_train;
   private final AdjustShooterAim adjustShooterAim;
-  private final AimbotBall aimBall;
+  private NetworkTableInstance inst;
+  private NetworkTable table;
+  private NetworkTableEntry ball;
+  private NetworkTableEntry xPos;
 
   /**
    * Creates a new ExampleCommand.
@@ -24,7 +30,10 @@ public class ManualDrive extends CommandBase {
   public ManualDrive(DriveTrain subsystem) {
     drive_train = subsystem;
     adjustShooterAim = new AdjustShooterAim(drive_train);
-    aimBall = new AimbotBall(drive_train);
+    inst = NetworkTableInstance.getDefault();
+    table = inst.getTable("Vision");
+    ball = table.getEntry("seeBall");
+    xPos = table.getEntry("ball_x");
     addRequirements(drive_train);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -37,24 +46,43 @@ public class ManualDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      double ySpeed = (RobotContainer.flightJoystick.getLateralMovement());
-      double xSpeed = (-RobotContainer.flightJoystick.getHorizontalMovement());
-      double zRotation = (-RobotContainer.flightJoystick.getRotation());
+    double ySpeed = (RobotContainer.flightJoystick.getLateralMovement());
+    double xSpeed = (-RobotContainer.flightJoystick.getHorizontalMovement());
+    double zRotation = (-RobotContainer.flightJoystick.getRotation());
 
 
-      System.out.println("y: " + ySpeed + " x: "+ xSpeed + " z: " + zRotation);
+    System.out.println("y: " + ySpeed + " x: "+ xSpeed + " z: " + zRotation);
 
+    if (RobotContainer.flightJoystick.button2Pressed()) {
+      if(ball.getBoolean(false)) {
+        double x = xPos.getNumber(100.0).doubleValue();
+        double error = 200 - x;
+        System.out.println(" Error: " + error);
+        xSpeed += PIDCalculations(error);
+      } else {
+        System.out.println("no ball?");
+      }
+    }
 
+    if (RobotContainer.flightJoystick.getJoystickPOV() == 90 || RobotContainer.flightJoystick.getJoystickPOV() == 270)
+      adjustShooterAim.schedule();
       
+    if (xSpeed > 1)
+      xSpeed = 1;
+    if (xSpeed < -1)
+      xSpeed = -1;
 
-      if (RobotContainer.flightJoystick.getJoystickPOV() == 90 || RobotContainer.flightJoystick.getJoystickPOV() == 270)
-        adjustShooterAim.schedule();
-      
-      drive_train.drive(ySpeed, xSpeed, zRotation);
+    drive_train.drive(ySpeed, xSpeed, zRotation);
 
      
     }
 
+  public double PIDCalculations(double error){
+      //PIDController pid = new PIDController(1, 0, 0);
+      //double calculation = pid.calculate(error);
+      //System.out.println(calculation);
+      return error/160/4;
+  }
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {

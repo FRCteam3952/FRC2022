@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
 import frc.robot.commands.AutonomousSetup;
 import frc.robot.commands.ManualDrive;
 import frc.robot.commands.ControlArm;
@@ -20,6 +22,7 @@ import frc.robot.commands.IngestBalls;
 import frc.robot.commands.IndexBalls;
 import frc.robot.commands.AdjustShooter;
 import frc.robot.commands.DriveMecanum;
+import frc.robot.commands.AimbotBall;
 
 
 import frc.robot.subsystems.DriveTrain;
@@ -47,7 +50,7 @@ public class RobotContainer {
   public final static Tachometer tacheo = new Tachometer();
   public final static Indexer indexer = new Indexer();
 
-  //public final static AimbotBall aimball = new AimbotBall();
+  public final static AimbotBall aimball = new AimbotBall(driveTrain);
 
   public static Tango2Controller tangoIIController = new Tango2Controller(new Tango2Joystick(1));
   public static FlightJoystickController flightJoystick = new FlightJoystickController(new Joystick(0));
