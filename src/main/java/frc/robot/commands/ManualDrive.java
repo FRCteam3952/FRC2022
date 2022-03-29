@@ -53,7 +53,7 @@ public class ManualDrive extends CommandBase {
 
     if (RobotContainer.flightJoystick.button2Pressed()) {
         xSpeed += ball.getNumber(0).doubleValue();
-        System.out.println(ball.getNumber(0).doubleValue());
+        //System.out.println(ball.getNumber(0).doubleValue()/10);
     }
 
     if (RobotContainer.flightJoystick.getJoystickPOV() == 90 || RobotContainer.flightJoystick.getJoystickPOV() == 270)

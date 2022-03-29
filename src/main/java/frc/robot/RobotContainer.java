@@ -21,8 +21,7 @@ import frc.robot.commands.UnlockIngester;
 import frc.robot.commands.IngestBalls;
 import frc.robot.commands.IndexBalls;
 import frc.robot.commands.AdjustShooter;
-import frc.robot.commands.DriveMecanum;
-import frc.robot.commands.AimbotBall;
+
 
 
 import frc.robot.subsystems.DriveTrain;
@@ -69,7 +68,6 @@ public class RobotContainer {
   public final static ShooterAimer adjustAim = new ShooterAimer(driveTrain);
   public final static AutonomousSetup autonomousCommand = new AutonomousSetup(driveTrain, hooks, arm, ingestPos, shooter, tacheo);
   public final static ManualDrive driveCommand = new ManualDrive(driveTrain);
-  public final static DriveMecanum driveMecanum = new DriveMecanum(driveTrain);
   //public final static AimbotBall aimBall = new AimbotBall(driveTrain); 
 
   //
