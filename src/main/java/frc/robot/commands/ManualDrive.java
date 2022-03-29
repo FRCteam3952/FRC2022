@@ -20,7 +20,6 @@ public class ManualDrive extends CommandBase {
   private NetworkTableInstance inst;
   private NetworkTable table;
   private NetworkTableEntry ball;
-  private NetworkTableEntry xPos;
 
   /**
    * Creates a new ExampleCommand.
@@ -32,8 +31,7 @@ public class ManualDrive extends CommandBase {
     adjustShooterAim = new AdjustShooterAim(drive_train);
     inst = NetworkTableInstance.getDefault();
     table = inst.getTable("Vision");
-    ball = table.getEntry("seeBall");
-    xPos = table.getEntry("ball_x");
+    ball = table.getEntry("PID");
     addRequirements(drive_train);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -54,14 +52,7 @@ public class ManualDrive extends CommandBase {
     System.out.println("y: " + ySpeed + " x: "+ xSpeed + " z: " + zRotation);
 
     if (RobotContainer.flightJoystick.button2Pressed()) {
-      if(ball.getBoolean(false)) {
-        double x = xPos.getNumber(100.0).doubleValue();
-        double error = 200 - x;
-        System.out.println(" Error: " + error);
-        xSpeed += PIDCalculations(error);
-      } else {
-        System.out.println("no ball?");
-      }
+        xSpeed += ball.getNumber(0).doubleValue();
     }
 
     if (RobotContainer.flightJoystick.getJoystickPOV() == 90 || RobotContainer.flightJoystick.getJoystickPOV() == 270)
@@ -75,14 +66,8 @@ public class ManualDrive extends CommandBase {
     drive_train.drive(ySpeed, xSpeed, zRotation);
 
      
-    }
-
-  public double PIDCalculations(double error){
-      //PIDController pid = new PIDController(1, 0, 0);
-      //double calculation = pid.calculate(error);
-      //System.out.println(calculation);
-      return error/160/4;
   }
+
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
