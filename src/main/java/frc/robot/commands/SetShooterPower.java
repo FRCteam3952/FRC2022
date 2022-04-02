@@ -24,7 +24,7 @@ public class SetShooterPower extends CommandBase {
     
     private final double HOOP_HEIGHT = 2.6416; //in meters
     private final double HOOP_RADIUS = 0.6096; //in meters
-    private final double WHEEL_RADIUS = 0.123825; //in meters
+    private final double WHEEL_RADIUS = 0.0619125; //in meters
     private final double BALL_MASS = 0.26932047; //in kilograms
     private final double WHEEL_MASS = 0.144582568; //in kilograms, find out later
     private final double GRAVITY = 9.80665; // in meters per second squared
