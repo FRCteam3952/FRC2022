@@ -18,7 +18,7 @@ public class ManualDrive extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final DriveTrain drive_train;
   private final AdjustShooterAim adjustShooterAim;
-  //private static ADIS16470_IMU gyro;
+  private static ADIS16470_IMU gyro;
   private NetworkTableInstance inst;
   private NetworkTable table;
   private NetworkTableEntry ball;
@@ -33,8 +33,8 @@ public class ManualDrive extends CommandBase {
     drive_train = subsystem;
     adjustShooterAim = new AdjustShooterAim(drive_train);
 
-    //gyro = new ADIS16470_IMU();
-    //gyro.setYawAxis(ADIS16470_IMU.IMUAxis.kY);
+    gyro = new ADIS16470_IMU();
+    gyro.setYawAxis(ADIS16470_IMU.IMUAxis.kY);
 
     inst = NetworkTableInstance.getDefault();
     table = inst.getTable("Vision");
@@ -71,7 +71,13 @@ public class ManualDrive extends CommandBase {
         else if(adjustment > -minPower && adjustment < 0){
           adjustment = -minPower;
         }
-        zRotation += (adjustment/4);
+        double angle = gyro.getAngle();
+        double adjustX = adjustment * Math.cos(angle);
+        double adjustY = adjustment * Math.sin(angle);
+
+        xSpeed += adjustX;
+        ySpeed += adjustY;
+        //zRotation += (adjustment/4);
       }
     }
 
