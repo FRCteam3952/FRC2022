@@ -8,9 +8,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 
 public class DriveTrain extends SubsystemBase {
@@ -19,7 +21,7 @@ public class DriveTrain extends SubsystemBase {
   private static CANSparkMax frontRight;
   private static CANSparkMax rearLeft;
   private static CANSparkMax rearRight;
-  //private static ADIS16470_IMU gyro;
+  private static ADIS16470_IMU gyro;
 
   // private final RelativeEncoder frontLeftEncoder;
   // private final RelativeEncoder frontRightEncoder;
@@ -31,10 +33,6 @@ public class DriveTrain extends SubsystemBase {
   /*
   private double xMeasurement;
   private double zMeasurement;
-
-  private double kp = 0.0015;
-  private double ki = 0.001;
-  private double kd = 0;
   */
 
   private MecanumDrive m_dDrive;
@@ -46,7 +44,8 @@ public class DriveTrain extends SubsystemBase {
     frontRight = new CANSparkMax(Constants.frontRightMotorPort, MotorType.kBrushless);
     rearLeft = new CANSparkMax(Constants.rearLeftMotorPort, MotorType.kBrushless);
     rearRight = new CANSparkMax(Constants.rearRighttMotorPort, MotorType.kBrushless);
-    //gyro = new ADIS16470_IMU();
+    gyro = new ADIS16470_IMU();
+    gyro.setYawAxis(ADIS16470_IMU.IMUAxis.kY);
     frontRight.setInverted(false);
     rearRight.setInverted(false);
     frontLeft.setInverted(true);
@@ -71,9 +70,10 @@ public class DriveTrain extends SubsystemBase {
 
 
   public void drive(double ySpeed, double xSpeed, double zRotation) {
-    //System.out.println("y: " + ySpeed + " x: " + xSpeed + " rot: " + zRotation);
-    m_dDrive.driveCartesian(ySpeed, xSpeed, zRotation, 0);
-    //aimBall.schedule();
+    m_dDrive.driveCartesian(ySpeed, xSpeed, zRotation, -gyro.getAngle());
+    if(RobotContainer.flightJoystick.button8Pressed()){
+      gyro.reset();
+    }
   }
 
   public void setShooterDistanceFinished() {
