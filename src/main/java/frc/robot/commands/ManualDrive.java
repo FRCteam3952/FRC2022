@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj.ADIS16470_IMU;
 public class ManualDrive extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final DriveTrain drive_train;
-  private final AdjustShooterAim adjustShooterAim;
   private static ADIS16470_IMU gyro;
   private NetworkTableInstance inst;
   private NetworkTable table;
@@ -31,7 +30,6 @@ public class ManualDrive extends CommandBase {
    */
   public ManualDrive(DriveTrain subsystem) {
     drive_train = subsystem;
-    adjustShooterAim = new AdjustShooterAim(drive_train);
 
     gyro = new ADIS16470_IMU();
     gyro.setYawAxis(ADIS16470_IMU.IMUAxis.kY);
@@ -71,7 +69,7 @@ public class ManualDrive extends CommandBase {
         else if(adjustment > -minPower && adjustment < 0){
           adjustment = -minPower;
         }
-        double angle = gyro.getAngle();
+        double angle = gyro.getAngle() * (Math.PI/180);
         double adjustX = adjustment * Math.cos(angle);
         double adjustY = adjustment * Math.sin(angle);
 
@@ -81,9 +79,7 @@ public class ManualDrive extends CommandBase {
       }
     }
 
-    if (RobotContainer.flightJoystick.getJoystickPOV() == 90 || RobotContainer.flightJoystick.getJoystickPOV() == 270)
-      adjustShooterAim.schedule();
-      
+   
     if (xSpeed > 1)
       xSpeed = 1;
     if (xSpeed < -1)

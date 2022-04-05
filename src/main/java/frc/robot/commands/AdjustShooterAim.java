@@ -4,53 +4,62 @@
 
 package frc.robot.commands;
 
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
-
 
 /** An example command that uses an example subsystem. */
 public class AdjustShooterAim extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final DriveTrain drive_train;
-
+  private final DriveTrain driveTrain;
+  private NetworkTableInstance inst;
+  private NetworkTable table;
+  
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
   public AdjustShooterAim(DriveTrain subsystem) {
-    drive_train = subsystem;
-    addRequirements(drive_train);
+    driveTrain = subsystem;
+    addRequirements(subsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
-  
+
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    inst = NetworkTableInstance.getDefault();
+    table = inst.getTable("limelight");
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(RobotContainer.flightJoystick.getJoystickPOV() == 90) {
-       drive_train.drive(0, 0, 0.2);
-    } 
-    else if(RobotContainer.flightJoystick.getJoystickPOV() == 270) {
-       drive_train.drive(0, 0, -0.2);
-    } 
-    else 
-        this.cancel();
+    float kp = -0.1f;
+    float tx = table.getEntry("tx").getNumber(0).floatValue();
+    System.out.println(tx);
+    int tries = 1; // should be just one unless we're bad lol
+    for(int i = 0; i < 1; i++) {
+      float heading_error = -tx;
+      float steering_adjust = kp * heading_error;
+      
+
+      driveTrain.drive(0, 0, 2 * steering_adjust);
+    }
+    
   }
+
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;
-  }
+  } 
 }
