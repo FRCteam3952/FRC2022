@@ -50,9 +50,6 @@ public final class Constants {
     public static final int rearRightEncoderChannelA = 7;
     public static final int rearRightEncoderChannelB = 8;
 
-    //gyro analog channel
-    public static final int gyroChannel = 0;
-
     //button numbers
     public static final int aimbotButtonNumber = 2;
 }

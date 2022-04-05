@@ -59,35 +59,25 @@ public class ManualDrive extends CommandBase {
 
     if (RobotContainer.flightJoystick.button2Pressed()) {
 
-      // x movement adjustment values
-      if(seeBall.getBoolean(false)){
-        double adjustment = ball.getNumber(0).doubleValue();
-        double minPower = 0.25;
-        if(adjustment < minPower && adjustment > 0){
-          adjustment = minPower;
-        }
-        else if(adjustment > -minPower && adjustment < 0){
-          adjustment = -minPower;
-        }
-        double angle = gyro.getAngle() * (Math.PI/180);
-        double adjustX = adjustment * Math.cos(angle);
-        double adjustY = adjustment * Math.sin(angle);
+      // x and y movement adjustment values
+      xSpeed += drive_train.getAdjustment()[0];
+      ySpeed += drive_train.getAdjustment()[1];
+      zRotation += drive_train.getAdjustment()[2];
 
-        xSpeed += adjustX;
-        ySpeed += adjustY;
-        //zRotation += (adjustment/4);
-      }
+      if (xSpeed > 1)
+        xSpeed = 1;
+      if (xSpeed < -1)
+        xSpeed = -1;
+
+      if (ySpeed > 1)
+        ySpeed = 1;
+      if (ySpeed < -1)
+        ySpeed = -1;
+
     }
-
-   
-    if (xSpeed > 1)
-      xSpeed = 1;
-    if (xSpeed < -1)
-      xSpeed = -1;
 
     drive_train.drive(ySpeed, xSpeed, zRotation);
 
-     
   }
 
   // Called once the command ends or is interrupted.

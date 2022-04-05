@@ -11,7 +11,9 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
-import frc.robot.commands.AutonomousSetup;
+import frc.robot.commands.AutonomousDriveToBall;
+import frc.robot.commands.AutonomousShootBall;
+import frc.robot.commands.AutonomousGroup;
 import frc.robot.commands.ManualDrive;
 import frc.robot.commands.ControlArm;
 import frc.robot.commands.FlywheelShooter;
@@ -62,7 +64,8 @@ public class RobotContainer {
   public final static IngestBalls ingest = new IngestBalls(ingester, indexer);
   public final static FlywheelShooter flywheelShooter = new FlywheelShooter(tacheo, shooter, indexer, index);
   public final static ShooterAimer adjustAim = new ShooterAimer(driveTrain);
-  public final static AutonomousSetup autonomousCommand = new AutonomousSetup(driveTrain, hooks, arm, ingestPos, shooter, tacheo);
+  public final static AutonomousDriveToBall autonomousDrive = new AutonomousDriveToBall(driveTrain, hooks, arm, ingestPos, shooter, tacheo);
+  public final static AutonomousShootBall autonomousShoot = new AutonomousShootBall(driveTrain, hooks, arm, ingestPos, shooter, tacheo);
   public final static ManualDrive driveCommand = new ManualDrive(driveTrain);
   //public final static AimbotBall aimBall = new AimbotBall(driveTrain); 
 
@@ -167,30 +170,7 @@ public class RobotContainer {
 */
   public void autonomousInit() {
     inTeleop = false;
-    Timer t = new Timer();
-    t.start();
-    indexer.setIndexSpeed(0);
-
     // autonomousCommand.schedule();
-    // while (!timer.hasElapsed(2)) {}
-    shooter.setShooterSpeed(.4); // do change lol .3 old
-    while (t.get() < 3) {
-    }
-    indexer.setIndexSpeed(-.3);
-    while (t.get() < 4) {
-    }
-    shooter.setShooterSpeed(0);
-    indexer.setIndexSpeed(0);
-    while (t.get() < 7.5) {
-      if (t.get() < 6) {
-        //driveTrain.drive(.4 * (t.get() / 3.5), 0);
-
-      } else {
-        //driveTrain.drive(0, 0);
-
-      }
-    }
-
   }
 
   public void teleopInit() {
