@@ -76,6 +76,13 @@ public class DriveTrain extends SubsystemBase {
     }
   }
 
+  public void drive(double ySpeed, double xSpeed, double zRotation, double angle) {
+    m_dDrive.driveCartesian(ySpeed, xSpeed, zRotation, angle);
+    if(RobotContainer.flightJoystick.button8Pressed()){
+      gyro.reset();
+    }
+  }
+
   public double[] getAdjustment() {
     double[] adjustXY = {0,0};
     if(seeBall.getBoolean(false)){
@@ -95,22 +102,6 @@ public class DriveTrain extends SubsystemBase {
     return adjustXY;
   }
 
-  public void gettingTheBall(double xSpeed, double ySpeed, double zRotation)
-  {
-    xSpeed += getAdjustment()[0];
-    ySpeed += getAdjustment()[1];
-    zRotation +=getAdjustment()[2];
-
-    if (xSpeed > 1)
-    xSpeed = 1;
-  if (xSpeed < -1)
-    xSpeed = -1;
-
-  if (ySpeed > 1)
-    ySpeed = 1;
-  if (ySpeed < -1)
-    ySpeed = -1;
-  }
 /**
  *  public double[] getAdjustment() { //try this solution???????
     //index 0 is x, index 1 is y

@@ -58,7 +58,6 @@ public class AutonomousDriveToBall extends CommandBase {
 
     xSpeed += drive.getAdjustment()[0];
     ySpeed += drive.getAdjustment()[1];
-    drive.gettingTheBall(xSpeed, ySpeed, zRotation);
     drive.drive(xSpeed, ySpeed, 0);
 
   }

@@ -50,7 +50,19 @@ public class ManualDrive extends CommandBase {
     if (RobotContainer.flightJoystick.button2Pressed()) {
 
       // x and y movement adjustment values
-      drive_train.gettingTheBall(xSpeed, ySpeed, zRotation);
+      xSpeed += drive_train.getAdjustment()[0];
+      ySpeed += drive_train.getAdjustment()[1];
+      zRotation += drive_train.getAdjustment()[2];
+
+      if (xSpeed > 1)
+        xSpeed = 1;
+      if (xSpeed < -1)
+        xSpeed = -1;
+
+      if (ySpeed > 1)
+        ySpeed = 1;
+      if (ySpeed < -1)
+        ySpeed = -1;
 
     }
 
