@@ -24,6 +24,9 @@ public class AutonomousDriveToBall extends CommandBase {
   private final double SHOOTER_SPEED = 0.2;
   private final double INDEX_SPEED = -0.3;
   private final double SLIDE_HOOK_SPEED = .4;
+  private double xSpeed= 0;
+  private double ySpeed= 0; 
+  private double zRotation=0;
   private final double MAX_POSITION = 50; //measured in motor rotations, measure later
 
 
@@ -49,9 +52,15 @@ public class AutonomousDriveToBall extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (drive.getPosition() <= MAX_POSITION) {
-      drive.drive(-0.5, 0, 0);
-    }
+    //if (drive.getPosition() <= MAX_POSITION) {                            //tf max?
+      //drive.drive(-0.5, 0, 0);
+    //}
+
+    xSpeed += drive.getAdjustment()[0];
+    ySpeed += drive.getAdjustment()[1];
+    drive.gettingTheBall(xSpeed, ySpeed, zRotation);
+    drive.drive(xSpeed, ySpeed, 0);
+
   }
 
   // Called once the command ends or is interrupted.

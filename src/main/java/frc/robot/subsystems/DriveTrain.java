@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import frc.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -38,6 +39,7 @@ public class DriveTrain extends SubsystemBase {
 
   private MecanumDrive m_dDrive;
 
+  private boolean settingDistance = true;
   /** Creates a new ExampleSubsystem. */
   public DriveTrain() {
     inst = NetworkTableInstance.getDefault();
@@ -75,7 +77,6 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public double[] getAdjustment() {
-    //index 0 is x, index 1 is y
     double[] adjustXY = {0,0};
     if(seeBall.getBoolean(false)){
       double adjustment = ball.getNumber(0).doubleValue();
@@ -87,12 +88,53 @@ public class DriveTrain extends SubsystemBase {
         adjustment = -minPower;
       }
       double angle = gyro.getAngle();
-      adjustXY[0] = adjustment * Math.cos(angle);
+       adjustXY[0] = adjustment * Math.cos(angle);
       adjustXY[1] = adjustment * Math.sin(angle);
       
     };
     return adjustXY;
   }
+
+  public void gettingTheBall(double xSpeed, double ySpeed, double zRotation)
+  {
+    xSpeed += getAdjustment()[0];
+    ySpeed += getAdjustment()[1];
+    zRotation +=getAdjustment()[2];
+
+    if (xSpeed > 1)
+    xSpeed = 1;
+  if (xSpeed < -1)
+    xSpeed = -1;
+
+  if (ySpeed > 1)
+    ySpeed = 1;
+  if (ySpeed < -1)
+    ySpeed = -1;
+  }
+/**
+ *  public double[] getAdjustment() { //try this solution???????
+    //index 0 is x, index 1 is y
+    double[] adjustXYZ = {0,0,0};
+    if(seeBall.getBoolean(false)){
+      double adjustment = ball.getNumber(0).doubleValue();
+      double minPower = 0.25;
+      if(adjustment < minPower && adjustment > 0){
+        adjustment = minPower;
+      }
+      else if(adjustment > -minPower && adjustment < 0){
+        adjustment = -minPower;
+      }
+      double angle = gyro.getAngle();                                      //would all be better if we just had a magnometer 
+      adjustXYZ[2] = angle;
+      gyro.reset();
+      adjustXYZ[0] = adjustment * Math.cos(angle);
+      adjustXYZ[1] = adjustment * Math.sin(angle);
+    };
+    return adjustXYZ;
+  }
+ * @return
+ */
+
 
   public double getPosition() {
     double[] encoderPositions = {frontLeftEncoder.getPosition(), frontRightEncoder.getPosition(), rearLeftEncoder.getPosition(), rearRightEncoder.getPosition()};
