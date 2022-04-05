@@ -7,9 +7,6 @@ package frc.robot.commands;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 
 
@@ -17,12 +14,7 @@ import edu.wpi.first.wpilibj.ADIS16470_IMU;
 public class ManualDrive extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final DriveTrain drive_train;
-  private final AdjustShooterAim adjustShooterAim;
   private static ADIS16470_IMU gyro;
-  private NetworkTableInstance inst;
-  private NetworkTable table;
-  private NetworkTableEntry ball;
-  private NetworkTableEntry seeBall;
 
   /**
    * Creates a new ExampleCommand.
@@ -31,15 +23,11 @@ public class ManualDrive extends CommandBase {
    */
   public ManualDrive(DriveTrain subsystem) {
     drive_train = subsystem;
-    adjustShooterAim = new AdjustShooterAim(drive_train);
 
     gyro = new ADIS16470_IMU();
     gyro.setYawAxis(ADIS16470_IMU.IMUAxis.kY);
 
-    inst = NetworkTableInstance.getDefault();
-    table = inst.getTable("Vision");
-    ball = table.getEntry("PID");
-    seeBall = table.getEntry("seeBall");
+;
     addRequirements(drive_train);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -61,37 +49,24 @@ public class ManualDrive extends CommandBase {
 
     if (RobotContainer.flightJoystick.button2Pressed()) {
 
-      // x movement adjustment values
-      if(seeBall.getBoolean(false)){
-        double adjustment = ball.getNumber(0).doubleValue();
-        double minPower = 0.25;
-        if(adjustment < minPower && adjustment > 0){
-          adjustment = minPower;
-        }
-        else if(adjustment > -minPower && adjustment < 0){
-          adjustment = -minPower;
-        }
-        double angle = gyro.getAngle();
-        double adjustX = adjustment * Math.cos(angle);
-        double adjustY = adjustment * Math.sin(angle);
-
-        xSpeed += adjustX;
-        ySpeed += adjustY;
-        //zRotation += (adjustment/4);
-      }
+      // x and y movement adjustment values
+      xSpeed += drive_train.getAdjustment()[0];
+      ySpeed += drive_train.getAdjustment()[1];
+      
     }
-
-    if (RobotContainer.flightJoystick.getJoystickPOV() == 90 || RobotContainer.flightJoystick.getJoystickPOV() == 270)
-      adjustShooterAim.schedule();
       
     if (xSpeed > 1)
       xSpeed = 1;
     if (xSpeed < -1)
       xSpeed = -1;
 
+    if (ySpeed > 1)
+      ySpeed = 1;
+    if (ySpeed < -1)
+      ySpeed = -1;
+
     drive_train.drive(ySpeed, xSpeed, zRotation);
 
-     
   }
 
   // Called once the command ends or is interrupted.

@@ -7,11 +7,11 @@ package frc.robot.commands;
 import frc.robot.subsystems.ClimberHooks;
 import frc.robot.subsystems.ClimberArm;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj.Timer;
 // this does climb auto
 public class AutoClimb extends CommandBase {
   private enum ClimbingStates {
     LIFTING,
+    LIFTING_WITH_ARM,
     SLIDE_HOOK_HIGH,
     MOVE_TO_HIGH,
     SLIDE_HOOK_TRAVERSAL_TOP,
@@ -22,6 +22,8 @@ public class AutoClimb extends CommandBase {
   private final ClimberHooks hooks;
   private final ClimberArm arm;
   private final double MAX_POSITION = 50; //measured in motor rotations, measure later
+  private final double ARM_MOVE_POSITION = 25; //measured in motor rotations, measure later
+  private final double TRAVERSAL_POSITION = 40; //measured in motor rotations, measure later
   /**
    * Creates a new ExampleCommand.
    *
@@ -30,7 +32,6 @@ public class AutoClimb extends CommandBase {
   private final double HOOK_POWER = 1;
   private final double ARM_POWER = 0.35;
   private ClimbingStates state = ClimbingStates.LIFTING;
-  private Timer timer = new Timer();
 
   public AutoClimb(ClimberHooks hooks, ClimberArm arm) {
     this.hooks = hooks;
@@ -51,14 +52,20 @@ public class AutoClimb extends CommandBase {
     switch (state) {
       case LIFTING:
         hooks.slideHook(-HOOK_POWER);
+        if (hooks.getEncoderPosition() <= ARM_MOVE_POSITION) {
+          hooks.slideHook(0);
+          arm.changeArmAngle(0);
+          state = ClimbingStates.LIFTING_WITH_ARM;
+        }
+        break;
+      case LIFTING_WITH_ARM:
+        hooks.slideHook(-HOOK_POWER);
         arm.changeArmAngle(-ARM_POWER);
         if (hooks.bottomLimitPressed()) {
           hooks.slideHook(0);
           arm.changeArmAngle(0);
           state = ClimbingStates.SLIDE_HOOK_HIGH;
         }
-        break;
-      
       case SLIDE_HOOK_HIGH:
         hooks.slideHook(HOOK_POWER);
         if (hooks.getEncoderPosition() >= MAX_POSITION) {
@@ -86,7 +93,6 @@ public class AutoClimb extends CommandBase {
         if (hooks.getEncoderPosition() >= MAX_POSITION) {
           hooks.slideHook(0);
           arm.changeArmAngle(0);
-          timer.reset();
           state = ClimbingStates.TRAVERSE;
         }
         break;
@@ -102,14 +108,14 @@ public class AutoClimb extends CommandBase {
 
       case TRAVERSE:
         hooks.slideHook(-HOOK_POWER);
-        if (hooks.getEncoderPosition() <= 40) {
+        if (hooks.getEncoderPosition() <= TRAVERSAL_POSITION) {
           hooks.slideHook(0);
           cancel();
         }
         break;
 
       default:
-        System.err.println("god forgive me");
+        System.err.println("No state is true");
     }
   }
 
