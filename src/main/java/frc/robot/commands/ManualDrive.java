@@ -77,7 +77,7 @@ public class ManualDrive extends CommandBase {
     //set angle
     if (RobotContainer.secondaryJoystick.getLateralMovement() != 0 || RobotContainer.secondaryJoystick.getHorizontalMovement() != 0) {
       double y = RobotContainer.secondaryJoystick.getLateralMovement();
-      double x =RobotContainer.secondaryJoystick.getHorizontalMovement();
+      double x = RobotContainer.secondaryJoystick.getHorizontalMovement();
       double angle = Math.toDegrees(Math.atan2(y, x)); //gets angle of the joystick
 
       if (y < 0)
