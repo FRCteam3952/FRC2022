@@ -55,15 +55,12 @@ public class ManualDrive extends CommandBase {
     double xSpeed = (-RobotContainer.primaryJoystick.getHorizontalMovement());
     double zRotation = (-RobotContainer.primaryJoystick.getRotation());
 
-
-    //System.out.println("y: " + ySpeed + " x: "+ xSpeed + " z: " + zRotation);
-
+    // adjust movement of robot towards ball
     if (RobotContainer.primaryJoystick.button2Pressed()) {
 
       // x and y movement adjustment values
       xSpeed += drive_train.getAdjustment()[0];
       ySpeed += drive_train.getAdjustment()[1];
-      zRotation += drive_train.getAdjustment()[2];
 
       if (xSpeed > 1)
         xSpeed = 1;
@@ -77,6 +74,7 @@ public class ManualDrive extends CommandBase {
 
     }
 
+    //set angle
     if (RobotContainer.secondaryJoystick.getLateralMovement() != 0 || RobotContainer.secondaryJoystick.getHorizontalMovement() != 0) {
       double y = RobotContainer.secondaryJoystick.getLateralMovement();
       double x =RobotContainer.secondaryJoystick.getHorizontalMovement();
