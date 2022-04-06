@@ -34,7 +34,7 @@ public class UnlockIngester extends CommandBase {
   @Override
   public void execute() {
     double delta = 0.7;
-    double yDisplacement = RobotContainer.flightJoystick.getLateralMovement();
+    double yDisplacement = RobotContainer.primaryJoystick.getLateralMovement();
     //System.out.println(yDisplacement);
     if (yDisplacement > delta) {
       ingest.changeIngestAngle(speed);

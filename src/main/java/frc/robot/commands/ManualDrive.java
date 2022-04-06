@@ -50,14 +50,14 @@ public class ManualDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double ySpeed = (RobotContainer.flightJoystick.getLateralMovement());
-    double xSpeed = (-RobotContainer.flightJoystick.getHorizontalMovement());
-    double zRotation = (-RobotContainer.flightJoystick.getRotation());
+    double ySpeed = (RobotContainer.primaryJoystick.getLateralMovement());
+    double xSpeed = (-RobotContainer.primaryJoystick.getHorizontalMovement());
+    double zRotation = (-RobotContainer.primaryJoystick.getRotation());
 
 
     //System.out.println("y: " + ySpeed + " x: "+ xSpeed + " z: " + zRotation);
 
-    if (RobotContainer.flightJoystick.button2Pressed()) {
+    if (RobotContainer.primaryJoystick.button2Pressed()) {
 
       // x and y movement adjustment values
       xSpeed += drive_train.getAdjustment()[0];
@@ -76,6 +76,32 @@ public class ManualDrive extends CommandBase {
 
     }
 
+//seperate variable that will be permanent till done rotating
+//boolean that will hold what is there 
+
+    if (RobotContainer.secondaryJoystick.getLateralMovement() > 0 || RobotContainer.secondaryJoystick.getHorizontalMovement() > 0) {
+      double y = RobotContainer.secondaryJoystick.getLateralMovement();
+      double x =RobotContainer.secondaryJoystick.getHorizontalMovement();
+      double angle = Math.atan2(y, x);
+      if (x < 0)
+        angle += 180;
+
+      if ((360 - Math.abs(angle - gyro.getAngle()) > 180)) { //difference in angle greater than 180, turn counterclockwise // barggio said put the 360 - there
+        angle = 360 - Math.abs(angle - gyro.getAngle());
+        if (gyro.getAngle() > angle) {
+          zRotation = 0.5;
+        } else if (gyro.getAngle() < angle) {
+          zRotation = -0.5;
+        }
+      }
+      else { //difference in angle less than or equal to 180, turn clockwise
+        if (gyro.getAngle() > angle) {
+          zRotation = -0.5;
+        } else if (gyro.getAngle() < angle) {
+          zRotation = 0.5;
+        }
+      }
+    }
     drive_train.drive(ySpeed, xSpeed, zRotation);
 
   }

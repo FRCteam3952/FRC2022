@@ -46,20 +46,18 @@ public class AutonomousDriveToBall extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+    ySpeed = 0.5;
+    xSpeed = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //if (drive.getPosition() <= MAX_POSITION) {                            //tf max?
-      //drive.drive(-0.5, 0, 0);
-    //}
-
-    xSpeed += drive.getAdjustment()[0];
-    ySpeed += drive.getAdjustment()[1];
-    drive.drive(xSpeed, ySpeed, 0);
-
+    if (drive.getPosition() <= MAX_POSITION) {
+      xSpeed += drive.getAdjustment()[0];
+      ySpeed += drive.getAdjustment()[1];
+      drive.drive(ySpeed, xSpeed, 0);
+    }
   }
 
   // Called once the command ends or is interrupted.

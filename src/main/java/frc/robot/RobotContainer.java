@@ -50,8 +50,9 @@ public class RobotContainer {
 
   //public final static AimbotBall aimball = new AimbotBall(driveTrain);
 
-  public static Tango2Controller tangoIIController = new Tango2Controller(new Tango2Joystick(1));
-  public static FlightJoystickController flightJoystick = new FlightJoystickController(new Joystick(0));
+  public static FlightJoystickController primaryJoystick = new FlightJoystickController(new Joystick(0)); //drive, turn
+  public static FlightJoystickController secondaryJoystick = new FlightJoystickController(new Joystick(1)); //shoot, set angle
+  public static Tango2Controller tangoIIController = new Tango2Controller(new Tango2Joystick(2)); //climb
 
   public final static ClimberHooks hooks = new ClimberHooks();
   public final static ClimberArm arm = new ClimberArm();

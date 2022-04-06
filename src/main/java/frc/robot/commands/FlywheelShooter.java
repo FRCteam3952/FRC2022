@@ -40,7 +40,7 @@ public class FlywheelShooter extends CommandBase {
 
     public void calculateSpeed() {
         if (manualShoot) {
-            double slider = 1 - (RobotContainer.flightJoystick.joystick.getThrottle() + 1) / 2;
+            double slider = 1 - (RobotContainer.primaryJoystick.joystick.getThrottle() + 1) / 2;
             System.out.println(slider);
             ShooterRPM = LOW_RPM + (slider * (HIGH_RPM - LOW_RPM));
             ShooterPower = LOW_POWER + (slider * (HIGH_POWER - LOW_POWER));

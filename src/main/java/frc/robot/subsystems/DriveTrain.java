@@ -71,17 +71,19 @@ public class DriveTrain extends SubsystemBase {
 
   public void drive(double ySpeed, double xSpeed, double zRotation) {
     m_dDrive.driveCartesian(ySpeed, xSpeed, zRotation, -gyro.getAngle());
-    if(RobotContainer.flightJoystick.button8Pressed()){
+    if(RobotContainer.primaryJoystick.button8Pressed()){
       gyro.reset();
     }
   }
 
   public void drive(double ySpeed, double xSpeed, double zRotation, double angle) {
     m_dDrive.driveCartesian(ySpeed, xSpeed, zRotation, angle);
-    if(RobotContainer.flightJoystick.button8Pressed()){
+    if(RobotContainer.primaryJoystick.button8Pressed()){
       gyro.reset();
     }
   }
+
+  
 
   public double[] getAdjustment() {
     double[] adjustXY = {0,0};
@@ -95,37 +97,12 @@ public class DriveTrain extends SubsystemBase {
         adjustment = -minPower;
       }
       double angle = gyro.getAngle();
-       adjustXY[0] = adjustment * Math.cos(angle);
+      adjustXY[0] = adjustment * Math.cos(angle);
       adjustXY[1] = adjustment * Math.sin(angle);
       
     };
     return adjustXY;
   }
-
-/**
- *  public double[] getAdjustment() { //try this solution???????
-    //index 0 is x, index 1 is y
-    double[] adjustXYZ = {0,0,0};
-    if(seeBall.getBoolean(false)){
-      double adjustment = ball.getNumber(0).doubleValue();
-      double minPower = 0.25;
-      if(adjustment < minPower && adjustment > 0){
-        adjustment = minPower;
-      }
-      else if(adjustment > -minPower && adjustment < 0){
-        adjustment = -minPower;
-      }
-      double angle = gyro.getAngle();                                      //would all be better if we just had a magnometer 
-      adjustXYZ[2] = angle;
-      gyro.reset();
-      adjustXYZ[0] = adjustment * Math.cos(angle);
-      adjustXYZ[1] = adjustment * Math.sin(angle);
-    };
-    return adjustXYZ;
-  }
- * @return
- */
-
 
   public double getPosition() {
     double[] encoderPositions = {frontLeftEncoder.getPosition(), frontRightEncoder.getPosition(), rearLeftEncoder.getPosition(), rearRightEncoder.getPosition()};
