@@ -88,7 +88,7 @@ public class ManualDrive extends CommandBase {
       double angleDifference = angle - gyro.getAngle(); //gets angle difference
 
       if (Math.abs(angleDifference) >= 180)
-        System.out.println((angleDifference % 180) + (angleDifference > 0 ? -180 : 180)); //ensures that angleDifference is the smallest possible angle to destination
+        angleDifference = (angleDifference % 180) + (angleDifference > 0 ? -180 : 180); //ensures that angleDifference is the smallest possible angle to destination
 
       // positive angleDifference -> turn clockwise, negative angleDifference -> turn counterclockwise
       // strength of turning power is proportional to size of angleDifference
