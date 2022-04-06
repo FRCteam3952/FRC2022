@@ -22,6 +22,7 @@ public class ManualDrive extends CommandBase {
   private NetworkTable table;
   private NetworkTableEntry ball;
   private NetworkTableEntry seeBall;
+  
 
   /**
    * Creates a new ExampleCommand.
@@ -76,32 +77,24 @@ public class ManualDrive extends CommandBase {
 
     }
 
-//seperate variable that will be permanent till done rotating
-//boolean that will hold what is there 
-
-    if (RobotContainer.secondaryJoystick.getLateralMovement() > 0 || RobotContainer.secondaryJoystick.getHorizontalMovement() > 0) {
+    if (RobotContainer.secondaryJoystick.getLateralMovement() != 0 || RobotContainer.secondaryJoystick.getHorizontalMovement() != 0) {
       double y = RobotContainer.secondaryJoystick.getLateralMovement();
       double x =RobotContainer.secondaryJoystick.getHorizontalMovement();
-      double angle = Math.atan2(y, x);
-      if (x < 0)
-        angle += 180;
+      double angle = Math.toDegrees(Math.atan2(y, x)); //gets angle of the joystick
 
-      if ((360 - Math.abs(angle - gyro.getAngle()) > 180)) { //difference in angle greater than 180, turn counterclockwise // barggio said put the 360 - there
-        angle = 360 - Math.abs(angle - gyro.getAngle());
-        if (gyro.getAngle() > angle) {
-          zRotation = 0.5;
-        } else if (gyro.getAngle() < angle) {
-          zRotation = -0.5;
-        }
-      }
-      else { //difference in angle less than or equal to 180, turn clockwise
-        if (gyro.getAngle() > angle) {
-          zRotation = -0.5;
-        } else if (gyro.getAngle() < angle) {
-          zRotation = 0.5;
-        }
-      }
+      if (y < 0)
+        angle += 360; //make sure angle is within 0˚ to 360˚ scale
+
+      double angleDifference = angle - gyro.getAngle(); //gets angle difference
+
+      if (Math.abs(angleDifference) >= 180)
+        System.out.println((angleDifference % 180) + (angleDifference > 0 ? -180 : 180)); //ensures that angleDifference is the smallest possible angle to destination
+
+      // positive angleDifference -> turn clockwise, negative angleDifference -> turn counterclockwise
+      // strength of turning power is proportional to size of angleDifference
+      zRotation = angleDifference > 0 ? angleDifference/180/2 : -angleDifference/180/2;
     }
+
     drive_train.drive(ySpeed, xSpeed, zRotation);
 
   }
