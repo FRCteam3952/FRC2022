@@ -81,9 +81,9 @@ public class SetShooterPower extends CommandBase {
         launchSpeed = 0;
         drive.drive(-0.5, 0, 0, 0);
       } else {
-        setLaunchSpeed();
-        setShooterRPM();
-        shoot.setAutoShootRPM(shooterRPM);
+        setLaunchSpeed(); //set launch speed from distance to hoop
+        setShooterRPM(); //set flywheel RPM from necessary launch speed
+        shoot.setAutoShootRPM(shooterRPM); //pass RPM value to shooter subsystem
         cancel();
       }
     }

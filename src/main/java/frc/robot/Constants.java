@@ -22,15 +22,14 @@ public final class Constants {
 
 
     //DIO port declaration
-    public static final int topLimitSwitchClimberPort = 0;
-    public static final int bottomLimitSwitchClimberPort = 1;
-    public static final int topOrBottomLimitClimberPort = 2;
-    public static final int shooterShootingLimitPort = 3;
-    public static final int shooterBottomLimitPort = 4;
-    public static final int shooterTachometerPort = 5;
+    public static final int bottomLimitSwitchClimberPort = 0;
+    public static final int topOrBottomLimitClimberPort = 1;
+    public static final int shooterShootingLimitPort = 2;
+    public static final int shooterBottomLimitPort = 3;
+    public static final int shooterTachometerPort = 4;
 
     
-    // CAN Bus, for climber only, not in Drive train, uses phoenix 
+    // CAN Bus, uses phoenix 
     
     public static final int frontLeftMotorPort = 4;
     public static final int frontRightMotorPort = 1;
@@ -38,6 +37,8 @@ public final class Constants {
     public static final int rearRighttMotorPort = 2;
     public static final int armAnglePort = 5;
     public static final int hookPort = 6;
+    public static final int flywheelPort1 = 7;
+    public static final int flywheelPort2 = 8;
 
 
     //encoder channels, find values later
@@ -50,6 +51,11 @@ public final class Constants {
     public static final int rearRightEncoderChannelA = 7;
     public static final int rearRightEncoderChannelB = 8;
 
-    //button numbers
-    public static final int aimbotButtonNumber = 2;
+    //button numbers for primary joystick
+    public static final int aimbotButtonNumber = 1;
+
+    //button numbers for secondary joystick
+    public static final int shootBallsButtonNumber = 1;
+    public static final int adjustAimButtonNumber = 2;
+    public static final int setShooterButtonNumber = 3;
 }

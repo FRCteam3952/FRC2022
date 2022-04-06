@@ -42,12 +42,12 @@ public class AdjustShooterAim extends CommandBase {
     float tx = table.getEntry("tx").getNumber(0).floatValue();
     System.out.println(tx);
     int tries = 1; // should be just one unless we're bad lol
-    for(int i = 0; i < 1; i++) {
+    for(int i = 0; i < tries; i++) {
       float heading_error = -tx;
       float steering_adjust = kp * heading_error;
       
 
-      driveTrain.drive(0, 0, 2 * steering_adjust, 0);
+      driveTrain.drive(0, 0, steering_adjust, 0);
     }
     
   }

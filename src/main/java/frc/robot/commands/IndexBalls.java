@@ -28,13 +28,13 @@ public class IndexBalls extends CommandBase {
   @Override
   public void execute() {
     // index.setIndexSpeed(-speed);
-    shoot.setShooterSpeed(FLYWHEEL_SPEED - (index.ballShooterPressed() ? 0 : 0));
+    shoot.setShooterPower(FLYWHEEL_SPEED - (index.ballShooterPressed() ? 0 : 0));
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shoot.setShooterSpeed(0);
+    shoot.setShooterPower(0);
   }
 
   // Returns true when the command should end.

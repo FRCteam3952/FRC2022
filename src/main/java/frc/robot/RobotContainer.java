@@ -15,13 +15,15 @@ import frc.robot.commands.AutonomousDriveToBall;
 import frc.robot.commands.AutonomousShootBall;
 import frc.robot.commands.AutonomousGroup;
 import frc.robot.commands.ManualDrive;
+import frc.robot.commands.SetShooterPower;
 import frc.robot.commands.ControlArm;
-import frc.robot.commands.FlywheelShooter;
 import frc.robot.commands.ControlHooks;
 import frc.robot.commands.ShooterAimer;
 import frc.robot.commands.UnlockIngester;
 import frc.robot.commands.IngestBalls;
 import frc.robot.commands.IndexBalls;
+import frc.robot.commands.ShootBalls;
+import frc.robot.commands.AdjustShooterAim;
 
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.ClimberArm;
@@ -60,10 +62,13 @@ public class RobotContainer {
   public final static ControlHooks controlHooks = new ControlHooks(hooks);
   // public final static AutoClimb autoClimb = new AutoClimb(climber);
 
+  public final static ShootBalls shootBalls = new ShootBalls(shooter);
+  public final static AdjustShooterAim adjustShooterAim = new AdjustShooterAim(driveTrain);
+  public final static SetShooterPower setShooterPower = new SetShooterPower(shooter, driveTrain);
+
   // declare new shooter airmer to be ran, for driveTrain
   public final static IndexBalls index = new IndexBalls(indexer, shooter);
   public final static IngestBalls ingest = new IngestBalls(ingester, indexer);
-  public final static FlywheelShooter flywheelShooter = new FlywheelShooter(tacheo, shooter, indexer, index);
   public final static ShooterAimer adjustAim = new ShooterAimer(driveTrain);
   public final static AutonomousDriveToBall autonomousDrive = new AutonomousDriveToBall(driveTrain, hooks, arm, ingestPos, shooter, tacheo);
   public final static AutonomousShootBall autonomousShoot = new AutonomousShootBall(driveTrain, hooks, arm, ingestPos, shooter, tacheo);
@@ -97,10 +102,7 @@ public class RobotContainer {
      * coDriverStick.btn_12.whenPressed(turretPresets);
      */
     // controller might not actually have any buttons, might be useless code
-    /*
-     * JoystickButton dL = new JoystickButton(driverStick.joystick, 1);
-     * dL.whenPressed(servoMove);
-     */
+    
     // JoystickButton collectButton = new JoystickButton(driverStick.joystick, 1);
     // collectButton.whileHeld(autonomousCommand);
 
@@ -119,8 +121,14 @@ public class RobotContainer {
     // driveTrigger.whileActiveContinuous(driveCommand);
     // driveTrigger.whenActive(() -> driveCommand.cancel());
 
-    // JoystickButton flywheelButton = new JoystickButton(flightJoystick.joystick, 5);
-    // flywheelButton.whenPressed(flywheelShooter);
+    JoystickButton shootBallsButton = new JoystickButton(secondaryJoystick.joystick, Constants.shootBallsButtonNumber);
+    shootBallsButton.whenPressed(shootBalls);
+
+    JoystickButton adjustAimButton = new JoystickButton(secondaryJoystick.joystick, Constants.adjustAimButtonNumber);
+    adjustAimButton.whileHeld(adjustShooterAim);
+
+    JoystickButton setShooterButton = new JoystickButton(secondaryJoystick.joystick, Constants.setShooterButtonNumber);
+    setShooterButton.whenPressed(setShooterPower);
 
     // JoystickButton ingestButton = new JoystickButton(flightJoystick.joystick, 7);
     // ingestButton.whenPressed(ingest);
