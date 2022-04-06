@@ -47,7 +47,7 @@ public class AdjustShooterAim extends CommandBase {
       float steering_adjust = kp * heading_error;
       
 
-      driveTrain.drive(0, 0, 2 * steering_adjust);
+      driveTrain.drive(0, 0, 2 * steering_adjust, 0);
     }
     
   }
