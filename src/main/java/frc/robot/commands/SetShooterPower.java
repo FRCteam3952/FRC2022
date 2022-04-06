@@ -4,6 +4,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.DriveTrain;
 
 
 
@@ -12,6 +13,7 @@ public class SetShooterPower extends CommandBase {
      * Creates a new AutonomousCommand.
      */
     private final Shooter shoot;
+    private final DriveTrain drive;
     
     //private final
 
@@ -34,10 +36,11 @@ public class SetShooterPower extends CommandBase {
 
 
 
-    public SetShooterPower(Shooter shoot) {
+    public SetShooterPower(Shooter shoot, DriveTrain drive) {
       // Use addRequirements() here to declare subsystem dependencies.
       this.shoot = shoot;
-      addRequirements(shoot);
+      this.drive = drive;
+      addRequirements(shoot, drive);
       
     }
 
@@ -74,14 +77,15 @@ public class SetShooterPower extends CommandBase {
     @Override
     public void execute() {
       if (distanceToHoop() + HOOP_RADIUS < MIN_DISTANCE + delta) {
-        System.err.println("Robot too close to hub to shoot");
+        System.out.println("Robot too close to hub to shoot, backing up");
         launchSpeed = 0;
+        drive.drive(-0.5, 0, 0, 0);
+      } else {
+        setLaunchSpeed();
+        setShooterRPM();
+        shoot.setAutoShootRPM(shooterRPM);
         cancel();
       }
-      setLaunchSpeed();
-      setShooterRPM();
-      shoot.setAutoShootRPM(shooterRPM);
-      cancel();
     }
     
   
