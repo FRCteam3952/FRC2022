@@ -19,7 +19,6 @@ public class ClimberHooks extends SubsystemBase {
   // feeding system
 
   private final CANSparkMax hook;
-  private final DigitalInput topLimitSwitch;
   private final DigitalInput bottomLimitSwitch;
   private final DigitalInput topOrBottomLimitSwitch;
 
@@ -29,7 +28,6 @@ public class ClimberHooks extends SubsystemBase {
   public ClimberHooks() {
     hook = new CANSparkMax(5, MotorType.kBrushless);
     hookEncoder = hook.getEncoder();
-    topLimitSwitch = new DigitalInput(Constants.topLimitSwitchClimberPort); 
     bottomLimitSwitch = new DigitalInput(Constants.bottomLimitSwitchClimberPort);
     topOrBottomLimitSwitch = new DigitalInput(Constants.topOrBottomLimitClimberPort); //only used if third limit switch is used; not used if using manual control
   }
@@ -44,12 +42,6 @@ public class ClimberHooks extends SubsystemBase {
   public double getHookSpeed() {
     //System.out.println(hook.get());
     return hook.get();
-  }
-
-//return speed of motor for the arm angle motor
-  public boolean topLimitPressed() {
-    //System.out.println(topLimitSwitch.get());
-    return topLimitSwitch.get();
   }
 
   public boolean bottomLimitPressed() {
