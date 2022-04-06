@@ -90,7 +90,7 @@ public class ManualDrive extends CommandBase {
 
       // positive angleDifference -> turn clockwise, negative angleDifference -> turn counterclockwise
       // strength of turning power is proportional to size of angleDifference
-      zRotation = angleDifference > 0 ? angleDifference/180/2 : -angleDifference/180/2;
+      zRotation = angleDifference/180/2;
     }
 
     drive_train.drive(ySpeed, xSpeed, zRotation);
