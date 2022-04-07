@@ -5,7 +5,6 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.DriveTrain;
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -46,7 +45,6 @@ public class AdjustShooterAim extends CommandBase {
   public void execute() {
     float tx = table.getEntry("tx").getNumber(0).floatValue() * kp;
     double steering_adjust = pidcontrol.calculate(tx);
-    System.out.println(steering_adjust);
     driveTrain.drive(0, 0, steering_adjust);
     
   }

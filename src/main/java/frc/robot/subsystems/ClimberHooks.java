@@ -20,7 +20,7 @@ public class ClimberHooks extends SubsystemBase {
 
   private final CANSparkMax hook;
   private final DigitalInput bottomLimitSwitch;
-  private final DigitalInput topOrBottomLimitSwitch;
+  //private final DigitalInput topOrBottomLimitSwitch;
 
   private final RelativeEncoder hookEncoder;
 
@@ -29,7 +29,7 @@ public class ClimberHooks extends SubsystemBase {
     hook = new CANSparkMax(Constants.hookPort, MotorType.kBrushless);
     hookEncoder = hook.getEncoder();
     bottomLimitSwitch = new DigitalInput(Constants.bottomLimitSwitchClimberPort);
-    topOrBottomLimitSwitch = new DigitalInput(Constants.topOrBottomLimitClimberPort); //only used if third limit switch is used; not used if using manual control
+    // topOrBottomLimitSwitch = new DigitalInput(Constants.topOrBottomLimitClimberPort); //only used if third limit switch is used; not used if using manual control
   }
 
 //sets the angle and speed for sliding hook for VSPX talon

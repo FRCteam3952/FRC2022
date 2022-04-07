@@ -13,10 +13,7 @@ public class AutoClimb extends CommandBase {
     LIFTING,
     LIFTING_WITH_ARM,
     SLIDE_HOOK_HIGH,
-    MOVE_TO_HIGH,
-    SLIDE_HOOK_TRAVERSAL_TOP,
-    SLIDE_HOOK_TRAVERSAL_BOTTOM,
-    TRAVERSE,
+    MOVE_TO_HIGH
   }
 
   private final ClimberHooks hooks;
@@ -81,40 +78,14 @@ public class AutoClimb extends CommandBase {
         if (hooks.bottomLimitPressed()) {
           hooks.slideHook(0);
           arm.changeArmAngle(0);
-          if (hooks.topOrBottomLimitPressed())
-            state = ClimbingStates.SLIDE_HOOK_TRAVERSAL_TOP;
-          else
-            state = ClimbingStates.SLIDE_HOOK_TRAVERSAL_BOTTOM;
+          if (hooks.topOrBottomLimitPressed()) {
+            System.out.println("AutoClimb over, please start manual climbing");
+            cancel();
+          }
+            
         }
         break;
       
-      case SLIDE_HOOK_TRAVERSAL_TOP:
-        hooks.slideHook(HOOK_POWER);
-        arm.changeArmAngle(-ARM_POWER);
-        if (hooks.getEncoderPosition() >= MAX_POSITION) {
-          hooks.slideHook(0);
-          arm.changeArmAngle(0);
-          state = ClimbingStates.TRAVERSE;
-        }
-        break;
-      
-      case SLIDE_HOOK_TRAVERSAL_BOTTOM:
-        hooks.slideHook(HOOK_POWER);
-        if (hooks.getEncoderPosition() >= MAX_POSITION) {
-          hooks.slideHook(0);
-          arm.changeArmAngle(0);
-          state = ClimbingStates.TRAVERSE;
-        }
-        break;
-
-      case TRAVERSE:
-        hooks.slideHook(-HOOK_POWER);
-        if (hooks.getEncoderPosition() <= TRAVERSAL_POSITION) {
-          hooks.slideHook(0);
-          cancel();
-        }
-        break;
-
       default:
         System.err.println("No state is true");
         break;

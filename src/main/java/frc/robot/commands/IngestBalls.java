@@ -4,13 +4,11 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Ingester;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class IngestBalls extends CommandBase {
   private final Ingester ingest;
-  private final Indexer index;
   private final double INGEST_SPEED = 0.6;
   private final double INDEX_SPEED = 0.4;
   public boolean isTopHit = false;
@@ -20,12 +18,11 @@ public class IngestBalls extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public IngestBalls(Ingester subsystem, Indexer indexer) {
+  public IngestBalls(Ingester subsystem) {
     ingest = subsystem;
-    index = indexer;
     
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem, indexer);
+    addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -41,6 +38,7 @@ public class IngestBalls extends CommandBase {
     ingest.setIngestRollerSpeed(-INGEST_SPEED);
     // index.setIndexSpeed(INDEX_SPEED * (index.ballShooterPressed() ? 1: -1));
     // index.setIndexSpeed(-INDEX_SPEED);
+    /*
     if (index.ballShooterPressed()) {
       isTopHit = true;
     }
@@ -53,6 +51,7 @@ public class IngestBalls extends CommandBase {
     } else {
 
     }
+    */
   }
 
   // Called once the command ends or is interrupted.
