@@ -7,22 +7,11 @@ package frc.robot.commands;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.ADIS16470_IMU;
-
 
 /** An example command that uses an example subsystem. */
 public class ManualDrive extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final DriveTrain drive_train;
-  private static ADIS16470_IMU gyro;
-  private NetworkTableInstance inst;
-  private NetworkTable table;
-  private NetworkTableEntry ball;
-  private NetworkTableEntry seeBall;
-  
 
   /**
    * Creates a new ExampleCommand.
@@ -31,14 +20,6 @@ public class ManualDrive extends CommandBase {
    */
   public ManualDrive(DriveTrain subsystem) {
     drive_train = subsystem;
-
-    gyro = new ADIS16470_IMU();
-    gyro.setYawAxis(ADIS16470_IMU.IMUAxis.kY);
-
-    inst = NetworkTableInstance.getDefault();
-    table = inst.getTable("Vision");
-    ball = table.getEntry("PID");
-    seeBall = table.getEntry("seeBall");
     addRequirements(drive_train);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -59,8 +40,9 @@ public class ManualDrive extends CommandBase {
     if (RobotContainer.primaryJoystick.button2Pressed()) {
 
       // x and y movement adjustment values
-      xSpeed += drive_train.getAdjustment()[0];
-      ySpeed += drive_train.getAdjustment()[1];
+      double[] xySpeed = drive_train.getAdjustment();
+      xSpeed += xySpeed[0];
+      ySpeed += xySpeed[1];
 
       if (xSpeed > 1)
         xSpeed = 1;
@@ -71,11 +53,11 @@ public class ManualDrive extends CommandBase {
         ySpeed = 1;
       if (ySpeed < -1)
         ySpeed = -1;
-
     }
 
     //set angle
     if (RobotContainer.secondaryJoystick.getLateralMovement() != 0 || RobotContainer.secondaryJoystick.getHorizontalMovement() != 0) {
+      System.out.println("setting angle");
       double y = RobotContainer.secondaryJoystick.getLateralMovement();
       double x = RobotContainer.secondaryJoystick.getHorizontalMovement();
       double angle = Math.toDegrees(Math.atan2(y, x)); //gets angle of the joystick
@@ -83,7 +65,7 @@ public class ManualDrive extends CommandBase {
       if (y < 0)
         angle += 360; //make sure angle is within 0˚ to 360˚ scale
 
-      double angleDifference = angle - gyro.getAngle(); //gets angle difference
+      double angleDifference = angle - drive_train.getGyroAngle(); //gets angle difference
 
       if (Math.abs(angleDifference) >= 180)
         angleDifference = angleDifference + (angleDifference > 0 ? -360 : 360); //ensures that angleDifference is the smallest possible angle to destination
