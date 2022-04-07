@@ -35,8 +35,8 @@ public final class Constants {
     public static final int frontRightMotorPort = 1;
     public static final int rearLeftMotorPort = 3;
     public static final int rearRighttMotorPort = 2;
-    public static final int armAnglePort = 5;
-    public static final int hookPort = 6;
+    public static final int armAnglePort = 6;
+    public static final int hookPort = 10;
     public static final int flywheelPort1 = 7;
     public static final int flywheelPort2 = 8;
 

@@ -26,7 +26,7 @@ public class ClimberHooks extends SubsystemBase {
 
   /** Creates a new ExampleSubsystem. */
   public ClimberHooks() {
-    hook = new CANSparkMax(5, MotorType.kBrushless);
+    hook = new CANSparkMax(Constants.hookPort, MotorType.kBrushless);
     hookEncoder = hook.getEncoder();
     bottomLimitSwitch = new DigitalInput(Constants.bottomLimitSwitchClimberPort);
     topOrBottomLimitSwitch = new DigitalInput(Constants.topOrBottomLimitClimberPort); //only used if third limit switch is used; not used if using manual control
