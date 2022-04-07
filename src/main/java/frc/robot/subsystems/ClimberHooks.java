@@ -50,7 +50,7 @@ public class ClimberHooks extends SubsystemBase {
   }
 
   public boolean topOrBottomLimitPressed() {
-    return topOrBottomLimitSwitch.get();
+    return bottomLimitPressed();
   }
 
   public double getEncoderPosition() {

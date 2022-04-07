@@ -9,6 +9,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.math.controller.PIDController;
 
 /** An example command that uses an example subsystem. */
 public class AdjustShooterAim extends CommandBase {
@@ -16,6 +17,10 @@ public class AdjustShooterAim extends CommandBase {
   private final DriveTrain driveTrain;
   private NetworkTableInstance inst;
   private NetworkTable table;
+  private PIDController pidcontrol;
+  private final float kp = 0.03f;
+  private final float ki = 0.01f;
+  private final float kd = 0.02f; 
   
   /**
    * Creates a new ExampleCommand.
@@ -23,6 +28,7 @@ public class AdjustShooterAim extends CommandBase {
    * @param subsystem The subsystem used by this command.
    */
   public AdjustShooterAim(DriveTrain subsystem) {
+    pidcontrol = new PIDController(1, ki, kd);
     driveTrain = subsystem;
     addRequirements(subsystem);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -38,17 +44,10 @@ public class AdjustShooterAim extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    float kp = -0.1f;
-    float tx = table.getEntry("tx").getNumber(0).floatValue();
-    System.out.println(tx);
-    int tries = 1; // should be just one unless we're bad lol
-    for(int i = 0; i < tries; i++) {
-      float heading_error = -tx;
-      float steering_adjust = kp * heading_error;
-      
-
-      driveTrain.drive(0, 0, steering_adjust, 0);
-    }
+    float tx = table.getEntry("tx").getNumber(0).floatValue() * kp;
+    double steering_adjust = pidcontrol.calculate(tx);
+    System.out.println(steering_adjust);
+    driveTrain.drive(0, 0, steering_adjust);
     
   }
 

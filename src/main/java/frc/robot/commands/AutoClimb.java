@@ -66,6 +66,7 @@ public class AutoClimb extends CommandBase {
           arm.changeArmAngle(0);
           state = ClimbingStates.SLIDE_HOOK_HIGH;
         }
+        break;
       case SLIDE_HOOK_HIGH:
         hooks.slideHook(HOOK_POWER);
         if (hooks.getEncoderPosition() >= MAX_POSITION) {
@@ -116,6 +117,7 @@ public class AutoClimb extends CommandBase {
 
       default:
         System.err.println("No state is true");
+        break;
     }
   }
 
