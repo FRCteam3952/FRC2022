@@ -14,9 +14,9 @@ package frc.robot;
  */
 public final class Constants {
     //PWM ports declaration  
-    public static final int ingesterCollectingRollerBottomPort = 4;
+    public static final int bottomIndexerPort = 4;
     public static final int ingesterCollectingRollerTopPort= 8;
-    public static final int indexerWheelsPort = 5;
+    public static final int topIndexerPort = 5;
     public static final int shooterRollersPort = 6;
     public static final int releaseIngesterPort = 7;
 
@@ -53,6 +53,8 @@ public final class Constants {
 
     //button numbers for primary joystick
     public static final int aimbotButtonNumber = 1;
+    public static final int topIndexButtonNumber = 6;
+    public static final int bottomIndexButtonNumber = 7;
 
     //button numbers for secondary joystick
     public static final int shootBallsButtonNumber = 1;

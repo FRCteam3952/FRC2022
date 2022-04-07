@@ -20,18 +20,18 @@ import frc.robot.commands.ControlArm;
 import frc.robot.commands.ControlHooks;
 import frc.robot.commands.ShooterAimer;
 import frc.robot.commands.UnlockIngester;
-import frc.robot.commands.IngestBalls;
-import frc.robot.commands.IndexBalls;
+import frc.robot.commands.IndexBottom;
+import frc.robot.commands.IndexTop;
 import frc.robot.commands.ShootBalls;
 import frc.robot.commands.AdjustShooterAim;
 
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.ClimberArm;
 import frc.robot.subsystems.ClimberHooks;
-import frc.robot.subsystems.Ingester;
+import frc.robot.subsystems.BottomIndexer;
 import frc.robot.subsystems.IngesterPositioner;
 import frc.robot.subsystems.Tachometer;
-import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.TopIndexer;
 import frc.robot.subsystems.Shooter;
 
 import frc.robot.controllers.*;
@@ -41,14 +41,14 @@ public class RobotContainer {
   public static boolean inTeleop = true;
   public final static DriveTrain driveTrain = new DriveTrain();
 
-  public final static Ingester ingester = new Ingester();
+  public final static BottomIndexer bottomIndexer = new BottomIndexer();
   public final static IngesterPositioner ingestPos = new IngesterPositioner();
   public final static UnlockIngester unlockIngester = new UnlockIngester(ingestPos);
 
   public final static Shooter shooter = new Shooter();
 
   public final static Tachometer tacheo = new Tachometer();
-  public final static Indexer indexer = new Indexer();
+  public final static TopIndexer topIndexer = new TopIndexer();
 
   //public final static AimbotBall aimball = new AimbotBall(driveTrain);
 
@@ -62,13 +62,13 @@ public class RobotContainer {
   public final static ControlHooks controlHooks = new ControlHooks(hooks);
   // public final static AutoClimb autoClimb = new AutoClimb(climber);
 
-  public final static ShootBalls shootBalls = new ShootBalls(shooter);
+  public final static ShootBalls shootBalls = new ShootBalls(shooter, bottomIndexer, topIndexer);
   public final static AdjustShooterAim adjustShooterAim = new AdjustShooterAim(driveTrain);
   public final static SetShooterPower setShooterPower = new SetShooterPower(shooter, driveTrain);
 
   // declare new shooter airmer to be ran, for driveTrain
-  public final static IndexBalls index = new IndexBalls(indexer, shooter);
-  public final static IngestBalls ingest = new IngestBalls(ingester, indexer);
+  public final static IndexTop indexTop = new IndexTop(topIndexer);
+  public final static IndexBottom indexBottom = new IndexBottom(bottomIndexer);
   public final static ShooterAimer adjustAim = new ShooterAimer(driveTrain);
   public final static AutonomousDriveToBall autonomousDrive = new AutonomousDriveToBall(driveTrain, hooks, arm, ingestPos, shooter, tacheo);
   public final static AutonomousShootBall autonomousShoot = new AutonomousShootBall(driveTrain, hooks, arm, ingestPos, shooter, tacheo);
@@ -130,13 +130,11 @@ public class RobotContainer {
     JoystickButton setShooterButton = new JoystickButton(secondaryJoystick.joystick, Constants.setShooterButtonNumber);
     setShooterButton.whenPressed(setShooterPower);
 
-    // JoystickButton ingestButton = new JoystickButton(flightJoystick.joystick, 7);
-    // ingestButton.whenPressed(ingest);
-    // ingestButton.whenReleased(index);
+    JoystickButton indexBottomButton = new JoystickButton(primaryJoystick.joystick, Constants.bottomIndexButtonNumber);
+    indexBottomButton.whenHeld(indexBottom);
 
-    // JoystickButton spitBallButton = new JoystickButton(driverStick.joystick, 6);
-    // spitBallButton.whenHeld();
-    // spitBallButton.whenReleased();
+    JoystickButton indexTopButton = new JoystickButton(primaryJoystick.joystick, Constants.topIndexButtonNumber);
+    indexTopButton.whenHeld(indexTop);
 
     //JoystickButton aimbotButton = new JoystickButton(flightJoystick.joystick, Constants.aimbotButtonNumber);
     //aimbotButton.whenHeld(aimBall);

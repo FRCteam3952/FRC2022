@@ -8,28 +8,24 @@ import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class Loader extends SubsystemBase {
+public class BottomIndexer extends SubsystemBase {
 
     //feeding system
+    private final Talon bottomIndexer;
 
-    private final Talon feedingRoller;
     
-
+//pushing ball backwards in limit switch is activated, greenwheel at bottom spins when ingesting
 
 
   /** Creates a new ExampleSubsystem. */
-  public Loader() {
-
-    feedingRoller = new Talon(Constants.topIndexerPort);
+  public BottomIndexer() {
+    bottomIndexer = new Talon(Constants.bottomIndexerPort);
   }
 
 
-
-
-  public void setLoadingRollerSpeed(double speed){
-      feedingRoller.set(speed);
+  public void setIndexSpeed(double speed){
+    bottomIndexer.set(speed);
   }
-
 
   @Override
   public void periodic() {

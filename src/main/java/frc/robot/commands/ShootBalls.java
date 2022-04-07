@@ -2,6 +2,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.BottomIndexer;
+import frc.robot.subsystems.TopIndexer;
 import frc.robot.Constants;
 
 public class ShootBalls extends CommandBase {
@@ -9,12 +11,15 @@ public class ShootBalls extends CommandBase {
      * Creates a new AutonomousCommand.
      */
     private final Shooter shoot;
+    private final BottomIndexer bottomIndex;
+    private final TopIndexer topIndex;
     
-    public ShootBalls(Shooter shoot) {
+    public ShootBalls(Shooter shoot, BottomIndexer bottomIndex, TopIndexer topIndex) {
       // Use addRequirements() here to declare subsystem dependencies.
       this.shoot = shoot;
-      addRequirements(shoot);
-      
+      this.bottomIndex = bottomIndex;
+      this.topIndex = topIndex;
+      addRequirements(shoot, bottomIndex, topIndex); 
     }
 
     // Called when the command is initially scheduled.
