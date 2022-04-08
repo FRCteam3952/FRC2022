@@ -6,7 +6,6 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants;
 
 
@@ -14,14 +13,12 @@ public class TopIndexer extends SubsystemBase {
 
   //feeding system
   private final Talon topIndexer;
-  private final DigitalInput bottomShooterLim;
-  private final DigitalInput ballShooterLim;
+
 
   /** Creates a new ExampleSubsystem. */
   public TopIndexer() {
     topIndexer = new Talon(Constants.topIndexerPort);
-    bottomShooterLim = new DigitalInput(Constants.shooterBottomLimitPort);
-    ballShooterLim = new DigitalInput(Constants.shooterShootingLimitPort);
+    
     
   }
 
@@ -29,15 +26,7 @@ public class TopIndexer extends SubsystemBase {
   public void setIndexSpeed(double speed){
     topIndexer.set(speed);
   }
-
-  public boolean bottomShooterPressed() {
-    return !bottomShooterLim.get();
-  }
-
-  public boolean ballShooterPressed() {
-    return ballShooterLim.get();
-  }
-
+  
 
   @Override
  public void periodic() {

@@ -11,6 +11,7 @@ import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase {
@@ -28,6 +29,8 @@ public class Shooter extends SubsystemBase {
     private SparkMaxPIDController pidController = leaderMotor.getPIDController();
 
     private RelativeEncoder leaderEncoder = leaderMotor.getEncoder();
+
+    private final DigitalInput bottomShooterLim, topShooterLim;
     
     private double kP = 0.005, kI = 0, kD = 0, kIz = 0, kFF = 0.000015, kMaxOutput = 1, kMinOutput = -1, autoShootRPM = 0;
 
@@ -38,6 +41,8 @@ public class Shooter extends SubsystemBase {
     // shooterRollerR = new Talon(Constants.shooterRollerRPort);
     // shooter = new MotorControllerGroup(shooterRollerL, shooterRollerR);
     // shooterRollers = new Talon(Constants.shooterRollersPort);
+    bottomShooterLim = new DigitalInput(Constants.shooterBottomLimitPort);
+    topShooterLim = new DigitalInput(Constants.shooterShootingLimitPort);
     followerMotor.follow(leaderMotor);
     pidController.setP(kP);
     pidController.setI(kI);
@@ -63,6 +68,14 @@ public class Shooter extends SubsystemBase {
 
   public double getAutoShootRPM() {
     return autoShootRPM;
+  }
+
+  public boolean getBottomShooterLimPressed() {
+    return bottomShooterLim.get();
+  }
+
+  public boolean getTopShooterLimPressed() {
+    return topShooterLim.get();
   }
 
  

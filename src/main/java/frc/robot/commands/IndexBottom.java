@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class IndexBottom extends CommandBase {
   private final BottomIndexer ingest;
-  private final double INGEST_SPEED = 0.6;
+  private final double speed = 0.6;
   public boolean isTopHit = false;
   
   /**
@@ -32,7 +32,7 @@ public class IndexBottom extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    ingest.setIndexSpeed(-INGEST_SPEED);
+    ingest.setIndexSpeed(-speed);
   }
 
   // Called once the command ends or is interrupted.
