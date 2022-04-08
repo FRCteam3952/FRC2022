@@ -37,13 +37,9 @@ public class Shooter extends SubsystemBase {
 
   /** Creates a new ExampleSubsystem. */
   public Shooter() {
-    // shooterRollerL = new Talon(Constants.shooterRollerLPort);
-    // shooterRollerR = new Talon(Constants.shooterRollerRPort);
-    // shooter = new MotorControllerGroup(shooterRollerL, shooterRollerR);
-    // shooterRollers = new Talon(Constants.shooterRollersPort);
     bottomShooterLim = new DigitalInput(Constants.shooterBottomLimitPort);
     topShooterLim = new DigitalInput(Constants.shooterShootingLimitPort);
-    followerMotor.follow(leaderMotor);
+    followerMotor.follow(leaderMotor, true); //motor follows leader in inverse
     pidController.setP(kP);
     pidController.setI(kI);
     pidController.setD(kD);
