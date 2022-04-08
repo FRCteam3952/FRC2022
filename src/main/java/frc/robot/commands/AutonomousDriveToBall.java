@@ -3,11 +3,10 @@ package frc.robot.commands;
 import frc.robot.subsystems.ClimberArm;
 import frc.robot.subsystems.ClimberHooks;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Tachometer;
+// import frc.robot.subsystems.Tachometer;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.IngesterPositioner;
 
 public class AutonomousDriveToBall extends CommandBase {
   /**
@@ -16,9 +15,8 @@ public class AutonomousDriveToBall extends CommandBase {
   private final DriveTrain drive;
   private final ClimberHooks climber;
   private final ClimberArm arm;
-  private final IngesterPositioner ingester;
   private final Shooter shooter;
-  private final Tachometer tacheo;
+  // private final Tachometer tacheo;
   private final Timer timer = new Timer();
 
   private final double SHOOTER_SPEED = 0.2;
@@ -30,17 +28,15 @@ public class AutonomousDriveToBall extends CommandBase {
   private final double MAX_POSITION = 50; //measured in motor rotations, measure later
 
 
-  public AutonomousDriveToBall(DriveTrain drive, ClimberHooks climber, ClimberArm arm, IngesterPositioner ingester, Shooter shooter,
-      Tachometer tacheo) {
+  public AutonomousDriveToBall(DriveTrain drive, ClimberHooks climber, ClimberArm arm, Shooter shooter) {
     // Use addRequirements() here to declare subsystem dependencies.
 
     this.drive = drive;
     this.climber = climber;
     this.arm = arm;
-    this.ingester = ingester;
     this.shooter = shooter;
-    this.tacheo = tacheo;
-    addRequirements(drive, climber, arm, ingester, shooter, tacheo);
+    // this.tacheo = tacheo;
+    addRequirements(drive, climber, arm, shooter);
   }
 
   // Called when the command is initially scheduled.

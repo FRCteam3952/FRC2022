@@ -14,19 +14,15 @@ package frc.robot;
  */
 public final class Constants {
     //PWM ports declaration  
-    public static final int bottomIndexerPort = 4;
-    public static final int ingesterCollectingRollerTopPort= 8;
-    public static final int topIndexerPort = 5;
-    public static final int shooterRollersPort = 6;
-    public static final int releaseIngesterPort = 7;
+    public static final int bottomIndexerPort = 5;
+    public static final int topIndexerPort = 9;
 
 
     //DIO port declaration
     public static final int bottomLimitSwitchClimberPort = 0;
-    public static final int topOrBottomLimitClimberPort = 1;
+    // public static final int topOrBottomLimitClimberPort = 3;
     public static final int shooterShootingLimitPort = 2;
-    public static final int shooterBottomLimitPort = 3;
-    public static final int shooterTachometerPort = 4;
+    public static final int shooterBottomLimitPort = 1;
 
     
     // CAN Bus, uses phoenix 
@@ -39,17 +35,6 @@ public final class Constants {
     public static final int hookPort = 10;
     public static final int flywheelPort1 = 7;
     public static final int flywheelPort2 = 8;
-
-
-    //encoder channels, find values later
-    public static final int frontLeftEncoderChannelA = 1;
-    public static final int frontLeftEncoderChannelB = 2;
-    public static final int frontRightEncoderChannelA = 3;
-    public static final int frontRightEncoderChannelB = 4;
-    public static final int rearLeftEncoderChannelA = 5;
-    public static final int rearLeftEncoderChannelB = 6;
-    public static final int rearRightEncoderChannelA = 7;
-    public static final int rearRightEncoderChannelB = 8;
 
     //button numbers for primary joystick
     public static final int aimbotButtonNumber = 1;

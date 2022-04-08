@@ -91,7 +91,7 @@ public class DriveTrain extends SubsystemBase {
     double[] adjustXY = {0,0};
     if(seeBall.getBoolean(false)){
       double adjustment = ball.getNumber(0).doubleValue();
-      double minPower = 0.2;
+      double minPower = 0.25;
       if(adjustment < minPower && adjustment > 0){
         adjustment = minPower;
       }

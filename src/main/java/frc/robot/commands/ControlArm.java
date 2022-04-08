@@ -27,7 +27,7 @@ public class ControlArm extends CommandBase {
   @Override
   public void execute() {
     double armSpeed = RobotContainer.tangoIIController.getXValue();
-    arm.changeArmAngle((armSpeed));
+    arm.changeArmAngle(armSpeed);
   }
 
   // Called once the command ends or is interrupted.

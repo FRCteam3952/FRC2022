@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Timer;
-
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -13,26 +11,24 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.commands.AutonomousDriveToBall;
 import frc.robot.commands.AutonomousShootBall;
-import frc.robot.commands.AutonomousGroup;
 import frc.robot.commands.ManualDrive;
 import frc.robot.commands.SetShooterPower;
 import frc.robot.commands.ControlArm;
 import frc.robot.commands.ControlHooks;
 import frc.robot.commands.ShooterAimer;
-import frc.robot.commands.UnlockIngester;
 import frc.robot.commands.IndexBottom;
 import frc.robot.commands.IndexTop;
 import frc.robot.commands.ShootBalls;
 import frc.robot.commands.AdjustShooterAim;
-
+import frc.robot.commands.AutoClimb;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.ClimberArm;
 import frc.robot.subsystems.ClimberHooks;
 import frc.robot.subsystems.BottomIndexer;
-import frc.robot.subsystems.IngesterPositioner;
 import frc.robot.subsystems.Tachometer;
 import frc.robot.subsystems.TopIndexer;
 import frc.robot.subsystems.Shooter;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import frc.robot.controllers.*;
 import edu.wpi.first.wpilibj.Joystick;
@@ -42,8 +38,6 @@ public class RobotContainer {
   public final static DriveTrain driveTrain = new DriveTrain();
 
   public final static BottomIndexer bottomIndexer = new BottomIndexer();
-  public final static IngesterPositioner ingestPos = new IngesterPositioner();
-  public final static UnlockIngester unlockIngester = new UnlockIngester(ingestPos);
 
   public final static Shooter shooter = new Shooter();
 
@@ -60,7 +54,7 @@ public class RobotContainer {
   public final static ClimberArm arm = new ClimberArm();
   public final static ControlArm controlArm = new ControlArm(arm);
   public final static ControlHooks controlHooks = new ControlHooks(hooks);
-  // public final static AutoClimb autoClimb = new AutoClimb(climber);
+  public final static AutoClimb autoClimb = new AutoClimb(hooks, arm);
 
   public final static ShootBalls shootBalls = new ShootBalls(shooter, bottomIndexer, topIndexer);
   public final static AdjustShooterAim adjustShooterAim = new AdjustShooterAim(driveTrain);
@@ -70,8 +64,8 @@ public class RobotContainer {
   public final static IndexTop indexTop = new IndexTop(topIndexer);
   public final static IndexBottom indexBottom = new IndexBottom(bottomIndexer);
   public final static ShooterAimer adjustAim = new ShooterAimer(driveTrain);
-  public final static AutonomousDriveToBall autonomousDrive = new AutonomousDriveToBall(driveTrain, hooks, arm, ingestPos, shooter, tacheo);
-  public final static AutonomousShootBall autonomousShoot = new AutonomousShootBall(driveTrain, hooks, arm, ingestPos, shooter, tacheo);
+  public final static AutonomousDriveToBall autonomousDrive = new AutonomousDriveToBall(driveTrain, hooks, arm, shooter);
+  public final static AutonomousShootBall autonomousShoot = new AutonomousShootBall(driveTrain, hooks, arm, shooter);
   public final static ManualDrive driveCommand = new ManualDrive(driveTrain);
   //public final static AimbotBall aimBall = new AimbotBall(driveTrain); 
 
@@ -113,13 +107,13 @@ public class RobotContainer {
     // shooterButton.whileActiveContinuous(adjustShooter);
     // shooterButton.whenReleased(() -> adjustShooter.cancel());
 
-    // Trigger hookTrigger = new Trigger(() -> tangoIIController.getSlider() > .5);
-    // hookTrigger.whileActiveContinuous(controlHooks);
-    // hookTrigger.whenActive(() -> controlHooks.cancel());
+    Trigger manualTrigger = new Trigger(() -> tangoIIController.getSlider() > .5);
+    manualTrigger.whileActiveContinuous(controlHooks);
+    manualTrigger.whenActive(() -> controlHooks.cancel());
 
-    // Trigger driveTrigger = new Trigger(() -> tangoIIController.getSlider() <= .5);
-    // driveTrigger.whileActiveContinuous(driveCommand);
-    // driveTrigger.whenActive(() -> driveCommand.cancel());
+    Trigger autoTrigger = new Trigger(() -> tangoIIController.getSlider() <= .5);
+    autoTrigger.whileActiveContinuous(autoClimb);
+    autoTrigger.whenActive(() -> autoClimb.cancel());
 
     JoystickButton shootBallsButton = new JoystickButton(secondaryJoystick.joystick, Constants.shootBallsButtonNumber);
     shootBallsButton.whenPressed(shootBalls);
