@@ -62,8 +62,9 @@ public class ManualDrive extends CommandBase {
       double x = RobotContainer.secondaryJoystick.getHorizontalMovement();
       double angle = Math.toDegrees(Math.atan2(y, x)); //gets angle of the joystick
 
-      if (y < 0)
-        angle += 360; //make sure angle is within 0˚ to 360˚ scale
+      //if (y < 0)
+      //  angle += 360; //make sure angle is within 0˚ to 360˚ scale
+      angle %= angle % 360;
 
       double angleDifference = angle - drive_train.getGyroAngle(); //gets angle difference
 
