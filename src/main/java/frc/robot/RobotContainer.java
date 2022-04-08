@@ -56,7 +56,7 @@ public class RobotContainer {
   public final static ControlHooks controlHooks = new ControlHooks(hooks);
   public final static AutoClimb autoClimb = new AutoClimb(hooks, arm);
 
-  public final static ShootBalls shootBalls = new ShootBalls(shooter, bottomIndexer, topIndexer);
+  public final static ShootBalls shootBalls = new ShootBalls(shooter, bottomIndexer, topIndexer, tacheo);
   public final static AdjustShooterAim adjustShooterAim = new AdjustShooterAim(driveTrain);
   public final static SetShooterPower setShooterPower = new SetShooterPower(shooter, driveTrain);
 
@@ -114,9 +114,6 @@ public class RobotContainer {
     Trigger autoTrigger = new Trigger(() -> tangoIIController.getSlider() <= .5);
     autoTrigger.whileActiveContinuous(autoClimb);
     autoTrigger.whenActive(() -> autoClimb.cancel());
-
-    JoystickButton shootBallsButton = new JoystickButton(secondaryJoystick.joystick, Constants.shootBallsButtonNumber);
-    shootBallsButton.whenPressed(shootBalls);
 
     JoystickButton adjustAimButton = new JoystickButton(secondaryJoystick.joystick, Constants.adjustAimButtonNumber);
     adjustAimButton.whileHeld(adjustShooterAim);
@@ -177,12 +174,7 @@ public class RobotContainer {
   public void teleopInit() {
     inTeleop = true;
     configureButtonBindings();
-    // driveTrain.setDefaultCommand(adjustAim);
+    shooter.setDefaultCommand(shootBalls);
     driveTrain.setDefaultCommand(driveCommand);
-    //ingester.setDefaultCommand(ingest);
-    // ingestPos.setDefaultCommand(unlockIngester);
-    // hooks.setDefaultCommand(manualClimb);
-    // driveTrain.setDefaultCommand(manualDrive);
-    // indexer.setDefaultCommand(index);
   }
 }

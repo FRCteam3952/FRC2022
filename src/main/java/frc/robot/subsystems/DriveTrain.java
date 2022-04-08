@@ -39,7 +39,6 @@ public class DriveTrain extends SubsystemBase {
 
   private MecanumDrive m_dDrive;
 
-  private boolean settingDistance = true;
   /** Creates a new ExampleSubsystem. */
   public DriveTrain() {
     inst = NetworkTableInstance.getDefault();

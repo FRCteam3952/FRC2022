@@ -20,7 +20,7 @@ public class AutoClimb extends CommandBase {
   private final ClimberArm arm;
   private final double MAX_POSITION = 50; //measured in motor rotations, measure later
   private final double ARM_MOVE_POSITION = 25; //measured in motor rotations, measure later
-  private final double TRAVERSAL_POSITION = 40; //measured in motor rotations, measure later
+
   /**
    * Creates a new ExampleCommand.
    *
@@ -78,11 +78,10 @@ public class AutoClimb extends CommandBase {
         if (hooks.bottomLimitPressed()) {
           hooks.slideHook(0);
           arm.changeArmAngle(0);
-          if (hooks.topOrBottomLimitPressed()) {
+          if (hooks.bottomLimitPressed()) {
             System.out.println("AutoClimb over, please start manual climbing");
             cancel();
           }
-            
         }
         break;
       

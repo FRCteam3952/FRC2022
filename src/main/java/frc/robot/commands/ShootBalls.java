@@ -1,10 +1,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.BottomIndexer;
 import frc.robot.subsystems.TopIndexer;
+import frc.robot.subsystems.Tachometer;
+import frc.robot.RobotContainer;
 import frc.robot.Constants;
+
 
 public class ShootBalls extends CommandBase {
     /**
@@ -13,18 +17,25 @@ public class ShootBalls extends CommandBase {
     private final Shooter shoot;
     private final BottomIndexer bottomIndex;
     private final TopIndexer topIndex;
+    private final Tachometer tachometer;
+    private final Timer timer = new Timer();
 
-    private double bottomIndexSpeed = 0.4;
-    private double topIndexSpeed = 0.35;
+    private double ingestSpeed = 0.4;
+    private double indexSpeed = 0.35;
+    private double delta = 50; //allowed variance of RPM
+    public double currentRPM;
+    public double desiredRPM;
+    public boolean previousLimitState;
 
     private ShootingStates state = ShootingStates.INDEX_FIRST_BALL;
     
-    public ShootBalls(Shooter shoot, BottomIndexer bottomIndex, TopIndexer topIndex) {
+    public ShootBalls(Shooter shoot, BottomIndexer bottomIndex, TopIndexer topIndex, Tachometer tachometer) {
       // Use addRequirements() here to declare subsystem dependencies.
       this.shoot = shoot;
       this.bottomIndex = bottomIndex;
       this.topIndex = topIndex;
-      addRequirements(shoot, bottomIndex, topIndex); 
+      this.tachometer = tachometer;
+      addRequirements(shoot, bottomIndex, topIndex, tachometer); 
     }
 
     private enum ShootingStates {
@@ -33,6 +44,7 @@ public class ShootBalls extends CommandBase {
       PREPARE_TO_SHOOT,
       ACCELERATE_FLYWHEEL,
       SHOOT_FIRST_BALL,
+      ACCELERATE_FLYWHEEL_2,
       SHOOT_SECOND_BALL
     }
 
@@ -46,35 +58,65 @@ public class ShootBalls extends CommandBase {
     public void execute() {
       switch (state) {
         case INDEX_FIRST_BALL:
-          bottomIndex.setIndexSpeed(bottomIndexSpeed);
-          topIndex.setIndexSpeed(topIndexSpeed);
-          if (shoot.getTopShooterLimPressed()) {
-            state = ShootingStates.INDEX_SECOND_BALL;
+          bottomIndex.setIndexSpeed(ingestSpeed);
+          topIndex.setIndexSpeed(indexSpeed);
+          if (shoot.getTopShooterLim()) {
             topIndex.setIndexSpeed(0);
+            state = ShootingStates.INDEX_SECOND_BALL;
           }
           break;
 
         case INDEX_SECOND_BALL:
-          bottomIndex.setIndexSpeed(bottomIndexSpeed);
-          if (shoot.getBottomShooterLimPressed()) {
+          bottomIndex.setIndexSpeed(ingestSpeed);
+          if (shoot.getBottomShooterLim()) {
+            bottomIndex.setIndexSpeed(0);
             state = ShootingStates.PREPARE_TO_SHOOT;
           }
           break;
 
         case PREPARE_TO_SHOOT:
-          
+          if (RobotContainer.secondaryJoystick.joystick.getRawButton(Constants.shootBallsButtonNumber)) {
+            state = ShootingStates.ACCELERATE_FLYWHEEL;
+          }
           break;
 
         case ACCELERATE_FLYWHEEL:
-          
+          currentRPM = tachometer.getShooterRPM();
+          desiredRPM = shoot.getRPMValue();
+          shoot.setShooterRPM();
+          if (currentRPM >= desiredRPM - delta && currentRPM <= desiredRPM + delta) {
+            state = ShootingStates.SHOOT_FIRST_BALL;
+          }
           break;
 
         case SHOOT_FIRST_BALL:
-          
+          previousLimitState = shoot.getTopShooterLim();
+          shoot.setShooterRPM();
+          topIndex.setIndexSpeed(indexSpeed);
+          if (shoot.getTopShooterLim() && !previousLimitState) {
+            state = ShootingStates.ACCELERATE_FLYWHEEL_2;
+          }
+          break;
+
+        case ACCELERATE_FLYWHEEL_2:
+          currentRPM = tachometer.getShooterRPM();
+          desiredRPM = shoot.getRPMValue();
+          shoot.setShooterRPM();            
+          topIndex.setIndexSpeed(indexSpeed);
+          if (currentRPM >= desiredRPM - delta && currentRPM <= desiredRPM + delta) {
+            timer.reset();
+            state = ShootingStates.SHOOT_SECOND_BALL;
+          }
           break;
 
         case SHOOT_SECOND_BALL:
-          
+          shoot.setShooterRPM();
+          topIndex.setIndexSpeed(indexSpeed);
+          bottomIndex.setIndexSpeed(indexSpeed);
+          if (timer.hasElapsed(3)) {
+            shoot.setShooterPower(0);
+            state = ShootingStates.INDEX_FIRST_BALL;
+          }
           break;
 
         default:

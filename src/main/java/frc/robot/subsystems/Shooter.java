@@ -32,7 +32,7 @@ public class Shooter extends SubsystemBase {
 
     private final DigitalInput bottomShooterLim, topShooterLim;
     
-    private double kP = 0.005, kI = 0, kD = 0, kIz = 0, kFF = 0.000015, kMaxOutput = 1, kMinOutput = -1, autoShootRPM = 0;
+    private double kP = 0.005, kI = 0, kD = 0, kIz = 0, kFF = 0.000015, kMaxOutput = 1, kMinOutput = -1, rpmValue = 0;
 
 
   /** Creates a new ExampleSubsystem. */
@@ -54,7 +54,7 @@ public class Shooter extends SubsystemBase {
 
 
   public void setShooterRPM(){
-    double setPoint = autoShootRPM;
+    double setPoint = rpmValue;
     pidController.setReference(setPoint, ControlType.kVelocity); //uses PID to maintain constant RPM
   }
     
@@ -62,23 +62,22 @@ public class Shooter extends SubsystemBase {
     leaderMotor.set(speed);
   }
 
-  public void setAutoShootRPM(double rpm) {
-    autoShootRPM = rpm;
+  public void setRPMValue(double rpm) {
+    rpmValue = rpm;
   }
 
-  public double getAutoShootRPM() {
-    return autoShootRPM;
+  public double getRPMValue() {
+    return rpmValue;
   }
 
-  public boolean getBottomShooterLimPressed() {
+  public boolean getBottomShooterLim() {
     return bottomShooterLim.get();
   }
 
-  public boolean getTopShooterLimPressed() {
+  public boolean getTopShooterLim() {
     return topShooterLim.get();
   }
-
- 
+   
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
