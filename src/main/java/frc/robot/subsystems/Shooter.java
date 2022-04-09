@@ -53,7 +53,7 @@ public class Shooter extends SubsystemBase {
   }
 
 
-  public void setShooterAtRPM(){
+  public void setShooterToRPM(){
     double setPoint = rpmValue;
     pidController.setReference(setPoint, CANSparkMax.ControlType.kVelocity); //uses PID to maintain constant RPM
   }
