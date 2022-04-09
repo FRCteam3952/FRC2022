@@ -23,7 +23,8 @@ public class BallHandling extends CommandBase {
     private double ingestSpeed = 0.4;
     private double indexSpeed = 0.15;
     private double shootIndexSpeed = 0.25;
-    private double delta = 50; //allowed variance of RPM
+    private double delta1 = 50; //allowed variance of RPM lower threshold
+    private double delta2 = 500; //allowed variance of RPM upper threshold
     public double currentRPM;
     public double desiredRPM = 1000;
     public boolean previousLimitState;
@@ -91,10 +92,10 @@ public class BallHandling extends CommandBase {
           currentRPM = tachometer.getShooterRPM();
           System.out.println(currentRPM);
           desiredRPM = shoot.getRPMValue();
-          // shoot.setShooterRPM();
-          shoot.setShooterPower(1);
-          // if (currentRPM >= desiredRPM - delta && currentRPM <= desiredRPM + delta) {
-          if(currentRPM >= desiredRPM) {
+          shoot.setShooterRPM();
+          // shoot.setShooterPower(1);
+          if (currentRPM >= desiredRPM - delta1 && currentRPM <= desiredRPM + delta2) {
+          // if(currentRPM >= desiredRPM) {
             
             state = ShootingStates.SHOOT_FIRST_BALL;
           }
@@ -103,8 +104,8 @@ public class BallHandling extends CommandBase {
         case SHOOT_FIRST_BALL:
           System.out.println("SHOOT BALL 1");
           previousLimitState = shoot.getTopShooterLim();
-          // shoot.setShooterRPM();
-          shoot.setShooterPower(1);
+          shoot.setShooterRPM();
+          //shoot.setShooterPower(1);
           topIndex.setIndexSpeed(shootIndexSpeed);
           bottomIndex.setIndexSpeed(shootIndexSpeed);
           if (shoot.getTopShooterLim() && !previousLimitState) {
@@ -118,8 +119,8 @@ public class BallHandling extends CommandBase {
           shoot.setShooterRPM();            
           topIndex.setIndexSpeed(shootIndexSpeed);
           bottomIndex.setIndexSpeed(shootIndexSpeed);
-          // if (currentRPM >= desiredRPM - delta && currentRPM <= desiredRPM + delta) {
-          if(currentRPM >= desiredRPM){
+          if (currentRPM >= desiredRPM - delta1 && currentRPM <= desiredRPM + delta2) {
+          // if(currentRPM >= desiredRPM){
             timer.reset();
             state = ShootingStates.SHOOT_SECOND_BALL;
           }
@@ -130,7 +131,8 @@ public class BallHandling extends CommandBase {
           topIndex.setIndexSpeed(shootIndexSpeed);
           bottomIndex.setIndexSpeed(shootIndexSpeed);
           if (timer.hasElapsed(3)) {
-            shoot.setShooterPower(0);
+            shoot.setRPMValue(0);
+            // shoot.setShooterPower(0);
             state = ShootingStates.INDEX_FIRST_BALL;
           }
           break;

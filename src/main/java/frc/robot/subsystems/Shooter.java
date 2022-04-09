@@ -5,7 +5,6 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -15,45 +14,48 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase {
-
-    //shooter structure
-    // private final Talon shooterRollerL;
-    // private final Talon shooterRollerR;
-    // private final MotorControllerGroup shooter;
-    // private final Talon shooterRollers;
     
-    private CANSparkMax followerMotor = new CANSparkMax(Constants.flywheelPort2, MotorType.kBrushed);
-  
-    private CANSparkMax leaderMotor = new CANSparkMax(Constants.flywheelPort1, MotorType.kBrushed);
-
-    // private SparkMaxPIDController pidController = leaderMotor.getPIDController();
-
-    // private RelativeEncoder leaderEncoder = leaderMotor.getEncoder();
-
+    private CANSparkMax followerMotor;
+    private CANSparkMax leaderMotor;
+    private SparkMaxPIDController pidController;
+    private RelativeEncoder leaderEncoder;
     private final DigitalInput bottomShooterLim, topShooterLim;
-    
-    private double kP = 0.005, kI = 0, kD = 0, kIz = 0, kFF = 0.000015, kMaxOutput = 1, kMinOutput = -1, rpmValue = 100;
+    private double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, rpmValue;
 
-
-  /** Creates a new ExampleSubsystem. */
   public Shooter() {
     bottomShooterLim = new DigitalInput(Constants.shooterBottomLimitPort);
     topShooterLim = new DigitalInput(Constants.shooterShootingLimitPort);
+    
+    leaderMotor = new CANSparkMax(Constants.flywheelPort1, MotorType.kBrushed);
+    followerMotor = new CANSparkMax(Constants.flywheelPort2, MotorType.kBrushed);
     followerMotor.follow(leaderMotor, true); //motor follows leader in inverse
-    /*
+
+    pidController = leaderMotor.getPIDController();
+
+    leaderEncoder = leaderMotor.getEncoder();
+
+    kP = 6e-5;
+    kI = 0;
+    kD = 0; 
+    kIz = 0; 
+    kFF = 0.000015; 
+    kMaxOutput = 1; 
+    kMinOutput = -1;
+    rpmValue = 1000;
+
     pidController.setP(kP);
     pidController.setI(kI);
     pidController.setD(kD);
     pidController.setIZone(kIz);
     pidController.setFF(kFF);
     pidController.setOutputRange(kMinOutput, kMaxOutput);
-    */
+    
   }
 
 
   public void setShooterRPM(){
     double setPoint = rpmValue;
-    // pidController.setReference(setPoint, ControlType.kVelocity); //uses PID to maintain constant RPM
+    pidController.setReference(setPoint, CANSparkMax.ControlType.kVelocity); //uses PID to maintain constant RPM
   }
     
   public void setShooterPower(double speed) {
