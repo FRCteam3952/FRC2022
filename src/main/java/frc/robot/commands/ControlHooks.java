@@ -33,16 +33,17 @@ public class ControlHooks extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // System.out.println("hook");
     //double hookSpeed = RobotContainer.tangoIIController.getZValue(); 
     double hookSpeed = RobotContainer.secondaryJoystick.getLateralMovement(); 
-    
+    //hookSpeed = 0;
     if (climber.bottomLimitPressed()) {
       climber.setPosition(0);
     }
 
-    if ((hookSpeed > 0 && climber.getEncoderPosition() >= MAX_POSITION) || (hookSpeed < 0 && climber.getEncoderPosition() <= 0)) ;
+    // if ((hookSpeed > 0 && climber.getEncoderPosition() >= MAX_POSITION) || (hookSpeed < 0 && climber.getEncoderPosition() <= 0)) ;
       //do nothing
-    else
+    // else
       climber.slideHook(hookSpeed);
 
 

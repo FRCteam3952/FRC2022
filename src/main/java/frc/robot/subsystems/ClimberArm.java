@@ -8,19 +8,35 @@ package frc.robot.subsystems;
 
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 
 
 
 public class ClimberArm extends SubsystemBase {
-  //private final CANSparkMax armAngle;
+  private final CANSparkMax armAngle;
+  private final RelativeEncoder armAngleEncoder;
+  
   /** Creates a new ExampleSubsystem. */
   public ClimberArm() {
-    //armAngle = new CANSparkMax(1, MotorType.kBrushless);
+    armAngle = new CANSparkMax(Constants.armAnglePort, MotorType.kBrushless);
+    armAngleEncoder = armAngle.getEncoder();
+  }
+  
+  public void resetClimbEncoder() {
+    armAngleEncoder.setPosition(0);
+  }
+
+  public double getArmAngleEncoder() {
+    return armAngleEncoder.getPosition();
   }
 
   public double changeArmAngle(double speed) {
-    //armAngle.set(speed);
+    armAngle.set(speed);
     return speed;
   }
 

@@ -22,17 +22,17 @@ public class Shooter extends SubsystemBase {
     // private final MotorControllerGroup shooter;
     // private final Talon shooterRollers;
     
-    private CANSparkMax followerMotor = new CANSparkMax(Constants.flywheelPort2, MotorType.kBrushless);
+    private CANSparkMax followerMotor = new CANSparkMax(Constants.flywheelPort2, MotorType.kBrushed);
   
-    private CANSparkMax leaderMotor = new CANSparkMax(Constants.flywheelPort1, MotorType.kBrushless);
+    private CANSparkMax leaderMotor = new CANSparkMax(Constants.flywheelPort1, MotorType.kBrushed);
 
-    private SparkMaxPIDController pidController = leaderMotor.getPIDController();
+    // private SparkMaxPIDController pidController = leaderMotor.getPIDController();
 
-    private RelativeEncoder leaderEncoder = leaderMotor.getEncoder();
+    // private RelativeEncoder leaderEncoder = leaderMotor.getEncoder();
 
     private final DigitalInput bottomShooterLim, topShooterLim;
     
-    private double kP = 0.005, kI = 0, kD = 0, kIz = 0, kFF = 0.000015, kMaxOutput = 1, kMinOutput = -1, rpmValue = 0;
+    private double kP = 0.005, kI = 0, kD = 0, kIz = 0, kFF = 0.000015, kMaxOutput = 1, kMinOutput = -1, rpmValue = 100;
 
 
   /** Creates a new ExampleSubsystem. */
@@ -40,22 +40,25 @@ public class Shooter extends SubsystemBase {
     bottomShooterLim = new DigitalInput(Constants.shooterBottomLimitPort);
     topShooterLim = new DigitalInput(Constants.shooterShootingLimitPort);
     followerMotor.follow(leaderMotor, true); //motor follows leader in inverse
+    /*
     pidController.setP(kP);
     pidController.setI(kI);
     pidController.setD(kD);
     pidController.setIZone(kIz);
     pidController.setFF(kFF);
     pidController.setOutputRange(kMinOutput, kMaxOutput);
+    */
   }
 
 
   public void setShooterRPM(){
     double setPoint = rpmValue;
-    pidController.setReference(setPoint, ControlType.kVelocity); //uses PID to maintain constant RPM
+    // pidController.setReference(setPoint, ControlType.kVelocity); //uses PID to maintain constant RPM
   }
     
   public void setShooterPower(double speed) {
     leaderMotor.set(speed);
+    System.out.println("set the power to speed");
   }
 
   public void setRPMValue(double rpm) {

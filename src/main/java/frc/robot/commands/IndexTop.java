@@ -23,7 +23,8 @@ public class IndexTop extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    index.setIndexSpeed(-speed);
+    System.out.println("indexing");
+    index.setIndexSpeed(speed);
   }
 
   // Called once the command ends or is interrupted.

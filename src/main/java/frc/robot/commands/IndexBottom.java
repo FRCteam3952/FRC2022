@@ -32,7 +32,8 @@ public class IndexBottom extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    ingest.setIndexSpeed(-speed);
+    System.out.println("ingesting");
+    ingest.setIndexSpeed(speed);
   }
 
   // Called once the command ends or is interrupted.

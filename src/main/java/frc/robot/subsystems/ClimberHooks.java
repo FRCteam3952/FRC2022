@@ -34,7 +34,7 @@ public class ClimberHooks extends SubsystemBase {
 
 //sets the angle and speed for sliding hook for VSPX talon
   public double slideHook(double speed) {
-    //hook.set(speed);
+    hook.set(speed);
     return speed;
   }
 

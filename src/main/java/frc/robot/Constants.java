@@ -20,7 +20,7 @@ public final class Constants {
 
     //DIO port declaration
     public static final int bottomLimitSwitchClimberPort = 0;
-    public static final int shooterTachometerPort = 4;
+    public static final int shooterTachometerPort = 3;
 
     // public static final int topOrBottomLimitClimberPort = 3;
     public static final int shooterShootingLimitPort = 2;
@@ -45,6 +45,11 @@ public final class Constants {
 
     //button numbers for secondary joystick
     public static final int shootBallsButtonNumber = 1;
+    /*
     public static final int adjustAimButtonNumber = 2;
     public static final int setShooterButtonNumber = 3;
+    */
+    public static final int resetClimberEncoderButton = 11;
+    public static final int moveArmAngleToRobot = 2;
+    public static final int moveArmAngleAwayFromRobot = 3;
 }

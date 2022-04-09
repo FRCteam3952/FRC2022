@@ -6,12 +6,15 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import  com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import frc.robot.Constants;
 
 public class BottomIndexer extends SubsystemBase {
 
     //feeding system
-    private final Talon bottomIndexer;
+    private final VictorSPX bottomIndexer;
 
     
 //pushing ball backwards in limit switch is activated, greenwheel at bottom spins when ingesting
@@ -19,12 +22,12 @@ public class BottomIndexer extends SubsystemBase {
 
   /** Creates a new ExampleSubsystem. */
   public BottomIndexer() {
-    bottomIndexer = new Talon(Constants.bottomIndexerPort);
+    bottomIndexer = new VictorSPX(Constants.bottomIndexerPort);
   }
 
 
   public void setIndexSpeed(double speed){
-    bottomIndexer.set(speed);
+    bottomIndexer.set(ControlMode.PercentOutput, speed);
   }
 
   @Override

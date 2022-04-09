@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.ResourceBundle.Control;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -13,12 +15,13 @@ import frc.robot.commands.AutonomousDriveToBall;
 import frc.robot.commands.AutonomousShootBall;
 import frc.robot.commands.ManualDrive;
 import frc.robot.commands.SetShooterPower;
+import frc.robot.commands.ShootBallsManual;
 import frc.robot.commands.ControlArm;
 import frc.robot.commands.ControlHooks;
 import frc.robot.commands.ShooterAimer;
 import frc.robot.commands.IndexBottom;
 import frc.robot.commands.IndexTop;
-import frc.robot.commands.ShootBalls;
+import frc.robot.commands.BallHandling;
 import frc.robot.commands.AdjustShooterAim;
 import frc.robot.commands.AutoClimb;
 import frc.robot.subsystems.DriveTrain;
@@ -56,9 +59,10 @@ public class RobotContainer {
   public final static ControlHooks controlHooks = new ControlHooks(hooks);
   public final static AutoClimb autoClimb = new AutoClimb(hooks, arm);
 
-  public final static ShootBalls shootBalls = new ShootBalls(shooter, bottomIndexer, topIndexer, tacheo);
+  public final static BallHandling shootBalls = new BallHandling(shooter, bottomIndexer, topIndexer, tacheo);
   public final static AdjustShooterAim adjustShooterAim = new AdjustShooterAim(driveTrain);
   public final static SetShooterPower setShooterPower = new SetShooterPower(shooter, driveTrain);
+  public final static ShootBallsManual shootBallsManual = new ShootBallsManual(shooter);
 
   // declare new shooter airmer to be ran, for driveTrain
   public final static IndexTop indexTop = new IndexTop(topIndexer);
@@ -106,26 +110,35 @@ public class RobotContainer {
     // JoystickButton shooterButton = new JoystickButton(flightJoystick.joystick, 1);
     // shooterButton.whileActiveContinuous(adjustShooter);
     // shooterButton.whenReleased(() -> adjustShooter.cancel());
-
+    /*
     Trigger manualTrigger = new Trigger(() -> tangoIIController.getSlider() > .5);
     manualTrigger.whileActiveContinuous(controlHooks);
-    manualTrigger.whenActive(() -> controlHooks.cancel());
+    manualTrigger.whileActiveContinuous(controlArm);
+    manualTrigger.whenActive(() -> autoClimb.cancel());
 
     Trigger autoTrigger = new Trigger(() -> tangoIIController.getSlider() <= .5);
     autoTrigger.whileActiveContinuous(autoClimb);
-    autoTrigger.whenActive(() -> autoClimb.cancel());
+    autoTrigger.whenActive(() -> controlHooks.cancel());
+    autoTrigger.whenActive(() -> controlArm.cancel());
+    */
+    
+    hooks.setDefaultCommand(controlHooks);
+    arm.setDefaultCommand(controlArm);
 
-    JoystickButton adjustAimButton = new JoystickButton(secondaryJoystick.joystick, Constants.adjustAimButtonNumber);
-    adjustAimButton.whileHeld(adjustShooterAim);
+    //JoystickButton adjustAimButton = new JoystickButton(secondaryJoystick.joystick, Constants.adjustAimButtonNumber);
+    //adjustAimButton.whileHeld(adjustShooterAim);
 
-    JoystickButton setShooterButton = new JoystickButton(secondaryJoystick.joystick, Constants.setShooterButtonNumber);
-    setShooterButton.whenPressed(setShooterPower);
+    //JoystickButton setShooterButton = new JoystickButton(secondaryJoystick.joystick, Constants.setShooterButtonNumber);
+    //setShooterButton.whenPressed(setShooterPower);
 
     JoystickButton indexBottomButton = new JoystickButton(primaryJoystick.joystick, Constants.bottomIndexButtonNumber);
     indexBottomButton.whenHeld(indexBottom);
 
     JoystickButton indexTopButton = new JoystickButton(primaryJoystick.joystick, Constants.topIndexButtonNumber);
     indexTopButton.whenHeld(indexTop);
+
+    JoystickButton shootBallsButton = new JoystickButton(secondaryJoystick.joystick, Constants.shootBallsButtonNumber);
+    shootBallsButton.whenHeld(shootBallsManual);
 
     //JoystickButton aimbotButton = new JoystickButton(flightJoystick.joystick, Constants.aimbotButtonNumber);
     //aimbotButton.whenHeld(aimBall);
@@ -176,5 +189,6 @@ public class RobotContainer {
     configureButtonBindings();
     shooter.setDefaultCommand(shootBalls);
     driveTrain.setDefaultCommand(driveCommand);
+
   }
 }

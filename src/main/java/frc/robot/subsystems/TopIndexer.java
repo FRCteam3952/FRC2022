@@ -6,25 +6,28 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import frc.robot.Constants;
 
 
 public class TopIndexer extends SubsystemBase {
 
   //feeding system
-  private final Talon topIndexer;
+  private final VictorSPX topIndexer;
 
 
   /** Creates a new ExampleSubsystem. */
   public TopIndexer() {
-    topIndexer = new Talon(Constants.topIndexerPort);
+    topIndexer = new VictorSPX(Constants.topIndexerPort);
     
     
   }
 
 
   public void setIndexSpeed(double speed){
-    topIndexer.set(speed);
+    topIndexer.set(ControlMode.PercentOutput, speed);
   }
   
 

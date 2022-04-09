@@ -10,7 +10,7 @@ import frc.robot.RobotContainer;
 import frc.robot.Constants;
 
 
-public class ShootBalls extends CommandBase {
+public class BallHandling extends CommandBase {
     /**
      * Creates a new AutonomousCommand.
      */
@@ -21,15 +21,16 @@ public class ShootBalls extends CommandBase {
     private final Timer timer = new Timer();
 
     private double ingestSpeed = 0.4;
-    private double indexSpeed = 0.35;
+    private double indexSpeed = 0.15;
     private double delta = 50; //allowed variance of RPM
     public double currentRPM;
-    public double desiredRPM;
+    public double desiredRPM = 1000;
     public boolean previousLimitState;
+
 
     private ShootingStates state = ShootingStates.INDEX_FIRST_BALL;
     
-    public ShootBalls(Shooter shoot, BottomIndexer bottomIndex, TopIndexer topIndex, Tachometer tachometer) {
+    public BallHandling(Shooter shoot, BottomIndexer bottomIndex, TopIndexer topIndex, Tachometer tachometer) {
       // Use addRequirements() here to declare subsystem dependencies.
       this.shoot = shoot;
       this.bottomIndex = bottomIndex;
@@ -56,6 +57,8 @@ public class ShootBalls extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+      System.out.println("tachometer: " + tachometer.getShooterRPM());
+      
       switch (state) {
         case INDEX_FIRST_BALL:
           bottomIndex.setIndexSpeed(ingestSpeed);
@@ -82,8 +85,8 @@ public class ShootBalls extends CommandBase {
 
         case ACCELERATE_FLYWHEEL:
           currentRPM = tachometer.getShooterRPM();
-          desiredRPM = shoot.getRPMValue();
-          shoot.setShooterRPM();
+          //desiredRPM = shoot.getRPMValue();
+          //shoot.setShooterRPM();
           if (currentRPM >= desiredRPM - delta && currentRPM <= desiredRPM + delta) {
             state = ShootingStates.SHOOT_FIRST_BALL;
           }
@@ -123,6 +126,7 @@ public class ShootBalls extends CommandBase {
           System.err.println("No state is true");
           break;
       }
+
     }
     
   

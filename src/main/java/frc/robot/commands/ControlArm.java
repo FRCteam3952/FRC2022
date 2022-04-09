@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClimberArm;
@@ -11,6 +12,7 @@ import frc.robot.subsystems.ClimberArm;
 
 public class ControlArm extends CommandBase {
   private final ClimberArm arm;
+  private final double armSpeed = 1;
 
   public ControlArm(ClimberArm subsystem) {
     arm = subsystem;
@@ -26,14 +28,27 @@ public class ControlArm extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // System.out.println("arm");
     //double armSpeed = RobotContainer.tangoIIController.getXValue();
-    double armSpeed = RobotContainer.secondaryJoystick.getHorizontalMovement();
-    arm.changeArmAngle(armSpeed);
+    // double armSpeed = RobotContainer.secondaryJoystick.getHorizontalMovement();
+    //armSpeed = 0;
+    if(RobotContainer.secondaryJoystick.joystick.getRawButton(Constants.moveArmAngleToRobot)) {
+      arm.changeArmAngle(-armSpeed);
+    } else if(RobotContainer.secondaryJoystick.joystick.getRawButton(Constants.moveArmAngleAwayFromRobot)) {
+      arm.changeArmAngle(armSpeed);
+    } else {
+      arm.changeArmAngle(0);
+    }
+    if(RobotContainer.secondaryJoystick.joystick.getRawButtonPressed(Constants.resetClimberEncoderButton)) {
+      arm.resetClimbEncoder();
+    }
+    System.out.println("arm angle = " + (arm.getArmAngleEncoder()*0.213 + 90));
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+
   }
 
   // Returns true when the command should end.
