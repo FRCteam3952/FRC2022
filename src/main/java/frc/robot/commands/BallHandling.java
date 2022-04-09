@@ -92,7 +92,7 @@ public class BallHandling extends CommandBase {
           currentRPM = tachometer.getShooterRPM();
           System.out.println(currentRPM);
           desiredRPM = shoot.getRPMValue();
-          shoot.setShooterRPM();
+          shoot.setShooterAtRPM();
           // shoot.setShooterPower(1);
           if (currentRPM >= desiredRPM - delta1 && currentRPM <= desiredRPM + delta2) {
           // if(currentRPM >= desiredRPM) {
@@ -104,7 +104,7 @@ public class BallHandling extends CommandBase {
         case SHOOT_FIRST_BALL:
           System.out.println("SHOOT BALL 1");
           previousLimitState = shoot.getTopShooterLim();
-          shoot.setShooterRPM();
+          shoot.setShooterAtRPM();
           //shoot.setShooterPower(1);
           topIndex.setIndexSpeed(shootIndexSpeed);
           bottomIndex.setIndexSpeed(shootIndexSpeed);
@@ -116,7 +116,7 @@ public class BallHandling extends CommandBase {
         case ACCELERATE_FLYWHEEL_2:
           currentRPM = tachometer.getShooterRPM();
           desiredRPM = shoot.getRPMValue();
-          shoot.setShooterRPM();            
+          shoot.setShooterAtRPM();            
           topIndex.setIndexSpeed(shootIndexSpeed);
           bottomIndex.setIndexSpeed(shootIndexSpeed);
           if (currentRPM >= desiredRPM - delta1 && currentRPM <= desiredRPM + delta2) {
@@ -127,7 +127,7 @@ public class BallHandling extends CommandBase {
           break;
 
         case SHOOT_SECOND_BALL:
-          shoot.setShooterRPM();
+          shoot.setShooterAtRPM();
           topIndex.setIndexSpeed(shootIndexSpeed);
           bottomIndex.setIndexSpeed(shootIndexSpeed);
           if (timer.hasElapsed(3)) {
