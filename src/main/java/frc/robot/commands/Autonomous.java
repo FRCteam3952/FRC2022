@@ -81,7 +81,7 @@ public class Autonomous extends CommandBase {
                 arm.changeArmAngle(-0.5);
             } else {
                 arm.changeArmAngle(0);
-                stage = AutonStages.MOVE_TO_POS;
+                stage = AutonStages.FINISH;
             }
             break;
           case MOVE_TO_POS:
@@ -141,6 +141,8 @@ public class Autonomous extends CommandBase {
               stage = AutonStages.FINISH;
             }
             break;
+          case FINISH:
+            cancel();
           default:
             break;
 
