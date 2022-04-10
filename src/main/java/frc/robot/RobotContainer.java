@@ -52,7 +52,8 @@ public class RobotContainer {
 
   public static FlightJoystickController primaryJoystick = new FlightJoystickController(new Joystick(0)); //drive, turn
   public static FlightJoystickController secondaryJoystick = new FlightJoystickController(new Joystick(1)); //shoot, set angle
-  public static Tango2Controller tangoIIController = new Tango2Controller(new Tango2Joystick(2)); //climb
+  public static FlightJoystickController tertiaryJoystick = new FlightJoystickController(new Joystick(2)); //climb (mostly)
+  // public static Tango2Controller tangoIIController = new Tango2Controller(new Tango2Joystick(2)); //climb
 
   public final static ClimberHooks hooks = new ClimberHooks();
   public final static ClimberArm arm = new ClimberArm();

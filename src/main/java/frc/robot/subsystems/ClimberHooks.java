@@ -46,7 +46,7 @@ public class ClimberHooks extends SubsystemBase {
 
   public boolean bottomLimitPressed() {
     //System.out.println(bottomLimitSwitch.get());
-    return bottomLimitSwitch.get();
+    return !bottomLimitSwitch.get();
   }
 
   public boolean topOrBottomLimitPressed() {

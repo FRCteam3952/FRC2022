@@ -11,8 +11,8 @@ public class SetShooterPowerManual extends CommandBase {
      */
     private final Shooter shoot;
 
-    private double maxRPM = 10000;
-    private double minRPM = 1000;
+    private double maxRPM = 5000;
+    private double minRPM = 0;
     private double shooterRPM = minRPM;
     
     public SetShooterPowerManual(Shooter shoot) {
@@ -23,7 +23,7 @@ public class SetShooterPowerManual extends CommandBase {
     }
     
     public void setShooterRPM() {
-      double sliderValue = RobotContainer.secondaryJoystick.joystick.getRawAxis(7); //axis channel
+      double sliderValue = RobotContainer.secondaryJoystick.joystick.getRawAxis(2); //axis channel for slider
       shooterRPM = minRPM + sliderValue * (maxRPM - minRPM);
     }
 

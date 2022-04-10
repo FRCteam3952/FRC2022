@@ -58,7 +58,14 @@ public class BallHandling extends CommandBase {
     @Override
     public void execute() {
       System.out.println("tachometer: " + Tachometer.getShooterRPM());
-      
+      if (RobotContainer.tertiaryJoystick.joystick.getRawButton(1)) {
+        shoot.setShooterToRPM();
+        //System.out.println("tertiary button pressed");
+      }
+      else {
+        shoot.setShooterPower(0);
+      }
+
       switch (state) {
         case INDEX_FIRST_BALL:
           bottomIndex.setIndexSpeed(ingestSpeed);
@@ -78,7 +85,7 @@ public class BallHandling extends CommandBase {
           break;
 
         case PREPARE_TO_SHOOT:
-          System.out.println("Time to adjust aim and shooting power");
+          //System.out.println("Time to adjust aim and shooting power");
           if (RobotContainer.secondaryJoystick.joystick.getRawButton(Constants.shootBallsButtonNumber)) {
             System.out.println("AAAAA PREP TO SHOOT");
             state = ShootingStates.ACCELERATE_FLYWHEEL;

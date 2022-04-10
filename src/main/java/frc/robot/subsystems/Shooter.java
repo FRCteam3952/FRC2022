@@ -29,35 +29,44 @@ public class Shooter extends SubsystemBase {
     
     leaderMotor = new CANSparkMax(Constants.flywheelPort1, MotorType.kBrushed);
     followerMotor = new CANSparkMax(Constants.flywheelPort2, MotorType.kBrushed);
+    leaderMotor.setInverted(false);
     followerMotor.follow(leaderMotor, true); //motor follows leader in inverse
 
-    kP = 6e-5;
-    kI = 0;
+    kP = 400;
+    kI = 0.3;
     kD = 0; 
     // kIz = 0; 
     // kFF = 0.000015; 
     // kMaxOutput = 1; 
     // kMinOutput = -1;
     rpmValue = 0;
-    rpmThreshold = 500; //threshold away from desired rpm to activate PID control
+    rpmThreshold = 3000; //threshold away from desired rpm to activate PID control
 
     pidController = new PIDController(1, kI, kD);
   }
     
   public void setShooterPower(double speed) {
     leaderMotor.set(speed);
-    System.out.println("set the power to speed");
+    //System.out.println("set the power to speed");
   }
 
   public void setShooterToRPM(){
-    double difference = (rpmValue - Tachometer.getShooterRPM())/(rpmThreshold);
-    if (difference > 1){
-      difference = 1;
+    double difference = (rpmValue - Tachometer.getShooterRPM());
+    double adjustValue = 0;
+    if(difference > rpmThreshold){
+      adjustValue = 1;
     }
-    else if (difference < -1){
-      difference = -1;
+    else{
+      adjustValue = difference / kP + 0.1;
     }
-    double adjustValue = pidController.calculate(difference);
+
+    if (adjustValue > 1){
+      adjustValue = 1;
+    }
+    if (adjustValue < 0)
+      adjustValue = 0;
+
+    //System.out.println(adjustValue);
     setShooterPower(adjustValue);
   }
 

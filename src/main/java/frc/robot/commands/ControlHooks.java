@@ -35,7 +35,7 @@ public class ControlHooks extends CommandBase {
   public void execute() {
     // System.out.println("hook");
     //double hookSpeed = RobotContainer.tangoIIController.getZValue(); 
-    double hookSpeed = RobotContainer.secondaryJoystick.getLateralMovement(); 
+    double hookSpeed = RobotContainer.tertiaryJoystick.getLateralMovement(); 
     //hookSpeed = 0;
     if (climber.bottomLimitPressed()) {
       climber.setPosition(0);
@@ -44,7 +44,17 @@ public class ControlHooks extends CommandBase {
     // if ((hookSpeed > 0 && climber.getEncoderPosition() >= MAX_POSITION) || (hookSpeed < 0 && climber.getEncoderPosition() <= 0)) ;
       //do nothing
     // else
+    if (climber.bottomLimitPressed()){
+      if(hookSpeed < 0){
+        climber.slideHook(hookSpeed);
+      }
+      else{
+        climber.slideHook(0);
+      }
+    }
+    else{
       climber.slideHook(hookSpeed);
+    }
 
 
     // System.out.print("" + armSpeed + " " + hookSpeed);
