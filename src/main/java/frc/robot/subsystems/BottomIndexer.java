@@ -33,7 +33,10 @@ public class BottomIndexer extends SubsystemBase {
   }
 
   public void releaseServo() {
-    servo.set(0);
+    servo.set(1);
+  }
+  public void setServo(double pos) {
+    servo.set(pos);
   }
 
   @Override

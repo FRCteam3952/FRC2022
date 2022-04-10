@@ -71,8 +71,10 @@ public class Autonomous extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      if(!RobotContainer.inTeleop) {
-          cancel();
+    System.out.println("auton");
+      if(RobotContainer.inTeleop) {
+        System.out.println("in teleop");
+          // cancel();
       } else {
       switch(stage) {
           case CLIMBER_ARM_30_AND_INGEST:

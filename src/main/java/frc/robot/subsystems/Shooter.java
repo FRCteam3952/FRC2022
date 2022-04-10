@@ -39,7 +39,7 @@ public class Shooter extends SubsystemBase {
     // kFF = 0.000015; 
     // kMaxOutput = 1; 
     // kMinOutput = -1;
-    rpmValue = 0;
+    rpmValue = 2000;
     rpmThreshold = 3000; //threshold away from desired rpm to activate PID control
 
     pidController = new PIDController(1, kI, kD);

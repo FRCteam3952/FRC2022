@@ -56,7 +56,7 @@ public class ManualDrive extends CommandBase {
     }
 
     //set angle
-    /*if (RobotContainer.secondaryJoystick.getLateralMovement() != 0 || RobotContainer.secondaryJoystick.getHorizontalMovement() != 0) {
+    if (RobotContainer.secondaryJoystick.getLateralMovement() != 0 || RobotContainer.secondaryJoystick.getHorizontalMovement() != 0) {
       System.out.println("setting angle");
       double y = -RobotContainer.secondaryJoystick.getLateralMovement();
       double x = RobotContainer.secondaryJoystick.getHorizontalMovement();   
@@ -76,8 +76,12 @@ public class ManualDrive extends CommandBase {
 
       // positive angleDifference -> turn clockwise, negative angleDifference -> turn counterclockwise
       // strength of turning power is proportional to size of angleDifference
-      zRotation = angleDifference/180/3;
-    }*/
+      zRotation = angleDifference/180;
+      if (zRotation < 0.2)
+        zRotation = 0.2;
+      else if (zRotation > -0.2)
+        zRotation = -0.2;
+    }
 
     drive_train.drive(ySpeed, xSpeed, zRotation);
 
