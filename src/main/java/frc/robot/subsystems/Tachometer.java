@@ -13,7 +13,7 @@ import frc.robot.Constants;
 public class Tachometer extends SubsystemBase {
 
   //feeding system
-  private final Counter tacheo; 
+  private static Counter tacheo; 
 
 
   /** Creates a new ExampleSubsystem. */
@@ -23,7 +23,7 @@ public class Tachometer extends SubsystemBase {
     
   }
 
-  public double getShooterRPM() {
+  public static double getShooterRPM() {
     double period = tacheo.getPeriod();
     return (1 / period) * 60;
   }

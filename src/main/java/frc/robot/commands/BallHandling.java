@@ -17,14 +17,13 @@ public class BallHandling extends CommandBase {
     private final Shooter shoot;
     private final BottomIndexer bottomIndex;
     private final TopIndexer topIndex;
-    private final Tachometer tachometer;
     private final Timer timer = new Timer();
 
     private double ingestSpeed = 0.4;
     private double indexSpeed = 0.15;
     private double shootIndexSpeed = 0.25;
-    private double delta1 = 50; //allowed variance of RPM lower threshold
-    private double delta2 = 500; //allowed variance of RPM upper threshold
+    private double delta1 = 50; //allowed variance of RPM lower threshold (in case pid controll not 100% accurate)
+    private double delta2 = 500; //allowed variance of RPM upper threshold (in case of tachometer rpm spikes)
     public double currentRPM;
     public double desiredRPM = 1000;
     public boolean previousLimitState;
@@ -32,13 +31,12 @@ public class BallHandling extends CommandBase {
 
     private ShootingStates state = ShootingStates.INDEX_FIRST_BALL;
     
-    public BallHandling(Shooter shoot, BottomIndexer bottomIndex, TopIndexer topIndex, Tachometer tachometer) {
+    public BallHandling(Shooter shoot, BottomIndexer bottomIndex, TopIndexer topIndex) {
       // Use addRequirements() here to declare subsystem dependencies.
       this.shoot = shoot;
       this.bottomIndex = bottomIndex;
       this.topIndex = topIndex;
-      this.tachometer = tachometer;
-      addRequirements(shoot, bottomIndex, topIndex, tachometer); 
+      addRequirements(shoot, bottomIndex, topIndex); 
     }
 
     private enum ShootingStates {
@@ -59,7 +57,7 @@ public class BallHandling extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-      System.out.println("tachometer: " + tachometer.getShooterRPM());
+      System.out.println("tachometer: " + Tachometer.getShooterRPM());
       
       switch (state) {
         case INDEX_FIRST_BALL:
@@ -80,7 +78,7 @@ public class BallHandling extends CommandBase {
           break;
 
         case PREPARE_TO_SHOOT:
-          System.out.println("no prep to shoot");
+          System.out.println("Time to adjust aim and shooting power");
           if (RobotContainer.secondaryJoystick.joystick.getRawButton(Constants.shootBallsButtonNumber)) {
             System.out.println("AAAAA PREP TO SHOOT");
             state = ShootingStates.ACCELERATE_FLYWHEEL;
@@ -89,7 +87,7 @@ public class BallHandling extends CommandBase {
 
         case ACCELERATE_FLYWHEEL:
           System.out.println("ACC FLYWHEEL");
-          currentRPM = tachometer.getShooterRPM();
+          currentRPM = Tachometer.getShooterRPM();
           System.out.println(currentRPM);
           desiredRPM = shoot.getRPMValue();
           shoot.setShooterToRPM();
@@ -114,7 +112,7 @@ public class BallHandling extends CommandBase {
           break;
 
         case ACCELERATE_FLYWHEEL_2:
-          currentRPM = tachometer.getShooterRPM();
+          currentRPM = Tachometer.getShooterRPM();
           desiredRPM = shoot.getRPMValue();
           shoot.setShooterToRPM();            
           topIndex.setIndexSpeed(shootIndexSpeed);

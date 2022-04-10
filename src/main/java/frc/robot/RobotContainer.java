@@ -59,7 +59,7 @@ public class RobotContainer {
   public final static ControlHooks controlHooks = new ControlHooks(hooks);
   public final static AutoClimb autoClimb = new AutoClimb(hooks, arm);
 
-  public final static BallHandling shootBalls = new BallHandling(shooter, bottomIndexer, topIndexer, tacheo);
+  public final static BallHandling shootBalls = new BallHandling(shooter, bottomIndexer, topIndexer);
   public final static AdjustShooterAim adjustShooterAim = new AdjustShooterAim(driveTrain);
   public final static SetShooterPower setShooterPower = new SetShooterPower(shooter, driveTrain);
   public final static ShootBallsManual shootBallsManual = new ShootBallsManual(shooter);

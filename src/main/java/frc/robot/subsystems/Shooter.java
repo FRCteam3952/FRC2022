@@ -5,22 +5,23 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxPIDController;
+// import com.revrobotics.RelativeEncoder;
+// import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.math.controller.PIDController;
 import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase {
     
     private CANSparkMax followerMotor;
     private CANSparkMax leaderMotor;
-    private SparkMaxPIDController pidController;
-    private RelativeEncoder leaderEncoder;
+    private PIDController pidController;
     private final DigitalInput bottomShooterLim, topShooterLim;
-    private double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, rpmValue;
+    private double kP, kI, kD, rpmValue;
+    // private double kIz, kFF, kMaxOutput, kMinOutput;
 
   public Shooter() {
     bottomShooterLim = new DigitalInput(Constants.shooterBottomLimitPort);
@@ -30,37 +31,27 @@ public class Shooter extends SubsystemBase {
     followerMotor = new CANSparkMax(Constants.flywheelPort2, MotorType.kBrushed);
     followerMotor.follow(leaderMotor, true); //motor follows leader in inverse
 
-    pidController = leaderMotor.getPIDController();
-
-    leaderEncoder = leaderMotor.getEncoder();
-
     kP = 6e-5;
     kI = 0;
     kD = 0; 
-    kIz = 0; 
-    kFF = 0.000015; 
-    kMaxOutput = 1; 
-    kMinOutput = -1;
+    // kIz = 0; 
+    // kFF = 0.000015; 
+    // kMaxOutput = 1; 
+    // kMinOutput = -1;
     rpmValue = 1000;
 
-    pidController.setP(kP);
-    pidController.setI(kI);
-    pidController.setD(kD);
-    pidController.setIZone(kIz);
-    pidController.setFF(kFF);
-    pidController.setOutputRange(kMinOutput, kMaxOutput);
-    
-  }
-
-
-  public void setShooterToRPM(){
-    double setPoint = rpmValue;
-    pidController.setReference(setPoint, CANSparkMax.ControlType.kVelocity); //uses PID to maintain constant RPM
+    pidController = new PIDController(1, kI, kD);
   }
     
   public void setShooterPower(double speed) {
     leaderMotor.set(speed);
     System.out.println("set the power to speed");
+  }
+
+  public void setShooterToRPM(){
+    double setPoint = rpmValue;
+    double adjustValue = pidController.calculate((setPoint - Tachometer.getShooterRPM()) * kP);
+    setShooterPower(adjustValue);
   }
 
   public void setRPMValue(double rpm) {
