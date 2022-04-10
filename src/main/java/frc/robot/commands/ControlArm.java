@@ -42,7 +42,11 @@ public class ControlArm extends CommandBase {
     if(RobotContainer.secondaryJoystick.joystick.getRawButtonPressed(Constants.resetClimberEncoderButton)) {
       arm.resetClimbEncoder();
     }
-    System.out.println("arm angle = " + (arm.getArmAngleEncoder()*0.213 + 90));
+
+    if(arm.angleLimitPressed()) {
+      arm.resetClimbEncoder();
+    }
+    System.out.println("arm angle = " + arm.getArmAngleEncoder());
   }
 
   // Called once the command ends or is interrupted.

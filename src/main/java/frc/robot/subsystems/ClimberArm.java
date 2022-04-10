@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 
 
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -19,25 +20,36 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class ClimberArm extends SubsystemBase {
   private final CANSparkMax armAngle;
+  private final DigitalInput angleLimitSwitch;
   private final RelativeEncoder armAngleEncoder;
   
   /** Creates a new ExampleSubsystem. */
   public ClimberArm() {
     armAngle = new CANSparkMax(Constants.armAnglePort, MotorType.kBrushless);
     armAngleEncoder = armAngle.getEncoder();
+    angleLimitSwitch = new DigitalInput(Constants.angleLimitSwitchClimberPort);
   }
   
   public void resetClimbEncoder() {
-    armAngleEncoder.setPosition(0);
+    setClimbEncoder(0);
+  }
+
+  public void setClimbEncoder(double position) {
+    armAngleEncoder.setPosition(position);
   }
 
   public double getArmAngleEncoder() {
-    return armAngleEncoder.getPosition();
+    return armAngleEncoder.getPosition() * 0.213 + 30;
   }
+
 
   public double changeArmAngle(double speed) {
     armAngle.set(speed);
     return speed;
+  }
+
+  public boolean angleLimitPressed() {
+    return angleLimitSwitch.get();
   }
 
   @Override

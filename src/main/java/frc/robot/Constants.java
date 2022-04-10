@@ -20,6 +20,7 @@ public final class Constants {
 
     //DIO port declaration
     public static final int bottomLimitSwitchClimberPort = 0;
+    public static final int angleLimitSwitchClimberPort = 4;
     public static final int shooterTachometerPort = 3;
 
     // public static final int topOrBottomLimitClimberPort = 3;
