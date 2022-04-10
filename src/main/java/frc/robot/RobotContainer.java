@@ -19,6 +19,7 @@ import frc.robot.commands.SetShooterPowerManual;
 import frc.robot.commands.ShootBallsManual;
 import frc.robot.commands.ControlArm;
 import frc.robot.commands.ControlHooks;
+import frc.robot.commands.FixServo;
 import frc.robot.commands.ShooterAimer;
 import frc.robot.commands.IndexBottom;
 import frc.robot.commands.IndexTop;
@@ -72,6 +73,8 @@ public class RobotContainer {
   public final static IndexTop indexTop = new IndexTop(topIndexer);
   public final static IndexBottom indexBottom = new IndexBottom(bottomIndexer);
   public final static ShooterAimer adjustAim = new ShooterAimer(driveTrain);
+
+  public final static FixServo fixServoCmd = new FixServo(bottomIndexer);
 
   public final static Autonomous autonomous = new Autonomous(driveTrain, hooks, arm, shooter, bottomIndexer, topIndexer);
   // public final static AutonomousDriveToBall autonomousDrive = new AutonomousDriveToBall(driveTrain, hooks, arm, shooter);
@@ -149,6 +152,9 @@ public class RobotContainer {
     JoystickButton shootBallsButton = new JoystickButton(secondaryJoystick.joystick, Constants.shootBallsButtonNumber);
     // shootBallsButton.whenHeld(shootBallsManual);
 
+    JoystickButton fixServo = new JoystickButton(tertiaryJoystick.joystick, 8);
+    fixServo.whenHeld(fixServoCmd);
+
     //JoystickButton aimbotButton = new JoystickButton(flightJoystick.joystick, Constants.aimbotButtonNumber);
     //aimbotButton.whenHeld(aimBall);
     /**
@@ -190,13 +196,15 @@ public class RobotContainer {
 */
   public void autonomousInit() {
     inTeleop = false;
+    autonomous.schedule();
     // autonomousCommand.schedule();
   }
 
   public void teleopInit() {
     inTeleop = true;
+    autonomous.cancel();
     configureButtonBindings();
-    shooter.setDefaultCommand(shootBalls);
+    // shooter.setDefaultCommand(shootBalls);
     driveTrain.setDefaultCommand(driveCommand);
 
   }
