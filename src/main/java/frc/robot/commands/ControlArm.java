@@ -32,7 +32,7 @@ public class ControlArm extends CommandBase {
     //double armSpeed = RobotContainer.tangoIIController.getXValue();
     // double armSpeed = RobotContainer.secondaryJoystick.getHorizontalMovement();
     //armSpeed = 0;
-    if(RobotContainer.tertiaryJoystick.joystick.getRawButton(Constants.moveArmAngleToRobot)) {
+    if(RobotContainer.tertiaryJoystick.joystick.getRawButton(Constants.moveArmAngleToRobot) && !arm.angleLimitPressed()) {
       arm.changeArmAngle(-armSpeed);
     } else if(RobotContainer.tertiaryJoystick.joystick.getRawButton(Constants.moveArmAngleAwayFromRobot)) {
       arm.changeArmAngle(armSpeed);
@@ -40,10 +40,6 @@ public class ControlArm extends CommandBase {
       arm.changeArmAngle(0);
     }
     if(RobotContainer.tertiaryJoystick.joystick.getRawButtonPressed(Constants.resetClimberEncoderButton)) {
-      arm.resetClimbEncoder();
-    }
-
-    if(arm.angleLimitPressed()) {
       arm.resetClimbEncoder();
     }
     //System.out.println("arm angle = " + arm.getArmAngleEncoder());
