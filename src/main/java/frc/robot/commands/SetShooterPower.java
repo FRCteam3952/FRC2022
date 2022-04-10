@@ -21,8 +21,8 @@ public class SetShooterPower extends CommandBase {
     public static double limelightHeightInch = 29;
     public static double goalHeightInch = 104;
     
-    public double launchSpeed = 0;
-    public double shooterRPM = 0;
+    private double launchSpeed = 0;
+    private double shooterRPM = 0;
     
     private final double HOOP_HEIGHT = 2.6416; //in meters
     private final double HOOP_RADIUS = 0.6096; //in meters
@@ -84,7 +84,6 @@ public class SetShooterPower extends CommandBase {
         setLaunchSpeed(); //set launch speed from distance to hoop
         setShooterRPM(); //set flywheel RPM from necessary launch speed
         shoot.setRPMValue(shooterRPM); //pass RPM value to shooter subsystem
-        cancel();
       }
     }
     

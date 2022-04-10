@@ -15,6 +15,7 @@ import frc.robot.commands.AutonomousDriveToBall;
 import frc.robot.commands.AutonomousShootBall;
 import frc.robot.commands.ManualDrive;
 import frc.robot.commands.SetShooterPower;
+import frc.robot.commands.SetShooterPowerManual;
 import frc.robot.commands.ShootBallsManual;
 import frc.robot.commands.ControlArm;
 import frc.robot.commands.ControlHooks;
@@ -62,6 +63,7 @@ public class RobotContainer {
   public final static BallHandling shootBalls = new BallHandling(shooter, bottomIndexer, topIndexer);
   public final static AdjustShooterAim adjustShooterAim = new AdjustShooterAim(driveTrain);
   public final static SetShooterPower setShooterPower = new SetShooterPower(shooter, driveTrain);
+  public final static SetShooterPowerManual setShooterPowerManual = new SetShooterPowerManual(shooter);
   public final static ShootBallsManual shootBallsManual = new ShootBallsManual(shooter);
 
   // declare new shooter airmer to be ran, for driveTrain
@@ -129,13 +131,16 @@ public class RobotContainer {
     //adjustAimButton.whileHeld(adjustShooterAim);
 
     //JoystickButton setShooterButton = new JoystickButton(secondaryJoystick.joystick, Constants.setShooterButtonNumber);
-    //setShooterButton.whenPressed(setShooterPower);
+    //setShooterButton.whileHeld(setShooterPower);
+
+    JoystickButton setShooterManualButton = new JoystickButton(secondaryJoystick.joystick, Constants.setShooterManualButtonNumber);
+    setShooterManualButton.whileHeld(setShooterPowerManual);
 
     JoystickButton indexBottomButton = new JoystickButton(primaryJoystick.joystick, Constants.bottomIndexButtonNumber);
-    indexBottomButton.whenHeld(indexBottom);
+    indexBottomButton.whileHeld(indexBottom);
 
     JoystickButton indexTopButton = new JoystickButton(primaryJoystick.joystick, Constants.topIndexButtonNumber);
-    indexTopButton.whenHeld(indexTop);
+    indexTopButton.whileHeld(indexTop);
 
     JoystickButton shootBallsButton = new JoystickButton(secondaryJoystick.joystick, Constants.shootBallsButtonNumber);
     // shootBallsButton.whenHeld(shootBallsManual);

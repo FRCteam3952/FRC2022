@@ -49,6 +49,8 @@ public final class Constants {
     public static final int adjustAimButtonNumber = 2;
     public static final int setShooterButtonNumber = 3;
     */
+    public static final int setShooterManualButtonNumber = 4;
+
     public static final int resetClimberEncoderButton = 11;
     public static final int moveArmAngleToRobot = 2;
     public static final int moveArmAngleAwayFromRobot = 3;
