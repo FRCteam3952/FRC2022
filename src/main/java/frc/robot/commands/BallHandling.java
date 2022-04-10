@@ -71,6 +71,7 @@ public class BallHandling extends CommandBase {
       // }
       if (RobotContainer.secondaryJoystick.joystick.getRawButton(Constants.bottomIndexButtonNumber) && !bottomBallLoaded) {
         bottomIndex.setIndexSpeed(indexSpeed);
+        System.out.println("bottom indexing");
       }
       else {
         shoot.setShooterPower(0);

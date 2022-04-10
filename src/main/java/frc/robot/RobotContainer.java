@@ -143,11 +143,11 @@ public class RobotContainer {
     JoystickButton setShooterManualButton = new JoystickButton(secondaryJoystick.joystick, Constants.setShooterManualButtonNumber);
     setShooterManualButton.whileHeld(setShooterPowerManual);
 
-    JoystickButton indexBottomButton = new JoystickButton(primaryJoystick.joystick, Constants.bottomIndexButtonNumber);
-    indexBottomButton.whileHeld(indexBottom);
+    // JoystickButton indexBottomButton = new JoystickButton(primaryJoystick.joystick, Constants.bottomIndexButtonNumber);
+    // indexBottomButton.whileHeld(indexBottom);
 
-    JoystickButton indexTopButton = new JoystickButton(primaryJoystick.joystick, Constants.topIndexButtonNumber);
-    indexTopButton.whileHeld(indexTop);
+    // JoystickButton indexTopButton = new JoystickButton(primaryJoystick.joystick, Constants.topIndexButtonNumber);
+    // indexTopButton.whileHeld(indexTop);
 
     JoystickButton shootBallsButton = new JoystickButton(secondaryJoystick.joystick, Constants.shootBallsButtonNumber);
     // shootBallsButton.whenHeld(shootBallsManual);
@@ -204,7 +204,7 @@ public class RobotContainer {
     inTeleop = true;
     autonomous.cancel();
     configureButtonBindings();
-    // shooter.setDefaultCommand(shootBalls);
+    shooter.setDefaultCommand(shootBalls);
     driveTrain.setDefaultCommand(driveCommand);
 
   }
