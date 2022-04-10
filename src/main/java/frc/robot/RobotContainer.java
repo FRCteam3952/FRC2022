@@ -25,6 +25,7 @@ import frc.robot.commands.IndexTop;
 import frc.robot.commands.BallHandling;
 import frc.robot.commands.AdjustShooterAim;
 import frc.robot.commands.AutoClimb;
+import frc.robot.commands.Autonomous;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.ClimberArm;
 import frc.robot.subsystems.ClimberHooks;
@@ -70,8 +71,10 @@ public class RobotContainer {
   public final static IndexTop indexTop = new IndexTop(topIndexer);
   public final static IndexBottom indexBottom = new IndexBottom(bottomIndexer);
   public final static ShooterAimer adjustAim = new ShooterAimer(driveTrain);
-  public final static AutonomousDriveToBall autonomousDrive = new AutonomousDriveToBall(driveTrain, hooks, arm, shooter);
-  public final static AutonomousShootBall autonomousShoot = new AutonomousShootBall(driveTrain, hooks, arm, shooter);
+
+  public final static Autonomous autonomous = new Autonomous(driveTrain, hooks, arm, shooter, bottomIndexer, topIndexer);
+  // public final static AutonomousDriveToBall autonomousDrive = new AutonomousDriveToBall(driveTrain, hooks, arm, shooter);
+  // public final static AutonomousShootBall autonomousShoot = new AutonomousShootBall(driveTrain, hooks, arm, shooter);
   public final static ManualDrive driveCommand = new ManualDrive(driveTrain);
   //public final static AimbotBall aimBall = new AimbotBall(driveTrain); 
 
