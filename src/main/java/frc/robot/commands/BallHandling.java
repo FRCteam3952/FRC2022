@@ -61,7 +61,7 @@ public class BallHandling extends CommandBase {
       System.out.println("tachometer: " + Tachometer.getShooterRPM());
       if (RobotContainer.secondaryJoystick.joystick.getRawButton(1) && !shoot.getBottomShooterLim()) {
         shoot.setShooterPower(0.8);
-        state = ShootingStates.INDEX_SECOND_BALL;
+        state = ShootingStates.SHOOT_SECOND_BALL;
         //System.out.println("tertiary button pressed");
       }
       if (RobotContainer.secondaryJoystick.joystick.getRawButtonPressed(5))
