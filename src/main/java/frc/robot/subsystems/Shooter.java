@@ -20,7 +20,7 @@ public class Shooter extends SubsystemBase {
     private CANSparkMax leaderMotor;
     private PIDController pidController;
     private final DigitalInput bottomShooterLim, topShooterLim;
-    private double kP, kI, kD, rpmValue;
+    private double kP, kI, kD, rpmValue, rpmThreshold;
     // private double kIz, kFF, kMaxOutput, kMinOutput;
 
   public Shooter() {
@@ -38,7 +38,8 @@ public class Shooter extends SubsystemBase {
     // kFF = 0.000015; 
     // kMaxOutput = 1; 
     // kMinOutput = -1;
-    rpmValue = 1000;
+    rpmValue = 0;
+    rpmThreshold = 500; //threshold away from desired rpm to activate PID control
 
     pidController = new PIDController(1, kI, kD);
   }
@@ -49,8 +50,14 @@ public class Shooter extends SubsystemBase {
   }
 
   public void setShooterToRPM(){
-    double setPoint = rpmValue;
-    double adjustValue = pidController.calculate((setPoint - Tachometer.getShooterRPM()) * kP);
+    double difference = (rpmValue - Tachometer.getShooterRPM())/(rpmThreshold);
+    if (difference > 1){
+      difference = 1;
+    }
+    else if (difference < -1){
+      difference = -1;
+    }
+    double adjustValue = pidController.calculate(difference);
     setShooterPower(adjustValue);
   }
 
