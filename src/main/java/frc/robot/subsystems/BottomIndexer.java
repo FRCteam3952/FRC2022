@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -14,6 +15,7 @@ public class BottomIndexer extends SubsystemBase {
 
     //feeding system
     private final VictorSPX bottomIndexer;
+    private final Servo servo;
 
     
 //pushing ball backwards in limit switch is activated, greenwheel at bottom spins when ingesting
@@ -22,11 +24,16 @@ public class BottomIndexer extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
   public BottomIndexer() {
     bottomIndexer = new VictorSPX(Constants.bottomIndexerPort);
+    servo = new Servo(Constants.ingesterServo);
   }
 
 
   public void setIndexSpeed(double speed){
     bottomIndexer.set(ControlMode.PercentOutput, speed);
+  }
+
+  public void releaseServo() {
+    servo.set(0);
   }
 
   @Override

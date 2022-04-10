@@ -14,6 +14,8 @@ package frc.robot;
  */
 public final class Constants {
     //PWM ports declaration  
+    public static final int ingesterServo = 0;
+
     public static final int bottomIndexerPort = 5;
     public static final int topIndexerPort = 9;
 
