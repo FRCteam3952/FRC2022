@@ -41,7 +41,7 @@ public class AutoClimb extends CommandBase {
     this.hooks = hooks;
     this.arm = arm;
     this.gyro = gyro;
-    addRequirements(hooks, arm);
+    addRequirements(hooks, arm, gyro);
   }
 
   // Called when the command is initially scheduled.

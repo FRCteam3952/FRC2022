@@ -52,7 +52,7 @@ public class Autonomous extends CommandBase {
     this.gyro = gyro;
     timer.start();
     // this.tacheo = tacheo;
-    addRequirements(drive, climber, arm, shooter, bottomIndexer, topIndexer);
+    addRequirements(drive, climber, arm, shooter, bottomIndexer, topIndexer, gyro);
   }
 
   private enum AutonStages {

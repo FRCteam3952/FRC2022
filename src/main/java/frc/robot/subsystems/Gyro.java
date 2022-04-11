@@ -1,7 +1,8 @@
 package frc.robot.subsystems;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 
-public class Gyro {
+public class Gyro extends SubsystemBase{
     private static ADIS16470_IMU gyro;
 
     public Gyro(){
@@ -17,4 +18,14 @@ public class Gyro {
     public void resetGyroAngle() {
         gyro.reset();
     }
+    @Override
+    public void periodic() {
+      // This method will be called once per scheduler run
+    }
+  
+    @Override
+    public void simulationPeriodic() {
+      // This method will be called once per scheduler run during simulation
+    }
 }
+
