@@ -48,13 +48,15 @@ public final class Constants {
 
     //button numbers for secondary joystick
     public static final int shootBallsButtonNumber = 1;
-    /*
     public static final int adjustAimButtonNumber = 2;
-    public static final int setShooterButtonNumber = 3;
-    */
     public static final int setShooterManualButtonNumber = 4;
-
+    //public static final int setShooterButtonNumber = 3;
+    
+    //button numbers for tertiary joystick
     public static final int resetClimberEncoderButton = 11;
     public static final int moveArmAngleToRobot = 2;
     public static final int moveArmAngleAwayFromRobot = 3;
+    //switch between auto and manual climb
+    public static final int switchtoAutoClimbButton = 6;
+    public static final int switchtoManualClimbButton = 7;
 }

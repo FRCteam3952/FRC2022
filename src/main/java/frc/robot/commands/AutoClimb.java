@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.ADIS16470_IMU;
 public class AutoClimb extends CommandBase {
   private enum ClimbingStates {
     LIFTING,
+    SECURE_CLIMBER,
     LIFTING_WITH_ARM,
     SLIDE_HOOK_HIGH,
     MOVE_TO_HIGH,
@@ -31,11 +32,14 @@ public class AutoClimb extends CommandBase {
    * @param subsystem The subsystem used by this command.
    */
   private final double HOOK_POWER = 1;
-  private final double ARM_POWER = 0.35;
+  private final double ARM_POWER = 0.5;
   private ClimbingStates state = ClimbingStates.LIFTING;
-  private final double climbingAngle = 50; //degress for climbing under the high bar
+  private final double climbingAngle = 50; //degrees for climbing under the high bar
 
-  private final double kP = 0.5;
+  private final double kP = 0.5; //multiplicative
+  private final double kI = 0; //coefficient for integral in PID
+  private final double kD = 0; //coefficient for derivative in PID
+
 
   public AutoClimb(ClimberHooks hooks, ClimberArm arm, Gyro gyro) {
     this.hooks = hooks;
@@ -62,7 +66,7 @@ public class AutoClimb extends CommandBase {
     else if(adjustment < -1)
       adjustment = -1;
 
-    System.out.println(climberAngle);
+    System.out.println("climber angle: " + climberAngle);
     return adjustment;
   }
 
@@ -71,17 +75,28 @@ public class AutoClimb extends CommandBase {
   public void execute() {
     switch (state) {
       case LIFTING:
-        hooks.setHookSpeed(-HOOK_POWER);
-        arm.changeArmAngle(maintainClimberAngle());
+        maintainClimberAngle();
+        //hooks.setHookSpeed(-HOOK_POWER);
+        //arm.changeArmAngle(maintainClimberAngle());
         if (hooks.bottomLimitPressed()){
-          hooks.setHookSpeed(0);
-          arm.changeArmAngle(0);
-          state = ClimbingStates.WAIT;
+          //hooks.setHookSpeed(0);
+          //arm.changeArmAngle(0);
+          //state = ClimbingStates.WAIT;
         }
         break;
+      case SECURE_CLIMBER:
+        if(arm.getArmAngleEncoder() < 70){
+          arm.changeArmAngle(ARM_POWER);
+        }
+        else{
+          arm.changeArmAngle(0);
+          state = ClimbingStates.LIFTING_WITH_ARM;
+        }
+        break;
+
       case LIFTING_WITH_ARM:
         hooks.setHookSpeed(-HOOK_POWER);
-        arm.changeArmAngle(-ARM_POWER);
+        //arm.changeArmAngle(-ARM_POWER);
         if (hooks.bottomLimitPressed()) {
           hooks.setHookSpeed(0);
           arm.changeArmAngle(0);

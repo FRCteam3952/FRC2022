@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.commands.AutonomousDriveToBall;
-import frc.robot.commands.AutonomousShootBall;
 import frc.robot.commands.ManualDrive;
 import frc.robot.commands.SetShooterPower;
 import frc.robot.commands.SetShooterPowerManual;
@@ -32,7 +31,6 @@ import frc.robot.subsystems.Tachometer;
 import frc.robot.subsystems.TopIndexer;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Gyro;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import frc.robot.controllers.*;
 import edu.wpi.first.wpilibj.Joystick;
@@ -133,8 +131,9 @@ public class RobotContainer {
     hooks.setDefaultCommand(controlHooks);
     arm.setDefaultCommand(controlArm);
 
-    //JoystickButton adjustAimButton = new JoystickButton(secondaryJoystick.joystick, Constants.adjustAimButtonNumber);
-    //adjustAimButton.whileHeld(adjustShooterAim);
+    //Limelight adjustment code
+    JoystickButton adjustAimButton = new JoystickButton(secondaryJoystick.joystick, Constants.adjustAimButtonNumber);
+    adjustAimButton.whileHeld(adjustShooterAim);
 
     //JoystickButton setShooterButton = new JoystickButton(secondaryJoystick.joystick, Constants.setShooterButtonNumber);
     //setShooterButton.whileHeld(setShooterPower);
