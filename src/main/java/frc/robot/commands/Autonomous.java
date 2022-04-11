@@ -101,7 +101,6 @@ public class Autonomous extends CommandBase {
             //topIndexer.setIndexSpeed(0.2);
             if (drive.getFrontLeftEncoderPosition() <= MAX_POSITION) {
                 //xSpeed += drive.getAdjustment()[0];
-                //ySpeed += drive.getAdjustment()[1];
                 //System.out.println("im mooving");
                 drive.driveRR(-0.3, 0, 0);
             } else {

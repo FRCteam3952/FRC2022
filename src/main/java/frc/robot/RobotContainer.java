@@ -16,13 +16,10 @@ import frc.robot.commands.AutonomousShootBall;
 import frc.robot.commands.ManualDrive;
 import frc.robot.commands.SetShooterPower;
 import frc.robot.commands.SetShooterPowerManual;
-import frc.robot.commands.ShootBallsManual;
 import frc.robot.commands.ControlArm;
 import frc.robot.commands.ControlHooks;
 import frc.robot.commands.FixServo;
 import frc.robot.commands.ShooterAimer;
-import frc.robot.commands.IndexBottom;
-import frc.robot.commands.IndexTop;
 import frc.robot.commands.BallHandling;
 import frc.robot.commands.AdjustShooterAim;
 import frc.robot.commands.AutoClimb;
@@ -70,8 +67,6 @@ public class RobotContainer {
   //public final static ShootBallsManual shootBallsManual = new ShootBallsManual(shooter); <- shooter speed constant.
 
   // declare new shooter airmer to be ran, for driveTrain
-  public final static IndexTop indexTop = new IndexTop(topIndexer);
-  public final static IndexBottom indexBottom = new IndexBottom(bottomIndexer);
   public final static ShooterAimer adjustAim = new ShooterAimer(driveTrain);
 
   public final static FixServo fixServoCmd = new FixServo(bottomIndexer);

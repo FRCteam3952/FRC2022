@@ -88,31 +88,6 @@ public class DriveTrain extends SubsystemBase {
   public void resetGyroAngle() {
     gyro.reset();
   }
-
-  public double setAngle(double x, double y){
-    double angle = Math.toDegrees(Math.atan2(y, x)); //gets angle of the joystick
-      if (y < 0)
-        angle += 360; //make sure angle is within 0˚ to 360˚ scale
-      if (angle < 90){
-         angle += 270;
-      }
-      else{
-        angle -= 90;
-      }
-      double angleDifference = angle - getGyroAngle(); //gets angle difference
-
-      if (Math.abs(angleDifference) >= 180)
-        angleDifference = angleDifference + (angleDifference > 0 ? -360 : 360); //ensures that angleDifference is the smallest possible angle to destination
-
-      // positive angleDifference -> turn clockwise, negative angleDifference -> turn counterclockwise
-      // strength of turning power is proportional to size of angleDifference
-      double zRotation = angleDifference/120;
-      if (zRotation > 1)
-        zRotation = 1;
-      else if (zRotation < -1)
-        zRotation = -1;
-      return zRotation;
-  }
   public double setAngle(double angle){
 
       double angleDifference = angle - getGyroAngle(); //gets angle difference

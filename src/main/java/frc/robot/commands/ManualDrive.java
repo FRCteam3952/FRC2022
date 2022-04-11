@@ -38,19 +38,26 @@ public class ManualDrive extends CommandBase {
 
     // adjust movement of robot towards ball
     if (RobotContainer.primaryJoystick.button2Pressed()) {
-
       // x and y movement adjustment values
       double angleAdjust = drive_train.getAdjustment();
       zRotation += angleAdjust;
-
     }
 
     //set angle
     if (RobotContainer.secondaryJoystick.getLateralMovement() != 0 || RobotContainer.secondaryJoystick.getHorizontalMovement() != 0) {
       System.out.println("setting angle");
       double y = -RobotContainer.secondaryJoystick.getLateralMovement();
-      double x = RobotContainer.secondaryJoystick.getHorizontalMovement();   
-      zRotation = drive_train.setAngle(x, y);
+      double x = RobotContainer.secondaryJoystick.getHorizontalMovement();  
+      double angle = Math.toDegrees(Math.atan2(y, x)); //gets angle of the joystick
+      if (y < 0)
+        angle += 360; //make sure angle is within 0˚ to 360˚ scale
+      if (angle < 90){
+         angle += 270;
+      }
+      else{
+        angle -= 90;
+      } 
+      zRotation = drive_train.setAngle(angle);
     }
 
     drive_train.drive(ySpeed, xSpeed, zRotation);

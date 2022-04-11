@@ -20,8 +20,7 @@ public class TopIndexer extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
   public TopIndexer() {
     topIndexer = new VictorSPX(Constants.topIndexerPort);
-    
-    
+  
   }
 
 
