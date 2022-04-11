@@ -31,6 +31,7 @@ import frc.robot.subsystems.BottomIndexer;
 import frc.robot.subsystems.Tachometer;
 import frc.robot.subsystems.TopIndexer;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Gyro;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import frc.robot.controllers.*;
@@ -38,6 +39,7 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class RobotContainer {
   public static boolean inTeleop = true;
+  public final static Gyro gyro = new Gyro();
   public final static DriveTrain driveTrain = new DriveTrain();
 
   public final static BottomIndexer bottomIndexer = new BottomIndexer();
@@ -58,7 +60,7 @@ public class RobotContainer {
   public final static ClimberArm arm = new ClimberArm();
   public final static ControlArm controlArm = new ControlArm(arm);
   public final static ControlHooks controlHooks = new ControlHooks(hooks);
-  public final static AutoClimb autoClimb = new AutoClimb(hooks, arm);
+  public final static AutoClimb autoClimb = new AutoClimb(hooks, arm, gyro);
 
   public final static BallHandling shootBalls = new BallHandling(shooter, bottomIndexer, topIndexer);
   public final static AdjustShooterAim adjustShooterAim = new AdjustShooterAim(driveTrain);
@@ -71,11 +73,13 @@ public class RobotContainer {
 
   public final static FixServo fixServoCmd = new FixServo(bottomIndexer);
 
-  public final static Autonomous autonomous = new Autonomous(driveTrain, hooks, arm, shooter, bottomIndexer, topIndexer);
+  public final static Autonomous autonomous = new Autonomous(driveTrain, hooks, arm, shooter, bottomIndexer, topIndexer, gyro);
   // public final static AutonomousDriveToBall autonomousDrive = new AutonomousDriveToBall(driveTrain, hooks, arm, shooter);
   // public final static AutonomousShootBall autonomousShoot = new AutonomousShootBall(driveTrain, hooks, arm, shooter);
   public final static ManualDrive driveCommand = new ManualDrive(driveTrain);
   //public final static AimbotBall aimBall = new AimbotBall(driveTrain); 
+
+
 
   //
   // public final static SequentialCommandGroup a = new

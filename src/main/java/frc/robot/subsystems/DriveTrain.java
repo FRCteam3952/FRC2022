@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import frc.robot.subsystems.DriveTrain;
-import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -25,7 +24,6 @@ public class DriveTrain extends SubsystemBase {
   private static CANSparkMax frontRight;
   private static CANSparkMax rearLeft;
   private static CANSparkMax rearRight;
-  private static ADIS16470_IMU gyro;
 
   private final RelativeEncoder frontLeftEncoder;
   private final RelativeEncoder frontRightEncoder;
@@ -38,6 +36,7 @@ public class DriveTrain extends SubsystemBase {
   private NetworkTableEntry seeBall;
 
   private MecanumDrive m_dDrive;
+  private Gyro gyro;
 
   /** Creates a new ExampleSubsystem. */
   public DriveTrain() {
@@ -54,8 +53,7 @@ public class DriveTrain extends SubsystemBase {
     frontRightEncoder = frontRight.getEncoder();
     rearLeftEncoder = rearLeft.getEncoder();
     rearRightEncoder = rearRight.getEncoder();
-    gyro = new ADIS16470_IMU();
-    gyro.setYawAxis(ADIS16470_IMU.IMUAxis.kY);
+
     frontRight.setInverted(false);
     rearRight.setInverted(false);
     frontLeft.setInverted(true);
@@ -65,32 +63,28 @@ public class DriveTrain extends SubsystemBase {
 
     m_dDrive.setSafetyEnabled(false); 
 
+    gyro = new Gyro();
+
   }
 
 
   public void drive(double ySpeed, double xSpeed, double zRotation) {
-    m_dDrive.driveCartesian(ySpeed, xSpeed, zRotation, -gyro.getAngle());
+    m_dDrive.driveCartesian(ySpeed, xSpeed, zRotation, -gyro.getGyroAngle());
     if(RobotContainer.primaryJoystick.button8Pressed()){
-      gyro.reset();
+      
     }
   }
 
   public void driveRR(double ySpeed, double xSpeed, double zRotation) {
     m_dDrive.driveCartesian(ySpeed, xSpeed, zRotation, 0);
     if(RobotContainer.primaryJoystick.button8Pressed()){
-      gyro.reset();
+      gyro.resetGyroAngle();
     }
   }
-  public double getGyroAngle(){
-    return gyro.getAngle();
-  }
 
-  public void resetGyroAngle() {
-    gyro.reset();
-  }
   public double setAngle(double angle){
 
-      double angleDifference = angle - getGyroAngle(); //gets angle difference
+      double angleDifference = angle - gyro.getGyroAngle(); //gets angle difference
 
       if (Math.abs(angleDifference) >= 180)
         angleDifference = angleDifference + (angleDifference > 0 ? -360 : 360); //ensures that angleDifference is the smallest possible angle to destination

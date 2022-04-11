@@ -30,7 +30,7 @@ public class ClimberArm extends SubsystemBase {
     angleLimitSwitch = new DigitalInput(Constants.angleLimitSwitchClimberPort);
   }
   
-  public void resetClimbEncoder() {
+  public void resetEncoder() {
     setClimbEncoder(0);
   }
 

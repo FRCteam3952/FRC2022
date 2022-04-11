@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Tachometer;
 import frc.robot.subsystems.TopIndexer;
+import frc.robot.subsystems.Gyro;
 
 public class Autonomous extends CommandBase {
   /**
@@ -22,6 +23,7 @@ public class Autonomous extends CommandBase {
   private final Shooter shooter;
   private final BottomIndexer bottomIndexer;
   private final TopIndexer topIndexer;
+  private final Gyro gyro;
   // private final Tachometer tacheo;
   private final Timer timer = new Timer();
 
@@ -38,7 +40,7 @@ public class Autonomous extends CommandBase {
   private AutonStages stage = AutonStages.MOVE_TO_POS;
 
 
-  public Autonomous(DriveTrain drive, ClimberHooks climber, ClimberArm arm, Shooter shooter, BottomIndexer bottomIndexer, TopIndexer topIndexer) {
+  public Autonomous(DriveTrain drive, ClimberHooks climber, ClimberArm arm, Shooter shooter, BottomIndexer bottomIndexer, TopIndexer topIndexer, Gyro gyro) {
     // Use addRequirements() here to declare subsystem dependencies.
 
     this.drive = drive;
@@ -47,6 +49,7 @@ public class Autonomous extends CommandBase {
     this.shooter = shooter;
     this.bottomIndexer = bottomIndexer;
     this.topIndexer = topIndexer;
+    this.gyro = gyro;
     timer.start();
     // this.tacheo = tacheo;
     addRequirements(drive, climber, arm, shooter, bottomIndexer, topIndexer);
@@ -69,7 +72,7 @@ public class Autonomous extends CommandBase {
     ySpeed = 0.5;
     xSpeed = 0;
     drive.resetFrontLeftEncoderPosition();
-    drive.resetGyroAngle();
+    gyro.resetGyroAngle();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

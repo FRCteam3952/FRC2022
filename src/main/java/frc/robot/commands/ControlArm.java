@@ -40,7 +40,7 @@ public class ControlArm extends CommandBase {
       arm.changeArmAngle(0);
     }
     if(RobotContainer.tertiaryJoystick.joystick.getRawButtonPressed(Constants.resetClimberEncoderButton)) {
-      arm.resetClimbEncoder();
+      arm.resetEncoder();
     }
     //System.out.println("arm angle = " + arm.getArmAngleEncoder());
   }
