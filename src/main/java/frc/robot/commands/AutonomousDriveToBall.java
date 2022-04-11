@@ -50,8 +50,8 @@ public class AutonomousDriveToBall extends CommandBase {
   @Override
   public void execute() {
     if (drive.getPosition() <= MAX_POSITION) {
-      xSpeed += drive.getAdjustment()[0];
-      ySpeed += drive.getAdjustment()[1];
+      //xSpeed += drive.getAdjustment()[0];
+      //ySpeed += drive.getAdjustment()[1];
       drive.drive(ySpeed, xSpeed, 0);
     }
   }

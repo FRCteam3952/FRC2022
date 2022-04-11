@@ -40,19 +40,9 @@ public class ManualDrive extends CommandBase {
     if (RobotContainer.primaryJoystick.button2Pressed()) {
 
       // x and y movement adjustment values
-      double[] xySpeed = drive_train.getAdjustment();
-      xSpeed += xySpeed[0];
-      ySpeed += xySpeed[1];
+      double angleAdjust = drive_train.getAdjustment();
+      zRotation += angleAdjust;
 
-      if (xSpeed > 1)
-        xSpeed = 1;
-      if (xSpeed < -1)
-        xSpeed = -1;
-
-      if (ySpeed > 1)
-        ySpeed = 1;
-      if (ySpeed < -1)
-        ySpeed = -1;
     }
 
     //set angle
@@ -60,27 +50,7 @@ public class ManualDrive extends CommandBase {
       System.out.println("setting angle");
       double y = -RobotContainer.secondaryJoystick.getLateralMovement();
       double x = RobotContainer.secondaryJoystick.getHorizontalMovement();   
-      double angle = Math.toDegrees(Math.atan2(y, x)); //gets angle of the joystick
-      if (y < 0)
-        angle += 360; //make sure angle is within 0˚ to 360˚ scale
-      if (angle < 90){
-         angle += 270;
-      }
-      else{
-        angle -= 90;
-      }
-      double angleDifference = angle - drive_train.getGyroAngle(); //gets angle difference
-
-      if (Math.abs(angleDifference) >= 180)
-        angleDifference = angleDifference + (angleDifference > 0 ? -360 : 360); //ensures that angleDifference is the smallest possible angle to destination
-
-      // positive angleDifference -> turn clockwise, negative angleDifference -> turn counterclockwise
-      // strength of turning power is proportional to size of angleDifference
-      zRotation = angleDifference/180;
-      if (zRotation < 0.1)
-        zRotation = 0.1;
-      else if (zRotation > -0.1)
-        zRotation = -0.1;
+      zRotation = drive_train.setAngle(x, y);
     }
 
     drive_train.drive(ySpeed, xSpeed, zRotation);

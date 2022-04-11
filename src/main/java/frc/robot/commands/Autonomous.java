@@ -34,8 +34,8 @@ public class Autonomous extends CommandBase {
   private double xSpeed= 0;
   private double ySpeed= 0; 
   private double zRotation=0;
-  private final double MAX_POSITION = 50; //measured in motor rotations, measure later
-  private AutonStages stage = AutonStages.CLIMBER_ARM_30_AND_INGEST;
+  private final double MAX_POSITION = 20; //measured in motor rotations, measure later
+  private AutonStages stage = AutonStages.MOVE_TO_POS;
 
 
   public Autonomous(DriveTrain drive, ClimberHooks climber, ClimberArm arm, Shooter shooter, BottomIndexer bottomIndexer, TopIndexer topIndexer) {
@@ -47,6 +47,7 @@ public class Autonomous extends CommandBase {
     this.shooter = shooter;
     this.bottomIndexer = bottomIndexer;
     this.topIndexer = topIndexer;
+    timer.start();
     // this.tacheo = tacheo;
     addRequirements(drive, climber, arm, shooter, bottomIndexer, topIndexer);
   }
@@ -54,6 +55,7 @@ public class Autonomous extends CommandBase {
   private enum AutonStages {
       CLIMBER_ARM_30_AND_INGEST,
       MOVE_TO_POS,
+      TURN,
       ACCELERATE_FLYWHEEL,
       SHOOT_FIRST_BALL,
       ACCELERATE_FLYWHEEL_2,
@@ -66,12 +68,14 @@ public class Autonomous extends CommandBase {
   public void initialize() {
     ySpeed = 0.5;
     xSpeed = 0;
+    drive.resetFrontLeftEncoderPosition();
+    drive.resetGyroAngle();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("auton");
+    // System.out.println("auton");
       if(RobotContainer.inTeleop) {
         System.out.println("in teleop");
           // cancel();
@@ -79,73 +83,73 @@ public class Autonomous extends CommandBase {
       switch(stage) {
           case CLIMBER_ARM_30_AND_INGEST:
             bottomIndexer.releaseServo();
+            
             if(!arm.angleLimitPressed()) {
                 arm.changeArmAngle(-0.5);
             } else {
                 arm.changeArmAngle(0);
-                stage = AutonStages.FINISH;
+                //System.out.println("move to pos");
+                stage = AutonStages.MOVE_TO_POS;
             }
             break;
           case MOVE_TO_POS:
-            if (drive.getPosition() <= MAX_POSITION) {
-                xSpeed += drive.getAdjustment()[0];
-                ySpeed += drive.getAdjustment()[1];
-                drive.drive(ySpeed, xSpeed, 0);
+            if(!shooter.getBottomShooterLim()) {
+              bottomIndexer.setIndexSpeed(-0.4);
             } else {
-                stage = AutonStages.SHOOT_FIRST_BALL;
+              bottomIndexer.setIndexSpeed(0);
             }
-            break;
-        case ACCELERATE_FLYWHEEL:
-            System.out.println("ACC FLYWHEEL");
-            double currentRPM = Tachometer.getShooterRPM();
-            System.out.println(currentRPM);
-            desiredRPM = shooter.getRPMValue();
-            shooter.setShooterToRPM();
-            // shoot.setShooterPower(1);
-            if (currentRPM >= desiredRPM) {
-            // if(currentRPM >= desiredRPM) {
-              
-              stage = AutonStages.SHOOT_FIRST_BALL;
-            }
-            break;
-  
-          case SHOOT_FIRST_BALL:
-            System.out.println("SHOOT BALL 1");
-            shooter.setShooterToRPM();
-            //shooter.setShooterPower(1);
-            topIndexer.setIndexSpeed(shootIndexSpeed);
-            bottomIndexer.setIndexSpeed(shootIndexSpeed);
-            if (shooter.getTopShooterLim()) {
-              stage = AutonStages.ACCELERATE_FLYWHEEL_2;
-            }
-            break;
-  
-          case ACCELERATE_FLYWHEEL_2:
-            currentRPM = Tachometer.getShooterRPM();
-            desiredRPM = shooter.getRPMValue();
-            shooter.setShooterToRPM();            
-            topIndexer.setIndexSpeed(shootIndexSpeed);
-            bottomIndexer.setIndexSpeed(shootIndexSpeed);
-            if (currentRPM >= desiredRPM) {
-            // if(currentRPM >= desiredRPM){
+            //topIndexer.setIndexSpeed(0.2);
+            if (drive.getFrontLeftEncoderPosition() <= MAX_POSITION) {
+                //xSpeed += drive.getAdjustment()[0];
+                //ySpeed += drive.getAdjustment()[1];
+                //System.out.println("im mooving");
+                drive.driveRR(-0.3, 0, 0);
+            } else {
+              drive.drive(0, 0, 0);
+              //System.out.println("shoot 1");
               timer.reset();
-              stage = AutonStages.SHOOT_SECOND_BALL;
+              // topIndexer.setIndexSpeed(0.8);
+              stage = AutonStages.TURN;
             }
+
             break;
-  
-          case SHOOT_SECOND_BALL:
-            shooter.setShooterToRPM();
-            topIndexer.setIndexSpeed(shootIndexSpeed);
-            bottomIndexer.setIndexSpeed(shootIndexSpeed);
-            if (timer.hasElapsed(3)) {
-              shooter.setRPMValue(0);
-              // shoot.setShooterPower(0);
+          case TURN:
+            //System.out.println("turn " + timer.get());
+            if(timer.hasElapsed(2)){
+              drive.drive(0,0,drive.setAngle(190));
+              if(timer.hasElapsed(5)){
+                topIndexer.setIndexSpeed(0.8);
+                bottomIndexer.setIndexSpeed(0);
+                drive.drive(0,0,0);
+                timer.reset();
+                stage = AutonStages.ACCELERATE_FLYWHEEL;
+              }
+            }
+          break;
+
+          case ACCELERATE_FLYWHEEL:
+            //drive.drive(0, 0, 0);
+            if(timer.hasElapsed(3)){
+              bottomIndexer.setIndexSpeed(0);
+              topIndexer.setIndexSpeed(0);
               stage = AutonStages.FINISH;
             }
+            else if(timer.hasElapsed(2)){
+              bottomIndexer.setIndexSpeed(-0.8);
+              //topIndexer.setIndexSpeed(0);
+              
+            } else {
+              bottomIndexer.setIndexSpeed(0);
+            }
             break;
+  
+          
           case FINISH:
+          drive.drive(0, 0, 0);
             cancel();
+            break;
           default:
+          drive.drive(0, 0, 0);
             break;
 
       }
@@ -156,7 +160,7 @@ public class Autonomous extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
+    drive.drive(0, 0, 0);
   }
 
   // Returns true when the command should end.

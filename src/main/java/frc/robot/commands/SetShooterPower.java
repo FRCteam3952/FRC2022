@@ -79,7 +79,7 @@ public class SetShooterPower extends CommandBase {
       if (distanceToHoop() + HOOP_RADIUS < MIN_DISTANCE + delta) {
         System.out.println("Robot too close to hub to shoot, backing up");
         launchSpeed = 0;
-        drive.drive(-0.5, 0, 0, 0);
+        drive.driveRR(-0.5, 0, 0);
       } else {
         setLaunchSpeed(); //set launch speed from distance to hoop
         setShooterRPM(); //set flywheel RPM from necessary launch speed

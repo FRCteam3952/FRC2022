@@ -67,7 +67,7 @@ public class RobotContainer {
   public final static AdjustShooterAim adjustShooterAim = new AdjustShooterAim(driveTrain);
   public final static SetShooterPower setShooterPower = new SetShooterPower(shooter, driveTrain);
   public final static SetShooterPowerManual setShooterPowerManual = new SetShooterPowerManual(shooter);
-  public final static ShootBallsManual shootBallsManual = new ShootBallsManual(shooter);
+  //public final static ShootBallsManual shootBallsManual = new ShootBallsManual(shooter); <- shooter speed constant.
 
   // declare new shooter airmer to be ran, for driveTrain
   public final static IndexTop indexTop = new IndexTop(topIndexer);

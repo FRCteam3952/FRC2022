@@ -75,8 +75,8 @@ public class DriveTrain extends SubsystemBase {
     }
   }
 
-  public void drive(double ySpeed, double xSpeed, double zRotation, double angle) {
-    m_dDrive.driveCartesian(ySpeed, xSpeed, zRotation, angle);
+  public void driveRR(double ySpeed, double xSpeed, double zRotation) {
+    m_dDrive.driveCartesian(ySpeed, xSpeed, zRotation, 0);
     if(RobotContainer.primaryJoystick.button8Pressed()){
       gyro.reset();
     }
@@ -84,25 +84,68 @@ public class DriveTrain extends SubsystemBase {
   public double getGyroAngle(){
     return gyro.getAngle();
   }
-  
 
-  public double[] getAdjustment() {
-    double[] adjustXY = {0,0};
+  public void resetGyroAngle() {
+    gyro.reset();
+  }
+
+  public double setAngle(double x, double y){
+    double angle = Math.toDegrees(Math.atan2(y, x)); //gets angle of the joystick
+      if (y < 0)
+        angle += 360; //make sure angle is within 0˚ to 360˚ scale
+      if (angle < 90){
+         angle += 270;
+      }
+      else{
+        angle -= 90;
+      }
+      double angleDifference = angle - getGyroAngle(); //gets angle difference
+
+      if (Math.abs(angleDifference) >= 180)
+        angleDifference = angleDifference + (angleDifference > 0 ? -360 : 360); //ensures that angleDifference is the smallest possible angle to destination
+
+      // positive angleDifference -> turn clockwise, negative angleDifference -> turn counterclockwise
+      // strength of turning power is proportional to size of angleDifference
+      double zRotation = angleDifference/120;
+      if (zRotation > 1)
+        zRotation = 1;
+      else if (zRotation < -1)
+        zRotation = -1;
+      return zRotation;
+  }
+  public double setAngle(double angle){
+
+      double angleDifference = angle - getGyroAngle(); //gets angle difference
+
+      if (Math.abs(angleDifference) >= 180)
+        angleDifference = angleDifference + (angleDifference > 0 ? -360 : 360); //ensures that angleDifference is the smallest possible angle to destination
+
+      // positive angleDifference -> turn clockwise, negative angleDifference -> turn counterclockwise
+      // strength of turning power is proportional to size of angleDifference
+      double zRotation = angleDifference/120;
+      if (zRotation > 1)
+        zRotation = 1;
+      else if (zRotation < -1)
+        zRotation = -1;
+      return zRotation;
+  }
+
+  public double getAdjustment() {
+    double adjustAngle = 0;
     if(seeBall.getBoolean(false)){
       double adjustment = ball.getNumber(0).doubleValue();
-      double minPower = 0.25;
+      double minPower = 0.2;
       if(adjustment < minPower && adjustment > 0){
         adjustment = minPower;
       }
       else if(adjustment > -minPower && adjustment < 0){
         adjustment = -minPower;
       }
-      double angle = gyro.getAngle();
-      adjustXY[0] = adjustment * Math.cos(angle);
-      adjustXY[1] = adjustment * Math.sin(angle);
+      //double angle = -gyro.getAngle();
+      adjustAngle = adjustment;
       
     };
-    return adjustXY;
+    return adjustAngle;
   }
 
   public double getPosition() {
@@ -111,6 +154,15 @@ public class DriveTrain extends SubsystemBase {
     for (double i : encoderPositions)
       sum += i;
     return sum/4;
+  }
+
+  public double getFrontLeftEncoderPosition() {
+    System.out.println(frontLeftEncoder.getPosition());
+    return Math.abs(frontLeftEncoder.getPosition());
+  }
+
+  public void resetFrontLeftEncoderPosition() {
+    frontLeftEncoder.setPosition(0);
   }
 
   public void setPosition(double position) {
