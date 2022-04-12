@@ -39,12 +39,15 @@ public class ClimberArm extends SubsystemBase {
   }
 
   public double getArmAngleEncoder() {
-    return armAngleEncoder.getPosition() * 0.213 + 30;
+    return armAngleEncoder.getPosition() * 0.213 + 32;
   }
 
 
   public double changeArmAngle(double speed) {
     armAngle.set(speed);
+    if(angleLimitPressed()) {
+      resetEncoder();
+    }
     return speed;
   }
 

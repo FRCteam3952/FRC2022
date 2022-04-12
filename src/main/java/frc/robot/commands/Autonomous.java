@@ -18,12 +18,11 @@ public class Autonomous extends CommandBase {
    * Creates a new AutonomousCommand.
    */
   private final DriveTrain drive;
-  private final ClimberHooks climber;
+  private final ClimberHooks hooks;
   private final ClimberArm arm;
   private final Shooter shooter;
   private final BottomIndexer bottomIndexer;
   private final TopIndexer topIndexer;
-  private final Gyro gyro;
   // private final Tachometer tacheo;
   private final Timer timer = new Timer();
 
@@ -37,25 +36,25 @@ public class Autonomous extends CommandBase {
   private double ySpeed= 0; 
   private double zRotation=0;
   private final double MAX_POSITION = 20; //measured in motor rotations, measure later
-  private AutonStages stage = AutonStages.MOVE_TO_POS;
+  private AutonStages stage = AutonStages.CLIMBER_HOOKS;
 
 
-  public Autonomous(DriveTrain drive, ClimberHooks climber, ClimberArm arm, Shooter shooter, BottomIndexer bottomIndexer, TopIndexer topIndexer, Gyro gyro) {
+  public Autonomous(DriveTrain drive, ClimberHooks hooks, ClimberArm arm, Shooter shooter, BottomIndexer bottomIndexer, TopIndexer topIndexer) {
     // Use addRequirements() here to declare subsystem dependencies.
 
     this.drive = drive;
-    this.climber = climber;
+    this.hooks = hooks;
     this.arm = arm;
     this.shooter = shooter;
     this.bottomIndexer = bottomIndexer;
     this.topIndexer = topIndexer;
-    this.gyro = gyro;
     timer.start();
     // this.tacheo = tacheo;
-    addRequirements(drive, climber, arm, shooter, bottomIndexer, topIndexer, gyro);
+    addRequirements(drive, hooks, arm, shooter, bottomIndexer, topIndexer);
   }
 
   private enum AutonStages {
+      CLIMBER_HOOKS,
       CLIMBER_ARM_30_AND_INGEST,
       MOVE_TO_POS,
       TURN,
@@ -72,7 +71,8 @@ public class Autonomous extends CommandBase {
     ySpeed = 0.5;
     xSpeed = 0;
     drive.resetFrontLeftEncoderPosition();
-    gyro.resetGyroAngle();
+    Gyro.resetGyroAngle();
+    hooks.resetEncoder();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -84,6 +84,14 @@ public class Autonomous extends CommandBase {
           // cancel();
       } else {
       switch(stage) {
+          case CLIMBER_HOOKS:
+            if(hooks.getEncoderPosition() < 180) {
+              hooks.setHookSpeed(-0.5);
+            } else {
+              hooks.setHookSpeed(0);
+              stage = AutonStages.CLIMBER_ARM_30_AND_INGEST;
+            }
+            break;
           case CLIMBER_ARM_30_AND_INGEST:
             bottomIndexer.releaseServo();
             
@@ -94,6 +102,7 @@ public class Autonomous extends CommandBase {
                 //System.out.println("move to pos");
                 stage = AutonStages.MOVE_TO_POS;
             }
+
             break;
           case MOVE_TO_POS:
             if(!shooter.getBottomShooterLim()) {

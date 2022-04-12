@@ -9,13 +9,13 @@ public class Gyro extends SubsystemBase{
         gyro = new ADIS16470_IMU();
         gyro.setYawAxis(ADIS16470_IMU.IMUAxis.kY);
     }
-    public double getGyroAngle(){
+    public static double getGyroAngle(){
         return gyro.getAngle();
       }
-    public void setGyroAxis(ADIS16470_IMU.IMUAxis axis){
+    public static void setGyroAxis(ADIS16470_IMU.IMUAxis axis){
         gyro.setYawAxis(axis);
     }
-    public void resetGyroAngle() {
+    public static void resetGyroAngle() {
         gyro.reset();
     }
     @Override

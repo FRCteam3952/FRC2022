@@ -5,26 +5,28 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.ClimberHooks;
+import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.ClimberArm;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Gyro;
-import edu.wpi.first.wpilibj.ADIS16470_IMU;
+
+import edu.wpi.first.wpilibj.Timer;
 // this does climb auto
 public class AutoClimb extends CommandBase {
   private enum ClimbingStates {
-    LIFTING,
-    SECURE_CLIMBER,
-    LIFTING_WITH_ARM,
-    SLIDE_HOOK_HIGH,
+    LIFTING_NO_ANGLE,
+    LIFTING_WITH_ANGLE,
     MOVE_TO_HIGH,
+    SEND_HOOKS_UP,
+    MOVE_TO_HIGHS,
     WAIT
   }
+  private final Timer timer = new Timer();
 
   private final ClimberHooks hooks;
   private final ClimberArm arm;
-  private final double MAX_POSITION = 50; //measured in motor rotations, measure later
+  private final double MAX_POSITION = 282.5; //measured in motor rotations, measure later
   private final double ARM_MOVE_POSITION = 25; //measured in motor rotations, measure later
-  private final Gyro gyro;
 
   /**
    * Creates a new ExampleCommand.
@@ -33,99 +35,113 @@ public class AutoClimb extends CommandBase {
    */
   private final double HOOK_POWER = 1;
   private final double ARM_POWER = 0.5;
-  private ClimbingStates state = ClimbingStates.LIFTING;
-  private final double climbingAngle = 50; //degrees for climbing under the high bar
+  private ClimbingStates state = ClimbingStates.LIFTING_NO_ANGLE;
+  private final double climbingAngle = 46; //degrees for climbing under the high bar
 
-  private final double kP = 0.5; //multiplicative
+  private final double kP = 0.2; //multiplicative
   private final double kI = 0; //coefficient for integral in PID
   private final double kD = 0; //coefficient for derivative in PID
 
+  private boolean inPos = false;
+  private boolean correctAngle = false;
 
-  public AutoClimb(ClimberHooks hooks, ClimberArm arm, Gyro gyro) {
+
+  public AutoClimb(ClimberHooks hooks, ClimberArm arm) {
     this.hooks = hooks;
     this.arm = arm;
-    this.gyro = gyro;
-    addRequirements(hooks, arm, gyro);
+    addRequirements(hooks, arm);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     System.out.println("climbing");
-    state = ClimbingStates.LIFTING;
-    gyro.setGyroAxis(ADIS16470_IMU.IMUAxis.kZ);
+    state = ClimbingStates.LIFTING_NO_ANGLE;
+    correctAngle = false;
+    inPos = false;
+    timer.start();
   }
   public double maintainClimberAngle(){
     //calculate how off the current climber angle is off from the wanted angle
-    double climberAngle = arm.getArmAngleEncoder() + gyro.getGyroAngle();
-    double adjustment = (climberAngle - climbingAngle)*kP;
-
+    double climberAngle = arm.getArmAngleEncoder();
+    double adjustment = (climbingAngle - climberAngle) * kP;
     //keeps adjustment between -1 and 1
     if(adjustment > 1)
       adjustment = 1;
     else if(adjustment < -1)
       adjustment = -1;
-
-    System.out.println("climber angle: " + climberAngle);
     return adjustment;
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if (RobotContainer.tertiaryJoystick.joystick.getRawButtonPressed(Constants.resetAutoClimbButton)) {
+      state = ClimbingStates.LIFTING_NO_ANGLE;
+    }
     switch (state) {
-      case LIFTING:
-        maintainClimberAngle();
-        //hooks.setHookSpeed(-HOOK_POWER);
-        //arm.changeArmAngle(maintainClimberAngle());
-        if (hooks.bottomLimitPressed()){
-          //hooks.setHookSpeed(0);
-          //arm.changeArmAngle(0);
-          //state = ClimbingStates.WAIT;
-        }
-        break;
-      case SECURE_CLIMBER:
-        if(arm.getArmAngleEncoder() < 70){
-          arm.changeArmAngle(ARM_POWER);
-        }
-        else{
-          arm.changeArmAngle(0);
-          state = ClimbingStates.LIFTING_WITH_ARM;
-        }
-        break;
-
-      case LIFTING_WITH_ARM:
-        hooks.setHookSpeed(-HOOK_POWER);
-        //arm.changeArmAngle(-ARM_POWER);
-        if (hooks.bottomLimitPressed()) {
+      case LIFTING_NO_ANGLE:
+        arm.changeArmAngle(0);
+        hooks.setHookSpeed(0.5);
+        if (hooks.getEncoderPosition() < 110){
           hooks.setHookSpeed(0);
-          arm.changeArmAngle(0);
-          state = ClimbingStates.SLIDE_HOOK_HIGH;
+          state = ClimbingStates.LIFTING_WITH_ANGLE;
         }
         break;
-      case SLIDE_HOOK_HIGH:
-        hooks.setHookSpeed(HOOK_POWER);
-        if (hooks.getEncoderPosition() >= MAX_POSITION) {
+      case LIFTING_WITH_ANGLE:
+        arm.changeArmAngle(-1);
+        hooks.setHookSpeed(0.3);
+        System.out.println("angle: " + arm.getArmAngleEncoder());
+        if (arm.getArmAngleEncoder() < climbingAngle){
           hooks.setHookSpeed(0);
           arm.changeArmAngle(0);
           state = ClimbingStates.MOVE_TO_HIGH;
         }
-        break;
-      
+      break;
       case MOVE_TO_HIGH:
-        hooks.setHookSpeed(-HOOK_POWER);
-        if (hooks.bottomLimitPressed()) {
+        if (hooks.bottomLimitPressed()){
           hooks.setHookSpeed(0);
-          arm.changeArmAngle(0);
-          if (hooks.bottomLimitPressed()) {
-            System.out.println("AutoClimb over, please start manual climbing");
-            cancel();
-          }
+          inPos = true;
         }
-        break;
+        else{
+          hooks.setHookSpeed(0.5);
+        }
+        if(arm.getArmAngleEncoder() > 90){
+          arm.changeArmAngle(0);
+          correctAngle = true;
+        }
+        else{
+          arm.changeArmAngle(0.8);
+        }
+        if(inPos && correctAngle){
+          arm.changeArmAngle(0);
+          hooks.setHookSpeed(0);
+          state = ClimbingStates.SEND_HOOKS_UP;
+        }
+      break;
+
+      case SEND_HOOKS_UP:
+        hooks.setHookSpeed(-0.8);
+        if(hooks.getEncoderPosition() > 282.5){
+          hooks.setHookSpeed(0);
+          timer.reset();
+          state = ClimbingStates.MOVE_TO_HIGHS;
+        }
+      break;   
+      case MOVE_TO_HIGHS:
+        if(timer.hasElapsed(3)){
+          hooks.setHookSpeed(0.6);
+        }
+        if(hooks.bottomLimitPressed()){
+          hooks.setHookSpeed(0);
+          state = ClimbingStates.WAIT;
+        }
+
+      break;
       
       default:
-        System.err.println("No state is true");
+        //System.err.println("No state is true");
         break;
     }
   }
@@ -136,7 +152,6 @@ public class AutoClimb extends CommandBase {
   public void end(boolean interrupted) {
     hooks.setHookSpeed(0);
     arm.changeArmAngle(0);
-    gyro.setGyroAxis(ADIS16470_IMU.IMUAxis.kY);
   }
 
   // Returns true when the command should end.

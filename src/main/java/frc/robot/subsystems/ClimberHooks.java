@@ -46,7 +46,7 @@ public class ClimberHooks extends SubsystemBase {
 
   public boolean bottomLimitPressed() {
     //System.out.println(bottomLimitSwitch.get());
-    return bottomLimitSwitch.get();
+    return !bottomLimitSwitch.get();
   }
 
   public boolean topOrBottomLimitPressed() {
@@ -54,11 +54,15 @@ public class ClimberHooks extends SubsystemBase {
   }
 
   public double getEncoderPosition() {
-    return hookEncoder.getPosition();
+    return -hookEncoder.getPosition();
   }
 
   public void setPosition(double position) {
     hookEncoder.setPosition(position);
+  }
+
+  public void resetEncoder() {
+    setPosition(0);
   }
 
   @Override

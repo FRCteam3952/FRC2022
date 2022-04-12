@@ -57,6 +57,6 @@ public final class Constants {
     public static final int moveArmAngleToRobot = 2;
     public static final int moveArmAngleAwayFromRobot = 3;
     //switch between auto and manual climb
-    public static final int switchtoAutoClimbButton = 6;
-    public static final int switchtoManualClimbButton = 7;
+    public static final int activateAutoClimbButtonNumber = 1;
+    public static final int resetAutoClimbButton = 7;
 }

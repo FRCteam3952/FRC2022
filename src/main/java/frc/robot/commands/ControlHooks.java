@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class ControlHooks extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ClimberHooks climber;
-  private final double MAX_POSITION = 50; //measured in motor rotations, measure later
+  private final double MAX_POSITION = 282.5; //measured in motor rotations, measure later
   /**
    * Creates a new ExampleCommand.
    *
@@ -33,6 +33,7 @@ public class ControlHooks extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    //System.out.println(climber.getEncoderPosition());
     // System.out.println("hook");
     //double hookSpeed = RobotContainer.tangoIIController.getZValue(); 
     double hookSpeed = RobotContainer.tertiaryJoystick.getLateralMovement(); 
@@ -41,12 +42,10 @@ public class ControlHooks extends CommandBase {
     // else
     if (climber.bottomLimitPressed()){
       climber.setPosition(0);
-      if(hookSpeed < 0){
-        climber.setHookSpeed(hookSpeed);
-      }
-      else{
-        climber.setHookSpeed(0);
-      }
+      climber.setHookSpeed(hookSpeed < 0 ? hookSpeed : 0);
+    }
+    else if(climber.getEncoderPosition() >= MAX_POSITION){
+      climber.setHookSpeed(hookSpeed > 0 ? hookSpeed : 0);
     }
     else{
       climber.setHookSpeed(hookSpeed);

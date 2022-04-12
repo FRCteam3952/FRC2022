@@ -27,7 +27,6 @@ import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.ClimberArm;
 import frc.robot.subsystems.ClimberHooks;
 import frc.robot.subsystems.BottomIndexer;
-import frc.robot.subsystems.Tachometer;
 import frc.robot.subsystems.TopIndexer;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Gyro;
@@ -37,14 +36,13 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class RobotContainer {
   public static boolean inTeleop = true;
-  public final static Gyro gyro = new Gyro();
   public final static DriveTrain driveTrain = new DriveTrain();
+
+  public final static Gyro gyro = new Gyro();
 
   public final static BottomIndexer bottomIndexer = new BottomIndexer();
 
   public final static Shooter shooter = new Shooter();
-
-  public final static Tachometer tacheo = new Tachometer();
   public final static TopIndexer topIndexer = new TopIndexer();
 
   //public final static AimbotBall aimball = new AimbotBall(driveTrain);
@@ -58,7 +56,7 @@ public class RobotContainer {
   public final static ClimberArm arm = new ClimberArm();
   public final static ControlArm controlArm = new ControlArm(arm);
   public final static ControlHooks controlHooks = new ControlHooks(hooks);
-  public final static AutoClimb autoClimb = new AutoClimb(hooks, arm, gyro);
+  public final static AutoClimb autoClimb = new AutoClimb(hooks, arm);
 
   public final static BallHandling shootBalls = new BallHandling(shooter, bottomIndexer, topIndexer);
   public final static AdjustShooterAim adjustShooterAim = new AdjustShooterAim(driveTrain);
@@ -71,7 +69,7 @@ public class RobotContainer {
 
   public final static FixServo fixServoCmd = new FixServo(bottomIndexer);
 
-  public final static Autonomous autonomous = new Autonomous(driveTrain, hooks, arm, shooter, bottomIndexer, topIndexer, gyro);
+  public final static Autonomous autonomous = new Autonomous(driveTrain, hooks, arm, shooter, bottomIndexer, topIndexer);
   // public final static AutonomousDriveToBall autonomousDrive = new AutonomousDriveToBall(driveTrain, hooks, arm, shooter);
   // public final static AutonomousShootBall autonomousShoot = new AutonomousShootBall(driveTrain, hooks, arm, shooter);
   public final static ManualDrive driveCommand = new ManualDrive(driveTrain);
@@ -128,8 +126,7 @@ public class RobotContainer {
     autoTrigger.whenActive(() -> controlArm.cancel());
     */
     
-    hooks.setDefaultCommand(controlHooks);
-    arm.setDefaultCommand(controlArm);
+    
 
     //Limelight adjustment code
     JoystickButton adjustAimButton = new JoystickButton(secondaryJoystick.joystick, Constants.adjustAimButtonNumber);
@@ -152,6 +149,9 @@ public class RobotContainer {
 
     JoystickButton fixServo = new JoystickButton(tertiaryJoystick.joystick, 8);
     fixServo.whenHeld(fixServoCmd);
+
+    JoystickButton activateAutoClimbButton = new JoystickButton(tertiaryJoystick.joystick, Constants.activateAutoClimbButtonNumber);
+    activateAutoClimbButton.whileHeld(autoClimb);
 
     //JoystickButton aimbotButton = new JoystickButton(flightJoystick.joystick, Constants.aimbotButtonNumber);
     //aimbotButton.whenHeld(aimBall);
@@ -204,6 +204,8 @@ public class RobotContainer {
     configureButtonBindings();
     shooter.setDefaultCommand(shootBalls);
     driveTrain.setDefaultCommand(driveCommand);
+    hooks.setDefaultCommand(controlHooks);
+    arm.setDefaultCommand(controlArm);
 
   }
 }

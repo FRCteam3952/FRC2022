@@ -36,7 +36,6 @@ public class DriveTrain extends SubsystemBase {
   private NetworkTableEntry seeBall;
 
   private MecanumDrive m_dDrive;
-  private Gyro gyro;
 
   /** Creates a new ExampleSubsystem. */
   public DriveTrain() {
@@ -63,13 +62,11 @@ public class DriveTrain extends SubsystemBase {
 
     m_dDrive.setSafetyEnabled(false); 
 
-    gyro = new Gyro();
-
   }
 
 
   public void drive(double ySpeed, double xSpeed, double zRotation) {
-    m_dDrive.driveCartesian(ySpeed, xSpeed, zRotation, -gyro.getGyroAngle());
+    m_dDrive.driveCartesian(ySpeed, xSpeed, zRotation, -Gyro.getGyroAngle());
     if(RobotContainer.primaryJoystick.button8Pressed()){
       
     }
@@ -78,13 +75,13 @@ public class DriveTrain extends SubsystemBase {
   public void driveRR(double ySpeed, double xSpeed, double zRotation) {
     m_dDrive.driveCartesian(ySpeed, xSpeed, zRotation, 0);
     if(RobotContainer.primaryJoystick.button8Pressed()){
-      gyro.resetGyroAngle();
+      Gyro.resetGyroAngle();
     }
   }
 
   public double setAngle(double angle){
 
-      double angleDifference = angle - gyro.getGyroAngle(); //gets angle difference
+      double angleDifference = angle - Gyro.getGyroAngle(); //gets angle difference
 
       if (Math.abs(angleDifference) >= 180)
         angleDifference = angleDifference + (angleDifference > 0 ? -360 : 360); //ensures that angleDifference is the smallest possible angle to destination
