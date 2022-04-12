@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class ManualDrive extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final DriveTrain drive_train;
+  private double microPP = -0.2; // MicroPinpointPositioning™
 
   /**
    * Creates a new ExampleCommand.
@@ -56,32 +57,32 @@ public class ManualDrive extends CommandBase {
     }
     // microadjustment
     if (RobotContainer.primaryJoystick.getJoystickPOV() == 0) {
-      ySpeed += 0.25;
+      ySpeed += microPP;
     }
     else if (RobotContainer.primaryJoystick.getJoystickPOV() == 315) {
-      ySpeed += 0.25;
-      xSpeed -= 0.25;
+      ySpeed += microPP;
+      xSpeed -= microPP;
     }
     else if (RobotContainer.primaryJoystick.getJoystickPOV() == 270) {
-      xSpeed -= 0.25;
+      xSpeed -= microPP;
     }
     else if (RobotContainer.primaryJoystick.getJoystickPOV() == 225) {
-      ySpeed -= 0.25;
-      xSpeed -= 0.25;
+      ySpeed -= microPP;
+      xSpeed -= microPP;
     }
     else if (RobotContainer.primaryJoystick.getJoystickPOV() == 180) {
-      ySpeed -= 0.25;
+      ySpeed -= microPP;
     }
     else if (RobotContainer.primaryJoystick.getJoystickPOV() == 135) {
-      ySpeed -= 0.25;
-      xSpeed += 0.25;
+      ySpeed -= microPP;
+      xSpeed += microPP;
     }
     else if (RobotContainer.primaryJoystick.getJoystickPOV() == 90) {
-      xSpeed += 0.25;
+      xSpeed += microPP;
     }
     else if (RobotContainer.primaryJoystick.getJoystickPOV() == 45) {
-      ySpeed += 0.25;
-      xSpeed += 0.25;
+      ySpeed += microPP;
+      xSpeed += microPP;
     }
 
     drive_train.drive(ySpeed, xSpeed, zRotation);

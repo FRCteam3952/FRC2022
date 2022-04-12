@@ -31,7 +31,7 @@ public class Shooter extends SubsystemBase {
     followerMotor = new CANSparkMax(Constants.flywheelPort2, MotorType.kBrushed);
     leaderMotor.setInverted(false);
     followerMotor.follow(leaderMotor, true); //motor follows leader in inverse
-    // setShooterPower(0.85);
+    //setShooterPower(0.85);
     kP = 400;
     kI = 0.3;
     kD = 0; 
