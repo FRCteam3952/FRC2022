@@ -1,6 +1,6 @@
 # Buttons
 
-## Joystick 1 (right)
+## Joystick 1 (right, primary controller)
 (1) Roll ingester
 
 (2) Aimbot to ball
@@ -19,7 +19,7 @@
 
 (9)
 
-## Joystick 2 (middle)
+## Joystick 2 (middle, secondary controller)
 (1) Shoot balls
 
 (2) Adjust aim to hoop
@@ -42,7 +42,7 @@
 
 (11)
 
-## Joystick 3 (left)
+## Joystick 3 (left, tertiary controller)
 (1) Activate auto climb
 
 (2) Move arm towards robot
@@ -67,13 +67,13 @@
 
 # Moving stuff
 
-## Joystick 1 (right)
+## Joystick 1 (right, primary controller)
 Stick U/D/L/R - Robot movement, field oriented up/down/left/right (respectively)
 
 Stick rotated - Robot rotate
 
 
-### FOV circle
+### FOV circle (right, primary controller)
 Up (0 deg) - Forward
 
 Top Right (45) - Forward Right
@@ -90,9 +90,8 @@ Left (270) - Left
 
 Top Left (315) - Top Left
 
-## Joystick 2 (middle)
+## Joystick 2 (middle, secondary controller)
 Stick U/R/D/L - Field relative robot angle setting 0/90/180/270 (respectively)
 
-## Joystick 3 (left)
-
+## Joystick 3 (left, tertiary controller)
 Stick Up/Down - Hooks Away/Towards robot (respectively)
