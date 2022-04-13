@@ -56,7 +56,7 @@ public final class Constants {
     public static final int moveArmAngleToRobotButtonNumber = 2;
     public static final int moveArmAngleAwayFromRobotButtonNumber = 3;
     public static final int resetAutoClimbButtonNumber = 7;
-    public static final int fixServoButtonNumber = 8;
+    public static final int startingConfigButtonNumber = 8;
     public static final int resetClimberEncoderButtonNumber = 11;
 
 }
