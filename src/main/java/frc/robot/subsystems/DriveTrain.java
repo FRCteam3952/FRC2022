@@ -68,7 +68,7 @@ public class DriveTrain extends SubsystemBase {
   public void drive(double ySpeed, double xSpeed, double zRotation) {
     m_dDrive.driveCartesian(ySpeed, xSpeed, zRotation, -Gyro.getGyroAngle());
     if(RobotContainer.primaryJoystick.button8Pressed()){
-      
+      Gyro.resetGyroAngle();
     }
   }
 

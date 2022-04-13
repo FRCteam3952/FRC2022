@@ -50,6 +50,9 @@ public class ClimberArm extends SubsystemBase {
     }
     return speed;
   }
+  public double getArmSpeed(){
+    return armAngle.get();
+  }
 
   public boolean angleLimitPressed() {
     return angleLimitSwitch.get();
