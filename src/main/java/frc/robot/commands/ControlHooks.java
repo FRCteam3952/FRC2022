@@ -30,7 +30,7 @@ public class ControlHooks extends CommandBase {
 
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
+  // Called every time the scheduler runs while the command is scheduled. Runs manual climbing
   @Override
   public void execute() {
     //System.out.println(climber.getEncoderPosition());
@@ -40,12 +40,12 @@ public class ControlHooks extends CommandBase {
     // if ((hookSpeed > 0 && climber.getEncoderPosition() >= MAX_POSITION) || (hookSpeed < 0 && climber.getEncoderPosition() <= 0)) ;
       //do nothing
     // else
-    if (climber.bottomLimitPressed()){
+    if (climber.bottomLimitPressed()){                        //if bottom limit switch is pressed then reset encoder to 0
       climber.setPosition(0);
-      climber.setHookSpeed(hookSpeed < 0 ? hookSpeed : 0);
+      climber.setHookSpeed(hookSpeed < 0 ? hookSpeed : 0);    //if hook going backward then set speed to 0
     }
     else if(climber.getEncoderPosition() >= MAX_POSITION){
-      climber.setHookSpeed(hookSpeed > 0 ? hookSpeed : 0);
+      climber.setHookSpeed(hookSpeed > 0 ? hookSpeed : 0);    //if hook going forward then set speed to 0
     }
     else{
       climber.setHookSpeed(hookSpeed);

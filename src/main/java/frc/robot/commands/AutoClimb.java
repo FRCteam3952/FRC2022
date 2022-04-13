@@ -14,12 +14,12 @@ import edu.wpi.first.wpilibj.Timer;
 // this does climb auto
 public class AutoClimb extends CommandBase {
   private enum ClimbingStates {
-    LIFTING_NO_ANGLE,
-    LIFTING_WITH_ANGLE,
-    MOVE_TO_HIGH,
-    SEND_HOOKS_UP,
-    MOVE_TO_HIGHS,
-    WAIT
+    LIFTING_NO_ANGLE,                         //just pulling up
+    LIFTING_WITH_ANGLE,                       //climb to second rung
+    MOVE_TO_HIGH,                             //move arm to high
+    SEND_HOOKS_UP,                            //transition hooks up
+    MOVE_TO_HIGHS,                            //move up more
+    WAIT                                      //letting it stop moving for a while
   }
   private final Timer timer = new Timer();
 
