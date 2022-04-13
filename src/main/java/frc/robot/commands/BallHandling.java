@@ -59,12 +59,12 @@ public class BallHandling extends CommandBase {
       //System.out.println("tachometer: " + Tachometer.getShooterRPM());
 
       // RESETS THE INDEXING
-      if (RobotContainer.secondaryJoystick.joystick.getRawButtonPressed(5)){
+      if (RobotContainer.secondaryJoystick.joystick.getRawButtonPressed(Constants.resetIndexerAndIngesterButtonNumber)){
         state = ShootingStates.INDEX_FIRST_BALL;
       }
 
       // ROLLS THE BOTTOM INDEXER
-      if (RobotContainer.primaryJoystick.joystick.getRawButton(1) && !bottomBallLoaded) {
+      if (RobotContainer.primaryJoystick.joystick.getRawButton(Constants.rollIngesterButtonNumber) && !bottomBallLoaded) {
         bottomIndex.setIndexSpeed(ingestSpeed);
       }
       else if (!bottomBallLoaded){

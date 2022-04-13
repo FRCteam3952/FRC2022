@@ -24,7 +24,7 @@ public class BottomIndexer extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
   public BottomIndexer() {
     bottomIndexer = new VictorSPX(Constants.bottomIndexerPort);
-    servo = new Servo(Constants.ingesterServo);
+    servo = new Servo(Constants.ingesterServoPort);
   }
 
 
