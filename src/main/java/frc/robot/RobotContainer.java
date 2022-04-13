@@ -27,11 +27,13 @@ import frc.robot.subsystems.BottomIndexer;
 import frc.robot.subsystems.TopIndexer;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Gyro;
+import frc.robot.subsystems.Tachometer;
 
 import frc.robot.controllers.*;
 import edu.wpi.first.wpilibj.Joystick;
 
 public class RobotContainer {
+  public final static Tachometer tachometer = new Tachometer();
   public static boolean inTeleop = true;
   public final static DriveTrain driveTrain = new DriveTrain();
 
@@ -199,7 +201,7 @@ public class RobotContainer {
     inTeleop = true;
     autonomous.cancel();
     configureButtonBindings();
-    shooter.setDefaultCommand(shootBalls);
+    //shooter.setDefaultCommand(shootBalls);
     driveTrain.setDefaultCommand(driveCommand);
     hooks.setDefaultCommand(controlHooks);
     arm.setDefaultCommand(controlArm);
