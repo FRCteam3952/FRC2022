@@ -141,11 +141,11 @@ public class RobotContainer {
     // JoystickButton indexTopButton = new JoystickButton(primaryJoystick.joystick, Constants.topIndexButtonNumber);
     // indexTopButton.whileHeld(indexTop);
 
-    JoystickButton shootBallsButton = new JoystickButton(secondaryJoystick.joystick, Constants.shootBallsButtonNumber);
+    // JoystickButton shootBallsButton = new JoystickButton(secondaryJoystick.joystick, Constants.shootBallsButtonNumber);
     // shootBallsButton.whenHeld(shootBallsManual);
 
     JoystickButton fixServo = new JoystickButton(tertiaryJoystick.joystick, Constants.fixServoButtonNumber);
-    fixServo.whenHeld(fixServoCmd);
+    fixServo.whenPressed(fixServoCmd);
 
     JoystickButton activateAutoClimbButton = new JoystickButton(tertiaryJoystick.joystick, Constants.activateAutoClimbButtonNumber);
     activateAutoClimbButton.whileHeld(autoClimb);
