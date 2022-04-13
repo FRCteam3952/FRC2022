@@ -7,13 +7,14 @@ package frc.robot.commands;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Tachometer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
 public class ManualDrive extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final DriveTrain drive_train;
-  private double microPP = -0.2; // MicroPinpointPositioning™
+  private double microPP = -0.1; // MicroPinpointPositioning™
 
   /**
    * Creates a new ExampleCommand.

@@ -21,7 +21,7 @@ public class Shooter extends SubsystemBase {
     private PIDController pidController;
     private final DigitalInput bottomShooterLim, topShooterLim;
     private double kP, kI, kD, rpmValue, rpmThreshold;
-    // private double kIz, kFF, kMaxOutput, kMinOutput;
+    private double kIz, kFF, kMaxOutput, kMinOutput;
 
   public Shooter() {
     bottomShooterLim = new DigitalInput(Constants.shooterBottomLimitPort);
@@ -31,14 +31,14 @@ public class Shooter extends SubsystemBase {
     followerMotor = new CANSparkMax(Constants.flywheelPort2, MotorType.kBrushed);
     leaderMotor.setInverted(false);
     followerMotor.follow(leaderMotor, true); //motor follows leader in inverse
-    //setShooterPower(0.85);
-    kP = 400;
-    kI = 0.3;
+    // setShooterPower(0.85); // rpm 4890
+    kP = 6e-5;
+    kI = 0;
     kD = 0; 
-    // kIz = 0; 
-    // kFF = 0.000015; 
-    // kMaxOutput = 1; 
-    // kMinOutput = -1;
+    kIz = 0; 
+    kFF = 0.000015; 
+    kMaxOutput = 1; 
+    kMinOutput = -1;
     rpmValue = 500;
     rpmThreshold = 3000; //threshold away from desired rpm to activate PID control
 
