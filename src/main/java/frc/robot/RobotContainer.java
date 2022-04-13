@@ -145,7 +145,7 @@ public class RobotContainer {
     // shootBallsButton.whenHeld(shootBallsManual);
 
     JoystickButton startingConfig = new JoystickButton(tertiaryJoystick.joystick, Constants.startingConfigButtonNumber);
-    startingConfig.whenPressed(startingConfigCmd);
+    startingConfig.whileHeld(startingConfigCmd);
 
     JoystickButton activateAutoClimbButton = new JoystickButton(tertiaryJoystick.joystick, Constants.activateAutoClimbButtonNumber);
     activateAutoClimbButton.whileHeld(autoClimb);
