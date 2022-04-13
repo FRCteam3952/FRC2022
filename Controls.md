@@ -57,7 +57,7 @@
 
 (7) Reset auto climb
 
-(8) Fix servo -- moves servo back to pre-match configuration
+(8) Set starting config
 
 (9)
 

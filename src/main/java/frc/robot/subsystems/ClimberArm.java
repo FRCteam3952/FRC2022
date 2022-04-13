@@ -5,8 +5,6 @@
 
 package frc.robot.subsystems;
 
-
-
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -15,21 +13,21 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-
-
+/**
+ * self explanatory
+ */
 
 public class ClimberArm extends SubsystemBase {
   private final CANSparkMax armAngle;
   private final DigitalInput angleLimitSwitch;
   private final RelativeEncoder armAngleEncoder;
-  
-  /** Creates a new ExampleSubsystem. */
+
   public ClimberArm() {
     armAngle = new CANSparkMax(Constants.armAnglePort, MotorType.kBrushless);
     armAngleEncoder = armAngle.getEncoder();
     angleLimitSwitch = new DigitalInput(Constants.angleLimitSwitchClimberPort);
   }
-  
+
   public void resetEncoder() {
     setClimbEncoder(0);
   }
@@ -42,15 +40,15 @@ public class ClimberArm extends SubsystemBase {
     return armAngleEncoder.getPosition() * 0.213 + 32;
   }
 
-
   public double changeArmAngle(double speed) {
     armAngle.set(speed);
-    if(angleLimitPressed()) {
+    if (angleLimitPressed()) {
       resetEncoder();
     }
     return speed;
   }
-  public double getArmSpeed(){
+
+  public double getArmSpeed() {
     return armAngle.get();
   }
 
@@ -60,13 +58,12 @@ public class ClimberArm extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
 
   }
 
   @Override
   public void simulationPeriodic() {
-    // This method will be called once per scheduler run during simulation
+
   }
 
 }

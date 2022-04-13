@@ -8,12 +8,8 @@ import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj.Joystick;
 
-
-//new joystick
-
-
 /**
- * This class contains additional methods to the Joysick class that access additional axis values
+ * Obsolete because bryce can't find it
  */
 public class Tango2Joystick extends Joystick {
   public static final byte kDefaultXRotateChannel = 3;
@@ -40,30 +36,29 @@ public class Tango2Joystick extends Joystick {
     }
   }
 
-    public enum ButtonType {
-        kTrigger(1),
-        kButton5(5),
-        kButton7(7),
-        kButton6(6),
-        kButton8(8);
-    
-        public final int value;
-    
-        ButtonType(int value) {
-          this.value = value;
-        }
-      }
+  public enum ButtonType {
+    kTrigger(1),
+    kButton5(5),
+    kButton7(7),
+    kButton6(6),
+    kButton8(8);
+
+    public final int value;
+
+    ButtonType(int value) {
+      this.value = value;
+    }
+  }
 
   private final byte[] m_axes = new byte[AxisType.values().length];
-  
 
   /**
    * Construct an instance of a joystick.
    *
-   * @param port The port index on the Driver Station that the joystick is plugged into.
+   * @param port The port index on the Driver Station that the joystick is plugged
+   *             into.
    */
-  public Tango2Joystick
-(final int port) {
+  public Tango2Joystick(final int port) {
     super(port);
 
     m_axes[AxisType.kXRotate.value] = kDefaultXRotateChannel;
@@ -115,7 +110,7 @@ public class Tango2Joystick extends Joystick {
    *
    * @param channel The channel to set the axis to.
    */
- 
+
   public int getXRotateChannel() {
     return m_axes[AxisType.kXRotate.value];
   }
@@ -148,7 +143,8 @@ public class Tango2Joystick extends Joystick {
   }
 
   /**
-   * Get the X Rotation value of the joystick. This depends on the mapping of the joystick connected to the
+   * Get the X Rotation value of the joystick. This depends on the mapping of the
+   * joystick connected to the
    * current port.
    *
    * @return The X Rotate value of the joystick.
@@ -158,7 +154,8 @@ public class Tango2Joystick extends Joystick {
   }
 
   /**
-   * Get the Y Rotate value of the joystick. This depends on the mapping of the joystick connected to the
+   * Get the Y Rotate value of the joystick. This depends on the mapping of the
+   * joystick connected to the
    * current port.
    *
    * @return The Y Rotate value of the joystick.
@@ -168,8 +165,9 @@ public class Tango2Joystick extends Joystick {
   }
 
   /**
-   *  Get the Z Rotation value of the joystick. This depends on the mapping of the joystick connected to the
-   *  current port.
+   * Get the Z Rotation value of the joystick. This depends on the mapping of the
+   * joystick connected to the
+   * current port.
    *
    * @return The Z Rotation value of the joystick.
    */
@@ -178,7 +176,8 @@ public class Tango2Joystick extends Joystick {
   }
 
   /**
-   * Get the slider value of the current joystick. This depends on the mapping of the joystick
+   * Get the slider value of the current joystick. This depends on the mapping of
+   * the joystick
    * connected to the current port.
    *
    * @return The Slider value of the joystick.
@@ -187,9 +186,8 @@ public class Tango2Joystick extends Joystick {
     return getRawAxis(m_axes[AxisType.kSlider.value]);
   }
 
-
   /**
-   *    * Set the channel associated with the X Rotation axis.
+   * * Set the channel associated with the X Rotation axis.
    *
    * @param channel The channel to set the axis to.
    */

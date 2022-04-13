@@ -9,18 +9,19 @@ import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants;
 
+/**
+ * To be removed
+ */
 
 public class Tachometer extends SubsystemBase {
 
-  //feeding system
-  private static Counter tacheo; 
+  // feeding system
+  private static Counter tacheo;
 
-
-  /** Creates a new ExampleSubsystem. */
   public Tachometer() {
 
     tacheo = new Counter(new DigitalInput(Constants.shooterTachometerPort));
-    
+
   }
 
   public static double getShooterRPM() {
@@ -33,14 +34,13 @@ public class Tachometer extends SubsystemBase {
   }
 
   @Override
- public void periodic() {
-    // This method will be called once per scheduler run
+  public void periodic() {
+
   }
 
   @Override
   public void simulationPeriodic() {
-    // This method will be called once per scheduler run during simulation
+
   }
 
-  
 }

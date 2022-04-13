@@ -9,6 +9,9 @@ import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClimberArm;
 
+/**
+ * self-explanatory
+ */
 
 public class ControlArm extends CommandBase {
   private final ClimberArm arm;
@@ -16,42 +19,38 @@ public class ControlArm extends CommandBase {
 
   public ControlArm(ClimberArm subsystem) {
     arm = subsystem;
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
   }
 
-  // Called every time the scheduler runs while the command is scheduled. Moves one motor pulling on string that controlls arm angle
   @Override
   public void execute() {
     // System.out.println("arm");
-    //double armSpeed = RobotContainer.tangoIIController.getXValue();
+    // double armSpeed = RobotContainer.tangoIIController.getXValue();
     // double armSpeed = RobotContainer.secondaryJoystick.getHorizontalMovement();
-    //armSpeed = 0;
-    if(RobotContainer.tertiaryJoystick.joystick.getRawButton(Constants.moveArmAngleToRobotButtonNumber) && !arm.angleLimitPressed()) {
+    // armSpeed = 0;
+    if (RobotContainer.tertiaryJoystick.joystick.getRawButton(Constants.moveArmAngleToRobotButtonNumber)
+        && !arm.angleLimitPressed()) {
       arm.changeArmAngle(-armSpeed);
-    } else if(RobotContainer.tertiaryJoystick.joystick.getRawButton(Constants.moveArmAngleAwayFromRobotButtonNumber)) {
+    } else if (RobotContainer.tertiaryJoystick.joystick.getRawButton(Constants.moveArmAngleAwayFromRobotButtonNumber)) {
       arm.changeArmAngle(armSpeed);
     } else {
       arm.changeArmAngle(0);
     }
-    if(RobotContainer.tertiaryJoystick.joystick.getRawButtonPressed(Constants.resetClimberEncoderButtonNumber)) {
+    if (RobotContainer.tertiaryJoystick.joystick.getRawButtonPressed(Constants.resetClimberEncoderButtonNumber)) {
       arm.resetEncoder();
     }
-    //System.out.println("arm angle = " + arm.getArmAngleEncoder());
+    // System.out.println("arm angle = " + arm.getArmAngleEncoder());
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
 
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;
