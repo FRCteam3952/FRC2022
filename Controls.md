@@ -22,11 +22,11 @@
 ## Joystick 2 (middle)
 (1) Shoot balls
 
-(2) Aimbot to shooter
+(2) Adjust aim to hoop
 
 (3)
 
-(4) Set manual shooter RPM (CURRENTLY UNUSED because we have a constant shooter power)
+(4) Set shooter manual RPM (CURRENTLY UNUSED because we have a constant shooter power)
 
 (5) Reset indexer and ingester stage
 
