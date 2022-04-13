@@ -35,7 +35,6 @@ public class StartingConfig extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    stage = 1;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -59,8 +58,10 @@ public class StartingConfig extends CommandBase {
           arm.changeArmAngle(armSpeed);
         if (!hooks.bottomLimitPressed())
            hooks.setHookSpeed(hookSpeed);
-        if (arm.getArmAngleEncoder() >= STARTING_ARM_ANGLE && hooks.bottomLimitPressed())
+        if (arm.getArmAngleEncoder() >= STARTING_ARM_ANGLE && hooks.bottomLimitPressed()) {
+          stage = 1;
           cancel();
+        }
         break;
       
       default:
