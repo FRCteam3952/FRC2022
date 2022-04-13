@@ -77,7 +77,7 @@ public class AutoClimb extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (RobotContainer.tertiaryJoystick.joystick.getRawButtonPressed(Constants.resetAutoClimbButton)) {
+    if (RobotContainer.tertiaryJoystick.joystick.getRawButtonPressed(Constants.resetAutoClimbButtonNumber)) {
       state = ClimbingStates.LIFTING_NO_ANGLE;
     }
     switch (state) {

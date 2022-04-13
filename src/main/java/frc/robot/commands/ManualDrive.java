@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -38,7 +39,7 @@ public class ManualDrive extends CommandBase {
     double zRotation = (-RobotContainer.primaryJoystick.getRotation());
 
     // adjust movement of robot towards ball
-    if (RobotContainer.primaryJoystick.button2Pressed()) {
+    if (RobotContainer.primaryJoystick.joystick.getRawButton(Constants.aimbotToBallButtonNumber)) {
       // x and y movement adjustment values
       double angleAdjust = drive_train.getAdjustment();
       zRotation += angleAdjust;
