@@ -17,12 +17,12 @@ public class Autonomous extends CommandBase {
   /**
    * Creates a new AutonomousCommand.
    */
-  private final DriveTrain drive;
-  private final ClimberHooks hooks;
-  private final ClimberArm arm;
-  private final Shooter shooter;
-  private final BottomIndexer bottomIndexer;
-  private final TopIndexer topIndexer;
+  private final DriveTrain drive;                 
+  private final ClimberHooks hooks;               
+  private final ClimberArm arm;                   
+  private final Shooter shooter;                 //controlling flywheels
+  private final BottomIndexer bottomIndexer;     //servos holding ingester
+  private final TopIndexer topIndexer;           
   // private final Tachometer tacheo;
   private final Timer timer = new Timer();
 
@@ -75,7 +75,7 @@ public class Autonomous extends CommandBase {
     hooks.resetEncoder();
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
+  // Called every time the scheduler runs while the command is scheduled. Schedules autonomous sequence in the beginning.
   @Override
   public void execute() {
     // System.out.println("auton");

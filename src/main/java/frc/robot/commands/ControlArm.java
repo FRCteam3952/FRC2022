@@ -25,7 +25,7 @@ public class ControlArm extends CommandBase {
   public void initialize() {
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
+  // Called every time the scheduler runs while the command is scheduled. Moves one motor pulling on string that controlls arm angle
   @Override
   public void execute() {
     // System.out.println("arm");

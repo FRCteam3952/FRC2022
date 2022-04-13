@@ -15,8 +15,8 @@ public class BallHandling extends CommandBase {
      * Creates a new AutonomousCommand.
      */
     private final Shooter shoot;
-    private final BottomIndexer bottomIndex;
-    private final TopIndexer topIndex;
+    private final BottomIndexer bottomIndex; //bottom indexer wheel
+    private final TopIndexer topIndex;       //top indexer wheel
     private final Timer timer = new Timer();
 
     private double ingestSpeed = -0.4;

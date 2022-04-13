@@ -13,13 +13,13 @@ import edu.wpi.first.math.controller.PIDController;
 /** An example command that uses an example subsystem. */
 public class AdjustShooterAim extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final DriveTrain driveTrain;
-  private NetworkTableInstance inst;
-  private NetworkTable table;
-  private PIDController pidcontrol;
-  private final float kp = 0.03f;
-  private final float ki = 0.01f;
-  private final float kd = 0.02f; 
+  private final DriveTrain driveTrain;             //drive train
+  private NetworkTableInstance inst;               //new network table instance
+  private NetworkTable table;                      //network table
+  private PIDController pidcontrol;                //actual pid control
+  private final float kp = 0.03f;                  //porportional gain
+  private final float ki = 0.01f;                  //integral gain
+  private final float kd = 0.02f;                  //change of error in time
   
   /**
    * Creates a new ExampleCommand.
@@ -27,7 +27,7 @@ public class AdjustShooterAim extends CommandBase {
    * @param subsystem The subsystem used by this command.
    */
   public AdjustShooterAim(DriveTrain subsystem) {
-    pidcontrol = new PIDController(1, ki, kd);
+    pidcontrol = new PIDController(1, ki, kd);      //pid settings
     driveTrain = subsystem;
     addRequirements(subsystem);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -40,7 +40,7 @@ public class AdjustShooterAim extends CommandBase {
     table = inst.getTable("limelight");
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
+  // Called every time the scheduler runs while the command is scheduled. Grabs x change and rotates robot.
   @Override
   public void execute() {
     float tx = table.getEntry("tx").getNumber(0).floatValue() * kp;

@@ -16,7 +16,7 @@ import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase {
     
-    private CANSparkMax followerMotor;
+    private CANSparkMax followerMotor; //double motor system
     private CANSparkMax leaderMotor;
     private PIDController pidController;
     private final DigitalInput bottomShooterLim, topShooterLim;

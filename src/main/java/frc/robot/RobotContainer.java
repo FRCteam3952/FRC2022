@@ -14,7 +14,7 @@ import frc.robot.commands.SetShooterPower;
 import frc.robot.commands.SetShooterPowerManual;
 import frc.robot.commands.ControlArm;
 import frc.robot.commands.ControlHooks;
-import frc.robot.commands.FixServo;
+import frc.robot.commands.StartingConfig;
 import frc.robot.commands.ShooterAimer;
 import frc.robot.commands.BallHandling;
 import frc.robot.commands.AdjustShooterAim;
@@ -64,7 +64,7 @@ public class RobotContainer {
   // declare new shooter airmer to be ran, for driveTrain
   public final static ShooterAimer adjustAim = new ShooterAimer(driveTrain);
 
-  public final static FixServo fixServoCmd = new FixServo(bottomIndexer);
+  public final static StartingConfig startingConfigCmd = new StartingConfig(bottomIndexer, arm, hooks);
 
   public final static Autonomous autonomous = new Autonomous(driveTrain, hooks, arm, shooter, bottomIndexer, topIndexer);
   // public final static AutonomousDriveToBall autonomousDrive = new AutonomousDriveToBall(driveTrain, hooks, arm, shooter);
@@ -141,11 +141,11 @@ public class RobotContainer {
     // JoystickButton indexTopButton = new JoystickButton(primaryJoystick.joystick, Constants.topIndexButtonNumber);
     // indexTopButton.whileHeld(indexTop);
 
-    JoystickButton shootBallsButton = new JoystickButton(secondaryJoystick.joystick, Constants.shootBallsButtonNumber);
+    // JoystickButton shootBallsButton = new JoystickButton(secondaryJoystick.joystick, Constants.shootBallsButtonNumber);
     // shootBallsButton.whenHeld(shootBallsManual);
 
-    JoystickButton fixServo = new JoystickButton(tertiaryJoystick.joystick, Constants.fixServoButtonNumber);
-    fixServo.whenHeld(fixServoCmd);
+    JoystickButton startingConfig = new JoystickButton(tertiaryJoystick.joystick, Constants.startingConfigButtonNumber);
+    startingConfig.whileHeld(startingConfigCmd);
 
     JoystickButton activateAutoClimbButton = new JoystickButton(tertiaryJoystick.joystick, Constants.activateAutoClimbButtonNumber);
     activateAutoClimbButton.whileHeld(autoClimb);
