@@ -27,6 +27,7 @@ public class ManualDrive extends CommandBase {
 
   @Override
   public void initialize() {
+
   }
 
   @Override
@@ -35,6 +36,9 @@ public class ManualDrive extends CommandBase {
     double ySpeed = (RobotContainer.primaryJoystick.getLateralMovement());
     double xSpeed = (-RobotContainer.primaryJoystick.getHorizontalMovement());
     double zRotation = (-RobotContainer.primaryJoystick.getRotation());
+
+    //set Team
+    drive_train.setTeam();
 
     // Angle Adjustment Code
     if (RobotContainer.secondaryJoystick.getLateralMovement() != 0 || RobotContainer.secondaryJoystick.getHorizontalMovement() != 0) {

@@ -142,9 +142,16 @@ public class DriveTrain extends SubsystemBase {
     rearRightEncoder.setPosition(position);
   }
 
+  public void setTeam(){
+    if(RobotContainer.primaryJoystick.joystick.getRawAxis(7) > 0.5)
+      table.getEntry("blueBall").setBoolean(true);
+    else
+      table.getEntry("blueBall").setBoolean(false);
+  }
+
   @Override
   public void periodic() {
-
+  
   }
 
   @Override

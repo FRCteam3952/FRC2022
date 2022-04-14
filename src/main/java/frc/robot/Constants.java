@@ -17,6 +17,9 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+    // team COLOR
+    public static final int findTeamSwitch = 0; // we need to set this up
+    
     // PWM ports declaration
     public static final int ingesterServoPort = 0;
 
