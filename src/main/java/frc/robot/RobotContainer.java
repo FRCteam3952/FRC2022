@@ -102,8 +102,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   public void configureButtonBindings() {
-    // JoystickButton setShooterButton = new
-    // JoystickButton(secondaryJoystick.joystick, Constants.setShooterButtonNumber);
+    // JoystickButton setShooterButton = new JoystickButton(secondaryJoystick.joystick, Constants.setShooterButtonNumber);
     // setShooterButton.whileHeld(setShooterPower);
 
     JoystickButton setShooterManualButton = new JoystickButton(secondaryJoystick.joystick, Constants.setShooterManualButtonNumber);
@@ -130,7 +129,7 @@ public class RobotContainer {
     inTeleop = true;
     autonomous.cancel();
     configureButtonBindings();
-    //shooter.setDefaultCommand(shootBalls);
+    shooter.setDefaultCommand(shootBalls);
     driveTrain.setDefaultCommand(driveCommand);
     hooks.setDefaultCommand(controlHooks);
     arm.setDefaultCommand(controlArm);

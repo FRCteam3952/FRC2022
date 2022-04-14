@@ -16,7 +16,7 @@ public class SetShooterPower extends CommandBase {
   private final DriveTrain drive;
   private final Shooter shoot;
 
-  public static double limelightAngleDeg = 35;
+  public static double limelightAngleDeg = 30;
   public static double limelightHeightInch = 29;
   public static double goalHeightInch = 104;
 
@@ -27,7 +27,7 @@ public class SetShooterPower extends CommandBase {
   private final double HOOP_RADIUS = 0.6096; // in meters
   private final double WHEEL_RADIUS = 0.0619125; // in meters
   private final double BALL_MASS = 0.26932047; // in kilograms
-  private final double WHEEL_MASS = 0.144582568; // in kilograms, find out later
+  private final double WHEEL_MASS = 0.144582568 * 2; // in kilograms
   private final double GRAVITY = 9.80665; // in meters per second squared
   private final double ANGLE = 75; // degrees, measure later
   private final double MIN_DISTANCE = 2.6919; // in meters

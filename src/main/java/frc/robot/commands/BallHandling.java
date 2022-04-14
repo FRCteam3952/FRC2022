@@ -31,7 +31,8 @@ public class BallHandling extends CommandBase {
   public boolean previousLimitState;
   private boolean bottomBallLoaded = false;
 
-  private ShootingStates state = ShootingStates.INDEX_FIRST_BALL;
+  private ShootingStates state = ShootingStates.TESTING;
+  // private ShootingStates state = ShootingStates.INDEX_FIRST_BALL;
 
   public BallHandling(Shooter shoot, BottomIndexer bottomIndex, TopIndexer topIndex) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -42,6 +43,7 @@ public class BallHandling extends CommandBase {
   }
 
   private enum ShootingStates {
+    TESTING,
     INDEX_FIRST_BALL,
     INDEX_SECOND_BALL,
     PREPARE_TO_SHOOT,
@@ -77,6 +79,12 @@ public class BallHandling extends CommandBase {
 
     // SWITCH STATES FOR INDEXING AND SHOOTING SEQUENCE
     switch (state) {
+      case TESTING:
+        shoot.setShooterPower(0.3);
+        //shoot.setShooterToRPM();
+        System.out.println(shoot.getRPMValue());
+        System.out.println(shoot.getEncoderRPMValue());
+        break;
       case INDEX_FIRST_BALL:
         // bottomIndex.setIndexSpeed(ingestSpeed);
         bottomBallLoaded = false;
