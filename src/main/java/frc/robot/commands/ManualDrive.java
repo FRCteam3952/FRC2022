@@ -31,24 +31,14 @@ public class ManualDrive extends CommandBase {
 
   @Override
   public void execute() {
+    //input joystick controls
     double ySpeed = (RobotContainer.primaryJoystick.getLateralMovement());
     double xSpeed = (-RobotContainer.primaryJoystick.getHorizontalMovement());
     double zRotation = (-RobotContainer.primaryJoystick.getRotation());
 
-    // adjust movement of robot towards ball
-    if(RobotContainer.secondaryJoystick.joystick.getRawButton(Constants.adjustAimButtonNumber)){
-      double angleAdjust = lime_light.getAdjustment();
-      zRotation += angleAdjust;
-    }
-    if (RobotContainer.primaryJoystick.joystick.getRawButton(Constants.aimbotToBallButtonNumber)) {
-      // x and y movement adjustment values
-      double angleAdjust = drive_train.getAdjustment();
-      zRotation += angleAdjust;
-    }
-
-    // set angle
-    if (RobotContainer.secondaryJoystick.getLateralMovement() != 0
-        || RobotContainer.secondaryJoystick.getHorizontalMovement() != 0) {
+    // Angle Adjustment Code
+    if (RobotContainer.secondaryJoystick.getLateralMovement() != 0 || RobotContainer.secondaryJoystick.getHorizontalMovement() != 0) {
+      // set angle
       System.out.println("setting angle");
       double y = -RobotContainer.secondaryJoystick.getLateralMovement();
       double x = RobotContainer.secondaryJoystick.getHorizontalMovement();
@@ -58,6 +48,24 @@ public class ManualDrive extends CommandBase {
       angle += angle < 0 ? 270 : -90;
       zRotation = drive_train.setAngle(angle);
     }
+    else{
+      // adjust movement to limelight target
+      if(RobotContainer.secondaryJoystick.joystick.getRawButton(Constants.adjustAimButtonNumber)){
+        lime_light.turnOnLED();
+        double angleAdjust = lime_light.getAdjustment();
+        zRotation += angleAdjust;
+      }
+      else{
+        lime_light.turnOffLED();
+      }
+      // adjust movement of robot towards ball
+      if (RobotContainer.primaryJoystick.joystick.getRawButton(Constants.aimbotToBallButtonNumber)) {
+        double angleAdjust = drive_train.getAdjustment();
+        zRotation += angleAdjust;
+      }
+    }
+
+
     // microadjustment
     if (RobotContainer.primaryJoystick.getJoystickPOV() == 0) {
       ySpeed += microPP;

@@ -67,39 +67,22 @@ public class AutoClimb extends CommandBase {
     timer.start();
   }
 
-  public double maintainClimberAngle() {
-    // calculate how off the current climber angle is off from the wanted angle
-    double climberAngle = arm.getArmAngleEncoder();
-    double adjustment = (climbingAngle - climberAngle) * kP;
-    // keeps adjustment between -1 and 1
-    if (adjustment > 1)
-      adjustment = 1;
-    else if (adjustment < -1)
-      adjustment = -1;
-    return adjustment;
-
-  }
-
   public boolean checkHookandAngle(double anglePos, double hookPos) {
     double angleSpeed = arm.getArmSpeed();
     double hookSpeed = hooks.getHookSpeed();
     int truth_count = 0;
     if (angleSpeed >= 0 && arm.getArmAngleEncoder() >= anglePos) {
       arm.changeArmAngle(0);
-      System.out.println("angle done");
       truth_count++;
     } else if (angleSpeed <= 0 && arm.getArmAngleEncoder() <= anglePos) {
       arm.changeArmAngle(0);
-      System.out.println("angle done");
       truth_count++;
     }
-    if (hookSpeed >= 0 && hooks.getEncoderPosition() <= hookPos) {
+    if (hookSpeed >= 0 && (hooks.getEncoderPosition() <= hookPos || hooks.bottomLimitPressed())) {
       hooks.setHookSpeed(0);
-      System.out.println("hooks done");
       truth_count++;
     } else if (hookSpeed <= 0 && hooks.getEncoderPosition() >= hookPos) {
       hooks.setHookSpeed(0);
-      System.out.println("hooks done");
       truth_count++;
     }
     return (truth_count == 2);
@@ -121,18 +104,14 @@ public class AutoClimb extends CommandBase {
         }
         break;
       case LIFTING_WITH_ANGLE:
-        // System.out.println("angle: " + arm.getArmAngleEncoder());
         if (checkHookandAngle(climbingAngle, 30)) {
-          System.out.println("I've hit 30");
           hooks.setHookSpeed(0.5);
           arm.changeArmAngle(1);
           state = ClimbingStates.MOVE_TO_HIGH;
         }
         break;
       case MOVE_TO_HIGH:
-        System.out.println("GO UNDER THE BAR");
         if (checkHookandAngle(90, 0)) {
-          System.out.println("DONE");
           state = ClimbingStates.SEND_HOOKS_UP;
         }
         break;
