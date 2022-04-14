@@ -23,7 +23,6 @@ public class Shooter extends SubsystemBase {
     private SparkMaxPIDController pidController;
     private final DigitalInput bottomShooterLim, topShooterLim;
     private double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, rpmValue;
-    private double rpmThreshold;
 
   public Shooter() {
     bottomShooterLim = new DigitalInput(Constants.shooterBottomLimitPort);
@@ -44,7 +43,6 @@ public class Shooter extends SubsystemBase {
     kMaxOutput = 1; 
     kMinOutput = -1;
     rpmValue = 500;
-    rpmThreshold = 3000; // threshold away from desired rpm to activate PID control
 
     pidController.setP(kP);
     pidController.setI(kI);
