@@ -27,6 +27,7 @@ import frc.robot.subsystems.TopIndexer;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Gyro;
 import frc.robot.subsystems.Tachometer;
+import frc.robot.subsystems.LimeLight;
 
 import frc.robot.controllers.FlightJoystickController;
 import edu.wpi.first.wpilibj.Joystick;
@@ -37,6 +38,7 @@ public class RobotContainer {
   public final static DriveTrain driveTrain = new DriveTrain();
 
   public final static Gyro gyro = new Gyro();
+  public final static LimeLight limelight = new LimeLight();
 
   public final static BottomIndexer bottomIndexer = new BottomIndexer();
 
@@ -76,7 +78,7 @@ public class RobotContainer {
   // AutonomousDriveToBall(driveTrain, hooks, arm, shooter);
   // public final static AutonomousShootBall autonomousShoot = new
   // AutonomousShootBall(driveTrain, hooks, arm, shooter);
-  public final static ManualDrive driveCommand = new ManualDrive(driveTrain);
+  public final static ManualDrive driveCommand = new ManualDrive(driveTrain, limelight);
   // public final static AimbotBall aimBall = new AimbotBall(driveTrain);
 
   //
@@ -101,10 +103,6 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   public void configureButtonBindings() {
-    // Limelight adjustment code
-    JoystickButton adjustAimButton = new JoystickButton(secondaryJoystick.joystick, Constants.adjustAimButtonNumber);
-    adjustAimButton.whileHeld(adjustShooterAim);
-
     // JoystickButton setShooterButton = new
     // JoystickButton(secondaryJoystick.joystick, Constants.setShooterButtonNumber);
     // setShooterButton.whileHeld(setShooterPower);

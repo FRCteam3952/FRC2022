@@ -110,18 +110,10 @@ public class DriveTrain extends SubsystemBase {
   public double getAdjustment() {
     double adjustAngle = 0;
     if (seeBall.getBoolean(false)) {
-      double adjustment = ball.getNumber(0).doubleValue();
-      double minPower = 0.1;
-      if(adjustment < minPower && adjustment > 0){
-        adjustment = minPower;
-      } else if (adjustment > -minPower && adjustment < 0) {
-        adjustment = -minPower;
-      }
-      // double angle = -gyro.getAngle();
+      double adjustment = ball.getNumber(0).doubleValue()/2;
       adjustAngle = adjustment;
 
     }
-    ;
     return adjustAngle;
   }
 

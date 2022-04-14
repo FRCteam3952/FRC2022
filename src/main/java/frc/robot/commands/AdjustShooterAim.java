@@ -22,6 +22,7 @@ public class AdjustShooterAim extends CommandBase {
   private final float kp = 0.03f;
   private final float ki = 0.01f;
   private final float kd = 0.02f;
+  private double steering_adjust =0;
 
   public AdjustShooterAim(DriveTrain subsystem) {
     pidcontrol = new PIDController(1, ki, kd); // pid settings
@@ -39,9 +40,10 @@ public class AdjustShooterAim extends CommandBase {
   @Override
   public void execute() {
     float tx = table.getEntry("tx").getNumber(0).floatValue() * kp;
-    double steering_adjust = pidcontrol.calculate(tx);
-    driveTrain.drive(0, 0, steering_adjust);
-
+    steering_adjust = pidcontrol.calculate(tx);
+  }
+  public double getAdjustment(){
+    return steering_adjust;
   }
 
   @Override

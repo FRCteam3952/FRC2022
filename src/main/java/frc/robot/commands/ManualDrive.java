@@ -7,6 +7,7 @@ package frc.robot.commands;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.LimeLight;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
@@ -15,11 +16,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class ManualDrive extends CommandBase {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private final DriveTrain drive_train;
-  private double microPP = -0.2; // microPinpointPositioning™
+  private final LimeLight lime_light;
+  private double microPP = -0.1; // microPinpointPositioning™
 
-  public ManualDrive(DriveTrain subsystem) {
+  public ManualDrive(DriveTrain subsystem, LimeLight limey) {
     drive_train = subsystem;
-    addRequirements(drive_train);
+    lime_light = limey;
+    addRequirements(drive_train, lime_light);
   }
 
   @Override
@@ -33,6 +36,10 @@ public class ManualDrive extends CommandBase {
     double zRotation = (-RobotContainer.primaryJoystick.getRotation());
 
     // adjust movement of robot towards ball
+    if(RobotContainer.secondaryJoystick.joystick.getRawButton(Constants.adjustAimButtonNumber)){
+      double angleAdjust = lime_light.getAdjustment();
+      zRotation += angleAdjust;
+    }
     if (RobotContainer.primaryJoystick.joystick.getRawButton(Constants.aimbotToBallButtonNumber)) {
       // x and y movement adjustment values
       double angleAdjust = drive_train.getAdjustment();
