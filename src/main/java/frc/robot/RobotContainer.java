@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -16,7 +15,6 @@ import frc.robot.commands.ControlArm;
 import frc.robot.commands.ControlHooks;
 import frc.robot.commands.StartingConfig;
 import frc.robot.commands.BallHandling;
-import frc.robot.commands.AdjustShooterAim;
 import frc.robot.commands.AutoClimb;
 import frc.robot.commands.Autonomous;
 import frc.robot.subsystems.DriveTrain;
@@ -45,8 +43,6 @@ public class RobotContainer {
   public final static Shooter shooter = new Shooter();
   public final static TopIndexer topIndexer = new TopIndexer();
 
-  // public final static AimbotBall aimball = new AimbotBall(driveTrain);
-
   /**
    * primaryJoystick - driving and turning
    * secondaryJoystick - shooting and setting angle
@@ -64,32 +60,18 @@ public class RobotContainer {
   public final static AutoClimb autoClimb = new AutoClimb(hooks, arm);
 
   public final static BallHandling shootBalls = new BallHandling(shooter, bottomIndexer, topIndexer);
-  public final static AdjustShooterAim adjustShooterAim = new AdjustShooterAim(driveTrain);
   public final static SetShooterPower setShooterPower = new SetShooterPower(shooter, driveTrain);
   public final static SetShooterPowerManual setShooterPowerManual = new SetShooterPowerManual(shooter);
-  // public final static ShootBallsManual shootBallsManual = new
-  // ShootBallsManual(shooter); <- shooter speed constant.
 
   public final static StartingConfig startingConfigCmd = new StartingConfig(bottomIndexer, arm, hooks);
 
-  public final static Autonomous autonomous = new Autonomous(driveTrain, hooks, arm, shooter, bottomIndexer,
-      topIndexer);
-  // public final static AutonomousDriveToBall autonomousDrive = new
-  // AutonomousDriveToBall(driveTrain, hooks, arm, shooter);
-  // public final static AutonomousShootBall autonomousShoot = new
-  // AutonomousShootBall(driveTrain, hooks, arm, shooter);
+  public final static Autonomous autonomous = new Autonomous(driveTrain, hooks, arm, shooter, bottomIndexer, topIndexer);
   public final static ManualDrive driveCommand = new ManualDrive(driveTrain, limelight);
-  // public final static AimbotBall aimBall = new AimbotBall(driveTrain);
-
-  //
-  // public final static SequentialCommandGroup a = new
-  // SequentialCommandGroup(flywheelShooter, autonomousCommand);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    // Configure the button bindings
 
   }
 
@@ -102,8 +84,6 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   public void configureButtonBindings() {
-    // JoystickButton setShooterButton = new JoystickButton(secondaryJoystick.joystick, Constants.setShooterButtonNumber);
-    // setShooterButton.whileHeld(setShooterPower);
 
     JoystickButton setShooterManualButton = new JoystickButton(secondaryJoystick.joystick, Constants.setShooterManualButtonNumber);
     setShooterManualButton.whileHeld(setShooterPowerManual);
@@ -113,16 +93,11 @@ public class RobotContainer {
 
     JoystickButton activateAutoClimbButton = new JoystickButton(tertiaryJoystick.joystick, Constants.activateAutoClimbButtonNumber);
     activateAutoClimbButton.whileHeld(autoClimb);
-
-    // JoystickButton aimbotButton = new JoystickButton(flightJoystick.joystick,
-    // Constants.aimbotButtonNumber);
-    // aimbotButton.whenHeld(aimBall);
   }
 
   public void autonomousInit() {
     inTeleop = false;
     autonomous.schedule();
-    // autonomousCommand.schedule();
   }
 
   public void teleopInit() {

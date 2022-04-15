@@ -38,19 +38,10 @@ public class AutoClimb extends CommandBase {
   private final ClimberHooks hooks;
   private final ClimberArm arm;
   private final double MAX_POSITION = 282.5; // measured in motor rotations, measure later
-  private final double ARM_MOVE_POSITION = 25; // measured in motor rotations, measure later
 
-  private final double HOOK_POWER = 1;
-  private final double ARM_POWER = 0.5;
   private ClimbingStates state = ClimbingStates.LIFTING_NO_ANGLE;
   private final double climbingAngle = 46; // degrees for climbing under the high bar
 
-  private final double kP = 0.2; // multiplicative
-  private final double kI = 0; // coefficient for integral in PID
-  private final double kD = 0; // coefficient for derivative in PID
-
-  private boolean inPos = false;
-  private boolean correctAngle = false;
 
   public AutoClimb(ClimberHooks hooks, ClimberArm arm) {
     this.hooks = hooks;
@@ -62,8 +53,6 @@ public class AutoClimb extends CommandBase {
   public void initialize() {
     System.out.println("climbing");
     // state = ClimbingStates.LIFTING_NO_ANGLE;
-    correctAngle = false;
-    inPos = false;
     timer.start();
   }
 
