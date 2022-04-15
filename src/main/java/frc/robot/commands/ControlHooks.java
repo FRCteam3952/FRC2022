@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class ControlHooks extends CommandBase {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private final ClimberHooks climber;
-  private final double MAX_POSITION = 282.5; // measured in motor rotations, measure later
+  private final double MAX_POSITION = 282.5; // measured in motor rotations
 
   public ControlHooks(ClimberHooks subsystem) {
     climber = subsystem;
@@ -28,20 +28,17 @@ public class ControlHooks extends CommandBase {
 
   @Override
   public void execute() {
-    // System.out.println(climber.getEncoderPosition());
-    // System.out.println("hook");
-    // double hookSpeed = RobotContainer.tangoIIController.getZValue();
+
     double hookSpeed = RobotContainer.tertiaryJoystick.getLateralMovement();
-    // if ((hookSpeed > 0 && climber.getEncoderPosition() >= MAX_POSITION) ||
-    // (hookSpeed < 0 && climber.getEncoderPosition() <= 0)) ;
-    // do nothing
-    // else
+
     if (climber.bottomLimitPressed()) { // if bottom limit switch is pressed then reset encoder to 0
       climber.setPosition(0);
-      climber.setHookSpeed(hookSpeed < 0 ? hookSpeed : 0); // if hook going backward then set speed to 0
-    } else if (climber.getEncoderPosition() >= MAX_POSITION) {
-      climber.setHookSpeed(hookSpeed > 0 ? hookSpeed : 0); // if hook going forward then set speed to 0
-    } else {
+      climber.setHookSpeed(hookSpeed < 0 ? hookSpeed : 0); // if hooks are at bottom limit, restrict movement downwards
+    } 
+    else if (climber.getEncoderPosition() >= MAX_POSITION) {
+      climber.setHookSpeed(hookSpeed > 0 ? hookSpeed : 0); // if hooks are at upper limit, restrict movement upwards
+    } 
+    else {
       climber.setHookSpeed(hookSpeed);
     }
 

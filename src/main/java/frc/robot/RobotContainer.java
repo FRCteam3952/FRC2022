@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -16,7 +15,6 @@ import frc.robot.commands.ControlArm;
 import frc.robot.commands.ControlHooks;
 import frc.robot.commands.StartingConfig;
 import frc.robot.commands.BallHandling;
-import frc.robot.commands.AdjustShooterAim;
 import frc.robot.commands.AutoClimb;
 import frc.robot.commands.Autonomous;
 import frc.robot.subsystems.DriveTrain;
@@ -27,7 +25,7 @@ import frc.robot.subsystems.TopIndexer;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Gyro;
 import frc.robot.subsystems.Tachometer;
-import frc.robot.subsystems.LimeLight;
+import frc.robot.subsystems.Limelight;
 
 import frc.robot.controllers.FlightJoystickController;
 import edu.wpi.first.wpilibj.Joystick;
@@ -38,7 +36,7 @@ public class RobotContainer {
   public final static DriveTrain driveTrain = new DriveTrain();
 
   public final static Gyro gyro = new Gyro();
-  public final static LimeLight limelight = new LimeLight();
+  public final static Limelight limelight = new Limelight();
 
   public final static BottomIndexer bottomIndexer = new BottomIndexer();
 
@@ -64,7 +62,6 @@ public class RobotContainer {
   public final static AutoClimb autoClimb = new AutoClimb(hooks, arm);
 
   public final static BallHandling shootBalls = new BallHandling(shooter, bottomIndexer, topIndexer);
-  public final static AdjustShooterAim adjustShooterAim = new AdjustShooterAim(driveTrain);
   public final static SetShooterPower setShooterPower = new SetShooterPower(shooter, driveTrain);
   public final static SetShooterPowerManual setShooterPowerManual = new SetShooterPowerManual(shooter);
   // public final static ShootBallsManual shootBallsManual = new

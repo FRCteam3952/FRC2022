@@ -6,7 +6,6 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxPIDController;
-import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
@@ -39,14 +38,14 @@ public class Shooter extends SubsystemBase {
     pidController = leaderMotor.getPIDController();
     leaderEncoder = leaderMotor.getEncoder();
   
-    kP = 8.5e-5;
+    kP = 8.4e-5;
     kI = 1.5e-10;
     kD = 0; 
     kIz = 0; 
     kFF = 0.000166; 
     kMaxOutput = 1; 
     kMinOutput = -1;
-    rpmValue = 5000;
+    rpmValue = 0;
 
     pidController.setP(kP);
     pidController.setI(kI);
