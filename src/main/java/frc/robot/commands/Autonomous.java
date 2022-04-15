@@ -24,6 +24,15 @@ public class Autonomous extends CommandBase {
   private final TopIndexer topIndexer;
   private final Timer timer = new Timer();
 
+  private final double SHOOTER_SPEED = 0.2;
+
+  private double desiredRPM = 1000;
+  private double indexSpeed = 0.15;
+  private double shootIndexSpeed = 0.25;
+
+  private double xSpeed = 0;
+  private double ySpeed = 0;
+  private double zRotation = 0;
   private final double MAX_POSITION = 20; // measured in motor rotations, measure later
   private AutonStages stage = AutonStages.CLIMBER_HOOKS;
 
@@ -54,6 +63,8 @@ public class Autonomous extends CommandBase {
 
   @Override
   public void initialize() {
+    ySpeed = 0.5;
+    xSpeed = 0;
     drive.resetFrontLeftEncoderPosition();
     Gyro.resetGyroAngle();
     hooks.resetEncoder();
@@ -66,8 +77,6 @@ public class Autonomous extends CommandBase {
       System.out.println("in teleop");
       // cancel();
     } else {
-      shooter.setRPMValue(4900);
-      shooter.setShooterToRPM();
       switch (stage) {
         case CLIMBER_HOOKS:
           if (hooks.getEncoderPosition() < 180) {
@@ -140,7 +149,6 @@ public class Autonomous extends CommandBase {
 
         case FINISH:
           drive.drive(0, 0, 0);
-          shooter.setRPMValue(0);
           cancel();
           break;
         default:

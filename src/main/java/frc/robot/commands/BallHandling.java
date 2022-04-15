@@ -26,12 +26,12 @@ public class BallHandling extends CommandBase {
    * and upper (in case of tachometer RPM spikes)
    */
   private double delta1 = 50;
-  private double delta2 = 50;
+  private double delta2 = 2000;
   public double desiredRPM = 1000;
   public boolean previousLimitState;
-  private boolean bothBallsLoaded = false;
-  private boolean testing = false;
+  private boolean bottomBallLoaded = false;
 
+  // private ShootingStates state = ShootingStates.TESTING;
   private ShootingStates state = ShootingStates.INDEX_FIRST_BALL;
 
   public BallHandling(Shooter shoot, BottomIndexer bottomIndex, TopIndexer topIndex) {
@@ -43,12 +43,11 @@ public class BallHandling extends CommandBase {
   }
 
   private enum ShootingStates {
+    TESTING,
     INDEX_FIRST_BALL,
     INDEX_SECOND_BALL,
     PREPARE_TO_SHOOT,
-    SHOOT_FIRST_BALL,
-    SHOOT_LAST_BALL,
-    RESET
+    ACCELERATE_FLYWHEEL
   }
 
   @Override
@@ -64,27 +63,30 @@ public class BallHandling extends CommandBase {
     }
 
     // ROLLS THE BOTTOM INDEXER
-    if (!bothBallsLoaded) {
-      bottomIndex.setIndexSpeed(RobotContainer.primaryJoystick.joystick.getRawButton(Constants.rollIngesterButtonNumber) ? ingestSpeed : 0);
+    if (RobotContainer.primaryJoystick.joystick.getRawButton(Constants.rollIngesterButtonNumber) && !bottomBallLoaded) {
+      bottomIndex.setIndexSpeed(ingestSpeed);
+    } else if (!bottomBallLoaded) {
+      bottomIndex.setIndexSpeed(0);
     }
 
     // SHOOTS THE BALL
     if (RobotContainer.secondaryJoystick.joystick.getRawButton(Constants.shootBallsButtonNumber)) {
-      state = bothBallsLoaded ? ShootingStates.SHOOT_FIRST_BALL : ShootingStates.SHOOT_LAST_BALL;
-    }
-
-    shoot.setShooterToRPM();
-
-    if (testing) {
-      System.out.println("Desired RPM: " + shoot.getRPMValue());
-      System.out.println("Measured RPM: " + shoot.getEncoderRPMValue());
+      timer.reset();
+      // System.out.println("AAAAA PREP TO SHOOT");
+      topIndex.setIndexSpeed(shootIndexSpeed);
+      state = ShootingStates.ACCELERATE_FLYWHEEL;
     }
 
     // SWITCH STATES FOR INDEXING AND SHOOTING SEQUENCE
     switch (state) {
-
+      case TESTING:
+        shoot.setShooterToRPM();
+        System.out.println(shoot.getRPMValue());
+        System.out.println(shoot.getEncoderRPMValue());
+        break;
       case INDEX_FIRST_BALL:
-        bothBallsLoaded = false;
+        // bottomIndex.setIndexSpeed(ingestSpeed);
+        bottomBallLoaded = false;
         shoot.setRPMValue(0);
         topIndex.setIndexSpeed(indexSpeed);
         if (shoot.getTopShooterLim()) {
@@ -94,39 +96,46 @@ public class BallHandling extends CommandBase {
         break;
 
       case INDEX_SECOND_BALL:
+        // bottomIndex.setIndexSpeed(ingestSpeed);
+
         if (shoot.getBottomShooterLim()) {
-          bothBallsLoaded = true;
+          bottomBallLoaded = true;
           bottomIndex.setIndexSpeed(0);
           state = ShootingStates.PREPARE_TO_SHOOT;
         }
         break;
 
       case PREPARE_TO_SHOOT:
-        // waiting for driver to set RPM using either SetShooterPowerManual or SetShooterPower
-        break;
-      
-      case SHOOT_FIRST_BALL:
-        if (shoot.getEncoderRPMValue() > shoot.getRPMValue() - delta1 && shoot.getEncoderRPMValue() < shoot.getRPMValue() + delta2) {
-          topIndex.setIndexSpeed(shootIndexSpeed);
-          state = ShootingStates.SHOOT_LAST_BALL;
-        }
+        timer.reset();
         break;
 
-      case SHOOT_LAST_BALL:
-        if (shoot.getEncoderRPMValue() > shoot.getRPMValue() - delta1 && shoot.getEncoderRPMValue() < shoot.getRPMValue() + delta2) {
-          topIndex.setIndexSpeed(shootIndexSpeed);
+      case ACCELERATE_FLYWHEEL:
+        // System.out.println("ACC FLYWHEEL");
+        // shoot.setShooterPower(shooterPOWER);
+        shoot.setShooterToRPM();
+        if (timer.hasElapsed(0.5)) {
           bottomIndex.setIndexSpeed(-shootIndexSpeed);
-          timer.reset();
-          state = ShootingStates.RESET;
+          // topIndex.setIndexSpeed(0);
+
         }
-        break;
-      
-      case RESET:
         if (timer.hasElapsed(2)) {
           bottomIndex.setIndexSpeed(0);
           topIndex.setIndexSpeed(0);
           state = ShootingStates.INDEX_FIRST_BALL;
         }
+        /*
+         * currentRPM = Tachometer.getShooterRPM();
+         * System.out.println(currentRPM);
+         * desiredRPM = shoot.getRPMValue();
+         * //shoot.setShooterToRPM();
+         * shoot.setShooterPower(0.8);
+         * if (currentRPM >= desiredRPM - delta1 && currentRPM <= desiredRPM + delta2) {
+         * // if(currentRPM >= desiredRPM) {
+         * 
+         * state = ShootingStates.SHOOT_FIRST_BALL;
+         * }
+         */
+
         break;
 
       default:
@@ -136,6 +145,9 @@ public class BallHandling extends CommandBase {
 
   }
 
+  public void resetSwitchState() {
+    state = ShootingStates.INDEX_FIRST_BALL;
+  }
 
   @Override
   public void end(boolean interrupted) {

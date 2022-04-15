@@ -35,14 +35,11 @@ public class ControlArm extends CommandBase {
     if (RobotContainer.tertiaryJoystick.joystick.getRawButton(Constants.moveArmAngleToRobotButtonNumber)
         && !arm.angleLimitPressed()) {
       arm.changeArmAngle(-armSpeed);
-    } 
-    else if (RobotContainer.tertiaryJoystick.joystick.getRawButton(Constants.moveArmAngleAwayFromRobotButtonNumber)) {
+    } else if (RobotContainer.tertiaryJoystick.joystick.getRawButton(Constants.moveArmAngleAwayFromRobotButtonNumber)) {
       arm.changeArmAngle(armSpeed);
-    } 
-    else {
+    } else {
       arm.changeArmAngle(0);
     }
-    
     if (RobotContainer.tertiaryJoystick.joystick.getRawButtonPressed(Constants.resetClimberEncoderButtonNumber)) {
       arm.resetEncoder();
     }
