@@ -143,7 +143,7 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public void setTeam(){
-    if(RobotContainer.primaryJoystick.joystick.getRawAxis(7) > 0.5)
+    if(RobotContainer.primaryJoystick.joystick.getRawAxis(3) > 0.5)
       table.getEntry("blueBall").setBoolean(true);
     else
       table.getEntry("blueBall").setBoolean(false);

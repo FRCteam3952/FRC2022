@@ -34,7 +34,7 @@ public class Shooter extends SubsystemBase {
     leaderMotor = new CANSparkMax(Constants.flywheelPort1, MotorType.kBrushless);
     followerMotor = new CANSparkMax(Constants.flywheelPort2, MotorType.kBrushless);
     leaderMotor.setInverted(true);
-    // followerMotor.follow(leaderMotor, true); //motor follows leader in inverse
+    followerMotor.follow(leaderMotor, true); //motor follows leader in inverse
     // setShooterPower(0.85); // rpm 4890
     pidController = leaderMotor.getPIDController();
     leaderEncoder = leaderMotor.getEncoder();
@@ -43,10 +43,10 @@ public class Shooter extends SubsystemBase {
     kI = 1.5e-10;
     kD = 0; 
     kIz = 0; 
-    kFF = 0.0001655; 
+    kFF = 0.000166; 
     kMaxOutput = 1; 
     kMinOutput = -1;
-    rpmValue = 2000;
+    rpmValue = 5000;
 
     pidController.setP(kP);
     pidController.setI(kI);
@@ -57,7 +57,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public void setShooterPower(double speed) {
-    followerMotor.set(speed);
+    leaderMotor.set(speed);
     //leaderMotor.set(speed);
     // System.out.println("set the power to speed");
   }
