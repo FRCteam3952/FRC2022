@@ -96,7 +96,7 @@ public class AutoClimb extends CommandBase {
     switch (state) {
       case LIFTING_NO_ANGLE:
         arm.changeArmAngle(0);
-        hooks.setHookSpeed(0.6);
+        hooks.setHookSpeed(1);
         if (hooks.getEncoderPosition() < 110) {
           arm.changeArmAngle(-1);
           hooks.setHookSpeed(0.4);

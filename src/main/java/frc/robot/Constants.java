@@ -25,7 +25,7 @@ public final class Constants {
 
     // DIO ports declaration
     public static final int bottomLimitSwitchClimberPort = 0;
-    public static final int shooterBottomLimitPort = 1;
+    public static final int shooterBottomLimitPort = 5;
     public static final int shooterShootingLimitPort = 2;
     public static final int shooterTachometerPort = 3;
     public static final int angleLimitSwitchClimberPort = 4;

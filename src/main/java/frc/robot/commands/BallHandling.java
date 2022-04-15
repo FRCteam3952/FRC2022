@@ -18,7 +18,7 @@ public class BallHandling extends CommandBase {
   private final TopIndexer topIndex;
   private final Timer timer = new Timer();
 
-  private double ingestSpeed = -0.8;
+  private double ingestSpeed = -1;
   private double indexSpeed = 0.2;
   private double shootIndexSpeed = 0.8;
   /**
@@ -57,14 +57,17 @@ public class BallHandling extends CommandBase {
 
   @Override
   public void execute() {
+    //System.out.println(shoot.getBottomShooterLim());
     // RESETS THE INDEXING
     if (RobotContainer.secondaryJoystick.joystick.getRawButtonPressed(Constants.resetIndexerAndIngesterButtonNumber)) {
       state = ShootingStates.INDEX_FIRST_BALL;
+      //System.out.println("reset");
     }
 
     // ROLLS THE BOTTOM INDEXER
     if (RobotContainer.primaryJoystick.joystick.getRawButton(Constants.rollIngesterButtonNumber) && !bottomBallLoaded) {
       bottomIndex.setIndexSpeed(ingestSpeed);
+      System.out.println("i am ingesting");
     } else if (!bottomBallLoaded) {
       bottomIndex.setIndexSpeed(0);
     }
@@ -72,8 +75,8 @@ public class BallHandling extends CommandBase {
     // SHOOTS THE BALL
     if (RobotContainer.secondaryJoystick.joystick.getRawButton(Constants.shootBallsButtonNumber)) {
       timer.reset();
-      // System.out.println("AAAAA PREP TO SHOOT");
-      topIndex.setIndexSpeed(shootIndexSpeed);
+      System.out.println("AAAAA SHOOT");
+      //topIndex.setIndexSpeed(shootIndexSpeed);
       state = ShootingStates.ACCELERATE_FLYWHEEL;
     }
 
@@ -88,20 +91,24 @@ public class BallHandling extends CommandBase {
         // bottomIndex.setIndexSpeed(ingestSpeed);
         bottomBallLoaded = false;
         shoot.setRPMValue(0);
-        topIndex.setIndexSpeed(indexSpeed);
-        if (shoot.getTopShooterLim()) {
-          topIndex.setIndexSpeed(0);
+        shoot.setShooterToRPM();
+        //topIndex.setIndexSpeed(indexSpeed);
+        if (shoot.getBottomShooterLim()) {
+          //topIndex.setIndexSpeed(0);
           state = ShootingStates.INDEX_SECOND_BALL;
+          timer.reset();
+          //System.out.println("i am index bal 2");
         }
         break;
 
       case INDEX_SECOND_BALL:
         // bottomIndex.setIndexSpeed(ingestSpeed);
 
-        if (shoot.getBottomShooterLim()) {
+        if (shoot.getBottomShooterLim() && timer.hasElapsed(0.5)) {
           bottomBallLoaded = true;
           bottomIndex.setIndexSpeed(0);
           state = ShootingStates.PREPARE_TO_SHOOT;
+          //System.out.println("i am prep shoot");
         }
         break;
 
@@ -112,13 +119,17 @@ public class BallHandling extends CommandBase {
       case ACCELERATE_FLYWHEEL:
         // System.out.println("ACC FLYWHEEL");
         // shoot.setShooterPower(shooterPOWER);
+        shoot.setRPMValue(5000);
         shoot.setShooterToRPM();
-        if (timer.hasElapsed(0.5)) {
+        if(timer.hasElapsed(0.5)){
+          topIndex.setIndexSpeed(shootIndexSpeed);
+        }
+        if (timer.hasElapsed(1)) {
           bottomIndex.setIndexSpeed(-shootIndexSpeed);
           // topIndex.setIndexSpeed(0);
 
         }
-        if (timer.hasElapsed(2)) {
+        if (timer.hasElapsed(2.5)) {
           bottomIndex.setIndexSpeed(0);
           topIndex.setIndexSpeed(0);
           state = ShootingStates.INDEX_FIRST_BALL;
