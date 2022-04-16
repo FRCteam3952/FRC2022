@@ -19,12 +19,12 @@ public class BallHandling extends CommandBase {
   private final TopIndexer topIndex;
   private final Timer timer = new Timer();
 
-  private double ingestSpeed = -0.8;
+  private double ingestSpeed = -0.3;
   private double shootIndexSpeed = 0.8;
   public double desiredRPM = 5000;
   public boolean previousLimitState;
   private boolean bothBallsLoaded = false;
-  private double moveBallDownSpeed = -0.35;
+  private double moveBallDownSpeed = -0.3;
   private double indexSpeed = 0.15;
   private double delta = 50;
   private boolean testing = false;
@@ -76,27 +76,27 @@ public class BallHandling extends CommandBase {
     }
 
     if (testing) {
-      shoot.setRPMValue(5000);
       shoot.setShooterToRPM();
       System.out.println(shoot.getRPMValue());
       System.out.println(shoot.getEncoderRPMValue());
     }
 
+    System.out.println(state);
+    System.out.println(shoot.bottomShooterLimitPressed());
+
     // SWITCH STATES FOR INDEXING AND SHOOTING SEQUENCE
     switch (state) {
       case INDEX_FIRST_BALL:
-        shoot.setRPMValue(0);
-        shoot.setShooterToRPM();
         topIndex.setIndexSpeed(indexSpeed);
         bothBallsLoaded = false;
-        if (shoot.getTopShooterLim()) {
+        if (shoot.topShooterLimitPressed()) {
           state = ShootingStates.INDEX_SECOND_BALL;
           topIndex.setIndexSpeed(0);
         }
         break;
 
       case INDEX_SECOND_BALL:
-        if (shoot.getBottomShooterLim()) {
+        if (shoot.bottomShooterLimitPressed()) {
           bothBallsLoaded = true;
           bottomIndex.setIndexSpeed(0);
           topIndex.setIndexSpeed(0);
@@ -106,10 +106,10 @@ public class BallHandling extends CommandBase {
         break;
 
       case PREPARE_TO_SHOOT:
-        if(timer.hasElapsed(0.2)) {
+        if(timer.hasElapsed(0.5)) {
           topIndex.setIndexSpeed(0);
           bottomIndex.setIndexSpeed(0);
-        } else {
+        } else if (timer.hasElapsed(0.3)){
           topIndex.setIndexSpeed(moveBallDownSpeed);
           bottomIndex.setIndexSpeed(-moveBallDownSpeed);
         }
@@ -144,6 +144,8 @@ public class BallHandling extends CommandBase {
         if (timer.hasElapsed(1)) {
           bottomIndex.setIndexSpeed(0);
           topIndex.setIndexSpeed(0);
+          shoot.setRPMValue(0);
+          shoot.setShooterToRPM();
           state = ShootingStates.INDEX_FIRST_BALL;
         }
         break;

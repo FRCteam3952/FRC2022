@@ -13,7 +13,7 @@ import frc.robot.RobotContainer;
 public class SetShooterPowerManual extends CommandBase {
   private final Shooter shoot;
 
-  private double maxRPM = 5000;
+  private double maxRPM = 5800;
   private double minRPM = 0;
   private double shooterRPM = minRPM;
 

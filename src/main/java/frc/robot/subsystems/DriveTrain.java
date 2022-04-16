@@ -126,23 +126,23 @@ public class DriveTrain extends SubsystemBase {
     return sum / 4;
   }
 
-  public double getFrontLeftEncoderPosition() {
+  public double getFrontLeftEncoder() {
     System.out.println(frontLeftEncoder.getPosition());
     return Math.abs(frontLeftEncoder.getPosition());
   }
 
-  public void resetFrontLeftEncoderPosition() {
+  public void resetFrontLeftEncoder() {
     frontLeftEncoder.setPosition(0);
   }
 
-  public void setPosition(double position) {
+  public void setAllEncoders(double position) {
     frontLeftEncoder.setPosition(position);
     frontRightEncoder.setPosition(position);
     rearLeftEncoder.setPosition(position);
     rearRightEncoder.setPosition(position);
   }
 
-  public void setTeam(){
+  public void setTeam() {
     if(RobotContainer.primaryJoystick.joystick.getRawAxis(3) > 0.5)
       table.getEntry("blueBall").setBoolean(true);
     else

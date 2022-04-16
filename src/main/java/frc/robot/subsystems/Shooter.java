@@ -38,11 +38,11 @@ public class Shooter extends SubsystemBase {
     pidController = leaderMotor.getPIDController();
     leaderEncoder = leaderMotor.getEncoder();
   
-    kP = 8.5e-5;
-    kI = 1.5e-10;
+    kP = 7.069e-6;
+    kI = 1.69e-10;
     kD = 0; 
     kIz = 0; 
-    kFF = 0.000166; 
+    kFF = 1.65e-4; 
     kMaxOutput = 1; 
     kMinOutput = -1;
     rpmValue = 0;
@@ -61,7 +61,7 @@ public class Shooter extends SubsystemBase {
     // System.out.println("set the power to speed");
   }
 
-  public void setShooterToRPM(){
+  public void setShooterToRPM() {
     double setPoint = rpmValue;
     pidController.setReference(setPoint, CANSparkMax.ControlType.kVelocity); //uses PID to maintain constant RPM
   }
@@ -78,11 +78,11 @@ public class Shooter extends SubsystemBase {
     return rpmValue;
   }
 
-  public boolean getBottomShooterLim() {
+  public boolean bottomShooterLimitPressed() {
     return bottomShooterLim.get();
   }
 
-  public boolean getTopShooterLim() {
+  public boolean topShooterLimitPressed() {
     return topShooterLim.get();
   }
 

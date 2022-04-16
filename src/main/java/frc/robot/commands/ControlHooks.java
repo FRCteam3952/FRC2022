@@ -37,9 +37,9 @@ public class ControlHooks extends CommandBase {
     // do nothing
     // else
     if (climber.bottomLimitPressed()) { // if bottom limit switch is pressed then reset encoder to 0
-      climber.setPosition(0);
+      climber.setHookEncoder(0);
       climber.setHookSpeed(hookSpeed < 0 ? hookSpeed : 0); // if hook going backward then set speed to 0
-    } else if (climber.getEncoderPosition() >= MAX_POSITION) {
+    } else if (climber.getHookEncoder() >= MAX_POSITION) {
       climber.setHookSpeed(hookSpeed > 0 ? hookSpeed : 0); // if hook going forward then set speed to 0
     } else {
       climber.setHookSpeed(hookSpeed);

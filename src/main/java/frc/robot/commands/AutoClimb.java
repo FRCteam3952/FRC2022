@@ -28,7 +28,7 @@ public class AutoClimb extends CommandBase {
     MOVE_TO_HIGH,
     SEND_HOOKS_UP,
     MOVE_TO_HIGHS,
-    SEND_HOOKS_UP2,
+    SEND_HOOKS_UP_2,
     TRAVERSE,
     WAIT
   }
@@ -60,6 +60,7 @@ public class AutoClimb extends CommandBase {
     double angleSpeed = arm.getArmSpeed();
     double hookSpeed = hooks.getHookSpeed();
     int truth_count = 0;
+
     if (angleSpeed >= 0 && arm.getArmAngleEncoder() >= anglePos) {
       arm.changeArmAngle(0);
       truth_count++;
@@ -67,10 +68,11 @@ public class AutoClimb extends CommandBase {
       arm.changeArmAngle(0);
       truth_count++;
     }
-    if (hookSpeed >= 0 && (hooks.getEncoderPosition() <= hookPos || hooks.bottomLimitPressed())) {
+
+    if (hookSpeed >= 0 && (hooks.getHookEncoder() <= hookPos || hooks.bottomLimitPressed())) {
       hooks.setHookSpeed(0);
       truth_count++;
-    } else if (hookSpeed <= 0 && hooks.getEncoderPosition() >= hookPos) {
+    } else if (hookSpeed <= 0 && hooks.getHookEncoder() >= hookPos) {
       hooks.setHookSpeed(0);
       truth_count++;
     }
@@ -86,7 +88,7 @@ public class AutoClimb extends CommandBase {
       case LIFTING_NO_ANGLE:
         arm.changeArmAngle(0);
         hooks.setHookSpeed(1);
-        if (hooks.getEncoderPosition() < 110) {
+        if (hooks.getHookEncoder() < 110) {
           arm.changeArmAngle(-1);
           hooks.setHookSpeed(0.4);
           state = ClimbingStates.LIFTING_WITH_ANGLE;
@@ -107,7 +109,7 @@ public class AutoClimb extends CommandBase {
 
       case SEND_HOOKS_UP:
         hooks.setHookSpeed(-0.8);
-        if (hooks.getEncoderPosition() > MAX_POSITION) {
+        if (hooks.getHookEncoder() > MAX_POSITION) {
           hooks.setHookSpeed(0);
           timer.reset();
           state = ClimbingStates.MOVE_TO_HIGHS;
@@ -124,11 +126,11 @@ public class AutoClimb extends CommandBase {
         }
         break;
 
-      case SEND_HOOKS_UP2:
+      case SEND_HOOKS_UP_2:
         hooks.setHookSpeed(-0.8);
-        if (hooks.getEncoderPosition() > 100)
+        if (hooks.getHookEncoder() > 100)
           arm.changeArmAngle(0.5);
-        if (hooks.getEncoderPosition() >= MAX_POSITION) {
+        if (hooks.getHookEncoder() >= MAX_POSITION) {
           state = ClimbingStates.TRAVERSE;
           timer.reset();
         }
