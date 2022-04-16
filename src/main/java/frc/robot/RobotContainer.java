@@ -25,7 +25,7 @@ import frc.robot.subsystems.TopIndexer;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Gyro;
 import frc.robot.subsystems.Tachometer;
-import frc.robot.subsystems.LimeLight;
+import frc.robot.subsystems.Limelight;
 
 import frc.robot.controllers.FlightJoystickController;
 import edu.wpi.first.wpilibj.Joystick;
@@ -36,7 +36,7 @@ public class RobotContainer {
   public final static DriveTrain driveTrain = new DriveTrain();
 
   public final static Gyro gyro = new Gyro();
-  public final static LimeLight limelight = new LimeLight();
+  public final static Limelight limelight = new Limelight();
 
   public final static BottomIndexer bottomIndexer = new BottomIndexer();
 
@@ -60,7 +60,7 @@ public class RobotContainer {
   public final static AutoClimb autoClimb = new AutoClimb(hooks, arm);
 
   public final static BallHandling shootBalls = new BallHandling(shooter, bottomIndexer, topIndexer);
-  public final static SetShooterPower setShooterPower = new SetShooterPower(shooter, driveTrain);
+  public final static SetShooterPower setShooterPower = new SetShooterPower(shooter, driveTrain, limelight);
   public final static SetShooterPowerManual setShooterPowerManual = new SetShooterPowerManual(shooter);
 
   public final static StartingConfig startingConfigCmd = new StartingConfig(bottomIndexer, arm, hooks);
@@ -93,6 +93,10 @@ public class RobotContainer {
 
     JoystickButton activateAutoClimbButton = new JoystickButton(tertiaryJoystick.joystick, Constants.activateAutoClimbButtonNumber);
     activateAutoClimbButton.whileHeld(autoClimb);
+
+    JoystickButton setShooterPowerButton = new JoystickButton(secondaryJoystick.joystick, Constants.setShooterPowerButtonNumber);
+    setShooterPowerButton.whileHeld(setShooterPower);
+
   }
 
   public void autonomousInit() {

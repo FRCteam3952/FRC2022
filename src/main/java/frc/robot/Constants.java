@@ -51,6 +51,7 @@ public final class Constants {
     // button numbers for secondary joystick
     public static final int shootBallsButtonNumber = 1;
     public static final int adjustAimButtonNumber = 2;
+    public static final int setShooterPowerButtonNumber = 3;
     public static final int setShooterManualButtonNumber = 4;
     public static final int resetIndexerAndIngesterButtonNumber = 5;
 

@@ -5,6 +5,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Limelight;
 
 /**
  * Automatically set shooter power.
@@ -15,10 +16,7 @@ import frc.robot.subsystems.DriveTrain;
 public class SetShooterPower extends CommandBase {
   private final DriveTrain drive;
   private final Shooter shoot;
-
-  public static double limelightAngleDeg = 30;
-  public static double limelightHeightInch = 29;
-  public static double goalHeightInch = 104;
+  private final Limelight lime_light;
 
   private double launchSpeed = 0;
   private double shooterRPM = 0;
@@ -34,28 +32,23 @@ public class SetShooterPower extends CommandBase {
   private final double MIN_DISTANCE = 2.6919; // in meters
   private final double delta = 3 - MIN_DISTANCE;
 
-  public SetShooterPower(Shooter shoot, DriveTrain drive) {
+  public SetShooterPower(Shooter shoot, DriveTrain drive, Limelight lime_light) {
     this.shoot = shoot;
     this.drive = drive;
+    this.lime_light = lime_light;
     addRequirements(shoot, drive);
 
   }
 
-  public double distanceToHoop() {
-    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-    double targetOffsetAngleVert = table.getEntry("ty").getDouble(0.0);
-    double angletoGoalDeg = limelightAngleDeg + targetOffsetAngleVert;
-    double angletoGoalRad = angletoGoalDeg * (Math.PI / 180);
-    return (goalHeightInch - limelightHeightInch) / Math.tan(angletoGoalRad) * 0.0254;
-  }
-
   public void setLaunchSpeed() {
-    double x = distanceToHoop() + HOOP_RADIUS;
+    lime_light.turnOnLED();
+    double x = lime_light.getDistance() + HOOP_RADIUS;
     double y = HOOP_HEIGHT - SHOOTER_HEIGHT;
     double a = Math.toRadians(ANGLE);
     double g = GRAVITY;
     double velocity = Math.sqrt((-(g / 2) * Math.pow(x, 2)) / ((y - x * Math.tan(a)) * Math.pow(Math.cos(a), 2)));
     launchSpeed = velocity;
+    lime_light.turnOffLED();
   }
 
   public void setShooterRPM() {
@@ -71,7 +64,7 @@ public class SetShooterPower extends CommandBase {
 
   @Override
   public void execute() {
-    if (distanceToHoop() + HOOP_RADIUS < MIN_DISTANCE + delta) {
+    if (lime_light.getDistance() + HOOP_RADIUS < MIN_DISTANCE + delta) {
       System.out.println("Robot too close to hub to shoot, backing up");
       launchSpeed = 0;
       drive.driveRR(-0.5, 0, 0);

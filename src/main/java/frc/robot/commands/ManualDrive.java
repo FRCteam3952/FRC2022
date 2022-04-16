@@ -7,7 +7,7 @@ package frc.robot.commands;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.LimeLight;
+import frc.robot.subsystems.Limelight;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
@@ -16,10 +16,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class ManualDrive extends CommandBase {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private final DriveTrain drive_train;
-  private final LimeLight lime_light;
+  private final Limelight lime_light;
   private double microPP = -0.1; // microPinpointPositioning™
 
-  public ManualDrive(DriveTrain subsystem, LimeLight limey) {
+  public ManualDrive(DriveTrain subsystem, Limelight limey) {
     drive_train = subsystem;
     lime_light = limey;
     addRequirements(drive_train, lime_light);
@@ -57,7 +57,8 @@ public class ManualDrive extends CommandBase {
       if(RobotContainer.secondaryJoystick.joystick.getRawButton(Constants.adjustAimButtonNumber)){
         lime_light.turnOnLED();
         double angleAdjust = lime_light.getAdjustment();
-        zRotation += angleAdjust;
+        System.out.println(lime_light.getDistance());
+        // zRotation += angleAdjust;
       }
       else{
         lime_light.turnOffLED();
