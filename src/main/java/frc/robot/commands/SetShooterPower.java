@@ -12,9 +12,9 @@ import frc.robot.subsystems.Limelight;
  */
 
 public class SetShooterPower extends CommandBase {
-  private final DriveTrain drive;
-  private final Shooter shoot;
-  private final Limelight lime_light;
+  private final DriveTrain driveTrain;
+  private final Shooter shooter;
+  private final Limelight limelight;
 
   private double launchSpeed = 0;
   private double shooterRPM = 0;
@@ -30,23 +30,23 @@ public class SetShooterPower extends CommandBase {
   private final double MIN_DISTANCE = 2.6919; // in meters
   private final double delta = 3 - MIN_DISTANCE;
 
-  public SetShooterPower(Shooter shoot, DriveTrain drive, Limelight lime_light) {
-    this.shoot = shoot;
-    this.drive = drive;
-    this.lime_light = lime_light;
-    addRequirements(shoot, drive);
+  public SetShooterPower(Shooter shooter, DriveTrain driveTrain, Limelight limey) {
+    this.shooter = shooter;
+    this.driveTrain = driveTrain;
+    this.limelight = limey;
+    addRequirements(shooter, driveTrain);
 
   }
 
   public void setLaunchSpeed() {
-    lime_light.turnOnLED();
-    double x = lime_light.getDistance() + HOOP_RADIUS;
+    limelight.turnOnLED();
+    double x = limelight.getDistance() + HOOP_RADIUS;
     double y = HOOP_HEIGHT - SHOOTER_HEIGHT;
     double a = Math.toRadians(ANGLE);
     double g = GRAVITY;
     double velocity = Math.sqrt((-(g / 2) * Math.pow(x, 2)) / ((y - x * Math.tan(a)) * Math.pow(Math.cos(a), 2)));
     launchSpeed = velocity;
-    lime_light.turnOffLED();
+    limelight.turnOffLED();
   }
 
   public void setShooterRPM() {
@@ -62,14 +62,14 @@ public class SetShooterPower extends CommandBase {
 
   @Override
   public void execute() {
-    if (lime_light.getDistance() + HOOP_RADIUS < MIN_DISTANCE + delta) {
+    if (limelight.getDistance() + HOOP_RADIUS < MIN_DISTANCE + delta) {
       System.out.println("Robot too close to hub to shoot, backing up");
       launchSpeed = 0;
-      drive.driveRR(-0.5, 0, 0);
+      driveTrain.driveRR(-0.5, 0, 0);
     } else {
       setLaunchSpeed(); // set launch speed from distance to hoop
       setShooterRPM(); // set flywheel RPM from necessary launch speed
-      shoot.setRPMValue(shooterRPM); // pass RPM value to shooter subsystem
+      shooter.setRPMValue(shooterRPM); // pass RPM value to shooter subsystem
     }
   }
 

@@ -11,15 +11,15 @@ import frc.robot.RobotContainer;
  */
 
 public class SetShooterPowerManual extends CommandBase {
-  private final Shooter shoot;
+  private final Shooter shooter;
 
   private double maxRPM = 5800;
   private double minRPM = 0;
   private double shooterRPM = minRPM;
 
-  public SetShooterPowerManual(Shooter shoot) {
-    this.shoot = shoot;
-    addRequirements(shoot);
+  public SetShooterPowerManual(Shooter shooter) {
+    this.shooter = shooter;
+    addRequirements(shooter);
   }
 
   public void setShooterRPM() {
@@ -37,7 +37,7 @@ public class SetShooterPowerManual extends CommandBase {
   @Override
   public void execute() {
     setShooterRPM();
-    shoot.setRPMValue(shooterRPM); // pass RPM value to shooter subsystem
+    shooter.setRPMValue(shooterRPM); // pass RPM value to shooter subsystem
   }
 
   @Override

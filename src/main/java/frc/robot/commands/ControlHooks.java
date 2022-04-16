@@ -13,12 +13,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  */
 public class ControlHooks extends CommandBase {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
-  private final ClimberHooks climber;
+  private final ClimberHooks climberHooks;
   private final double MAX_POSITION = 282.5; // measured in motor rotations, measure later
 
-  public ControlHooks(ClimberHooks subsystem) {
-    climber = subsystem;
-    addRequirements(subsystem);
+  public ControlHooks(ClimberHooks climberHooks) {
+    this.climberHooks = climberHooks;
+    addRequirements(climberHooks);
   }
 
   @Override
@@ -36,13 +36,13 @@ public class ControlHooks extends CommandBase {
     // (hookSpeed < 0 && climber.getEncoderPosition() <= 0)) ;
     // do nothing
     // else
-    if (climber.bottomLimitPressed()) { // if bottom limit switch is pressed then reset encoder to 0
-      climber.setHookEncoder(0);
-      climber.setHookSpeed(hookSpeed < 0 ? hookSpeed : 0); // if hook going backward then set speed to 0
-    } else if (climber.getHookEncoder() >= MAX_POSITION) {
-      climber.setHookSpeed(hookSpeed > 0 ? hookSpeed : 0); // if hook going forward then set speed to 0
+    if (climberHooks.bottomLimitPressed()) { // if bottom limit switch is pressed then reset encoder to 0
+      climberHooks.setHookEncoder(0);
+      climberHooks.setHookSpeed(hookSpeed < 0 ? hookSpeed : 0); // if hook going backward then set speed to 0
+    } else if (climberHooks.getHookEncoder() >= MAX_POSITION) {
+      climberHooks.setHookSpeed(hookSpeed > 0 ? hookSpeed : 0); // if hook going forward then set speed to 0
     } else {
-      climber.setHookSpeed(hookSpeed);
+      climberHooks.setHookSpeed(hookSpeed);
     }
 
     // System.out.print("" + armSpeed + " " + hookSpeed);

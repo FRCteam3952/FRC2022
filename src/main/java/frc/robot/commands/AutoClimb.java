@@ -35,18 +35,18 @@ public class AutoClimb extends CommandBase {
 
   private final Timer timer = new Timer();
 
-  private final ClimberHooks hooks;
-  private final ClimberArm arm;
+  private final ClimberHooks climberHooks;
+  private final ClimberArm climberArm;
   private final double MAX_POSITION = 282.5; // measured in motor rotations, measure later
 
   private ClimbingStates state = ClimbingStates.LIFTING_NO_ANGLE;
   private final double climbingAngle = 46; // degrees for climbing under the high bar
 
 
-  public AutoClimb(ClimberHooks hooks, ClimberArm arm) {
-    this.hooks = hooks;
-    this.arm = arm;
-    addRequirements(hooks, arm);
+  public AutoClimb(ClimberHooks climberHooks, ClimberArm climberArm) {
+    this.climberHooks = climberHooks;
+    this.climberArm = climberArm;
+    addRequirements(climberHooks, climberArm);
   }
 
   @Override
@@ -57,23 +57,23 @@ public class AutoClimb extends CommandBase {
   }
 
   public boolean checkHookandAngle(double anglePos, double hookPos) {
-    double angleSpeed = arm.getArmSpeed();
-    double hookSpeed = hooks.getHookSpeed();
+    double angleSpeed = climberArm.getArmSpeed();
+    double hookSpeed = climberHooks.getHookSpeed();
     int truth_count = 0;
 
-    if (angleSpeed >= 0 && arm.getArmAngleEncoder() >= anglePos) {
-      arm.changeArmAngle(0);
+    if (angleSpeed >= 0 && climberArm.getArmAngleEncoder() >= anglePos) {
+      climberArm.changeArmAngle(0);
       truth_count++;
-    } else if (angleSpeed <= 0 && arm.getArmAngleEncoder() <= anglePos) {
-      arm.changeArmAngle(0);
+    } else if (angleSpeed <= 0 && climberArm.getArmAngleEncoder() <= anglePos) {
+      climberArm.changeArmAngle(0);
       truth_count++;
     }
 
-    if (hookSpeed >= 0 && (hooks.getHookEncoder() <= hookPos || hooks.bottomLimitPressed())) {
-      hooks.setHookSpeed(0);
+    if (hookSpeed >= 0 && (climberHooks.getHookEncoder() <= hookPos || climberHooks.bottomLimitPressed())) {
+      climberHooks.setHookSpeed(0);
       truth_count++;
-    } else if (hookSpeed <= 0 && hooks.getHookEncoder() >= hookPos) {
-      hooks.setHookSpeed(0);
+    } else if (hookSpeed <= 0 && climberHooks.getHookEncoder() >= hookPos) {
+      climberHooks.setHookSpeed(0);
       truth_count++;
     }
     return (truth_count == 2);
@@ -86,18 +86,18 @@ public class AutoClimb extends CommandBase {
     }
     switch (state) {
       case LIFTING_NO_ANGLE:
-        arm.changeArmAngle(0);
-        hooks.setHookSpeed(1);
-        if (hooks.getHookEncoder() < 110) {
-          arm.changeArmAngle(-1);
-          hooks.setHookSpeed(0.4);
+        climberArm.changeArmAngle(0);
+        climberHooks.setHookSpeed(1);
+        if (climberHooks.getHookEncoder() < 110) {
+          climberArm.changeArmAngle(-1);
+          climberHooks.setHookSpeed(0.4);
           state = ClimbingStates.LIFTING_WITH_ANGLE;
         }
         break;
       case LIFTING_WITH_ANGLE:
         if (checkHookandAngle(climbingAngle, 30)) {
-          hooks.setHookSpeed(0.5);
-          arm.changeArmAngle(1);
+          climberHooks.setHookSpeed(0.5);
+          climberArm.changeArmAngle(1);
           state = ClimbingStates.MOVE_TO_HIGH;
         }
         break;
@@ -108,9 +108,9 @@ public class AutoClimb extends CommandBase {
         break;
 
       case SEND_HOOKS_UP:
-        hooks.setHookSpeed(-0.8);
-        if (hooks.getHookEncoder() > MAX_POSITION) {
-          hooks.setHookSpeed(0);
+        climberHooks.setHookSpeed(-0.8);
+        if (climberHooks.getHookEncoder() > MAX_POSITION) {
+          climberHooks.setHookSpeed(0);
           timer.reset();
           state = ClimbingStates.MOVE_TO_HIGHS;
         }
@@ -118,28 +118,28 @@ public class AutoClimb extends CommandBase {
 
       case MOVE_TO_HIGHS:
         if (timer.hasElapsed(3)) {
-          hooks.setHookSpeed(0.6);
+          climberHooks.setHookSpeed(0.6);
         }
-        if (hooks.bottomLimitPressed()) {
-          hooks.setHookSpeed(0);
+        if (climberHooks.bottomLimitPressed()) {
+          climberHooks.setHookSpeed(0);
           state = ClimbingStates.WAIT;
         }
         break;
 
       case SEND_HOOKS_UP_2:
-        hooks.setHookSpeed(-0.8);
-        if (hooks.getHookEncoder() > 100)
-          arm.changeArmAngle(0.5);
-        if (hooks.getHookEncoder() >= MAX_POSITION) {
+        climberHooks.setHookSpeed(-0.8);
+        if (climberHooks.getHookEncoder() > 100)
+          climberArm.changeArmAngle(0.5);
+        if (climberHooks.getHookEncoder() >= MAX_POSITION) {
           state = ClimbingStates.TRAVERSE;
           timer.reset();
         }
         break;
 
       case TRAVERSE:
-        hooks.setHookSpeed(0.8);
+        climberHooks.setHookSpeed(0.8);
         if (timer.hasElapsed(0.8)) {
-          hooks.setHookSpeed(0);
+          climberHooks.setHookSpeed(0);
           state = ClimbingStates.WAIT;
         }
 
@@ -151,8 +151,8 @@ public class AutoClimb extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    hooks.setHookSpeed(0);
-    arm.changeArmAngle(0);
+    climberHooks.setHookSpeed(0);
+    climberArm.changeArmAngle(0);
   }
 
   @Override

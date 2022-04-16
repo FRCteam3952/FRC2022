@@ -15,14 +15,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  */
 public class ManualDrive extends CommandBase {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
-  private final DriveTrain drive_train;
-  private final Limelight lime_light;
+  private final DriveTrain driveTrain;
+  private final Limelight limelight;
   private double microPP = -0.1; // microPinpointPositioning™
 
-  public ManualDrive(DriveTrain subsystem, Limelight limey) {
-    drive_train = subsystem;
-    lime_light = limey;
-    addRequirements(drive_train, lime_light);
+  public ManualDrive(DriveTrain driveTrain, Limelight limey) {
+    this.driveTrain = driveTrain;
+    this.limelight = limey;
+    addRequirements(driveTrain, limey);
   }
 
   @Override
@@ -38,7 +38,7 @@ public class ManualDrive extends CommandBase {
     double zRotation = (-RobotContainer.primaryJoystick.getRotation());
 
     //set Team
-    drive_train.setTeam();
+    driveTrain.setTeam();
 
     // Angle Adjustment Code
     if (RobotContainer.secondaryJoystick.getLateralMovement() != 0 || RobotContainer.secondaryJoystick.getHorizontalMovement() != 0) {
@@ -50,22 +50,22 @@ public class ManualDrive extends CommandBase {
       if (y < 0)
         angle += 360; // make sure angle is within 0˚ to 360˚ scale
       angle += angle < 0 ? 270 : -90;
-      zRotation = drive_train.setAngle(angle);
+      zRotation = driveTrain.setAngle(angle);
     }
     else{
       // adjust movement to limelight target
       if(RobotContainer.secondaryJoystick.joystick.getRawButton(Constants.adjustAimButtonNumber)){
-        lime_light.turnOnLED();
-        double angleAdjust = lime_light.getAdjustment();
-        System.out.println(lime_light.getDistance());
+        limelight.turnOnLED();
+        double angleAdjust = limelight.getAdjustment();
+        System.out.println(limelight.getDistance());
         // zRotation += angleAdjust;
       }
       else{
-        lime_light.turnOffLED();
+        limelight.turnOffLED();
       }
       // adjust movement of robot towards ball
       if (RobotContainer.primaryJoystick.joystick.getRawButton(Constants.aimbotToBallButtonNumber)) {
-        double angleAdjust = drive_train.getAdjustment();
+        double angleAdjust = driveTrain.getAdjustment();
         zRotation += angleAdjust;
       }
     }
@@ -94,13 +94,13 @@ public class ManualDrive extends CommandBase {
       xSpeed += microPP;
     }
 
-    drive_train.drive(ySpeed, xSpeed, zRotation);
+    driveTrain.drive(ySpeed, xSpeed, zRotation);
 
   }
 
   @Override
   public void end(boolean interrupted) {
-    drive_train.stopMotors();
+    driveTrain.stopMotors();
   }
 
   @Override

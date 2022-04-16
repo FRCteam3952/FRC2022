@@ -14,12 +14,12 @@ import frc.robot.subsystems.ClimberArm;
  */
 
 public class ControlArm extends CommandBase {
-  private final ClimberArm arm;
+  private final ClimberArm climberArm;
   private final double armSpeed = 1;
 
-  public ControlArm(ClimberArm subsystem) {
-    arm = subsystem;
-    addRequirements(subsystem);
+  public ControlArm(ClimberArm climberArm) {
+    this.climberArm = climberArm;
+    addRequirements(climberArm);
   }
 
   @Override
@@ -33,15 +33,15 @@ public class ControlArm extends CommandBase {
     // double armSpeed = RobotContainer.secondaryJoystick.getHorizontalMovement();
     // armSpeed = 0;
     if (RobotContainer.tertiaryJoystick.joystick.getRawButton(Constants.moveArmAngleToRobotButtonNumber)
-        && !arm.climberArmAngleLimitPressed()) {
-      arm.changeArmAngle(-armSpeed);
+        && !climberArm.climberArmAngleLimitPressed()) {
+      climberArm.changeArmAngle(-armSpeed);
     } else if (RobotContainer.tertiaryJoystick.joystick.getRawButton(Constants.moveArmAngleAwayFromRobotButtonNumber)) {
-      arm.changeArmAngle(armSpeed);
+      climberArm.changeArmAngle(armSpeed);
     } else {
-      arm.changeArmAngle(0);
+      climberArm.changeArmAngle(0);
     }
     if (RobotContainer.tertiaryJoystick.joystick.getRawButtonPressed(Constants.resetClimberEncoderButtonNumber)) {
-      arm.resetArmAngleEncoder();
+      climberArm.resetArmAngleEncoder();
     }
     // System.out.println("arm angle = " + arm.getArmAngleEncoder());
   }

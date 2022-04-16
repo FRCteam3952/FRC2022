@@ -14,19 +14,19 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  */
 
 public class StartingConfig extends CommandBase {
-  private final BottomIndexer ingest;
-  private final ClimberArm arm;
-  private final ClimberHooks hooks;
+  private final BottomIndexer bottomIndexer;
+  private final ClimberArm climberArm;
+  private final ClimberHooks climberHooks;
   private double armSpeed = 0.5;
   private double hookSpeed = 0.6;
   private final double STARTING_ARM_ANGLE = 45; // find later
   private int stage = 1;
 
-  public StartingConfig(BottomIndexer ingest, ClimberArm arm, ClimberHooks hooks) {
-    this.ingest = ingest;
-    this.arm = arm;
-    this.hooks = hooks;
-    addRequirements(ingest, arm, hooks);
+  public StartingConfig(BottomIndexer bottomIndexer, ClimberArm climberArm, ClimberHooks climberHooks) {
+    this.bottomIndexer = bottomIndexer;
+    this.climberArm = climberArm;
+    this.climberHooks = climberHooks;
+    addRequirements(bottomIndexer, climberArm, climberHooks);
   }
 
   @Override
@@ -38,22 +38,22 @@ public class StartingConfig extends CommandBase {
   public void execute() {
     switch (stage) {
       case 1:
-        ingest.setServoRotation(-1);
-        if (!arm.climberArmAngleLimitPressed()) {
-          arm.changeArmAngle(-armSpeed);
+        bottomIndexer.setServoRotation(-1);
+        if (!climberArm.climberArmAngleLimitPressed()) {
+          climberArm.changeArmAngle(-armSpeed);
         } else {
-          arm.changeArmAngle(0);
-          arm.resetArmAngleEncoder();
+          climberArm.changeArmAngle(0);
+          climberArm.resetArmAngleEncoder();
           stage = 2;
         }
         break;
 
       case 2:
-        if (arm.getArmAngleEncoder() < STARTING_ARM_ANGLE)
-          arm.changeArmAngle(armSpeed);
-        if (!hooks.bottomLimitPressed())
-          hooks.setHookSpeed(hookSpeed);
-        if (arm.getArmAngleEncoder() >= STARTING_ARM_ANGLE && hooks.bottomLimitPressed()) {
+        if (climberArm.getArmAngleEncoder() < STARTING_ARM_ANGLE)
+          climberArm.changeArmAngle(armSpeed);
+        if (!climberHooks.bottomLimitPressed())
+          climberHooks.setHookSpeed(hookSpeed);
+        if (climberArm.getArmAngleEncoder() >= STARTING_ARM_ANGLE && climberHooks.bottomLimitPressed()) {
           stage = 1;
           cancel();
         }

@@ -24,14 +24,12 @@ import frc.robot.subsystems.BottomIndexer;
 import frc.robot.subsystems.TopIndexer;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Gyro;
-import frc.robot.subsystems.Tachometer;
 import frc.robot.subsystems.Limelight;
 
 import frc.robot.controllers.FlightJoystickController;
 import edu.wpi.first.wpilibj.Joystick;
 
 public class RobotContainer {
-  public final static Tachometer tachometer = new Tachometer();
   public static boolean inTeleop = true;
   public final static DriveTrain driveTrain = new DriveTrain();
 

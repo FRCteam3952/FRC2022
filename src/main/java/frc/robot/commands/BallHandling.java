@@ -14,9 +14,9 @@ import frc.robot.Constants;
  */
 
 public class BallHandling extends CommandBase {
-  private final Shooter shoot;
-  private final BottomIndexer bottomIndex;
-  private final TopIndexer topIndex;
+  private final Shooter shooter;
+  private final BottomIndexer bottomIndexer;
+  private final TopIndexer topIndexer;
   private final Timer timer = new Timer();
 
   private double ingestSpeed = -0.3;
@@ -32,12 +32,12 @@ public class BallHandling extends CommandBase {
   // private ShootingStates state = ShootingStates.TESTING;
   private ShootingStates state = ShootingStates.INDEX_FIRST_BALL;
 
-  public BallHandling(Shooter shoot, BottomIndexer bottomIndex, TopIndexer topIndex) {
+  public BallHandling(Shooter shooter, BottomIndexer bottomIndexer, TopIndexer topIndexer) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.shoot = shoot;
-    this.bottomIndex = bottomIndex;
-    this.topIndex = topIndex;
-    addRequirements(shoot, bottomIndex, topIndex);
+    this.shooter = shooter;
+    this.bottomIndexer = bottomIndexer;
+    this.topIndexer = topIndexer;
+    addRequirements(shooter, bottomIndexer, topIndexer);
   }
 
   private enum ShootingStates {
@@ -66,40 +66,40 @@ public class BallHandling extends CommandBase {
 
     // ROLLS THE BOTTOM INDEXER
     if (!bothBallsLoaded) {
-      bottomIndex.setIndexSpeed(RobotContainer.primaryJoystick.joystick.getRawButton(Constants.rollIngesterButtonNumber) ? ingestSpeed : 0);
+      bottomIndexer.setIndexSpeed(RobotContainer.primaryJoystick.joystick.getRawButton(Constants.rollIngesterButtonNumber) ? ingestSpeed : 0);
     }
 
     // SHOOTS THE BALL
     if (RobotContainer.secondaryJoystick.joystick.getRawButton(Constants.shootBallsButtonNumber)) {
-      shoot.setShooterToRPM();
+      shooter.setShooterToRPM();
       state = bothBallsLoaded ? ShootingStates.SHOOT_FIRST_BALL : ShootingStates.SHOOT_LAST_BALL;
     }
 
     if (testing) {
-      shoot.setShooterToRPM();
-      System.out.println(shoot.getRPMValue());
-      System.out.println(shoot.getEncoderRPMValue());
+      shooter.setShooterToRPM();
+      System.out.println(shooter.getRPMValue());
+      System.out.println(shooter.getEncoderRPMValue());
     }
 
     System.out.println(state);
-    System.out.println(shoot.bottomShooterLimitPressed());
+    System.out.println(shooter.bottomShooterLimitPressed());
 
     // SWITCH STATES FOR INDEXING AND SHOOTING SEQUENCE
     switch (state) {
       case INDEX_FIRST_BALL:
-        topIndex.setIndexSpeed(indexSpeed);
+        topIndexer.setIndexSpeed(indexSpeed);
         bothBallsLoaded = false;
-        if (shoot.topShooterLimitPressed()) {
+        if (shooter.topShooterLimitPressed()) {
           state = ShootingStates.INDEX_SECOND_BALL;
-          topIndex.setIndexSpeed(0);
+          topIndexer.setIndexSpeed(0);
         }
         break;
 
       case INDEX_SECOND_BALL:
-        if (shoot.bottomShooterLimitPressed()) {
+        if (shooter.bottomShooterLimitPressed()) {
           bothBallsLoaded = true;
-          bottomIndex.setIndexSpeed(0);
-          topIndex.setIndexSpeed(0);
+          bottomIndexer.setIndexSpeed(0);
+          topIndexer.setIndexSpeed(0);
           timer.reset();
           state = ShootingStates.PREPARE_TO_SHOOT;
         }
@@ -107,18 +107,18 @@ public class BallHandling extends CommandBase {
 
       case PREPARE_TO_SHOOT:
         if(timer.hasElapsed(0.5)) {
-          topIndex.setIndexSpeed(0);
-          bottomIndex.setIndexSpeed(0);
+          topIndexer.setIndexSpeed(0);
+          bottomIndexer.setIndexSpeed(0);
         } else if (timer.hasElapsed(0.3)){
-          topIndex.setIndexSpeed(moveBallDownSpeed);
-          bottomIndex.setIndexSpeed(-moveBallDownSpeed);
+          topIndexer.setIndexSpeed(moveBallDownSpeed);
+          bottomIndexer.setIndexSpeed(-moveBallDownSpeed);
         }
         
         break;
 
       case SHOOT_FIRST_BALL:
-        if (shoot.getEncoderRPMValue() > shoot.getRPMValue() - delta) {
-          topIndex.setIndexSpeed(shootIndexSpeed);
+        if (shooter.getEncoderRPMValue() > shooter.getRPMValue() - delta) {
+          topIndexer.setIndexSpeed(shootIndexSpeed);
           timer.reset();
           state = ShootingStates.WAIT;
         }
@@ -131,9 +131,9 @@ public class BallHandling extends CommandBase {
         break;
         
       case SHOOT_LAST_BALL:
-      if (shoot.getEncoderRPMValue() > shoot.getRPMValue() - delta) {        
-        topIndex.setIndexSpeed(shootIndexSpeed);
-        bottomIndex.setIndexSpeed(-shootIndexSpeed);
+      if (shooter.getEncoderRPMValue() > shooter.getRPMValue() - delta) {        
+        topIndexer.setIndexSpeed(shootIndexSpeed);
+        bottomIndexer.setIndexSpeed(-shootIndexSpeed);
         System.out.println("shoot second ball");
         timer.reset();
         state = ShootingStates.RESET;
@@ -142,10 +142,10 @@ public class BallHandling extends CommandBase {
       
       case RESET:
         if (timer.hasElapsed(1)) {
-          bottomIndex.setIndexSpeed(0);
-          topIndex.setIndexSpeed(0);
-          shoot.setRPMValue(0);
-          shoot.setShooterToRPM();
+          bottomIndexer.setIndexSpeed(0);
+          topIndexer.setIndexSpeed(0);
+          shooter.setRPMValue(0);
+          shooter.setShooterToRPM();
           state = ShootingStates.INDEX_FIRST_BALL;
         }
         break;

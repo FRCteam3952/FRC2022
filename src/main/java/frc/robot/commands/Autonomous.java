@@ -16,9 +16,9 @@ import frc.robot.subsystems.Gyro;
  */
 
 public class Autonomous extends CommandBase {
-  private final DriveTrain drive;
-  private final ClimberHooks hooks;
-  private final ClimberArm arm;
+  private final DriveTrain driveTrain;
+  private final ClimberHooks climberHooks;
+  private final ClimberArm climberArm;
   private final Shooter shooter;
   private final BottomIndexer bottomIndexer;
   private final TopIndexer topIndexer;
@@ -28,16 +28,16 @@ public class Autonomous extends CommandBase {
   private final double MAX_POSITION = 20; // measured in motor rotations, measure later
   private AutonStages stage = AutonStages.CLIMBER_HOOKS;
 
-  public Autonomous(DriveTrain drive, ClimberHooks hooks, ClimberArm arm, Shooter shooter, BottomIndexer bottomIndexer, TopIndexer topIndexer) {
+  public Autonomous(DriveTrain driveTrain, ClimberHooks climberHooks, ClimberArm climberArm, Shooter shooter, BottomIndexer bottomIndexer, TopIndexer topIndexer) {
 
-    this.drive = drive;
-    this.hooks = hooks;
-    this.arm = arm;
+    this.driveTrain = driveTrain;
+    this.climberHooks = climberHooks;
+    this.climberArm = climberArm;
     this.shooter = shooter;
     this.bottomIndexer = bottomIndexer;
     this.topIndexer = topIndexer;
     timer.start();
-    addRequirements(drive, hooks, arm, shooter, bottomIndexer, topIndexer);
+    addRequirements(driveTrain, climberHooks, climberArm, shooter, bottomIndexer, topIndexer);
   }
 
   private enum AutonStages {
@@ -54,9 +54,9 @@ public class Autonomous extends CommandBase {
 
   @Override
   public void initialize() {
-    drive.resetFrontLeftEncoder();
+    driveTrain.resetFrontLeftEncoder();
     Gyro.resetGyroAngle();
-    hooks.resetHookEncoder();
+    climberHooks.resetHookEncoder();
   }
 
   @Override
@@ -68,20 +68,20 @@ public class Autonomous extends CommandBase {
     } else {
       switch (stage) {
         case CLIMBER_HOOKS:
-          if (hooks.getHookEncoder() < 180) {
-            hooks.setHookSpeed(-0.5);
+          if (climberHooks.getHookEncoder() < 180) {
+            climberHooks.setHookSpeed(-0.5);
           } else {
-            hooks.setHookSpeed(0);
+            climberHooks.setHookSpeed(0);
             stage = AutonStages.CLIMBER_ARM_30_AND_INGEST;
           }
           break;
         case CLIMBER_ARM_30_AND_INGEST:
           bottomIndexer.releaseServo();
 
-          if (!arm.climberArmAngleLimitPressed()) {
-            arm.changeArmAngle(-0.5);
+          if (!climberArm.climberArmAngleLimitPressed()) {
+            climberArm.changeArmAngle(-0.5);
           } else {
-            arm.changeArmAngle(0);
+            climberArm.changeArmAngle(0);
             // System.out.println("move to pos");
             stage = AutonStages.MOVE_TO_POS;
           }
@@ -94,12 +94,12 @@ public class Autonomous extends CommandBase {
             bottomIndexer.setIndexSpeed(0);
           }
           // topIndexer.setIndexSpeed(0.2);
-          if (drive.getFrontLeftEncoder() <= MAX_POSITION) {
+          if (driveTrain.getFrontLeftEncoder() <= MAX_POSITION) {
             // xSpeed += drive.getAdjustment()[0];
             // System.out.println("im mooving");
-            drive.driveRR(-0.3, 0, 0);
+            driveTrain.driveRR(-0.3, 0, 0);
           } else {
-            drive.drive(0, 0, 0);
+            driveTrain.drive(0, 0, 0);
             // System.out.println("shoot 1");
             timer.reset();
             // topIndexer.setIndexSpeed(0.8);
@@ -110,11 +110,11 @@ public class Autonomous extends CommandBase {
         case TURN:
           // System.out.println("turn " + timer.get());
           if (timer.hasElapsed(2)) {
-            drive.drive(0, 0, drive.setAngle(190));
+            driveTrain.drive(0, 0, driveTrain.setAngle(190));
             if (timer.hasElapsed(5)) {
               topIndexer.setIndexSpeed(0.8);
               bottomIndexer.setIndexSpeed(0);
-              drive.drive(0, 0, 0);
+              driveTrain.drive(0, 0, 0);
               timer.reset();
               stage = AutonStages.ACCELERATE_FLYWHEEL;
             }
@@ -137,11 +137,11 @@ public class Autonomous extends CommandBase {
           break;
 
         case FINISH:
-          drive.drive(0, 0, 0);
+          driveTrain.drive(0, 0, 0);
           cancel();
           break;
         default:
-          drive.drive(0, 0, 0);
+          driveTrain.drive(0, 0, 0);
           break;
 
       }
@@ -151,7 +151,7 @@ public class Autonomous extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    drive.drive(0, 0, 0);
+    driveTrain.drive(0, 0, 0);
   }
 
   @Override
