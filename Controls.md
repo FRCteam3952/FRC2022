@@ -24,9 +24,9 @@
 
 (2) Adjust aim to hoop
 
-(3)
+(3) Set shooter power with limelight (NOT TESTED)
 
-(4) Set shooter manual RPM (CURRENTLY UNUSED because we have a constant shooter power)
+(4) Set shooter manual RPM
 
 (5) Reset indexer and ingester stage
 
