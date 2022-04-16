@@ -21,12 +21,12 @@ public class Limelight extends SubsystemBase {
     public Limelight() {
         pidcontrol = new PIDController(1, ki, kd);
         inst = NetworkTableInstance.getDefault();
-        table = inst.getTable("limelight"); //initiate limelight table
+        table = inst.getTable("limelight"); // initiate limelight table
     }
 
     public double getAdjustment() {
-        float tx = table.getEntry("tx").getNumber(0).floatValue() * kp; //get target x position
-        double steering_adjust = pidcontrol.calculate(tx); //calculate PID
+        float tx = table.getEntry("tx").getNumber(0).floatValue() * kp; // get target x position
+        double steering_adjust = pidcontrol.calculate(tx); // calculate PID
         return steering_adjust;
     }
 
@@ -47,12 +47,12 @@ public class Limelight extends SubsystemBase {
 
     @Override
     public void periodic() {
-        
+
     }
-  
+
     @Override
     public void simulationPeriodic() {
-  
+
     }
-    
+
 }

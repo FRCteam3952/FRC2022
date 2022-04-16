@@ -110,7 +110,7 @@ public class DriveTrain extends SubsystemBase {
   public double getAdjustment() {
     double adjustAngle = 0;
     if (seeBall.getBoolean(false)) {
-      double adjustment = ball.getNumber(0).doubleValue()/2;
+      double adjustment = ball.getNumber(0).doubleValue() / 2;
       adjustAngle = adjustment;
 
     }
@@ -143,7 +143,7 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public void setTeam() {
-    if(RobotContainer.primaryJoystick.joystick.getRawAxis(3) > 0.5)
+    if (RobotContainer.primaryJoystick.joystick.getRawAxis(3) > 0.5)
       table.getEntry("blueBall").setBoolean(true);
     else
       table.getEntry("blueBall").setBoolean(false);
@@ -151,7 +151,7 @@ public class DriveTrain extends SubsystemBase {
 
   @Override
   public void periodic() {
-  
+
   }
 
   @Override

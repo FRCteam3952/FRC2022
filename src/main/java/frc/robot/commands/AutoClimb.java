@@ -42,7 +42,6 @@ public class AutoClimb extends CommandBase {
   private ClimbingStates state = ClimbingStates.LIFTING_NO_ANGLE;
   private final double climbingAngle = 46; // degrees for climbing under the high bar
 
-
   public AutoClimb(ClimberHooks climberHooks, ClimberArm climberArm) {
     this.climberHooks = climberHooks;
     this.climberArm = climberArm;

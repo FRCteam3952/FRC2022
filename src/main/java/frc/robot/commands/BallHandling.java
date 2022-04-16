@@ -66,7 +66,8 @@ public class BallHandling extends CommandBase {
 
     // ROLLS THE BOTTOM INDEXER
     if (!bothBallsLoaded) {
-      bottomIndexer.setIndexSpeed(RobotContainer.primaryJoystick.joystick.getRawButton(Constants.rollIngesterButtonNumber) ? ingestSpeed : 0);
+      bottomIndexer.setIndexSpeed(
+          RobotContainer.primaryJoystick.joystick.getRawButton(Constants.rollIngesterButtonNumber) ? ingestSpeed : 0);
     }
 
     // SHOOTS THE BALL
@@ -106,14 +107,14 @@ public class BallHandling extends CommandBase {
         break;
 
       case PREPARE_TO_SHOOT:
-        if(timer.hasElapsed(0.5)) {
+        if (timer.hasElapsed(0.5)) {
           topIndexer.setIndexSpeed(0);
           bottomIndexer.setIndexSpeed(0);
-        } else if (timer.hasElapsed(0.3)){
+        } else if (timer.hasElapsed(0.3)) {
           topIndexer.setIndexSpeed(moveBallDownSpeed);
           bottomIndexer.setIndexSpeed(-moveBallDownSpeed);
         }
-        
+
         break;
 
       case SHOOT_FIRST_BALL:
@@ -129,17 +130,17 @@ public class BallHandling extends CommandBase {
           state = ShootingStates.SHOOT_LAST_BALL;
         }
         break;
-        
+
       case SHOOT_LAST_BALL:
-      if (shooter.getEncoderRPMValue() > shooter.getRPMValue() - delta) {        
-        topIndexer.setIndexSpeed(shootIndexSpeed);
-        bottomIndexer.setIndexSpeed(-shootIndexSpeed);
-        System.out.println("shoot second ball");
-        timer.reset();
-        state = ShootingStates.RESET;
-      }
+        if (shooter.getEncoderRPMValue() > shooter.getRPMValue() - delta) {
+          topIndexer.setIndexSpeed(shootIndexSpeed);
+          bottomIndexer.setIndexSpeed(-shootIndexSpeed);
+          System.out.println("shoot second ball");
+          timer.reset();
+          state = ShootingStates.RESET;
+        }
         break;
-      
+
       case RESET:
         if (timer.hasElapsed(1)) {
           bottomIndexer.setIndexSpeed(0);

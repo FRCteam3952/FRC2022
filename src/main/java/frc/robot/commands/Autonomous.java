@@ -24,11 +24,11 @@ public class Autonomous extends CommandBase {
   private final TopIndexer topIndexer;
   private final Timer timer = new Timer();
 
-
   private final double MAX_POSITION = 20; // measured in motor rotations, measure later
   private AutonStages stage = AutonStages.CLIMBER_HOOKS;
 
-  public Autonomous(DriveTrain driveTrain, ClimberHooks climberHooks, ClimberArm climberArm, Shooter shooter, BottomIndexer bottomIndexer, TopIndexer topIndexer) {
+  public Autonomous(DriveTrain driveTrain, ClimberHooks climberHooks, ClimberArm climberArm, Shooter shooter,
+      BottomIndexer bottomIndexer, TopIndexer topIndexer) {
 
     this.driveTrain = driveTrain;
     this.climberHooks = climberHooks;

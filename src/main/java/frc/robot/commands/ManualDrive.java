@@ -32,16 +32,17 @@ public class ManualDrive extends CommandBase {
 
   @Override
   public void execute() {
-    //input joystick controls
+    // input joystick controls
     double ySpeed = (RobotContainer.primaryJoystick.getLateralMovement());
     double xSpeed = (-RobotContainer.primaryJoystick.getHorizontalMovement());
     double zRotation = (-RobotContainer.primaryJoystick.getRotation());
 
-    //set Team
+    // set Team
     driveTrain.setTeam();
 
     // Angle Adjustment Code
-    if (RobotContainer.secondaryJoystick.getLateralMovement() != 0 || RobotContainer.secondaryJoystick.getHorizontalMovement() != 0) {
+    if (RobotContainer.secondaryJoystick.getLateralMovement() != 0
+        || RobotContainer.secondaryJoystick.getHorizontalMovement() != 0) {
       // set angle
       System.out.println("setting angle");
       double y = -RobotContainer.secondaryJoystick.getLateralMovement();
@@ -51,16 +52,14 @@ public class ManualDrive extends CommandBase {
         angle += 360; // make sure angle is within 0˚ to 360˚ scale
       angle += angle < 0 ? 270 : -90;
       zRotation = driveTrain.setAngle(angle);
-    }
-    else{
+    } else {
       // adjust movement to limelight target
-      if(RobotContainer.secondaryJoystick.joystick.getRawButton(Constants.adjustAimButtonNumber)){
+      if (RobotContainer.secondaryJoystick.joystick.getRawButton(Constants.adjustAimButtonNumber)) {
         limelight.turnOnLED();
         double angleAdjust = limelight.getAdjustment();
         System.out.println(limelight.getDistance());
         // zRotation += angleAdjust;
-      }
-      else{
+      } else {
         limelight.turnOffLED();
       }
       // adjust movement of robot towards ball
@@ -69,7 +68,6 @@ public class ManualDrive extends CommandBase {
         zRotation += angleAdjust;
       }
     }
-
 
     // microadjustment
     if (RobotContainer.primaryJoystick.getJoystickPOV() == 0) {

@@ -18,9 +18,10 @@ import frc.robot.Constants;
 public class BottomIndexer extends SubsystemBase {
   private final VictorSPX bottomIndexer;
   private final Servo servo;
-
-  // pushing ball backwards in limit switch is activated, greenwheel at bottom
-  // spins when ingesting
+  /**
+   * pushing ball backwards in limit switch is activated, greenwheel at bottom
+   * spins when ingesting
+   */
 
   public BottomIndexer() {
     bottomIndexer = new VictorSPX(Constants.bottomIndexerPort);

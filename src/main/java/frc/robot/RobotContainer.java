@@ -63,7 +63,8 @@ public class RobotContainer {
 
   public final static StartingConfig startingConfigCmd = new StartingConfig(bottomIndexer, arm, hooks);
 
-  public final static Autonomous autonomous = new Autonomous(driveTrain, hooks, arm, shooter, bottomIndexer, topIndexer);
+  public final static Autonomous autonomous = new Autonomous(driveTrain, hooks, arm, shooter, bottomIndexer,
+      topIndexer);
   public final static ManualDrive driveCommand = new ManualDrive(driveTrain, limelight);
 
   /**
@@ -83,16 +84,19 @@ public class RobotContainer {
    */
   public void configureButtonBindings() {
 
-    JoystickButton setShooterManualButton = new JoystickButton(secondaryJoystick.joystick, Constants.setShooterManualButtonNumber);
+    JoystickButton setShooterManualButton = new JoystickButton(secondaryJoystick.joystick,
+        Constants.setShooterManualButtonNumber);
     setShooterManualButton.whileHeld(setShooterPowerManual);
 
     JoystickButton startingConfig = new JoystickButton(tertiaryJoystick.joystick, Constants.startingConfigButtonNumber);
     startingConfig.whileHeld(startingConfigCmd);
 
-    JoystickButton activateAutoClimbButton = new JoystickButton(tertiaryJoystick.joystick, Constants.activateAutoClimbButtonNumber);
+    JoystickButton activateAutoClimbButton = new JoystickButton(tertiaryJoystick.joystick,
+        Constants.activateAutoClimbButtonNumber);
     activateAutoClimbButton.whileHeld(autoClimb);
 
-    JoystickButton setShooterPowerButton = new JoystickButton(secondaryJoystick.joystick, Constants.setShooterPowerButtonNumber);
+    JoystickButton setShooterPowerButton = new JoystickButton(secondaryJoystick.joystick,
+        Constants.setShooterPowerButtonNumber);
     setShooterPowerButton.whileHeld(setShooterPower);
 
   }
