@@ -4,10 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
 import frc.robot.commands.ManualDrive;
 import frc.robot.commands.SetShooterPower;
 import frc.robot.commands.SetShooterPowerManual;
@@ -25,8 +21,11 @@ import frc.robot.subsystems.TopIndexer;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Gyro;
 import frc.robot.subsystems.Limelight;
-
 import frc.robot.controllers.FlightJoystickController;
+
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.Joystick;
 
 public class RobotContainer {
@@ -47,25 +46,25 @@ public class RobotContainer {
    * tertiary joystick - climbing
    */
 
-  public static FlightJoystickController primaryJoystick = new FlightJoystickController(new Joystick(0));
-  public static FlightJoystickController secondaryJoystick = new FlightJoystickController(new Joystick(1));
-  public static FlightJoystickController tertiaryJoystick = new FlightJoystickController(new Joystick(2)); // climb
+  public static FlightJoystickController primaryJoystick = new FlightJoystickController(new Joystick(Constants.primaryJoystickPort));
+  public static FlightJoystickController secondaryJoystick = new FlightJoystickController(new Joystick(Constants.secondaryJoystickPort));
+  public static FlightJoystickController tertiaryJoystick = new FlightJoystickController(new Joystick(Constants.tertiaryJoystickPort)); // climb
 
-  public final static ClimberHooks hooks = new ClimberHooks();
-  public final static ClimberArm arm = new ClimberArm();
-  public final static ControlArm controlArm = new ControlArm(arm);
-  public final static ControlHooks controlHooks = new ControlHooks(hooks);
-  public final static AutoClimb autoClimb = new AutoClimb(hooks, arm);
+  public final static ClimberHooks climberHooks = new ClimberHooks();
+  public final static ClimberArm climberArm = new ClimberArm();
+  public final static ControlArm controlArm = new ControlArm(climberArm);
+  public final static ControlHooks controlHooks = new ControlHooks(climberHooks);
+  public final static AutoClimb autoClimb = new AutoClimb(climberHooks, climberArm);
 
-  public final static BallHandling shootBalls = new BallHandling(shooter, bottomIndexer, topIndexer);
+  public final static BallHandling ballHandling = new BallHandling(shooter, bottomIndexer, topIndexer);
   public final static SetShooterPower setShooterPower = new SetShooterPower(shooter, driveTrain, limelight);
   public final static SetShooterPowerManual setShooterPowerManual = new SetShooterPowerManual(shooter);
 
-  public final static StartingConfig startingConfigCmd = new StartingConfig(bottomIndexer, arm, hooks);
+  public final static StartingConfig startingConfig = new StartingConfig(bottomIndexer, climberArm, climberHooks);
 
-  public final static Autonomous autonomous = new Autonomous(driveTrain, hooks, arm, shooter, bottomIndexer,
+  public final static Autonomous autonomous = new Autonomous(driveTrain, climberHooks, climberArm, shooter, bottomIndexer,
       topIndexer);
-  public final static ManualDrive driveCommand = new ManualDrive(driveTrain, limelight);
+  public final static ManualDrive manualDrive = new ManualDrive(driveTrain, limelight);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -84,16 +83,16 @@ public class RobotContainer {
    */
   public void configureButtonBindings() {
 
-    JoystickButton setShooterManualButton = new JoystickButton(secondaryJoystick.joystick,
+    JoystickButton setShooterPowerManualButton = new JoystickButton(secondaryJoystick.joystick,
         Constants.setShooterManualButtonNumber);
-    setShooterManualButton.whileHeld(setShooterPowerManual);
+    setShooterPowerManualButton.whileHeld(setShooterPowerManual);
 
-    JoystickButton startingConfig = new JoystickButton(tertiaryJoystick.joystick, Constants.startingConfigButtonNumber);
-    startingConfig.whileHeld(startingConfigCmd);
+    JoystickButton startingConfigButton = new JoystickButton(tertiaryJoystick.joystick, Constants.startingConfigButtonNumber);
+    startingConfigButton.whileHeld(startingConfig);
 
-    JoystickButton activateAutoClimbButton = new JoystickButton(tertiaryJoystick.joystick,
-        Constants.activateAutoClimbButtonNumber);
-    activateAutoClimbButton.whileHeld(autoClimb);
+    JoystickButton autoClimbButton = new JoystickButton(tertiaryJoystick.joystick,
+        Constants.autoClimbButtonNumber);
+    autoClimbButton.whileHeld(autoClimb);
 
     JoystickButton setShooterPowerButton = new JoystickButton(secondaryJoystick.joystick,
         Constants.setShooterPowerButtonNumber);
@@ -110,10 +109,10 @@ public class RobotContainer {
     inTeleop = true;
     autonomous.cancel();
     configureButtonBindings();
-    shooter.setDefaultCommand(shootBalls);
-    driveTrain.setDefaultCommand(driveCommand);
-    hooks.setDefaultCommand(controlHooks);
-    arm.setDefaultCommand(controlArm);
+    shooter.setDefaultCommand(ballHandling);
+    driveTrain.setDefaultCommand(manualDrive);
+    climberHooks.setDefaultCommand(controlHooks);
+    climberArm.setDefaultCommand(controlArm);
 
   }
 }

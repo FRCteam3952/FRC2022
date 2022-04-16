@@ -72,6 +72,8 @@ Stick U/D/L/R - Robot movement, field oriented up/down/left/right (respectively)
 
 Stick rotated - Robot rotate
 
+Slider U/D - Blue/Red team (respectively)
+
 
 ### FOV circle (right, primary controller)
 Up (0 deg) - Forward
@@ -92,6 +94,9 @@ Top Left (315) - Top Left
 
 ## Joystick 2 (middle, secondary controller)
 Stick U/R/D/L - Field relative robot angle setting 0/90/180/270 (respectively)
+
+Slider U/D - Max/Min shooter RPM (respectively), current max is 5800, min is 0
+
 
 ## Joystick 3 (left, tertiary controller)
 Stick Up/Down - Hooks Away/Towards robot (respectively)

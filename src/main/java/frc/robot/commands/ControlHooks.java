@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ClimberHooks;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
@@ -14,10 +15,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class ControlHooks extends CommandBase {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private final ClimberHooks climberHooks;
+
   private final double MAX_POSITION = 282.5; // measured in motor rotations, measure later
 
   public ControlHooks(ClimberHooks climberHooks) {
     this.climberHooks = climberHooks;
+
     addRequirements(climberHooks);
   }
 

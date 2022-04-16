@@ -1,9 +1,10 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Limelight;
+
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
  * Automatically set shooter power.
@@ -28,14 +29,14 @@ public class SetShooterPower extends CommandBase {
   private final double ANGLE = 75; // degrees, measure later
   private final double SHOOTER_HEIGHT = 0.65; // in meters
   private final double MIN_DISTANCE = 2.6919; // in meters
-  private final double delta = 3 - MIN_DISTANCE;
+  private final double DELTA = 3 - MIN_DISTANCE;
 
   public SetShooterPower(Shooter shooter, DriveTrain driveTrain, Limelight limey) {
     this.shooter = shooter;
     this.driveTrain = driveTrain;
     this.limelight = limey;
-    addRequirements(shooter, driveTrain);
 
+    addRequirements(shooter, driveTrain);
   }
 
   public void setLaunchSpeed() {
@@ -45,6 +46,7 @@ public class SetShooterPower extends CommandBase {
     double a = Math.toRadians(ANGLE);
     double g = GRAVITY;
     double velocity = Math.sqrt((-(g / 2) * Math.pow(x, 2)) / ((y - x * Math.tan(a)) * Math.pow(Math.cos(a), 2)));
+    
     launchSpeed = velocity;
     limelight.turnOffLED();
   }
@@ -52,6 +54,7 @@ public class SetShooterPower extends CommandBase {
   public void setShooterRPM() {
     double wheelTanSpeed = 2 * launchSpeed * ((WHEEL_MASS + ((7 / 5) * BALL_MASS)) / WHEEL_MASS);
     double angularVelocity = wheelTanSpeed / WHEEL_RADIUS;
+    
     shooterRPM = (angularVelocity * 60) / (2 * Math.PI);
   }
 
@@ -62,7 +65,7 @@ public class SetShooterPower extends CommandBase {
 
   @Override
   public void execute() {
-    if (limelight.getDistance() + HOOP_RADIUS < MIN_DISTANCE + delta) {
+    if (limelight.getDistance() + HOOP_RADIUS < MIN_DISTANCE + DELTA) {
       System.out.println("Robot too close to hub to shoot, backing up");
       launchSpeed = 0;
       driveTrain.driveRR(-0.5, 0, 0);

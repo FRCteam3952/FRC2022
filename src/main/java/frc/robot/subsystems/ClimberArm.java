@@ -5,9 +5,10 @@
 
 package frc.robot.subsystems;
 
+import frc.robot.Constants;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -40,11 +41,13 @@ public class ClimberArm extends SubsystemBase {
     return armAngleEncoder.getPosition() * 0.213 + 32;
   }
 
-  public double changeArmAngle(double speed) {
+  public double setArmSpeed(double speed) {
     armAngle.set(speed);
+
     if (climberArmAngleLimitPressed()) {
       resetArmAngleEncoder();
     }
+
     return speed;
   }
 

@@ -5,9 +5,11 @@
 
 package frc.robot.subsystems;
 
+import frc.robot.Constants;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -43,11 +45,11 @@ public class ClimberHooks extends SubsystemBase {
 
   public boolean bottomLimitPressed() {
     // System.out.println(bottomLimitSwitch.get());
-    return !bottomLimitSwitch.get();
+    return !bottomLimitSwitch.get(); // must be negated
   }
 
   public double getHookEncoder() {
-    return -hookEncoder.getPosition();
+    return -hookEncoder.getPosition(); // must be negated
   }
 
   public void setHookEncoder(double position) {

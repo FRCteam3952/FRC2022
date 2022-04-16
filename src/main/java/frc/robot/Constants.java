@@ -31,7 +31,6 @@ public final class Constants {
     public static final int angleLimitSwitchClimberPort = 4;
 
     // CAN Bus ID declaration
-
     public static final int frontRightMotorPort = 1;
     public static final int rearRighttMotorPort = 2;
     public static final int rearLeftMotorPort = 3;
@@ -42,6 +41,11 @@ public final class Constants {
     public static final int flywheelPort2 = 8;
     public static final int topIndexerPort = 9;
     public static final int hookPort = 10;
+
+    // Joystick Port Numbers
+    public static final int primaryJoystickPort = 0;
+    public static final int secondaryJoystickPort = 1;
+    public static final int tertiaryJoystickPort = 2;
 
     // button numbers for primary joystick
     public static final int rollIngesterButtonNumber = 1;
@@ -56,7 +60,7 @@ public final class Constants {
     public static final int resetIndexerAndIngesterButtonNumber = 5;
 
     // button numbers for tertiary joystick
-    public static final int activateAutoClimbButtonNumber = 1;
+    public static final int autoClimbButtonNumber = 1;
     public static final int moveArmAngleToRobotButtonNumber = 2;
     public static final int moveArmAngleAwayFromRobotButtonNumber = 3;
     public static final int resetAutoClimbButtonNumber = 7;

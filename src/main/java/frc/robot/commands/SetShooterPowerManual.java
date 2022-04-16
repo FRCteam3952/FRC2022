@@ -1,8 +1,9 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
 import frc.robot.RobotContainer;
+
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
  * Manual setting of shooter power.
@@ -13,9 +14,9 @@ import frc.robot.RobotContainer;
 public class SetShooterPowerManual extends CommandBase {
   private final Shooter shooter;
 
-  private double maxRPM = 5800;
-  private double minRPM = 0;
-  private double shooterRPM = minRPM;
+  private final double MAX_RPM = 5800;
+  private final double MIN_RPM = 0;
+  private double shooterRPM = MIN_RPM;
 
   public SetShooterPowerManual(Shooter shooter) {
     this.shooter = shooter;
@@ -26,7 +27,8 @@ public class SetShooterPowerManual extends CommandBase {
     double sliderValue = RobotContainer.secondaryJoystick.joystick.getRawAxis(2); // axis channel for slider
     sliderValue += 1;
     sliderValue /= 2;
-    shooterRPM = maxRPM - (minRPM + sliderValue * (maxRPM - minRPM));
+    
+    shooterRPM = MAX_RPM - (MIN_RPM + sliderValue * (MAX_RPM - MIN_RPM));
   }
 
   @Override

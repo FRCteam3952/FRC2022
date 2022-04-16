@@ -8,6 +8,7 @@ import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Limelight;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
@@ -15,13 +16,16 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  */
 public class ManualDrive extends CommandBase {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
+  
   private final DriveTrain driveTrain;
   private final Limelight limelight;
-  private double microPP = -0.1; // microPinpointPositioning™
+  
+  private double MICRO_PP = -0.1; // MicroPinpointPositioning™
 
   public ManualDrive(DriveTrain driveTrain, Limelight limey) {
     this.driveTrain = driveTrain;
     this.limelight = limey;
+
     addRequirements(driveTrain, limey);
   }
 
@@ -32,29 +36,31 @@ public class ManualDrive extends CommandBase {
 
   @Override
   public void execute() {
-    // input joystick controls
+    //input joystick controls
     double ySpeed = (RobotContainer.primaryJoystick.getLateralMovement());
     double xSpeed = (-RobotContainer.primaryJoystick.getHorizontalMovement());
     double zRotation = (-RobotContainer.primaryJoystick.getRotation());
 
-    // set Team
+    //set Team
     driveTrain.setTeam();
 
     // Angle Adjustment Code
-    if (RobotContainer.secondaryJoystick.getLateralMovement() != 0
-        || RobotContainer.secondaryJoystick.getHorizontalMovement() != 0) {
+    if (RobotContainer.secondaryJoystick.getLateralMovement() != 0 || RobotContainer.secondaryJoystick.getHorizontalMovement() != 0) {
       // set angle
       System.out.println("setting angle");
       double y = -RobotContainer.secondaryJoystick.getLateralMovement();
       double x = RobotContainer.secondaryJoystick.getHorizontalMovement();
       double angle = Math.toDegrees(Math.atan2(y, x)); // gets angle of the joystick
-      if (y < 0)
+
+      if (y < 0) {
         angle += 360; // make sure angle is within 0˚ to 360˚ scale
+      }
+
       angle += angle < 0 ? 270 : -90;
       zRotation = driveTrain.setAngle(angle);
     } else {
       // adjust movement to limelight target
-      if (RobotContainer.secondaryJoystick.joystick.getRawButton(Constants.adjustAimButtonNumber)) {
+      if(RobotContainer.secondaryJoystick.joystick.getRawButton(Constants.adjustAimButtonNumber)){
         limelight.turnOnLED();
         double angleAdjust = limelight.getAdjustment();
         System.out.println(limelight.getDistance());
@@ -70,26 +76,26 @@ public class ManualDrive extends CommandBase {
     }
 
     // microadjustment
-    if (RobotContainer.primaryJoystick.getJoystickPOV() == 0) {
-      ySpeed += microPP;
-    } else if (RobotContainer.primaryJoystick.getJoystickPOV() == 315) {
-      ySpeed += microPP;
-      xSpeed -= microPP;
-    } else if (RobotContainer.primaryJoystick.getJoystickPOV() == 270) {
-      xSpeed -= microPP;
-    } else if (RobotContainer.primaryJoystick.getJoystickPOV() == 225) {
-      ySpeed -= microPP;
-      xSpeed -= microPP;
-    } else if (RobotContainer.primaryJoystick.getJoystickPOV() == 180) {
-      ySpeed -= microPP;
-    } else if (RobotContainer.primaryJoystick.getJoystickPOV() == 135) {
-      ySpeed -= microPP;
-      xSpeed += microPP;
-    } else if (RobotContainer.primaryJoystick.getJoystickPOV() == 90) {
-      xSpeed += microPP;
-    } else if (RobotContainer.primaryJoystick.getJoystickPOV() == 45) {
-      ySpeed += microPP;
-      xSpeed += microPP;
+    if (RobotContainer.primaryJoystick.joystick.getPOV() == 0) {
+      ySpeed += MICRO_PP;
+    } else if (RobotContainer.primaryJoystick.joystick.getPOV() == 315) {
+      ySpeed += MICRO_PP;
+      xSpeed -= MICRO_PP;
+    } else if (RobotContainer.primaryJoystick.joystick.getPOV() == 270) {
+      xSpeed -= MICRO_PP;
+    } else if (RobotContainer.primaryJoystick.joystick.getPOV() == 225) {
+      ySpeed -= MICRO_PP;
+      xSpeed -= MICRO_PP;
+    } else if (RobotContainer.primaryJoystick.joystick.getPOV() == 180) {
+      ySpeed -= MICRO_PP;
+    } else if (RobotContainer.primaryJoystick.joystick.getPOV() == 135) {
+      ySpeed -= MICRO_PP;
+      xSpeed += MICRO_PP;
+    } else if (RobotContainer.primaryJoystick.joystick.getPOV() == 90) {
+      xSpeed += MICRO_PP;
+    } else if (RobotContainer.primaryJoystick.joystick.getPOV() == 45) {
+      ySpeed += MICRO_PP;
+      xSpeed += MICRO_PP;
     }
 
     driveTrain.drive(ySpeed, xSpeed, zRotation);

@@ -6,8 +6,10 @@ package frc.robot.commands;
 
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClimberArm;
+
+import edu.wpi.first.wpilibj2.command.CommandBase;
+
 
 /**
  * self-explanatory
@@ -15,15 +17,18 @@ import frc.robot.subsystems.ClimberArm;
 
 public class ControlArm extends CommandBase {
   private final ClimberArm climberArm;
-  private final double armSpeed = 1;
+  
+  private final double ARM_SPEED = 1;
 
   public ControlArm(ClimberArm climberArm) {
     this.climberArm = climberArm;
+
     addRequirements(climberArm);
   }
 
   @Override
   public void initialize() {
+
   }
 
   @Override
@@ -34,12 +39,13 @@ public class ControlArm extends CommandBase {
     // armSpeed = 0;
     if (RobotContainer.tertiaryJoystick.joystick.getRawButton(Constants.moveArmAngleToRobotButtonNumber)
         && !climberArm.climberArmAngleLimitPressed()) {
-      climberArm.changeArmAngle(-armSpeed);
+      climberArm.setArmSpeed(-ARM_SPEED);
     } else if (RobotContainer.tertiaryJoystick.joystick.getRawButton(Constants.moveArmAngleAwayFromRobotButtonNumber)) {
-      climberArm.changeArmAngle(armSpeed);
+      climberArm.setArmSpeed(ARM_SPEED);
     } else {
-      climberArm.changeArmAngle(0);
+      climberArm.setArmSpeed(0);
     }
+
     if (RobotContainer.tertiaryJoystick.joystick.getRawButtonPressed(Constants.resetClimberEncoderButtonNumber)) {
       climberArm.resetArmAngleEncoder();
     }

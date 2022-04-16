@@ -25,54 +25,20 @@ public class FlightJoystickController {
 
     public double getHorizontalMovement() {
         double x = joystick.getX();
-
+        
         return Math.abs(x) >= deadzone ? k * Math.signum(x) * (Math.log(Math.abs(x) + 1 - deadzone) + c) : 0;
     }
 
     public double getLateralMovement() {
         double y = joystick.getY();
+        
         return Math.abs(y) >= deadzone ? k * Math.signum(y) * (Math.log(Math.abs(y) + 1 - deadzone) + c) : 0;
     }
 
     public double getRotation() {
         double t = joystick.getZ();
+
         return Math.abs(t) >= deadzoneT ? kT * Math.signum(t) * (Math.log(Math.abs(t) + 1 - deadzoneT) + cT) : 0;
-    }
-
-    public boolean backButtonPressed() {
-        return joystick.getRawButtonPressed(0);
-    } // POV button for the driver stick
-
-    public int getJoystickPOV() {
-        return joystick.getPOV();
-    }
-
-    public boolean button2Pressed() {
-        return joystick.getRawButton(2);
-    }
-
-    public boolean button3Pressed() {
-        return joystick.getRawButton(3);
-    }
-
-    public boolean button4Pressed() {
-        return joystick.getRawButton(4);
-    }
-
-    public boolean button5Pressed() {
-        return joystick.getRawButton(5);
-    }
-
-    public boolean button6Pressed() {
-        return joystick.getRawButtonPressed(6);
-    }
-
-    public boolean button7Pressed() {
-        return joystick.getRawButton(7);
-    }
-
-    public boolean button8Pressed() {
-        return joystick.getRawButtonPressed(8);
     }
 
 }

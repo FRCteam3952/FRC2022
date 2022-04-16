@@ -5,11 +5,12 @@ import frc.robot.subsystems.BottomIndexer;
 import frc.robot.subsystems.ClimberArm;
 import frc.robot.subsystems.ClimberHooks;
 import frc.robot.subsystems.DriveTrain;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.TopIndexer;
 import frc.robot.subsystems.Gyro;
+import frc.robot.subsystems.Shooter;
+
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
  * Handles all autonomous-phase actions
@@ -22,10 +23,12 @@ public class Autonomous extends CommandBase {
   private final Shooter shooter;
   private final BottomIndexer bottomIndexer;
   private final TopIndexer topIndexer;
+
   private final Timer timer = new Timer();
 
-  private final double MAX_POSITION = 20; // measured in motor rotations, measure later
   private AutonStages stage = AutonStages.CLIMBER_HOOKS;
+
+  private final double MAX_POSITION = 20; // measured in motor rotations, measure later
 
   public Autonomous(DriveTrain driveTrain, ClimberHooks climberHooks, ClimberArm climberArm, Shooter shooter,
       BottomIndexer bottomIndexer, TopIndexer topIndexer) {
@@ -37,6 +40,7 @@ public class Autonomous extends CommandBase {
     this.bottomIndexer = bottomIndexer;
     this.topIndexer = topIndexer;
     timer.start();
+
     addRequirements(driveTrain, climberHooks, climberArm, shooter, bottomIndexer, topIndexer);
   }
 
@@ -74,19 +78,22 @@ public class Autonomous extends CommandBase {
             climberHooks.setHookSpeed(0);
             stage = AutonStages.CLIMBER_ARM_30_AND_INGEST;
           }
+
           break;
+
         case CLIMBER_ARM_30_AND_INGEST:
           bottomIndexer.releaseServo();
 
           if (!climberArm.climberArmAngleLimitPressed()) {
-            climberArm.changeArmAngle(-0.5);
+            climberArm.setArmSpeed(-0.5);
           } else {
-            climberArm.changeArmAngle(0);
+            climberArm.setArmSpeed(0);
             // System.out.println("move to pos");
             stage = AutonStages.MOVE_TO_POS;
           }
 
           break;
+
         case MOVE_TO_POS:
           if (!shooter.bottomShooterLimitPressed()) {
             bottomIndexer.setIndexSpeed(-0.4);
@@ -107,10 +114,12 @@ public class Autonomous extends CommandBase {
           }
 
           break;
+
         case TURN:
           // System.out.println("turn " + timer.get());
           if (timer.hasElapsed(2)) {
             driveTrain.drive(0, 0, driveTrain.setAngle(190));
+
             if (timer.hasElapsed(5)) {
               topIndexer.setIndexSpeed(0.8);
               bottomIndexer.setIndexSpeed(0);
@@ -119,6 +128,7 @@ public class Autonomous extends CommandBase {
               stage = AutonStages.ACCELERATE_FLYWHEEL;
             }
           }
+
           break;
 
         case ACCELERATE_FLYWHEEL:
@@ -130,20 +140,22 @@ public class Autonomous extends CommandBase {
           } else if (timer.hasElapsed(2)) {
             bottomIndexer.setIndexSpeed(-0.8);
             // topIndexer.setIndexSpeed(0);
-
           } else {
             bottomIndexer.setIndexSpeed(0);
           }
+
           break;
 
         case FINISH:
           driveTrain.drive(0, 0, 0);
           cancel();
-          break;
-        default:
-          driveTrain.drive(0, 0, 0);
+
           break;
 
+        default:
+          driveTrain.drive(0, 0, 0);
+
+          break;
       }
     }
 

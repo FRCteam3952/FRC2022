@@ -4,10 +4,12 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
+
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -15,8 +17,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
-import frc.robot.Constants;
-import frc.robot.RobotContainer;
+
 
 /**
  * self explanatory
@@ -70,6 +71,7 @@ public class DriveTrain extends SubsystemBase {
 
   public void drive(double ySpeed, double xSpeed, double zRotation) {
     m_dDrive.driveCartesian(ySpeed, xSpeed, zRotation, -Gyro.getGyroAngle());
+    
     if (RobotContainer.primaryJoystick.joystick.getRawButtonPressed(Constants.resetGyroButtonNumber)) {
       Gyro.resetGyroAngle();
     }
@@ -77,6 +79,7 @@ public class DriveTrain extends SubsystemBase {
 
   public void driveRR(double ySpeed, double xSpeed, double zRotation) {
     m_dDrive.driveCartesian(ySpeed, xSpeed, zRotation, 0);
+    
     if (RobotContainer.primaryJoystick.joystick.getRawButtonPressed(Constants.resetGyroButtonNumber)) {
       Gyro.resetGyroAngle();
     }
@@ -100,20 +103,25 @@ public class DriveTrain extends SubsystemBase {
      * strength of turning power is proportional to size of angleDifference
      */
     double zRotation = angleDifference / 120;
-    if (zRotation > 1)
+
+    if (zRotation > 1) {
       zRotation = 1;
-    else if (zRotation < -1)
+    } else if (zRotation < -1) {
       zRotation = -1;
+    }
+
     return zRotation;
   }
 
   public double getAdjustment() {
     double adjustAngle = 0;
+
     if (seeBall.getBoolean(false)) {
       double adjustment = ball.getNumber(0).doubleValue() / 2;
       adjustAngle = adjustment;
 
     }
+
     return adjustAngle;
   }
 
@@ -121,8 +129,11 @@ public class DriveTrain extends SubsystemBase {
     double[] encoderPositions = { frontLeftEncoder.getPosition(), frontRightEncoder.getPosition(),
         rearLeftEncoder.getPosition(), rearRightEncoder.getPosition() };
     double sum = 0;
-    for (double i : encoderPositions)
+
+    for (double i : encoderPositions) {
       sum += i;
+    }
+
     return sum / 4;
   }
 
@@ -143,10 +154,11 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public void setTeam() {
-    if (RobotContainer.primaryJoystick.joystick.getRawAxis(3) > 0.5)
+    if (RobotContainer.primaryJoystick.joystick.getRawAxis(3) > 0.5) {
       table.getEntry("blueBall").setBoolean(true);
-    else
+    } else {
       table.getEntry("blueBall").setBoolean(false);
+    }
   }
 
   @Override
