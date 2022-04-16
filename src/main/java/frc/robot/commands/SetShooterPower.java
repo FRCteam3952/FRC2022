@@ -30,6 +30,7 @@ public class SetShooterPower extends CommandBase {
   private final double WHEEL_MASS = 0.144582568 * 2; // in kilograms
   private final double GRAVITY = 9.80665; // in meters per second squared
   private final double ANGLE = 75; // degrees, measure later
+  private final double SHOOTER_HEIGHT = 0.65; // in meters
   private final double MIN_DISTANCE = 2.6919; // in meters
   private final double delta = 3 - MIN_DISTANCE;
 
@@ -50,7 +51,7 @@ public class SetShooterPower extends CommandBase {
 
   public void setLaunchSpeed() {
     double x = distanceToHoop() + HOOP_RADIUS;
-    double y = HOOP_HEIGHT;
+    double y = HOOP_HEIGHT - SHOOTER_HEIGHT;
     double a = Math.toRadians(ANGLE);
     double g = GRAVITY;
     double velocity = Math.sqrt((-(g / 2) * Math.pow(x, 2)) / ((y - x * Math.tan(a)) * Math.pow(Math.cos(a), 2)));
