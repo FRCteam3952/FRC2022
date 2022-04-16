@@ -35,7 +35,7 @@ public class BottomIndexer extends SubsystemBase {
     servo.set(1);
   }
 
-  public void setServo(double pos) {
+  public void setServoRotation(double pos) {
     servo.set(pos);
   }
 

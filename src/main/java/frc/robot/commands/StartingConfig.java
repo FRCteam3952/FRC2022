@@ -38,12 +38,12 @@ public class StartingConfig extends CommandBase {
   public void execute() {
     switch (stage) {
       case 1:
-        ingest.setServo(-1);
-        if (!arm.angleLimitPressed()) {
+        ingest.setServoRotation(-1);
+        if (!arm.climberArmAngleLimitPressed()) {
           arm.changeArmAngle(-armSpeed);
         } else {
           arm.changeArmAngle(0);
-          arm.resetEncoder();
+          arm.resetArmAngleEncoder();
           stage = 2;
         }
         break;

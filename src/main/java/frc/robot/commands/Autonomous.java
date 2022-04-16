@@ -54,9 +54,9 @@ public class Autonomous extends CommandBase {
 
   @Override
   public void initialize() {
-    drive.resetFrontLeftEncoderPosition();
+    drive.resetFrontLeftEncoder();
     Gyro.resetGyroAngle();
-    hooks.resetEncoder();
+    hooks.resetHookEncoder();
   }
 
   @Override
@@ -68,7 +68,7 @@ public class Autonomous extends CommandBase {
     } else {
       switch (stage) {
         case CLIMBER_HOOKS:
-          if (hooks.getEncoderPosition() < 180) {
+          if (hooks.getHookEncoder() < 180) {
             hooks.setHookSpeed(-0.5);
           } else {
             hooks.setHookSpeed(0);
@@ -78,7 +78,7 @@ public class Autonomous extends CommandBase {
         case CLIMBER_ARM_30_AND_INGEST:
           bottomIndexer.releaseServo();
 
-          if (!arm.angleLimitPressed()) {
+          if (!arm.climberArmAngleLimitPressed()) {
             arm.changeArmAngle(-0.5);
           } else {
             arm.changeArmAngle(0);
@@ -88,13 +88,13 @@ public class Autonomous extends CommandBase {
 
           break;
         case MOVE_TO_POS:
-          if (!shooter.getBottomShooterLim()) {
+          if (!shooter.bottomShooterLimitPressed()) {
             bottomIndexer.setIndexSpeed(-0.4);
           } else {
             bottomIndexer.setIndexSpeed(0);
           }
           // topIndexer.setIndexSpeed(0.2);
-          if (drive.getFrontLeftEncoderPosition() <= MAX_POSITION) {
+          if (drive.getFrontLeftEncoder() <= MAX_POSITION) {
             // xSpeed += drive.getAdjustment()[0];
             // System.out.println("im mooving");
             drive.driveRR(-0.3, 0, 0);

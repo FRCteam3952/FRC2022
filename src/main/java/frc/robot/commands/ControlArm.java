@@ -33,7 +33,7 @@ public class ControlArm extends CommandBase {
     // double armSpeed = RobotContainer.secondaryJoystick.getHorizontalMovement();
     // armSpeed = 0;
     if (RobotContainer.tertiaryJoystick.joystick.getRawButton(Constants.moveArmAngleToRobotButtonNumber)
-        && !arm.angleLimitPressed()) {
+        && !arm.climberArmAngleLimitPressed()) {
       arm.changeArmAngle(-armSpeed);
     } else if (RobotContainer.tertiaryJoystick.joystick.getRawButton(Constants.moveArmAngleAwayFromRobotButtonNumber)) {
       arm.changeArmAngle(armSpeed);
@@ -41,7 +41,7 @@ public class ControlArm extends CommandBase {
       arm.changeArmAngle(0);
     }
     if (RobotContainer.tertiaryJoystick.joystick.getRawButtonPressed(Constants.resetClimberEncoderButtonNumber)) {
-      arm.resetEncoder();
+      arm.resetArmAngleEncoder();
     }
     // System.out.println("arm angle = " + arm.getArmAngleEncoder());
   }

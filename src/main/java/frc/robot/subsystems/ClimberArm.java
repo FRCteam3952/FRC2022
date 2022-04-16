@@ -28,11 +28,11 @@ public class ClimberArm extends SubsystemBase {
     angleLimitSwitch = new DigitalInput(Constants.angleLimitSwitchClimberPort);
   }
 
-  public void resetEncoder() {
-    setClimbEncoder(0);
+  public void resetArmAngleEncoder() {
+    setArmAngleEncoder(0);
   }
 
-  public void setClimbEncoder(double position) {
+  public void setArmAngleEncoder(double position) {
     armAngleEncoder.setPosition(position);
   }
 
@@ -42,8 +42,8 @@ public class ClimberArm extends SubsystemBase {
 
   public double changeArmAngle(double speed) {
     armAngle.set(speed);
-    if (angleLimitPressed()) {
-      resetEncoder();
+    if (climberArmAngleLimitPressed()) {
+      resetArmAngleEncoder();
     }
     return speed;
   }
@@ -52,7 +52,7 @@ public class ClimberArm extends SubsystemBase {
     return armAngle.get();
   }
 
-  public boolean angleLimitPressed() {
+  public boolean climberArmAngleLimitPressed() {
     return angleLimitSwitch.get();
   }
 
