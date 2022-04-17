@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class SetShooterPowerManual extends CommandBase {
   private final Shooter shooter;
 
-  private final double MAX_RPM = 5800;
+  private final double MAX_RPM = 5000;
   private final double MIN_RPM = 0;
   private double shooterRPM = MIN_RPM;
 
@@ -27,7 +27,7 @@ public class SetShooterPowerManual extends CommandBase {
     double sliderValue = RobotContainer.secondaryJoystick.joystick.getRawAxis(2); // axis channel for slider
     sliderValue += 1;
     sliderValue /= 2;
-    
+
     shooterRPM = MAX_RPM - (MIN_RPM + sliderValue * (MAX_RPM - MIN_RPM));
   }
 

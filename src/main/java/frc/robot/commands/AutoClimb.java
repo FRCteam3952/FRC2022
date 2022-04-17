@@ -23,7 +23,8 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class AutoClimb extends CommandBase {
   private enum ClimbingStates {
-    LIFTING_NO_ANGLE,
+    LIFTING_SLOW,
+    LIFTING_SET_ANGLE,
     LIFTING_WITH_ANGLE,
     MOVE_TO_HIGH,
     SEND_HOOKS_UP,
@@ -39,9 +40,9 @@ public class AutoClimb extends CommandBase {
   private final ClimberArm climberArm;
 
   private final double MAX_POSITION = 282.5; // measured in motor rotations, measure later
-  private final double CLIMBING_ANGLE = 46; // degrees for climbing under the high bar
+  private final double CLIMBING_ANGLE = 45; // degrees for climbing under the high bar
 
-  private ClimbingStates state = ClimbingStates.LIFTING_NO_ANGLE;
+  private ClimbingStates state = ClimbingStates.LIFTING_SLOW;
   
 
   public AutoClimb(ClimberHooks climberHooks, ClimberArm climberArm) {
@@ -71,11 +72,15 @@ public class AutoClimb extends CommandBase {
       climberArm.setArmSpeed(0);
       truth_count++;
     }
-
-    if (hookSpeed >= 0 && (climberHooks.getHookEncoder() <= hookPos || climberHooks.bottomLimitPressed())) {
+    if (hookPos <= 0.5){
+      if(climberHooks.bottomLimitPressed()){
+        climberHooks.setHookSpeed(0);
+        truth_count++;
+      }
+    } else if (hookSpeed >= 0 && (ClimberHooks.getHookEncoder() <= hookPos)) {
       climberHooks.setHookSpeed(0);
       truth_count++;
-    } else if (hookSpeed <= 0 && climberHooks.getHookEncoder() >= hookPos) {
+    } else if (hookSpeed <= 0 && ClimberHooks.getHookEncoder() >= hookPos) {
       climberHooks.setHookSpeed(0);
       truth_count++;
     }
@@ -86,88 +91,78 @@ public class AutoClimb extends CommandBase {
   @Override
   public void execute() {
     if (RobotContainer.tertiaryJoystick.joystick.getRawButtonPressed(Constants.resetAutoClimbButtonNumber)) {
-      state = ClimbingStates.LIFTING_NO_ANGLE;
+      state = ClimbingStates.LIFTING_SLOW;
     }
 
     switch (state) {
-      case LIFTING_NO_ANGLE:
-        climberArm.setArmSpeed(0);
-        climberHooks.setHookSpeed(1);
-
-        if (climberHooks.getHookEncoder() < 110) {
+      case LIFTING_SLOW:
+      climberHooks.setHookSpeed(1);
+      climberArm.setArmSpeed(-0.85);
+      state = ClimbingStates.LIFTING_SET_ANGLE;
+      
+      break;
+      
+      case LIFTING_SET_ANGLE:
+        if (checkHookandAngle(CLIMBING_ANGLE,50)) {
           climberArm.setArmSpeed(-1);
-          climberHooks.setHookSpeed(0.4);
+          climberHooks.setHookSpeed(1);
           state = ClimbingStates.LIFTING_WITH_ANGLE;
         }
 
         break;
 
       case LIFTING_WITH_ANGLE:
-        if (checkHookandAngle(CLIMBING_ANGLE, 30)) {
-          climberHooks.setHookSpeed(0.5);
+        if (checkHookandAngle(40, 30)) {
+          climberHooks.setHookSpeed(1);
           climberArm.setArmSpeed(1);
-
           state = ClimbingStates.MOVE_TO_HIGH;
         }
 
         break;
 
       case MOVE_TO_HIGH:
-        if (checkHookandAngle(90, 0)) {
+        if (checkHookandAngle(50, 0)) {
           state = ClimbingStates.SEND_HOOKS_UP;
+          climberHooks.setHookSpeed(-1);
+          climberArm.setArmSpeed(1);
         }
 
         break;
 
       case SEND_HOOKS_UP:
-        climberHooks.setHookSpeed(-0.8);
-
-        if (climberHooks.getHookEncoder() > MAX_POSITION) {
-          climberHooks.setHookSpeed(0);
-          timer.reset();
-
+      
+        if (checkHookandAngle(100, MAX_POSITION)) {          
           state = ClimbingStates.MOVE_TO_HIGHS;
         }
 
         break;
 
       case MOVE_TO_HIGHS:
-        if (timer.hasElapsed(3)) {
-          climberHooks.setHookSpeed(0.6);
-        }
+          climberHooks.setHookSpeed(1);
 
         if (climberHooks.bottomLimitPressed()) {
-          climberHooks.setHookSpeed(0);
-
-          state = ClimbingStates.WAIT;
+          climberHooks.setHookSpeed(-1);
+          climberArm.setArmSpeed(-1);
+          state = ClimbingStates.SEND_HOOKS_UP_2;
         }
 
         break;
 
       case SEND_HOOKS_UP_2:
-        climberHooks.setHookSpeed(-0.8);
-
-        if (climberHooks.getHookEncoder() > 100) {
-          climberArm.setArmSpeed(0.5);
-        }
-
-        if (climberHooks.getHookEncoder() >= MAX_POSITION) {
+        if(checkHookandAngle(50, MAX_POSITION)) {
           timer.reset();
-          
           state = ClimbingStates.TRAVERSE;
         }
-
         break;
 
       case TRAVERSE:
-        climberHooks.setHookSpeed(0.8);
+        climberHooks.setHookSpeed(1);
 
-        if (timer.hasElapsed(0.8)) {
+        if (timer.hasElapsed(0.69)) {
           climberHooks.setHookSpeed(0);
 
           state = ClimbingStates.WAIT;
         }
-
         break;
 
       case WAIT:

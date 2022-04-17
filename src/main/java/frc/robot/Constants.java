@@ -25,8 +25,8 @@ public final class Constants {
 
     // DIO ports declaration
     public static final int bottomLimitSwitchClimberPort = 0;
-    public static final int shooterBottomLimitPort = 5;
-    public static final int shooterShootingLimitPort = 2;
+    public static final int shooterBottomLimitPort = 9;
+    public static final int shooterTopLimitPort = 8;
     public static final int shooterTachometerPort = 3;
     public static final int angleLimitSwitchClimberPort = 4;
 
@@ -65,6 +65,7 @@ public final class Constants {
     public static final int moveArmAngleAwayFromRobotButtonNumber = 3;
     public static final int resetAutoClimbButtonNumber = 7;
     public static final int startingConfigButtonNumber = 8;
+    public static final int setAngleto90Button = 10;
     public static final int resetClimberEncoderButtonNumber = 11;
 
 }

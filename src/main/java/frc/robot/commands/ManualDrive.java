@@ -20,7 +20,7 @@ public class ManualDrive extends CommandBase {
   private final DriveTrain driveTrain;
   private final Limelight limelight;
   
-  private double MICRO_PP = -0.1; // MicroPinpointPositioning™
+  private double MICRO_PP = -0.15; // MicroPinpointPositioning™
 
   public ManualDrive(DriveTrain driveTrain, Limelight limey) {
     this.driveTrain = driveTrain;

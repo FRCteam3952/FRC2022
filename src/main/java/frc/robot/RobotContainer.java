@@ -60,7 +60,7 @@ public class RobotContainer {
   public final static SetShooterPower setShooterPower = new SetShooterPower(shooter, driveTrain, limelight);
   public final static SetShooterPowerManual setShooterPowerManual = new SetShooterPowerManual(shooter);
 
-  public final static StartingConfig startingConfig = new StartingConfig(bottomIndexer, climberArm, climberHooks);
+  public final static StartingConfig startingConfig = new StartingConfig(climberArm, climberHooks);
 
   public final static Autonomous autonomous = new Autonomous(driveTrain, climberHooks, climberArm, shooter, bottomIndexer,
       topIndexer);

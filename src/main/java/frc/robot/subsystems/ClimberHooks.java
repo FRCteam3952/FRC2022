@@ -23,7 +23,7 @@ public class ClimberHooks extends SubsystemBase {
   private final CANSparkMax hook;
   private final DigitalInput bottomLimitSwitch;
 
-  private final RelativeEncoder hookEncoder;
+  private static RelativeEncoder hookEncoder;
 
   public ClimberHooks() {
     hook = new CANSparkMax(Constants.hookPort, MotorType.kBrushless);
@@ -48,7 +48,7 @@ public class ClimberHooks extends SubsystemBase {
     return !bottomLimitSwitch.get(); // must be negated
   }
 
-  public double getHookEncoder() {
+  public static double getHookEncoder() {
     return -hookEncoder.getPosition(); // must be negated
   }
 

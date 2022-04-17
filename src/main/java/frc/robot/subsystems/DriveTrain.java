@@ -154,11 +154,13 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public void setTeam() {
-    if (RobotContainer.primaryJoystick.joystick.getRawAxis(3) > 0.5) {
-      table.getEntry("blueBall").setBoolean(true);
-    } else {
+    // System.out.println("Slider: " + RobotContainer.primaryJoystick.joystick.getRawAxis(3));
+    if (RobotContainer.primaryJoystick.joystick.getRawAxis(3) > 0) {
       table.getEntry("blueBall").setBoolean(false);
+    } else {
+      table.getEntry("blueBall").setBoolean(true);
     }
+    // System.out.println(table.getEntry("blueBall").getBoolean(true));
   }
 
   @Override

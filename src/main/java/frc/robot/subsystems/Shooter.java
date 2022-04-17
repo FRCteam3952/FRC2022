@@ -29,7 +29,7 @@ public class Shooter extends SubsystemBase {
 
   public Shooter() {
     bottomShooterLim = new DigitalInput(Constants.shooterBottomLimitPort);
-    topShooterLim = new DigitalInput(Constants.shooterShootingLimitPort);
+    topShooterLim = new DigitalInput(Constants.shooterTopLimitPort);
 
     leaderMotor = new CANSparkMax(Constants.flywheelPort1, MotorType.kBrushless);
     followerMotor = new CANSparkMax(Constants.flywheelPort2, MotorType.kBrushless);
@@ -39,11 +39,11 @@ public class Shooter extends SubsystemBase {
     pidController = leaderMotor.getPIDController();
     leaderEncoder = leaderMotor.getEncoder();
 
-    kP = 7.069e-6;
-    kI = 1.69e-10;
+    kP = 4.1e-5;
+    kI = 1e-10;
     kD = 0;
     kIz = 0;
-    kFF = 1.65e-4;
+    kFF = 1.74e-4;
     kMaxOutput = 1;
     kMinOutput = -1;
     rpmValue = 0;
@@ -71,6 +71,10 @@ public class Shooter extends SubsystemBase {
     rpmValue = rpm;
   }
 
+  public void stopShooter() {
+    pidController.setReference(0, CANSparkMax.ControlType.kVelocity);
+  }
+
   public double getEncoderRPMValue() {
     return leaderEncoder.getVelocity();
   }
@@ -80,7 +84,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public boolean bottomShooterLimitPressed() {
-    return bottomShooterLim.get();
+    return !bottomShooterLim.get();
   }
 
   public boolean topShooterLimitPressed() {

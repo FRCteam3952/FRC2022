@@ -4,7 +4,6 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.BottomIndexer;
 import frc.robot.subsystems.ClimberArm;
 import frc.robot.subsystems.ClimberHooks;
 
@@ -15,13 +14,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  */
 
 public class StartingConfig extends CommandBase {
-  private final BottomIndexer bottomIndexer;
   private final ClimberArm climberArm;
   private final ClimberHooks climberHooks;
 
-  private final double ARM_SPEED = 0.5;
+  private final double ARM_SPEED = 0.6;
   private final double HOOK_SPEED = 0.6;
-  private final double STARTING_ARM_ANGLE = 45; // find later
+  private final double STARTING_ARM_ANGLE = 47.5; // find later
 
   /**
    * stage 1 sets the servo and arm to limit switch (i believe)
@@ -29,12 +27,11 @@ public class StartingConfig extends CommandBase {
    */
   private int stage = 1;
 
-  public StartingConfig(BottomIndexer bottomIndexer, ClimberArm climberArm, ClimberHooks climberHooks) {
-    this.bottomIndexer = bottomIndexer;
+  public StartingConfig(ClimberArm climberArm, ClimberHooks climberHooks) {
     this.climberArm = climberArm;
     this.climberHooks = climberHooks;
 
-    addRequirements(bottomIndexer, climberArm, climberHooks);
+    addRequirements(climberArm, climberHooks);
   }
 
   @Override
@@ -46,8 +43,6 @@ public class StartingConfig extends CommandBase {
   public void execute() {
     switch (stage) {
       case 1:
-        bottomIndexer.setServoRotation(-1);
-
         if (!climberArm.climberArmAngleLimitPressed()) {
           climberArm.setArmSpeed(-ARM_SPEED);
         } else {
@@ -61,13 +56,15 @@ public class StartingConfig extends CommandBase {
       case 2:
         if (climberArm.getArmAngleEncoder() < STARTING_ARM_ANGLE)
           climberArm.setArmSpeed(ARM_SPEED);
+        else
+          climberArm.setArmSpeed(0);
         if (!climberHooks.bottomLimitPressed())
           climberHooks.setHookSpeed(HOOK_SPEED);
         if (climberArm.getArmAngleEncoder() >= STARTING_ARM_ANGLE && climberHooks.bottomLimitPressed()) {
-          stage = 1;
+          stage = 3;
           cancel();
         }
-        
+
         break;
 
       default:
