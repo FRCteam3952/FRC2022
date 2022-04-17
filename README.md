@@ -1,13 +1,6 @@
 # Troy frc 2021-22 season robot code
 
-## haha todo list so we can do stuff
-todo          |<---------------------------------->|    who doing it
-
-fix constants
-
-make global limelight
-
-## also here's the important future info that we're gonna remove from the default code comments. make sure to check this
+## Here's the important future info that we're gonna remove from the default code comments. Make sure to check this
 
 ### Subsystems:
 periodic() -- Is run once per scheduler run. Basically execute() but for subsystems
