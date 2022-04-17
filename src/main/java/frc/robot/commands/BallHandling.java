@@ -21,7 +21,7 @@ public class BallHandling extends CommandBase {
 
   private boolean bothBallsLoaded = false;
 
-  private final double INGEST_SPEED = -0.8;
+  private final double INGEST_SPEED = -1;
   private final double SHOOT_INDEX_SPEED = 0.8;
   private final double MOVE_BALL_DOWN_SPEED = -0.3;
   private final double INDEX_SPEED = 0.15;
@@ -135,7 +135,7 @@ public class BallHandling extends CommandBase {
         break;
 
       case WAIT:
-        if (timer.hasElapsed(0.35)) {
+        if (timer.hasElapsed(0.75)) {
           state = ShootingStates.SHOOT_LAST_BALL;
         }
 

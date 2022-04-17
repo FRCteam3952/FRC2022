@@ -84,7 +84,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public boolean bottomShooterLimitPressed() {
-    return !bottomShooterLim.get();
+    return bottomShooterLim.get();
   }
 
   public boolean topShooterLimitPressed() {

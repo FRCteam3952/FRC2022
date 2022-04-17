@@ -61,7 +61,7 @@
 
 (9)
 
-(10)
+(10) Set arm to 90 deg
 
 (11) Reset climber encoder
 

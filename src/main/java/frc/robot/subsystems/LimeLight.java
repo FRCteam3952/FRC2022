@@ -15,7 +15,7 @@ public class Limelight extends SubsystemBase {
 
     public static final double LIMELIGHT_ANGLE_DEG = 34;
     public static final double LIMELIGHT_HEIGHT_INCH = 24;
-    public static final double GOAL_HEIGHT_INCH = 96;
+    public static final double GOAL_HEIGHT_INCH = 104;
 
     public Limelight() {
         pidcontrol = new PIDController(1, ki, kd);
@@ -34,8 +34,9 @@ public class Limelight extends SubsystemBase {
         double targetOffsetAngleVert = table.getEntry("ty").getDouble(0.0);
         double angletoGoalDeg = LIMELIGHT_ANGLE_DEG + targetOffsetAngleVert;
         double angletoGoalRad = angletoGoalDeg * (Math.PI / 180);
-        
-        return (GOAL_HEIGHT_INCH - LIMELIGHT_HEIGHT_INCH) / Math.tan(angletoGoalRad) * 0.0254;
+        double distance = (GOAL_HEIGHT_INCH - LIMELIGHT_HEIGHT_INCH) / Math.tan(angletoGoalRad) * 0.0254;
+        System.out.println(distance);
+        return distance;
     }
 
     public void turnOnLED() {

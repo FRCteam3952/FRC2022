@@ -40,7 +40,6 @@ public class SetShooterPower extends CommandBase {
   }
 
   public void setLaunchSpeed() {
-    limelight.turnOnLED();
     double x = limelight.getDistance() + HOOP_RADIUS;
     double y = HOOP_HEIGHT - SHOOTER_HEIGHT;
     double a = Math.toRadians(ANGLE);
@@ -48,7 +47,6 @@ public class SetShooterPower extends CommandBase {
     double velocity = Math.sqrt((-(g / 2) * Math.pow(x, 2)) / ((y - x * Math.tan(a)) * Math.pow(Math.cos(a), 2)));
     
     launchSpeed = velocity;
-    limelight.turnOffLED();
   }
 
   public void setShooterRPM() {
@@ -60,15 +58,15 @@ public class SetShooterPower extends CommandBase {
 
   @Override
   public void initialize() {
-
   }
 
   @Override
   public void execute() {
+    limelight.turnOnLED();
     if (limelight.getDistance() + HOOP_RADIUS < MIN_DISTANCE + DELTA) {
       System.out.println("Robot too close to hub to shoot, backing up");
       launchSpeed = 0;
-      driveTrain.driveRR(-0.5, 0, 0);
+      // driveTrain.driveRR(-0.5, 0, 0);
     } else {
       setLaunchSpeed(); // set launch speed from distance to hoop
       setShooterRPM(); // set flywheel RPM from necessary launch speed
@@ -78,7 +76,7 @@ public class SetShooterPower extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-
+    limelight.turnOffLED();
   }
 
   @Override

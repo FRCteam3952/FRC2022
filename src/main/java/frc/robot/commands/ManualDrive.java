@@ -63,8 +63,8 @@ public class ManualDrive extends CommandBase {
       if(RobotContainer.secondaryJoystick.joystick.getRawButton(Constants.adjustAimButtonNumber)){
         limelight.turnOnLED();
         double angleAdjust = limelight.getAdjustment();
-        System.out.println(limelight.getDistance());
-        // zRotation += angleAdjust;
+        //System.out.println(limelight.getDistance());
+        zRotation += angleAdjust;
       } else {
         limelight.turnOffLED();
       }
