@@ -26,10 +26,10 @@ public class SetShooterPower extends CommandBase {
   private final double BALL_MASS = 0.26932047; // in kilograms
   private final double WHEEL_MASS = 0.144582568 * 2; // in kilograms
   private final double GRAVITY = 9.80665; // in meters per second squared
-  private final double ANGLE = 75; // degrees, measure later
+  private final double ANGLE = 66.6; // degrees
   private final double SHOOTER_HEIGHT = 0.65; // in meters
   private final double MIN_DISTANCE = 2.6919; // in meters
-  private final double DELTA = 3 - MIN_DISTANCE;
+  private final double DELTA = 2.7 - MIN_DISTANCE;
 
   public SetShooterPower(Shooter shooter, DriveTrain driveTrain, Limelight limey) {
     this.shooter = shooter;
