@@ -36,15 +36,15 @@ import edu.wpi.first.wpilibj.Joystick;
 public class RobotContainer {
   public static boolean inTeleop = true;
 
-  public final static DriveTrain driveTrain = new DriveTrain();
+  public static final DriveTrain driveTrain = new DriveTrain();
 
-  public final static Gyro gyro = new Gyro();
-  public final static Limelight limelight = new Limelight();
+  public static final Gyro gyro = new Gyro();
+  public static final Limelight limelight = new Limelight();
 
-  public final static BottomIndexer bottomIndexer = new BottomIndexer();
+  public static final BottomIndexer bottomIndexer = new BottomIndexer();
 
-  public final static Shooter shooter = new Shooter();
-  public final static TopIndexer topIndexer = new TopIndexer();
+  public static final Shooter shooter = new Shooter();
+  public static final TopIndexer topIndexer = new TopIndexer();
 
   /**
    * primaryJoystick - driving and turning
@@ -56,25 +56,25 @@ public class RobotContainer {
   public static FlightJoystickController secondaryJoystick = new FlightJoystickController(new Joystick(Constants.secondaryJoystickPort));
   public static FlightJoystickController tertiaryJoystick = new FlightJoystickController(new Joystick(Constants.tertiaryJoystickPort)); // climb
 
-  public final static ClimberHooks climberHooks = new ClimberHooks();
-  public final static ClimberArm climberArm = new ClimberArm();
-  public final static ControlArm controlArm = new ControlArm(climberArm);
-  public final static ControlHooks controlHooks = new ControlHooks(climberHooks);
-  public final static AutoClimb autoClimb = new AutoClimb(climberHooks, climberArm);
-  public final static ResetAutoClimb resetAutoClimb = new ResetAutoClimb();
+  public static final ClimberHooks climberHooks = new ClimberHooks();
+  public static final ClimberArm climberArm = new ClimberArm();
+  public static final ControlArm controlArm = new ControlArm(climberArm);
+  public static final ControlHooks controlHooks = new ControlHooks(climberHooks);
+  public static final AutoClimb autoClimb = new AutoClimb(climberHooks, climberArm);
+  public static final ResetAutoClimb resetAutoClimb = new ResetAutoClimb();
 
-  public final static BallHandling ballHandling = new BallHandling(shooter, bottomIndexer, topIndexer);
-  public final static SetShooterPower setShooterPower = new SetShooterPower(shooter, limelight);
-  public final static SetShooterPowerManual setShooterPowerManual = new SetShooterPowerManual(shooter);
+  public static final BallHandling ballHandling = new BallHandling(shooter, bottomIndexer, topIndexer);
+  public static final SetShooterPower setShooterPower = new SetShooterPower(shooter, limelight);
+  public static final SetShooterPowerManual setShooterPowerManual = new SetShooterPowerManual(shooter);
 
-  public final static StartingConfig startingConfig = new StartingConfig(climberArm, climberHooks);
+  public static final StartingConfig startingConfig = new StartingConfig(climberArm, climberHooks);
 
-  public final static Autonomous autonomous = new Autonomous(driveTrain, climberHooks, climberArm, shooter, bottomIndexer,
+  public static final Autonomous autonomous = new Autonomous(driveTrain, climberHooks, climberArm, shooter, bottomIndexer,
       topIndexer);
-  public final static ManualDrive manualDrive = new ManualDrive(driveTrain, limelight);
+  public static final ManualDrive manualDrive = new ManualDrive(driveTrain, limelight);
 
   /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
+   * The container for the robot. Contains subsystems, OI devices, and commands. (it's supposed to but....  )
    */
   public RobotContainer() {
     CameraServer.startAutomaticCapture();

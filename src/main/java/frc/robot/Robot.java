@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
-  private RobotContainer m_robotContainer;
+  private RobotContainer robotContainer;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -31,7 +31,7 @@ public class Robot extends TimedRobot {
      * and put our
      * autonomous chooser on the dashboard.
      */
-    m_robotContainer = new RobotContainer();
+    robotContainer = new RobotContainer();
   }
 
   /**
@@ -74,7 +74,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_robotContainer.autonomousInit();
+    robotContainer.autonomousInit();
   }
 
   /** This function is called periodically during autonomous. */
@@ -84,7 +84,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    m_robotContainer.teleopInit();
+    robotContainer.teleopInit();
   }
 
   /** This function is called periodically during operator control. */

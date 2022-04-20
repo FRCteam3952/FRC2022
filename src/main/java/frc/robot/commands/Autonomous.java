@@ -70,8 +70,7 @@ public class Autonomous extends CommandBase {
       System.out.println("in teleop");
       // cancel();
     } else {
-      shooter.setRPMValue(5000);
-      shooter.setShooterToRPM();
+      
       switch (stage) {
         case CLIMBER_HOOKS:
           if (ClimberHooks.getHookEncoder() < 180) {
@@ -96,6 +95,8 @@ public class Autonomous extends CommandBase {
           break;
 
         case MOVE_TO_POS:
+          shooter.setRPMValue(5000);
+          shooter.setShooterToRPM();
           if (!shooter.bottomShooterLimitPressed()) {
             bottomIndexer.setIndexSpeed(-0.4);
           } else {

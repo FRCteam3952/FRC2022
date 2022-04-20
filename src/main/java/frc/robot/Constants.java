@@ -47,25 +47,25 @@ public final class Constants {
     public static final int secondaryJoystickPort = 1;
     public static final int tertiaryJoystickPort = 2;
 
-    // button numbers for primary joystick
+    // button numbers for primary joystick (1-9)
     public static final int rollIngesterButtonNumber = 1;
     public static final int aimbotToBallButtonNumber = 2;
     public static final int resetGyroButtonNumber = 8;
 
-    // button numbers for secondary joystick
+    // button numbers for secondary joystick (1-11)
     public static final int shootBallsButtonNumber = 1;
     public static final int adjustAimButtonNumber = 2;
     public static final int setShooterPowerButtonNumber = 3;
     public static final int setShooterManualButtonNumber = 4;
     public static final int resetIndexerAndIngesterButtonNumber = 5;
 
-    // button numbers for tertiary joystick
+    // button numbers for tertiary joystick (1-11)
     public static final int autoClimbButtonNumber = 1;
     public static final int moveArmAngleToRobotButtonNumber = 2;
     public static final int moveArmAngleAwayFromRobotButtonNumber = 3;
     public static final int resetAutoClimbButtonNumber = 7;
     public static final int startingConfigButtonNumber = 8;
-    public static final int setAngleto90Button = 10;
+    public static final int setArmAngleto90ButtonNumber = 10;
     public static final int resetClimberEncoderButtonNumber = 11;
 
 }
