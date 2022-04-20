@@ -37,7 +37,7 @@ public class ControlArm extends CommandBase {
       climberArm.resetArmAngleEncoder();
     }
 
-    if(RobotContainer.tertiaryJoystick.joystick.getRawButton(Constants.setAngleto90Button)){
+    if(RobotContainer.tertiaryJoystick.joystick.getRawButton(Constants.setArmAngleto90ButtonNumber)){
       if(climberArm.getArmAngleEncoder() < 89.69){
         climberArm.setArmSpeed(1);
       }
