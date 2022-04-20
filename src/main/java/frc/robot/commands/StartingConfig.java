@@ -19,7 +19,7 @@ public class StartingConfig extends CommandBase {
 
   private final double ARM_SPEED = 0.6;
   private final double HOOK_SPEED = 0.6;
-  private final double STARTING_ARM_ANGLE = 47.5; // find later
+  private final double STARTING_ARM_ANGLE = 52; // find later
 
   /**
    * stage 1 sets the servo and arm to limit switch (i believe)

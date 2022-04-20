@@ -1,7 +1,6 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Limelight;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -13,7 +12,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  */
 
 public class SetShooterPower extends CommandBase {
-  private final DriveTrain driveTrain;
   private final Shooter shooter;
   private final Limelight limelight;
 
@@ -31,12 +29,11 @@ public class SetShooterPower extends CommandBase {
   private final double MIN_DISTANCE = 2.6919; // in meters
   private final double DELTA = 2.7 - MIN_DISTANCE;
 
-  public SetShooterPower(Shooter shooter, DriveTrain driveTrain, Limelight limey) {
+  public SetShooterPower(Shooter shooter, Limelight limey) {
     this.shooter = shooter;
-    this.driveTrain = driveTrain;
     this.limelight = limey;
 
-    addRequirements(shooter, driveTrain);
+    addRequirements(shooter);
   }
 
   public void setLaunchSpeed() {

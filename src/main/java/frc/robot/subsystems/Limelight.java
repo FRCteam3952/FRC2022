@@ -13,8 +13,8 @@ public class Limelight extends SubsystemBase {
     private final float ki = 0.01f;
     private final float kd = 0.02f;
 
-    public static final double LIMELIGHT_ANGLE_DEG = 34;
-    public static final double LIMELIGHT_HEIGHT_INCH = 24;
+    public static final double LIMELIGHT_ANGLE_DEG = 35;
+    public static final double LIMELIGHT_HEIGHT_INCH = 22;
     public static final double GOAL_HEIGHT_INCH = 104;
 
     public Limelight() {

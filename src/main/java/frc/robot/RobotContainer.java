@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
+
 import frc.robot.commands.ManualDrive;
 import frc.robot.commands.SetShooterPower;
 import frc.robot.commands.SetShooterPowerManual;
@@ -12,7 +14,9 @@ import frc.robot.commands.ControlHooks;
 import frc.robot.commands.StartingConfig;
 import frc.robot.commands.BallHandling;
 import frc.robot.commands.AutoClimb;
+import frc.robot.commands.ResetAutoClimb;
 import frc.robot.commands.Autonomous;
+
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.ClimberArm;
 import frc.robot.subsystems.ClimberHooks;
@@ -21,6 +25,7 @@ import frc.robot.subsystems.TopIndexer;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Gyro;
 import frc.robot.subsystems.Limelight;
+
 import frc.robot.controllers.FlightJoystickController;
 
 import edu.wpi.first.wpilibj.GenericHID;
@@ -30,6 +35,7 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class RobotContainer {
   public static boolean inTeleop = true;
+
   public final static DriveTrain driveTrain = new DriveTrain();
 
   public final static Gyro gyro = new Gyro();
@@ -55,9 +61,10 @@ public class RobotContainer {
   public final static ControlArm controlArm = new ControlArm(climberArm);
   public final static ControlHooks controlHooks = new ControlHooks(climberHooks);
   public final static AutoClimb autoClimb = new AutoClimb(climberHooks, climberArm);
+  public final static ResetAutoClimb resetAutoClimb = new ResetAutoClimb();
 
   public final static BallHandling ballHandling = new BallHandling(shooter, bottomIndexer, topIndexer);
-  public final static SetShooterPower setShooterPower = new SetShooterPower(shooter, driveTrain, limelight);
+  public final static SetShooterPower setShooterPower = new SetShooterPower(shooter, limelight);
   public final static SetShooterPowerManual setShooterPowerManual = new SetShooterPowerManual(shooter);
 
   public final static StartingConfig startingConfig = new StartingConfig(climberArm, climberHooks);
@@ -70,7 +77,7 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-
+    CameraServer.startAutomaticCapture();
   }
 
   /**
@@ -98,6 +105,8 @@ public class RobotContainer {
         Constants.setShooterPowerButtonNumber);
     setShooterPowerButton.whileHeld(setShooterPower);
 
+    JoystickButton resetAutoClimbButton = new JoystickButton(tertiaryJoystick.joystick, Constants.resetAutoClimbButtonNumber);
+    resetAutoClimbButton.whenPressed(resetAutoClimb);
   }
 
   public void autonomousInit() {

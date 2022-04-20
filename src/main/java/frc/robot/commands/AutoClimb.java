@@ -14,16 +14,11 @@ import edu.wpi.first.wpilibj.Timer;
 
 /**
  * self-explanatory
- * 
- * TESTING REQUIRED --
- * numbers required,
- * testing top or bottom of traversal bar
- * --
  */
 
 public class AutoClimb extends CommandBase {
-  private enum ClimbingStates {
-    LIFTING_SLOW,
+  public static enum ClimbingStates {
+    LIFTING_OFF_GROUND,
     LIFTING_SET_ANGLE,
     LIFTING_WITH_ANGLE,
     MOVE_TO_HIGH,
@@ -42,7 +37,7 @@ public class AutoClimb extends CommandBase {
   private final double MAX_POSITION = 282.5; // measured in motor rotations, measure later
   private final double CLIMBING_ANGLE = 45; // degrees for climbing under the high bar
 
-  private ClimbingStates state = ClimbingStates.LIFTING_SLOW;
+  public static ClimbingStates state = ClimbingStates.LIFTING_OFF_GROUND;
   
 
   public AutoClimb(ClimberHooks climberHooks, ClimberArm climberArm) {
@@ -91,11 +86,11 @@ public class AutoClimb extends CommandBase {
   @Override
   public void execute() {
     if (RobotContainer.tertiaryJoystick.joystick.getRawButtonPressed(Constants.resetAutoClimbButtonNumber)) {
-      state = ClimbingStates.LIFTING_SLOW;
+      state = ClimbingStates.LIFTING_OFF_GROUND;
     }
 
     switch (state) {
-      case LIFTING_SLOW:
+      case LIFTING_OFF_GROUND:
       climberHooks.setHookSpeed(1);
       climberArm.setArmSpeed(-0.85);
       state = ClimbingStates.LIFTING_SET_ANGLE;
