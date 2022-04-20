@@ -5,7 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
-
+import edu.wpi.first.cscore.CvSink;
 import frc.robot.commands.ManualDrive;
 import frc.robot.commands.SetShooterPower;
 import frc.robot.commands.SetShooterPowerManual;
@@ -73,10 +73,14 @@ public class RobotContainer {
       topIndexer);
   public static final ManualDrive manualDrive = new ManualDrive(driveTrain, limelight);
 
+  public static CvSink cvSink;
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands. (it's supposed to but....  )
    */
   public RobotContainer() {
+    //cvSink = CameraServer.getVideo("Front Camera");
+
     CameraServer.startAutomaticCapture();
   }
 
