@@ -1,6 +1,6 @@
 package frc.robot.commands;
 
-import frc.robot.commands.AutoClimb.ClimbingStates;
+import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
@@ -20,7 +20,7 @@ public class ResetAutoClimb extends CommandBase {
 
   @Override
   public void execute() {
-    AutoClimb.state = ClimbingStates.LIFTING_OFF_GROUND;
+    RobotContainer.autoClimb = new AutoClimb(RobotContainer.climberHooks, RobotContainer.climberArm);
     System.out.println("reset by button");
   }
 

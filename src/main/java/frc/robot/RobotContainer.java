@@ -60,7 +60,7 @@ public class RobotContainer {
   public static final ClimberArm climberArm = new ClimberArm();
   public static final ControlArm controlArm = new ControlArm(climberArm);
   public static final ControlHooks controlHooks = new ControlHooks(climberHooks);
-  public static final AutoClimb autoClimb = new AutoClimb(climberHooks, climberArm);
+  public static AutoClimb autoClimb = new AutoClimb(climberHooks, climberArm);
   public static final ResetAutoClimb resetAutoClimb = new ResetAutoClimb();
 
   public static final BallHandling ballHandling = new BallHandling(shooter, bottomIndexer, topIndexer);
