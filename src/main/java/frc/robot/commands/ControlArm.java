@@ -54,7 +54,7 @@ public class ControlArm extends CommandBase {
         climberArm.setArmSpeed(0);
       }
       // System.out.println("arm angle = " + climberArm.getArmAngleEncoder());
-      System.out.println(climberArm.climberArmAngleLimitPressed());
+      // System.out.println("climber arm: " + climberArm.climberArmAngleLimitPressed());
     }
   }
 

@@ -21,6 +21,7 @@ public class ResetAutoClimb extends CommandBase {
   @Override
   public void execute() {
     AutoClimb.state = ClimbingStates.LIFTING_OFF_GROUND;
+    System.out.println("reset by button");
   }
 
   @Override

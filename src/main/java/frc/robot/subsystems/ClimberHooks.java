@@ -33,7 +33,13 @@ public class ClimberHooks extends SubsystemBase {
 
   // sets the angle and speed for sliding hook for VSPX talon
   public double setHookSpeed(double speed) {
-    hook.set(speed);
+    if(!bottomLimitPressed()) {
+      hook.set(speed);
+    } else {
+      hook.set(speed < 0 ? speed : 0);
+      resetHookEncoder();
+      System.out.println("hook hitting limit switch, stopping");
+    }
     return speed;
   }
 
@@ -62,6 +68,9 @@ public class ClimberHooks extends SubsystemBase {
 
   @Override
   public void periodic() {
+    //System.out.println("hook lim press: " + bottomLimitPressed());
+    //System.out.println("hook enc: " + getHookEncoder());
+
 
   }
 

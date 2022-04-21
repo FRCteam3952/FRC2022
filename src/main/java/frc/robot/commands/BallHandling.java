@@ -83,8 +83,8 @@ public class BallHandling extends CommandBase {
       System.out.println(shooter.getEncoderRPMValue());
     }
 
-    System.out.println(shooter.getRPMValue());
-    System.out.println(shooter.getEncoderRPMValue());
+    //System.out.println(shooter.getRPMValue());
+    //System.out.println(shooter.getEncoderRPMValue());
 
     // System.out.println(state);
     // System.out.println("bottom: " + shooter.bottomShooterLimitPressed());
