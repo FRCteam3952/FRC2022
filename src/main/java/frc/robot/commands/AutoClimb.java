@@ -24,6 +24,7 @@ public class AutoClimb extends CommandBase {
     MOVE_TO_HIGH,
     SEND_HOOKS_UP,
     MOVE_TO_HIGHS,
+    WAIT_ERROR,
     SEND_HOOKS_UP_2,
     TRAVERSE,
     WAIT
@@ -133,25 +134,30 @@ public class AutoClimb extends CommandBase {
       
         if (checkHookandAngle(100, MAX_POSITION)) {          
           state = ClimbingStates.MOVE_TO_HIGHS;
+          climberHooks.setHookSpeed(1);
           System.out.println("move highs");
         }
 
         break;
 
       case MOVE_TO_HIGHS:
-        climberHooks.setHookSpeed(1);
-
-        if (climberHooks.bottomLimitPressed()) {
-          climberHooks.setHookSpeed(-1);
-          climberArm.setArmSpeed(-1);
+        if (checkHookandAngle(100,0)) {
           System.out.println("send hook 2");
-          state = ClimbingStates.SEND_HOOKS_UP_2;
+          state = ClimbingStates.WAIT_ERROR;
+          timer.reset();
         }
 
         break;
+      case WAIT_ERROR:
+        if(timer.hasElapsed(1)){
+          state = ClimbingStates.SEND_HOOKS_UP_2;
+          climberHooks.setHookSpeed(-0.6);
+          climberArm.setArmSpeed(-1);
+        }
+        break;
 
       case SEND_HOOKS_UP_2:
-        if(checkHookandAngle(50, MAX_POSITION)) {
+        if(checkHookandAngle(45, MAX_POSITION)) {
           timer.reset();
           state = ClimbingStates.TRAVERSE;
           System.out.println("traverse");

@@ -70,7 +70,8 @@ public class RobotContainer {
   public static final StartingConfig startingConfig = new StartingConfig(climberArm, climberHooks);
 
   public static final Autonomous autonomous = new Autonomous(driveTrain, climberHooks, climberArm, shooter, bottomIndexer,
-      topIndexer);
+      topIndexer, limelight);
+  
   public static final ManualDrive manualDrive = new ManualDrive(driveTrain, limelight);
 
   //public static CvSink cvSink;

@@ -15,42 +15,14 @@ public class SetShooterPower extends CommandBase {
   private final Shooter shooter;
   private final Limelight limelight;
 
-  private double launchSpeed = 0;
-  private double shooterRPM = 0;
-
-  private final double HOOP_HEIGHT = 2.6416; // in meters
   private final double HOOP_RADIUS = 0.6096; // in meters
-  private final double WHEEL_RADIUS = 0.0619125; // in meters
-  private final double BALL_MASS = 0.26932047; // in kilograms
-  private final double WHEEL_MASS = 0.144582568 * 2; // in kilograms
-  private final double GRAVITY = 9.80665; // in meters per second squared
-  private final double ANGLE = 71.5; // degrees
-  private final double SHOOTER_HEIGHT = 0.65; // in meters
   private final double MIN_DISTANCE = 2.6919; // in meters
-  private final double DELTA = 2.7 - MIN_DISTANCE;
+  private final double DELTA = 0 - MIN_DISTANCE; // in meters
 
   public SetShooterPower(Shooter shooter, Limelight limey) {
     this.shooter = shooter;
     this.limelight = limey;
-
     addRequirements(shooter);
-  }
-
-  public void setLaunchSpeed() {
-    double x = limelight.getDistance() + HOOP_RADIUS;
-    double y = HOOP_HEIGHT - SHOOTER_HEIGHT;
-    double a = Math.toRadians(ANGLE);
-    double g = GRAVITY;
-    double velocity = Math.sqrt((-(g / 2) * Math.pow(x, 2)) / ((y - x * Math.tan(a)) * Math.pow(Math.cos(a), 2)));
-    
-    launchSpeed = velocity;
-  }
-
-  public void setShooterRPM() {
-    double wheelTanSpeed = 2 * launchSpeed * ((WHEEL_MASS + ((7 / 5) * BALL_MASS)) / WHEEL_MASS);
-    double angularVelocity = wheelTanSpeed / WHEEL_RADIUS;
-    
-    shooterRPM = (angularVelocity * 60) / (2 * Math.PI);
   }
 
   @Override
@@ -62,12 +34,11 @@ public class SetShooterPower extends CommandBase {
     limelight.turnOnLED();
     if (limelight.getDistance() + HOOP_RADIUS < MIN_DISTANCE + DELTA) {
       System.out.println("Robot too close to hub to shoot, backing up");
-      launchSpeed = 0;
       // driveTrain.driveRR(-0.5, 0, 0);
     } else {
-      setLaunchSpeed(); // set launch speed from distance to hoop
-      setShooterRPM(); // set flywheel RPM from necessary launch speed
-      shooter.setRPMValue(shooterRPM); // pass RPM value to shooter subsystem
+      limelight.setLaunchSpeed(); // set launch speed from distance to hoop
+      limelight.setShooterRPM(); // set flywheel RPM from necessary launch speed
+      shooter.setRPMValue(limelight.getShooterRPM()); // pass RPM value to shooter subsystem
     }
   }
 

@@ -42,6 +42,7 @@ public class ClimberArm extends SubsystemBase {
   }
 
   public double setArmSpeed(double speed) {
+    
     if(!climberArmAngleLimitPressed()) {
       armAngle.set(speed);
     } else {
@@ -49,6 +50,8 @@ public class ClimberArm extends SubsystemBase {
       resetArmAngleEncoder();
       System.out.println("arm hitting limit switch, stopping");
     }
+    
+    //armAngle.set(speed);
     return speed;
   }
 

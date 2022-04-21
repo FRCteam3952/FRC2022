@@ -8,6 +8,7 @@ import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.TopIndexer;
 import frc.robot.subsystems.Gyro;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Limelight;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -23,15 +24,16 @@ public class Autonomous extends CommandBase {
   private final Shooter shooter;
   private final BottomIndexer bottomIndexer;
   private final TopIndexer topIndexer;
+  private final Limelight limelight;
 
   private final Timer timer = new Timer();
 
   private AutonStages stage = AutonStages.CLIMBER_HOOKS;
 
-  private final double MAX_POSITION = 20; // measured in motor rotations, measure later
+  private final double MAX_POSITION = 30; // measured in motor rotations, measure later
 
   public Autonomous(DriveTrain driveTrain, ClimberHooks climberHooks, ClimberArm climberArm, Shooter shooter,
-      BottomIndexer bottomIndexer, TopIndexer topIndexer) {
+      BottomIndexer bottomIndexer, TopIndexer topIndexer, Limelight limelight) {
 
     this.driveTrain = driveTrain;
     this.climberHooks = climberHooks;
@@ -39,9 +41,10 @@ public class Autonomous extends CommandBase {
     this.shooter = shooter;
     this.bottomIndexer = bottomIndexer;
     this.topIndexer = topIndexer;
+    this.limelight = limelight;
     timer.start();
 
-    addRequirements(driveTrain, climberHooks, climberArm, shooter, bottomIndexer, topIndexer);
+    addRequirements(driveTrain, climberHooks, climberArm, shooter, bottomIndexer, topIndexer, limelight);
   }
 
   private enum AutonStages {
@@ -49,9 +52,11 @@ public class Autonomous extends CommandBase {
     CLIMBER_ARM_30_AND_INGEST,
     MOVE_TO_POS,
     TURN,
+    LOWER_BALLS,
     ACCELERATE_FLYWHEEL,
+    PREPARE_TO_SHOOT,
     SHOOT_FIRST_BALL,
-    ACCELERATE_FLYWHEEL_2,
+    WAIT,
     SHOOT_SECOND_BALL,
     FINISH
   }
@@ -73,8 +78,9 @@ public class Autonomous extends CommandBase {
       
       switch (stage) {
         case CLIMBER_HOOKS:
+          topIndexer.setIndexSpeed(0);
           if (ClimberHooks.getHookEncoder() < 180) {
-            climberHooks.setHookSpeed(-0.5);
+            climberHooks.setHookSpeed(-1);
           } else {
             climberHooks.setHookSpeed(0);
             stage = AutonStages.CLIMBER_ARM_30_AND_INGEST;
@@ -85,7 +91,7 @@ public class Autonomous extends CommandBase {
         case CLIMBER_ARM_30_AND_INGEST:
 
           if (!climberArm.climberArmAngleLimitPressed()) {
-            climberArm.setArmSpeed(-0.5);
+            climberArm.setArmSpeed(-1);
           } else {
             climberArm.setArmSpeed(0);
             // System.out.println("move to pos");
@@ -95,10 +101,8 @@ public class Autonomous extends CommandBase {
           break;
 
         case MOVE_TO_POS:
-          shooter.setRPMValue(5000);
-          shooter.setShooterToRPM();
           if (!shooter.bottomShooterLimitPressed()) {
-            bottomIndexer.setIndexSpeed(-0.4);
+            bottomIndexer.setIndexSpeed(-0.8);
           } else {
             bottomIndexer.setIndexSpeed(0);
           }
@@ -123,29 +127,58 @@ public class Autonomous extends CommandBase {
             driveTrain.drive(0, 0, driveTrain.setAngle(190));
 
             if (timer.hasElapsed(5)) {
-              topIndexer.setIndexSpeed(0.8);
-              bottomIndexer.setIndexSpeed(0);
               driveTrain.drive(0, 0, 0);
               timer.reset();
-              stage = AutonStages.ACCELERATE_FLYWHEEL;
+              //RobotContainer.setShooterPower.schedule();
+              // shooter.setShooterToRPM();
+              stage = AutonStages.LOWER_BALLS;
             }
           }
 
           break;
-
-        case ACCELERATE_FLYWHEEL:
-          // drive.drive(0, 0, 0);
-          if (timer.hasElapsed(3)) {
-            bottomIndexer.setIndexSpeed(0);
-            topIndexer.setIndexSpeed(0);
-            stage = AutonStages.FINISH;
-          } else if (timer.hasElapsed(2)) {
-            bottomIndexer.setIndexSpeed(-0.8);
-            // topIndexer.setIndexSpeed(0);
-          } else {
-            bottomIndexer.setIndexSpeed(0);
+        case LOWER_BALLS:
+          if(shooter.topShooterLimitPressed()){
+            topIndexer.setIndexSpeed(-0.5);
+            bottomIndexer.setIndexSpeed(0.5);
           }
+          else{
+            topIndexer.setIndexSpeed(0);
+            bottomIndexer.setIndexSpeed(0);
+            //limelight.turnOnLED();
+            //limelight.setLaunchSpeed(); // set launch speed from distance to hoop
+            //limelight.setShooterRPM(); // set flywheel RPM from necessary launch speed
+            //shooter.setRPMValue(limelight.getShooterRPM()); // pass RPM value to shooter subsystem
+            shooter.setRPMValue(4000);
+            shooter.setShooterToRPM();
+            //limelight.turnOffLED();
+            stage = AutonStages.SHOOT_FIRST_BALL;
 
+          }
+          case SHOOT_FIRST_BALL:
+          if (shooter.getEncoderRPMValue() > shooter.getRPMValue() - 50) {
+            topIndexer.setIndexSpeed(0.8);
+            timer.reset();
+            stage = AutonStages.WAIT;
+          }
+  
+          break;
+  
+        case WAIT:
+          if (timer.hasElapsed(1)) {
+            stage = AutonStages.SHOOT_SECOND_BALL;
+          }
+  
+          break;
+  
+        case SHOOT_SECOND_BALL:
+          // if (shooter.getEncoderRPMValue() > shooter.getRPMValue() - DELTA) {
+            topIndexer.setIndexSpeed(0.8);
+            bottomIndexer.setIndexSpeed(-0.8);
+            System.out.println("shoot second ball");
+            timer.reset();
+            stage = AutonStages.FINISH;
+          // }
+  
           break;
 
         case FINISH:

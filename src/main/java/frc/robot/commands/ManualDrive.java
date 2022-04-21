@@ -7,6 +7,7 @@ package frc.robot.commands;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Gyro;
 import frc.robot.subsystems.Limelight;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -43,11 +44,12 @@ public class ManualDrive extends CommandBase {
 
     //set Team
     driveTrain.setTeam();
+   // System.out.println(Gyro.getGyroAngle());
 
     // Angle Adjustment Code
     if (RobotContainer.secondaryJoystick.getLateralMovement() != 0 || RobotContainer.secondaryJoystick.getHorizontalMovement() != 0) {
       // set angle
-      System.out.println("setting angle");
+      //System.out.println("setting angle");
       double y = -RobotContainer.secondaryJoystick.getLateralMovement();
       double x = RobotContainer.secondaryJoystick.getHorizontalMovement();
       double angle = Math.toDegrees(Math.atan2(y, x)); // gets angle of the joystick

@@ -21,7 +21,7 @@ public class BallHandling extends CommandBase {
 
   private boolean bothBallsLoaded = false;
 
-  private final double INGEST_SPEED = -1;
+  private final double INGEST_SPEED = -0.6;
   private final double SHOOT_INDEX_SPEED = 0.8;
   private final double MOVE_BALL_DOWN_SPEED = -0.3;
   private final double INDEX_SPEED = 0.15;
@@ -63,20 +63,23 @@ public class BallHandling extends CommandBase {
     // RESETS THE INDEXING
     if (RobotContainer.secondaryJoystick.joystick.getRawButtonPressed(Constants.resetIndexerAndIngesterButtonNumber)) {
       state = ShootingStates.INDEX_FIRST_BALL;
-    }
-
-    // ROLLS THE BOTTOM INDEXER
-    if (!bothBallsLoaded) {
-      bottomIndexer.setIndexSpeed(
-          RobotContainer.primaryJoystick.joystick.getRawButton(Constants.rollIngesterButtonNumber) ? INGEST_SPEED : 0);
-    }
+    }    
 
     // SHOOTS THE BALL
     if (RobotContainer.secondaryJoystick.joystick.getRawButton(Constants.shootBallsButtonNumber)) {
       shooter.setShooterToRPM();
       state = bothBallsLoaded ? ShootingStates.SHOOT_FIRST_BALL : ShootingStates.SHOOT_LAST_BALL;
     }
-
+    
+    // CONTROLS BALL INGESTING
+    if (RobotContainer.primaryJoystick.joystick.getRawButton(Constants.spitBallButtonNumber) && !bothBallsLoaded) { //SPITS THE BALL
+      bottomIndexer.setIndexSpeed(1);
+      state = ShootingStates.INDEX_FIRST_BALL;
+    } else if (!bothBallsLoaded) { //ROLLS THE BOTTOM INDEXER
+      bottomIndexer.setIndexSpeed(
+          RobotContainer.primaryJoystick.joystick.getRawButton(Constants.rollIngesterButtonNumber) ? INGEST_SPEED : 0);
+    }
+    
     if (TESTING) {
       shooter.setShooterToRPM();
       System.out.println(shooter.getRPMValue());
@@ -86,7 +89,7 @@ public class BallHandling extends CommandBase {
     //System.out.println(shooter.getRPMValue());
     //System.out.println(shooter.getEncoderRPMValue());
 
-    // System.out.println(state);
+    // .out.println(state);
     // System.out.println("bottom: " + shooter.bottomShooterLimitPressed());
     // System.out.println("top: " + shooter.topShooterLimitPressed());
 
@@ -135,7 +138,7 @@ public class BallHandling extends CommandBase {
         break;
 
       case WAIT:
-        if (timer.hasElapsed(0.75)) {
+        if (timer.hasElapsed(1)) {
           state = ShootingStates.SHOOT_LAST_BALL;
         }
 

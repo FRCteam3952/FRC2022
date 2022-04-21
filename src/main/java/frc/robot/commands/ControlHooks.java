@@ -31,9 +31,9 @@ public class ControlHooks extends CommandBase {
 
   @Override
   public void execute() {
-    //System.out.println(climberHooks.getHookEncoder());
+    System.out.println(climberHooks.bottomLimitPressed());
+    // System.out.println(ClimberHooks.getHookEncoder());
     // System.out.println("hook");
-    // double hookSpeed = RobotContainer.tangoIIController.getZValue();
     double hookSpeed = RobotContainer.tertiaryJoystick.getLateralMovement();
     // if ((hookSpeed > 0 && climber.getEncoderPosition() >= MAX_POSITION) ||
     // (hookSpeed < 0 && climber.getEncoderPosition() <= 0)) ;
