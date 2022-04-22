@@ -5,7 +5,6 @@
 package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
-//import edu.wpi.first.cscore.CvSink;
 import frc.robot.commands.ManualDrive;
 import frc.robot.commands.SetShooterPower;
 import frc.robot.commands.SetShooterPowerManual;
@@ -14,9 +13,11 @@ import frc.robot.commands.ControlHooks;
 import frc.robot.commands.StartingConfig;
 import frc.robot.commands.BallHandling;
 import frc.robot.commands.AutoClimb;
+import frc.robot.commands.AutonomousOneBall;
+import frc.robot.commands.AutonomousTaxiOnly;
 import frc.robot.commands.ResetAutoClimb;
-import frc.robot.commands.Autonomous;
-
+import frc.robot.commands.AutonomousTwoBall;
+import frc.robot.commands.AutonomousTwoBallNoShoot;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.ClimberArm;
 import frc.robot.subsystems.ClimberHooks;
@@ -36,6 +37,23 @@ import edu.wpi.first.wpilibj.Joystick;
 public class RobotContainer {
   public static boolean inTeleop = true;
 
+  /**
+   * handleSwitchToAuton is for TESTING PURPOSES ONLY
+   * when we switch to auton from teleop,
+   * top index wheel speed is not set to 0 upon disable
+   * so in {@link frc.robot.Robot#autonomousPeriodic()} we
+   * use this to handle a one-time check to disable it
+   */
+  public static boolean handledSwitchToAuton = false;
+
+  /**
+   * 0: {@link frc.robot.commands.AutonomousOneBall}
+   * 1: {@link frc.robot.commands.AutonomousTaxiOnly}
+   * 2: {@link frc.robot.commands.AutonomousTwoBall}
+   * 3: {@link frc.robot.commands.AutonomousTwoBallNoShoot}
+   */
+  public static int autonToUse = 0;
+
   public static final DriveTrain driveTrain = new DriveTrain();
 
   public static final Gyro gyro = new Gyro();
@@ -52,9 +70,12 @@ public class RobotContainer {
    * tertiary joystick - climbing
    */
 
-  public static FlightJoystickController primaryJoystick = new FlightJoystickController(new Joystick(Constants.primaryJoystickPort));
-  public static FlightJoystickController secondaryJoystick = new FlightJoystickController(new Joystick(Constants.secondaryJoystickPort));
-  public static FlightJoystickController tertiaryJoystick = new FlightJoystickController(new Joystick(Constants.tertiaryJoystickPort)); // climb
+  public static FlightJoystickController primaryJoystick = new FlightJoystickController(
+      new Joystick(Constants.primaryJoystickPort));
+  public static FlightJoystickController secondaryJoystick = new FlightJoystickController(
+      new Joystick(Constants.secondaryJoystickPort));
+  public static FlightJoystickController tertiaryJoystick = new FlightJoystickController(
+      new Joystick(Constants.tertiaryJoystickPort)); // climb
 
   public static final ClimberHooks climberHooks = new ClimberHooks();
   public static final ClimberArm climberArm = new ClimberArm();
@@ -69,18 +90,26 @@ public class RobotContainer {
 
   public static final StartingConfig startingConfig = new StartingConfig(climberArm, climberHooks);
 
-  public static final Autonomous autonomous = new Autonomous(driveTrain, climberHooks, climberArm, shooter, bottomIndexer,
+  public static final AutonomousTwoBall autonomousTwoBall = new AutonomousTwoBall(driveTrain, climberHooks, climberArm,
+      shooter, bottomIndexer,
       topIndexer, limelight);
-  
+  public static final AutonomousOneBall autonomousOneBall = new AutonomousOneBall(driveTrain, climberHooks, climberArm,
+      shooter, bottomIndexer, topIndexer, limelight);
+  public static final AutonomousTaxiOnly autonomousTaxiOnly = new AutonomousTaxiOnly(driveTrain, climberHooks,
+      climberArm, shooter, bottomIndexer, topIndexer, limelight);
+  public static final AutonomousTwoBallNoShoot autonomousTwoBallNoShoot = new AutonomousTwoBallNoShoot(driveTrain,
+      climberHooks, climberArm, shooter, bottomIndexer, topIndexer, limelight);
+
   public static final ManualDrive manualDrive = new ManualDrive(driveTrain, limelight);
 
-  //public static CvSink cvSink;
+  // public static CvSink cvSink;
 
   /**
-   * The container for the robot. Contains subsystems, OI devices, and commands. (it's supposed to but....  )
+   * The container for the robot. Contains subsystems, OI devices, and commands.
+   * (it's supposed to but.... )
    */
   public RobotContainer() {
-    //cvSink = CameraServer.getVideo("Front Camera");
+    // cvSink = CameraServer.getVideo("Front Camera");
 
     CameraServer.startAutomaticCapture();
   }
@@ -99,7 +128,8 @@ public class RobotContainer {
         Constants.setShooterManualButtonNumber);
     setShooterPowerManualButton.whileHeld(setShooterPowerManual);
 
-    JoystickButton startingConfigButton = new JoystickButton(tertiaryJoystick.joystick, Constants.startingConfigButtonNumber);
+    JoystickButton startingConfigButton = new JoystickButton(tertiaryJoystick.joystick,
+        Constants.startingConfigButtonNumber);
     startingConfigButton.whileHeld(startingConfig);
 
     JoystickButton autoClimbButton = new JoystickButton(tertiaryJoystick.joystick,
@@ -110,18 +140,41 @@ public class RobotContainer {
         Constants.setShooterPowerButtonNumber);
     setShooterPowerButton.whileHeld(setShooterPower);
 
-    JoystickButton resetAutoClimbButton = new JoystickButton(tertiaryJoystick.joystick, Constants.resetAutoClimbButtonNumber);
+    JoystickButton resetAutoClimbButton = new JoystickButton(tertiaryJoystick.joystick,
+        Constants.resetAutoClimbButtonNumber);
     resetAutoClimbButton.whenPressed(resetAutoClimb);
   }
 
   public void autonomousInit() {
     inTeleop = false;
-    autonomous.schedule();
+
+    switch(autonToUse) {
+      case 0:
+        autonomousOneBall.schedule();
+        break;
+      case 1:
+        autonomousTaxiOnly.schedule();
+        break;
+      case 2:
+        autonomousTwoBall.schedule();
+        break;
+      case 3:
+        autonomousTwoBallNoShoot.schedule();
+        break;
+      default:
+        break; // CHOOSE A DEFAULT EVEN THOUGH IT SHOULD NEVER BE HERE
+    }
+    
   }
 
   public void teleopInit() {
     inTeleop = true;
-    autonomous.cancel();
+    
+    autonomousOneBall.cancel();
+    autonomousTaxiOnly.cancel();
+    autonomousTwoBall.cancel();
+    autonomousTwoBallNoShoot.cancel();
+
     configureButtonBindings();
     shooter.setDefaultCommand(ballHandling);
     driveTrain.setDefaultCommand(manualDrive);

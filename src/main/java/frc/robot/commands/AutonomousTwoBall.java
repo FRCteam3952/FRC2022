@@ -14,10 +14,12 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
- * Handles all autonomous-phase actions
+ * Autonomous phase actions - taxis (face away + 180), 
+ * ingests a second ball along-
+ * side the pre-load, and shoots both
  */
 
-public class Autonomous extends CommandBase {
+public class AutonomousTwoBall extends CommandBase {
   private final DriveTrain driveTrain;
   private final ClimberHooks climberHooks;
   private final ClimberArm climberArm;
@@ -32,7 +34,7 @@ public class Autonomous extends CommandBase {
 
   private final double MAX_POSITION = 30; // measured in motor rotations, measure later
 
-  public Autonomous(DriveTrain driveTrain, ClimberHooks climberHooks, ClimberArm climberArm, Shooter shooter,
+  public AutonomousTwoBall(DriveTrain driveTrain, ClimberHooks climberHooks, ClimberArm climberArm, Shooter shooter,
       BottomIndexer bottomIndexer, TopIndexer topIndexer, Limelight limelight) {
 
     this.driveTrain = driveTrain;
@@ -53,7 +55,6 @@ public class Autonomous extends CommandBase {
     MOVE_TO_POS,
     TURN,
     LOWER_BALLS,
-    ACCELERATE_FLYWHEEL,
     PREPARE_TO_SHOOT,
     SHOOT_FIRST_BALL,
     WAIT,
@@ -78,7 +79,7 @@ public class Autonomous extends CommandBase {
       
       switch (stage) {
         case CLIMBER_HOOKS:
-          topIndexer.setIndexSpeed(0);
+          // topIndexer.setIndexSpeed(0);
           if (ClimberHooks.getHookEncoder() < 180) {
             climberHooks.setHookSpeed(-1);
           } else {

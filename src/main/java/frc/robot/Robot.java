@@ -80,6 +80,10 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
+    if(!RobotContainer.inTeleop && !RobotContainer.handledSwitchToAuton) {
+      RobotContainer.handledSwitchToAuton = true;
+      RobotContainer.topIndexer.setIndexSpeed(0);
+    }
   }
 
   @Override
