@@ -156,15 +156,19 @@ public class RobotContainer {
     switch(autonToUse) {
       case 0:
         autonomousOneBall.schedule();
+        System.out.println("auton one ball scheduled");
         break;
       case 1:
         autonomousTaxiOnly.schedule();
+        System.out.println("auton taxi only scheduled");
         break;
       case 2:
         autonomousTwoBall.schedule();
+        System.out.println("auton two ball scheduled");
         break;
       case 3:
         autonomousTwoBallNoShoot.schedule();
+        System.out.println("auton two ball w/ no shoot scheduled");
         break;
       default:
         break; // CHOOSE A DEFAULT EVEN THOUGH IT SHOULD NEVER BE HERE
