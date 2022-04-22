@@ -35,6 +35,17 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.Joystick;
 
 public class RobotContainer {
+  public static int autonToUse = 0;
+  /**
+   * KEY FOR AUTON ABOVE ^
+   * 
+   * 0: {@link frc.robot.commands.AutonomousOneBall}
+   * 1: {@link frc.robot.commands.AutonomousTaxiOnly}
+   * 2: {@link frc.robot.commands.AutonomousTwoBall}
+   * 3: {@link frc.robot.commands.AutonomousTwoBallNoShoot}
+   */
+
+
   public static boolean inTeleop = true;
 
   /**
@@ -46,13 +57,7 @@ public class RobotContainer {
    */
   public static boolean handledSwitchToAuton = false;
 
-  /**
-   * 0: {@link frc.robot.commands.AutonomousOneBall}
-   * 1: {@link frc.robot.commands.AutonomousTaxiOnly}
-   * 2: {@link frc.robot.commands.AutonomousTwoBall}
-   * 3: {@link frc.robot.commands.AutonomousTwoBallNoShoot}
-   */
-  public static int autonToUse = 0;
+  
 
   public static final DriveTrain driveTrain = new DriveTrain();
 
