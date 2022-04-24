@@ -17,7 +17,7 @@ public class SetShooterPower extends CommandBase {
 
   private final double HOOP_RADIUS = 0.6096; // in meters
   private final double MIN_DISTANCE = 2.6919; // in meters
-  private final double DELTA = 0 - MIN_DISTANCE; // in meters
+  private final double DELTA = 1 - MIN_DISTANCE; // in meters
 
   public SetShooterPower(Shooter shooter, Limelight limey) {
     this.shooter = shooter;

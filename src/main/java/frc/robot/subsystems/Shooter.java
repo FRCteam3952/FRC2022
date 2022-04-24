@@ -39,11 +39,11 @@ public class Shooter extends SubsystemBase {
     pidController = leaderMotor.getPIDController();
     leaderEncoder = leaderMotor.getEncoder();
 
-    kP = 4.1e-5;
-    kI = 1e-10;
+    kP = 4.169e-5;
+    kI = 2.5e-10;
     kD = 0;
     kIz = 0;
-    kFF = 1.74e-4;
+    kFF = 1.68e-4;
     kMaxOutput = 1;
     kMinOutput = -1;
     rpmValue = 0;
@@ -93,7 +93,7 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
-    System.out.println(getRPMValue());
+    // System.out.println(getRPMValue());
   }
 
   @Override

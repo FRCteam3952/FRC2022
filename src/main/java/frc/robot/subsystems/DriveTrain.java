@@ -138,7 +138,7 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public double getFrontLeftEncoder() {
-    System.out.println(frontLeftEncoder.getPosition());
+    // System.out.println(frontLeftEncoder.getPosition());
     return Math.abs(frontLeftEncoder.getPosition());
   }
 

@@ -54,6 +54,7 @@ public class AutonomousTwoBallNoShoot extends CommandBase {
     CLIMBER_ARM_30_AND_INGEST,
     MOVE_TO_POS,
     TURN,
+    LOWER_BALLS,
     FINISH
   }
 
@@ -127,11 +128,30 @@ public class AutonomousTwoBallNoShoot extends CommandBase {
               timer.reset();
               //RobotContainer.setShooterPower.schedule();
               // shooter.setShooterToRPM();
-              stage = AutonStages.FINISH;
+              stage = AutonStages.LOWER_BALLS;
             }
           }
 
           break;
+          case LOWER_BALLS:
+            if(shooter.topShooterLimitPressed()){
+              topIndexer.setIndexSpeed(-0.5);
+              bottomIndexer.setIndexSpeed(0.5);
+            }
+            else{
+              topIndexer.setIndexSpeed(0);
+              bottomIndexer.setIndexSpeed(0);
+              //limelight.turnOnLED();
+              //limelight.setLaunchSpeed(); // set launch speed from distance to hoop
+              //limelight.setShooterRPM(); // set flywheel RPM from necessary launch speed
+              //shooter.setRPMValue(limelight.getShooterRPM()); // pass RPM value to shooter subsystem
+              //shooter.setRPMValue(4000);
+              //shooter.setShooterToRPM();
+              //limelight.turnOffLED();
+              stage = AutonStages.FINISH;
+            }
+            
+            break;
         
         case FINISH:
           driveTrain.drive(0, 0, 0);
@@ -143,6 +163,7 @@ public class AutonomousTwoBallNoShoot extends CommandBase {
 
         default:
           driveTrain.drive(0, 0, 0);
+          System.err.println("no case is true");
 
           break;
       }

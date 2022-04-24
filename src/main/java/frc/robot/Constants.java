@@ -50,7 +50,8 @@ public final class Constants {
     // button numbers for primary joystick (1-9)
     public static final int rollIngesterButtonNumber = 1;
     public static final int aimbotToBallButtonNumber = 2;
-    public static final int spitBallButtonNumber = 4;
+    public static final int spitBothBallButtonNumber = 3;
+    public static final int spitBottomBallButtonNumber = 4;
     public static final int resetGyroButtonNumber = 8;
 
     // button numbers for secondary joystick (1-11)
@@ -59,11 +60,13 @@ public final class Constants {
     public static final int setShooterPowerButtonNumber = 3;
     public static final int setShooterManualButtonNumber = 4;
     public static final int resetIndexerAndIngesterButtonNumber = 5;
+    public static final int setToLowerHubRPMButtonNumber = 7;
 
     // button numbers for tertiary joystick (1-11)
     public static final int autoClimbButtonNumber = 1;
     public static final int moveArmAngleToRobotButtonNumber = 2;
     public static final int moveArmAngleAwayFromRobotButtonNumber = 3;
+    public static final int adjustShooterPowerManualButtonNumber = 4;
     public static final int resetAutoClimbButtonNumber = 7;
     public static final int startingConfigButtonNumber = 8;
     public static final int resetArmEncoderButtonNumber = 9;

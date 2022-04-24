@@ -70,7 +70,7 @@ public class ManualDrive extends CommandBase {
         limelight.turnOffLED();
       }
       // adjust movement of robot towards ball
-      if (RobotContainer.primaryJoystick.joystick.getRawButton(Constants.aimbotToBallButtonNumber)) {
+      if (RobotContainer.primaryJoystick.joystick.getRawButton(Constants.aimbotToBallButtonNumber)|| RobotContainer.primaryJoystick.joystick.getRawButton(Constants.rollIngesterButtonNumber)) {
         double angleAdjust = driveTrain.getAdjustment();
         zRotation += angleAdjust;
       }

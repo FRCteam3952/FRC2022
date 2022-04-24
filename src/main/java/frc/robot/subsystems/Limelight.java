@@ -9,9 +9,9 @@ public class Limelight extends SubsystemBase {
     private NetworkTableInstance inst;
     private NetworkTable table;
     private PIDController pidcontrol;
-    private final float kp = 0.05f;
+    private final float kp = 0.02f;
     private final float ki = 0.01f;
-    private final float kd = 0.02f;
+    private final float kd = 0f;
 
     public static final double LIMELIGHT_ANGLE_DEG = 35;
     public static final double LIMELIGHT_HEIGHT_INCH = 22;
@@ -28,6 +28,9 @@ public class Limelight extends SubsystemBase {
     private final double GRAVITY = 9.80665; // in meters per second squared
     private final double ANGLE = 63; // degrees
     private final double SHOOTER_HEIGHT = 0.65; // in meters
+    private final double DELTA = 0.6;
+    private final double speedFactor = 0.99; //direct multiplicative to shooter RPM
+    private float prev_tx = 0f;
 
     public Limelight() {
         pidcontrol = new PIDController(1, ki, kd);
@@ -37,6 +40,18 @@ public class Limelight extends SubsystemBase {
 
     public double getAdjustment() {
         float tx = table.getEntry("tx").getNumber(0).floatValue() * kp; // get target x position
+        if(tx > 1){
+            tx =1;
+        }
+        if(tx < -1){
+            tx = -1;
+        }
+        if(tx < 0.01 && tx > -0.01){
+            tx = prev_tx;
+        }
+        else{
+            prev_tx = tx;
+        }
         double steering_adjust = pidcontrol.calculate(tx); // calculate PID
         
         return steering_adjust;
@@ -52,7 +67,7 @@ public class Limelight extends SubsystemBase {
     }
 
     public void setLaunchSpeed() {
-        double x = getDistance() + HOOP_RADIUS;
+        double x = getDistance() + HOOP_RADIUS - DELTA;
         double y = HOOP_HEIGHT - SHOOTER_HEIGHT;
         double a = Math.toRadians(ANGLE);
         double g = GRAVITY;
@@ -65,7 +80,7 @@ public class Limelight extends SubsystemBase {
         double wheelTanSpeed = 2 * launchSpeed * ((WHEEL_MASS + ((7 / 5) * BALL_MASS)) / WHEEL_MASS);
         double angularVelocity = wheelTanSpeed / WHEEL_RADIUS;
         
-        shooterRPM = (angularVelocity * 60) / (2 * Math.PI);
+        shooterRPM = (angularVelocity * 60) / (2 * Math.PI) * speedFactor;
       }
     
       public double getShooterRPM() {

@@ -123,13 +123,12 @@ public class AutonomousOneBall extends CommandBase {
             if (timer.hasElapsed(5)) {
               driveTrain.drive(0, 0, 0);
               timer.reset();
-              //RobotContainer.setShooterPower.schedule();
-              // shooter.setShooterToRPM();
               stage = AutonStages.LOWER_BALLS;
             }
           }
 
           break;
+
         case LOWER_BALLS:
           if(shooter.topShooterLimitPressed()){
             topIndexer.setIndexSpeed(-0.5);
@@ -148,6 +147,9 @@ public class AutonomousOneBall extends CommandBase {
             stage = AutonStages.SHOOT_FIRST_BALL;
 
           }
+          
+          break;
+
         case SHOOT_FIRST_BALL:
           if (shooter.getEncoderRPMValue() > shooter.getRPMValue() - 50) {
             topIndexer.setIndexSpeed(0.8);
@@ -179,12 +181,15 @@ public class AutonomousOneBall extends CommandBase {
           driveTrain.drive(0, 0, 0);
           shooter.setRPMValue(0);
           shooter.setShooterToRPM();
+          topIndexer.setIndexSpeed(0);
+          bottomIndexer.setIndexSpeed(0);
           cancel();
 
           break;
 
         default:
           driveTrain.drive(0, 0, 0);
+          System.out.println("no case tru");
 
           break;
       }

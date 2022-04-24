@@ -38,7 +38,7 @@ public class ClimberHooks extends SubsystemBase {
     } else {
       hook.set(speed < 0 ? speed : 0);
       resetHookEncoder();
-      System.out.println("hook hitting limit switch, stopping");
+      //System.out.println("hook hitting limit switch, stopping");
     }
     return speed;
   }

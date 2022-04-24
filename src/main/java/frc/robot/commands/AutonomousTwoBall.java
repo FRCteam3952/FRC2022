@@ -30,7 +30,7 @@ public class AutonomousTwoBall extends CommandBase {
 
   private final Timer timer = new Timer();
 
-  private AutonStages stage = AutonStages.CLIMBER_HOOKS;
+  private AutonStages stage = AutonStages.CLIMBER_HOOKS_ARMS;
 
   private final double MAX_POSITION = 30; // measured in motor rotations, measure later
 
@@ -44,20 +44,18 @@ public class AutonomousTwoBall extends CommandBase {
     this.bottomIndexer = bottomIndexer;
     this.topIndexer = topIndexer;
     this.limelight = limelight;
-    timer.start();
-
     addRequirements(driveTrain, climberHooks, climberArm, shooter, bottomIndexer, topIndexer, limelight);
   }
 
   private enum AutonStages {
-    CLIMBER_HOOKS,
+    CLIMBER_HOOKS_ARMS,
     CLIMBER_ARM_30_AND_INGEST,
     MOVE_TO_POS,
     TURN,
+    AIM,
     LOWER_BALLS,
     PREPARE_TO_SHOOT,
     SHOOT_FIRST_BALL,
-    WAIT,
     SHOOT_SECOND_BALL,
     FINISH
   }
@@ -67,37 +65,35 @@ public class AutonomousTwoBall extends CommandBase {
     driveTrain.resetFrontLeftEncoder();
     Gyro.resetGyroAngle();
     climberHooks.resetHookEncoder();
+    timer.start();
   }
 
   @Override
   public void execute() {
-    // System.out.println("auton");
+
     if (RobotContainer.inTeleop) {
       System.out.println("in teleop");
       // cancel();
     } else {
       
       switch (stage) {
-        case CLIMBER_HOOKS:
+        case CLIMBER_HOOKS_ARMS:
           // topIndexer.setIndexSpeed(0);
           if (ClimberHooks.getHookEncoder() < 180) {
             climberHooks.setHookSpeed(-1);
           } else {
             climberHooks.setHookSpeed(0);
-            stage = AutonStages.CLIMBER_ARM_30_AND_INGEST;
           }
 
-          break;
-
-        case CLIMBER_ARM_30_AND_INGEST:
-
-          if (!climberArm.climberArmAngleLimitPressed()) {
+          if (!climberArm.climberArmAngleLimitPressed() && ClimberHooks.getHookEncoder() > 90) {
             climberArm.setArmSpeed(-1);
-          } else {
+          } else if (ClimberHooks.getHookEncoder() > 90){
             climberArm.setArmSpeed(0);
-            // System.out.println("move to pos");
+            climberArm.resetArmAngleEncoder();
             stage = AutonStages.MOVE_TO_POS;
           }
+          
+
 
           break;
 
@@ -124,19 +120,25 @@ public class AutonomousTwoBall extends CommandBase {
 
         case TURN:
           // System.out.println("turn " + timer.get());
-          if (timer.hasElapsed(2)) {
+          if (timer.hasElapsed(1)) {
             driveTrain.drive(0, 0, driveTrain.setAngle(190));
-
-            if (timer.hasElapsed(5)) {
-              driveTrain.drive(0, 0, 0);
-              timer.reset();
-              //RobotContainer.setShooterPower.schedule();
-              // shooter.setShooterToRPM();
-              stage = AutonStages.LOWER_BALLS;
-            }
           }
+          if (timer.hasElapsed(3)) {
+            driveTrain.drive(0, 0, 0);
+            timer.reset();
+            limelight.turnOnLED();
+            stage = AutonStages.LOWER_BALLS;
+          }
+        break;
 
-          break;
+        case AIM:
+          driveTrain.drive(0, 0, limelight.getAdjustment());
+          if(timer.hasElapsed(3)){
+            limelight.turnOffLED();
+            stage = AutonStages.LOWER_BALLS;
+          }
+        break;
+
         case LOWER_BALLS:
           if(shooter.topShooterLimitPressed()){
             topIndexer.setIndexSpeed(-0.5);
@@ -145,49 +147,40 @@ public class AutonomousTwoBall extends CommandBase {
           else{
             topIndexer.setIndexSpeed(0);
             bottomIndexer.setIndexSpeed(0);
-            //limelight.turnOnLED();
-            //limelight.setLaunchSpeed(); // set launch speed from distance to hoop
-            //limelight.setShooterRPM(); // set flywheel RPM from necessary launch speed
-            //shooter.setRPMValue(limelight.getShooterRPM()); // pass RPM value to shooter subsystem
             shooter.setRPMValue(4000);
             shooter.setShooterToRPM();
-            //limelight.turnOffLED();
             stage = AutonStages.SHOOT_FIRST_BALL;
-
           }
+
+          break;
+
           case SHOOT_FIRST_BALL:
           if (shooter.getEncoderRPMValue() > shooter.getRPMValue() - 50) {
             topIndexer.setIndexSpeed(0.8);
             timer.reset();
-            stage = AutonStages.WAIT;
-          }
-  
-          break;
-  
-        case WAIT:
-          if (timer.hasElapsed(1)) {
             stage = AutonStages.SHOOT_SECOND_BALL;
           }
   
           break;
-  
+          
         case SHOOT_SECOND_BALL:
-          // if (shooter.getEncoderRPMValue() > shooter.getRPMValue() - DELTA) {
-            topIndexer.setIndexSpeed(0.8);
+          if (timer.hasElapsed(1)) {
             bottomIndexer.setIndexSpeed(-0.8);
             System.out.println("shoot second ball");
             timer.reset();
             stage = AutonStages.FINISH;
-          // }
-  
+          }
           break;
 
         case FINISH:
-          driveTrain.drive(0, 0, 0);
-          shooter.setRPMValue(0);
-          shooter.setShooterToRPM();
-          cancel();
-
+          if (timer.hasElapsed(2)) {
+            driveTrain.drive(0, 0, 0);
+            topIndexer.setIndexSpeed(0);
+            bottomIndexer.setIndexSpeed(0);
+            shooter.setRPMValue(0);
+            shooter.setShooterToRPM();
+            //cancel();
+          }
           break;
 
         default:

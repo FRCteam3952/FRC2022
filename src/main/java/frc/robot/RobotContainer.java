@@ -8,6 +8,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import frc.robot.commands.ManualDrive;
 import frc.robot.commands.SetShooterPower;
 import frc.robot.commands.SetShooterPowerManual;
+import frc.robot.commands.AdjustShooterPowerManual;
 import frc.robot.commands.ControlArm;
 import frc.robot.commands.ControlHooks;
 import frc.robot.commands.StartingConfig;
@@ -18,6 +19,7 @@ import frc.robot.commands.AutonomousTaxiOnly;
 import frc.robot.commands.ResetAutoClimb;
 import frc.robot.commands.AutonomousTwoBall;
 import frc.robot.commands.AutonomousTwoBallNoShoot;
+
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.ClimberArm;
 import frc.robot.subsystems.ClimberHooks;
@@ -35,7 +37,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.Joystick;
 
 public class RobotContainer {
-  public static int autonToUse = 0;
+  public static int autonToUse = 2;
   /**
    * KEY FOR AUTON ABOVE ^
    * 
@@ -92,6 +94,7 @@ public class RobotContainer {
   public static final BallHandling ballHandling = new BallHandling(shooter, bottomIndexer, topIndexer);
   public static final SetShooterPower setShooterPower = new SetShooterPower(shooter, limelight);
   public static final SetShooterPowerManual setShooterPowerManual = new SetShooterPowerManual(shooter);
+  public static final AdjustShooterPowerManual adjustShooterPowerManual = new AdjustShooterPowerManual(shooter);
 
   public static final StartingConfig startingConfig = new StartingConfig(climberArm, climberHooks);
 
@@ -133,6 +136,10 @@ public class RobotContainer {
         Constants.setShooterManualButtonNumber);
     setShooterPowerManualButton.whileHeld(setShooterPowerManual);
 
+    JoystickButton adjustShooterPowerManualButton = new JoystickButton(tertiaryJoystick.joystick,
+        Constants.adjustShooterPowerManualButtonNumber);
+    adjustShooterPowerManualButton.whenPressed(adjustShooterPowerManual);
+
     JoystickButton startingConfigButton = new JoystickButton(tertiaryJoystick.joystick,
         Constants.startingConfigButtonNumber);
     startingConfigButton.whileHeld(startingConfig);
@@ -153,6 +160,7 @@ public class RobotContainer {
   public void autonomousInit() {
     inTeleop = false;
 
+    topIndexer.setIndexSpeed(0);
     switch(autonToUse) {
       case 0:
         autonomousOneBall.schedule();
