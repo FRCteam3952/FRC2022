@@ -18,7 +18,7 @@ end() -- Is run when the command ends OR is interrupted.
 
 isFinished() -- Make this return true when the command should end.
 
-## Other code we use
+## Other Code We Used
 [Ball finding](https://github.com/SeanSon2005/TroyFRC2022NeuralNet)
 
 [Filters](https://github.com/Thedoughnutman/FRC2022-BlueRed-BallRecognition)
