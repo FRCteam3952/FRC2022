@@ -118,7 +118,7 @@ public class AutonomousOneBall extends CommandBase {
         case TURN:
           // System.out.println("turn " + timer.get());
           if (timer.hasElapsed(2)) {
-            driveTrain.drive(0, 0, driveTrain.setAngle(190));
+            driveTrain.drive(0, 0, driveTrain.findZRotationSpeedFromAngle(190));
 
             if (timer.hasElapsed(5)) {
               driveTrain.drive(0, 0, 0);

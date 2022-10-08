@@ -15,11 +15,11 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
  * Autonomous phase actions - taxis (face away + 180), 
- * ingests a second ball along-
- * side the pre-load, and shoots both
+ * Shoots the 2 preloads (Beach Blitz)
+ * and grabs a third ball and shoots.
  */
 
-public class AutonomousTwoBall extends CommandBase {
+public class AutonomousThreeBall extends CommandBase {
   private final DriveTrain driveTrain;
   private final ClimberHooks climberHooks;
   private final ClimberArm climberArm;
@@ -34,7 +34,7 @@ public class AutonomousTwoBall extends CommandBase {
 
   private final double MAX_POSITION = 30; // measured in motor rotations, measure later
 
-  public AutonomousTwoBall(DriveTrain driveTrain, ClimberHooks climberHooks, ClimberArm climberArm, Shooter shooter,
+  public AutonomousThreeBall(DriveTrain driveTrain, ClimberHooks climberHooks, ClimberArm climberArm, Shooter shooter,
       BottomIndexer bottomIndexer, TopIndexer topIndexer, Limelight limelight) {
 
     this.driveTrain = driveTrain;
@@ -57,6 +57,10 @@ public class AutonomousTwoBall extends CommandBase {
     PREPARE_TO_SHOOT,
     SHOOT_FIRST_BALL,
     SHOOT_SECOND_BALL,
+    FIND_THIRD_BALL,
+    SHOOT_THIRD_BALL,
+    FIND_FOURTH_BALL,
+    SHOOT_FOURTH_BALL,
     FINISH
   }
 
@@ -168,10 +172,18 @@ public class AutonomousTwoBall extends CommandBase {
             bottomIndexer.setIndexSpeed(-0.8);
             System.out.println("shoot second ball");
             timer.reset();
-            stage = AutonStages.FINISH;
+            stage = AutonStages.FIND_THIRD_BALL;
           }
           break;
 
+        case FIND_THIRD_BALL:
+          if(timer.hasElapsed(1)) {
+              driveTrain.drive(0, 0, driveTrain.findZRotationSpeedFromAngle(190));
+          }
+          break;
+        case SHOOT_THIRD_BALL:
+          
+          break;
         case FINISH:
           if (timer.hasElapsed(2)) {
             driveTrain.drive(0, 0, 0);

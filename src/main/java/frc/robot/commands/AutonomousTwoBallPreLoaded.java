@@ -15,11 +15,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
  * Autonomous phase actions - taxis (face away + 180), 
- * ingests a second ball along-
- * side the pre-load, and shoots both
+ * shoots the 2 balls that are pre-loaded (Beach Blitz changes),
+ * then turns another 180 and tries to grab a third ball
+ * <p>
+ * This should hopefully be superseded by {@link frc.robot.commands.AutonomousThreeBall}
  */
 
-public class AutonomousTwoBall extends CommandBase {
+public class AutonomousTwoBallPreLoaded extends CommandBase {
   private final DriveTrain driveTrain;
   private final ClimberHooks climberHooks;
   private final ClimberArm climberArm;
@@ -32,9 +34,10 @@ public class AutonomousTwoBall extends CommandBase {
 
   private AutonStages stage = AutonStages.CLIMBER_HOOKS_ARMS;
 
-  private final double MAX_POSITION = 30; // measured in motor rotations, measure later
+  private static final double MAX_POSITION = 25; // measured in motor rotations, measure later
+  private static final double GET_NEXT_BALL_ADD_ON_ROTATIONS = 5;
 
-  public AutonomousTwoBall(DriveTrain driveTrain, ClimberHooks climberHooks, ClimberArm climberArm, Shooter shooter,
+  public AutonomousTwoBallPreLoaded(DriveTrain driveTrain, ClimberHooks climberHooks, ClimberArm climberArm, Shooter shooter,
       BottomIndexer bottomIndexer, TopIndexer topIndexer, Limelight limelight) {
 
     this.driveTrain = driveTrain;
@@ -49,14 +52,15 @@ public class AutonomousTwoBall extends CommandBase {
 
   private enum AutonStages {
     CLIMBER_HOOKS_ARMS,
-    CLIMBER_ARM_30_AND_INGEST,
     MOVE_TO_POS,
     TURN,
     AIM,
     LOWER_BALLS,
-    PREPARE_TO_SHOOT,
     SHOOT_FIRST_BALL,
     SHOOT_SECOND_BALL,
+    TURN_FOR_THIRD_BALL,
+    GET_THIRD_BALL,
+    PREPARE_AIM_THIRD_BALL,
     FINISH
   }
 
@@ -168,19 +172,60 @@ public class AutonomousTwoBall extends CommandBase {
             bottomIndexer.setIndexSpeed(-0.8);
             System.out.println("shoot second ball");
             timer.reset();
-            stage = AutonStages.FINISH;
+            stage = AutonStages.TURN_FOR_THIRD_BALL;
           }
           break;
 
+        case TURN_FOR_THIRD_BALL:
+          if(timer.hasElapsed(1)) {
+            driveTrain.drive(0, 0, driveTrain.findZRotationSpeedFromAngle(190));
+          }
+          if(timer.hasElapsed(3)) {
+            driveTrain.drive(0, 0, 0);
+            timer.reset();
+            limelight.turnOnLED();
+            stage = AutonStages.GET_THIRD_BALL;
+          }
+          break;
+
+        case GET_THIRD_BALL:
+          if(!shooter.bottomShooterLimitPressed()) {
+            bottomIndexer.setIndexSpeed(-0.8);
+          }
+          else {
+            bottomIndexer.setIndexSpeed(0);
+            stage = AutonStages.PREPARE_AIM_THIRD_BALL;
+          }
+          if(driveTrain.getFrontLeftEncoder() <= MAX_POSITION + GET_NEXT_BALL_ADD_ON_ROTATIONS) {
+            driveTrain.driveRR(-0.3, 0, 0);
+          }
+          else {
+            driveTrain.drive(0, 0, 0);
+            timer.reset();
+            stage = AutonStages.PREPARE_AIM_THIRD_BALL;
+          }
+          break;
+        case PREPARE_AIM_THIRD_BALL:
+            if(timer.hasElapsed(1)) {
+                driveTrain.drive(0, 0, driveTrain.findZRotationSpeedFromAngle(190));
+            }
+
+          if (timer.hasElapsed(3)) {
+            driveTrain.drive(0, 0, 0);
+            //timer.reset();
+            //limelight.turnOnLED();
+            stage = AutonStages.FINISH;
+          }
+          break;
         case FINISH:
-          if (timer.hasElapsed(2)) {
+          //if (timer.hasElapsed(2)) {
             driveTrain.drive(0, 0, 0);
             topIndexer.setIndexSpeed(0);
             bottomIndexer.setIndexSpeed(0);
             shooter.setRPMValue(0);
             shooter.setShooterToRPM();
             //cancel();
-          }
+          //}
           break;
 
         default:

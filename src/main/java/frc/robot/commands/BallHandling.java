@@ -25,7 +25,7 @@ public class BallHandling extends CommandBase {
   private final double SHOOT_INDEX_SPEED = 0.8;
   private final double MOVE_BALL_DOWN_SPEED = -0.3;
   private final double INDEX_SPEED = 0.15;
-  private final double DELTA = 69;
+  private final double DELTA = 500;
 
   private final boolean TESTING = true;
 
@@ -91,7 +91,7 @@ public class BallHandling extends CommandBase {
             RobotContainer.primaryJoystick.joystick.getRawButton(Constants.rollIngesterButtonNumber) ? INGEST_SPEED : 0);
       }
       if (TESTING) {
-        // shooter.setShooterToRPM();
+        shooter.setShooterToRPM();
         System.out.println(shooter.getRPMValue());
         System.out.println(shooter.getEncoderRPMValue());
       }

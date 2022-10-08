@@ -8,7 +8,6 @@ import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.TopIndexer;
 import frc.robot.subsystems.Gyro;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Limelight;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -26,7 +25,6 @@ public class AutonomousTwoBallNoShoot extends CommandBase {
   private final Shooter shooter;
   private final BottomIndexer bottomIndexer;
   private final TopIndexer topIndexer;
-  private final Limelight limelight;
 
   private final Timer timer = new Timer();
 
@@ -35,7 +33,7 @@ public class AutonomousTwoBallNoShoot extends CommandBase {
   private final double MAX_POSITION = 30; // measured in motor rotations, measure later
 
   public AutonomousTwoBallNoShoot(DriveTrain driveTrain, ClimberHooks climberHooks, ClimberArm climberArm, Shooter shooter,
-      BottomIndexer bottomIndexer, TopIndexer topIndexer, Limelight limelight) {
+      BottomIndexer bottomIndexer, TopIndexer topIndexer) {
 
     this.driveTrain = driveTrain;
     this.climberHooks = climberHooks;
@@ -43,10 +41,9 @@ public class AutonomousTwoBallNoShoot extends CommandBase {
     this.shooter = shooter;
     this.bottomIndexer = bottomIndexer;
     this.topIndexer = topIndexer;
-    this.limelight = limelight;
     timer.start();
 
-    addRequirements(driveTrain, climberHooks, climberArm, shooter, bottomIndexer, topIndexer, limelight);
+    addRequirements(driveTrain, climberHooks, climberArm, shooter, bottomIndexer, topIndexer);
   }
 
   private enum AutonStages {
@@ -121,7 +118,7 @@ public class AutonomousTwoBallNoShoot extends CommandBase {
         case TURN:
           // System.out.println("turn " + timer.get());
           if (timer.hasElapsed(2)) {
-            driveTrain.drive(0, 0, driveTrain.setAngle(190));
+            driveTrain.drive(0, 0, driveTrain.findZRotationSpeedFromAngle(190));
 
             if (timer.hasElapsed(5)) {
               driveTrain.drive(0, 0, 0);

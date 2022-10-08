@@ -6,9 +6,9 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.math.controller.PIDController;
 
 public class Limelight extends SubsystemBase {
-    private NetworkTableInstance inst;
-    private NetworkTable table;
-    private PIDController pidcontrol;
+    private final NetworkTableInstance inst;
+    private final NetworkTable table;
+    private final PIDController pidcontrol;
     private final float kp = 0.02f;
     private final float ki = 0.01f;
     private final float kd = 0f;
@@ -20,16 +20,16 @@ public class Limelight extends SubsystemBase {
     private double launchSpeed = 0;
     private double shooterRPM = 0;
 
-    private final double HOOP_HEIGHT = 2.6416; // in meters
-    private final double HOOP_RADIUS = 0.6096; // in meters
-    private final double WHEEL_RADIUS = 0.0619125; // in meters
-    private final double BALL_MASS = 0.26932047; // in kilograms
-    private final double WHEEL_MASS = 0.144582568 * 2; // in kilograms
-    private final double GRAVITY = 9.80665; // in meters per second squared
-    private final double ANGLE = 63; // degrees
-    private final double SHOOTER_HEIGHT = 0.65; // in meters
-    private final double DELTA = 0.6;
-    private final double speedFactor = 0.99; //direct multiplicative to shooter RPM
+    private static final double HOOP_HEIGHT = 2.6416; // in meters
+    private static final double HOOP_RADIUS = 0.6096; // in meters
+    private static final double WHEEL_RADIUS = 0.0619125; // in meters
+    private static final double BALL_MASS = 0.26932047; // in kilograms
+    private static final double WHEEL_MASS = 0.144582568 * 2; // in kilograms
+    private static final double GRAVITY = 9.80665; // in meters per second squared
+    private static final double ANGLE = 63; // degrees // change to tune - max
+    private static final double SHOOTER_HEIGHT = 0.65; // in meters
+    private static final double DELTA = 0.6;
+    private static final double speedFactor = 0.99; //direct multiplicative to shooter RPM
     private float prev_tx = 0f;
 
     public Limelight() {
@@ -77,7 +77,7 @@ public class Limelight extends SubsystemBase {
       }
     
       public void setShooterRPM() {
-        double wheelTanSpeed = 2 * launchSpeed * ((WHEEL_MASS + ((7 / 5) * BALL_MASS)) / WHEEL_MASS);
+        double wheelTanSpeed = 2 * launchSpeed * ((WHEEL_MASS + ((7d / 5) * BALL_MASS)) / WHEEL_MASS);
         double angularVelocity = wheelTanSpeed / WHEEL_RADIUS;
         
         shooterRPM = (angularVelocity * 60) / (2 * Math.PI) * speedFactor;

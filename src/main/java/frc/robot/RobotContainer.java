@@ -5,6 +5,10 @@
 package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.networktables.EntryListenerFlags;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.robot.commands.ManualDrive;
 import frc.robot.commands.SetShooterPower;
 import frc.robot.commands.SetShooterPowerManual;
@@ -106,7 +110,7 @@ public class RobotContainer {
   public static final AutonomousTaxiOnly autonomousTaxiOnly = new AutonomousTaxiOnly(driveTrain, climberHooks,
       climberArm, shooter, bottomIndexer, topIndexer, limelight);
   public static final AutonomousTwoBallNoShoot autonomousTwoBallNoShoot = new AutonomousTwoBallNoShoot(driveTrain,
-      climberHooks, climberArm, shooter, bottomIndexer, topIndexer, limelight);
+      climberHooks, climberArm, shooter, bottomIndexer, topIndexer);
 
   public static final ManualDrive manualDrive = new ManualDrive(driveTrain, limelight);
 
@@ -118,8 +122,25 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // cvSink = CameraServer.getVideo("Front Camera");
+    System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA INITIALIZE");
+    
+    /*
+    p.addListener(event -> {
+        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA changed p to " + event.value.getValue());
+        RobotContainer.shooter.pidController.setP(event.value.getDouble());
+    }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
-    CameraServer.startAutomaticCapture();
+    i.addListener(event -> {
+        System.out.println("changed i to " + event.value.getValue());
+        RobotContainer.shooter.pidController.setI(event.value.getDouble());
+    }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+
+    d.addListener(event -> {
+        System.out.println("changed d to " + event.value.getValue());
+        RobotContainer.shooter.pidController.setD(event.value.getDouble());
+    }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+    */
+    // CameraServer.startAutomaticCapture();
   }
 
   /**

@@ -58,7 +58,7 @@ public class ManualDrive extends CommandBase {
       }
 
       angle += angle < 0 ? 270 : -90;
-      zRotation = driveTrain.setAngle(angle);
+      zRotation = driveTrain.findZRotationSpeedFromAngle(angle);
     } else {
       // adjust movement to limelight target
       if(RobotContainer.secondaryJoystick.joystick.getRawButton(Constants.adjustAimButtonNumber)){

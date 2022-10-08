@@ -85,7 +85,7 @@ public class DriveTrain extends SubsystemBase {
     }
   }
 
-  public double setAngle(double angle) {
+  public double findZRotationSpeedFromAngle(double angle) {
 
     double angleDifference = angle - Gyro.getGyroAngle(); // gets angle difference
 

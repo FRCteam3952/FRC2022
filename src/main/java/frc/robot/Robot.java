@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -17,6 +20,11 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
+    NetworkTableInstance inst = NetworkTableInstance.getDefault();
+    NetworkTable table = inst.getTable("pid");
+    NetworkTableEntry p = table.getEntry("p");
+    NetworkTableEntry i = table.getEntry("i");
+    NetworkTableEntry d = table.getEntry("d");
   private RobotContainer robotContainer;
 
   /**
@@ -91,6 +99,13 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
+      /*
+      double pp = p.getDouble(0);
+      double pi = i.getDouble(0);
+      double pd = d.getDouble(0);
+      RobotContainer.shooter.pidController.setP(pp);
+      RobotContainer.shooter.pidController.setI(pi);
+      RobotContainer.shooter.pidController.setD(pd);*/
   }
 
   @Override
