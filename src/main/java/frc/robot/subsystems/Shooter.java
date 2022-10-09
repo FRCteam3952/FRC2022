@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.REVLibError;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
@@ -32,22 +33,22 @@ public class Shooter extends SubsystemBase {
     topShooterLim = new DigitalInput(Constants.shooterTopLimitPort);
 
     leaderMotor = new CANSparkMax(Constants.flywheelPort1, MotorType.kBrushless);
-    followerMotor = new CANSparkMax(Constants.flywheelPort2, MotorType.kBrushless);
+    // followerMotor = new CANSparkMax(Constants.flywheelPort2, MotorType.kBrushless);
     leaderMotor.setInverted(true);
-    followerMotor.follow(leaderMotor, true); // motor follows leader in inverse
-    setShooterPower(0.85); // rpm 4890
+    // followerMotor.follow(leaderMotor, true); // motor follows leader in inverse
+    setShooterPower(0.5); // rpm 4890
     pidController = leaderMotor.getPIDController();
     leaderEncoder = leaderMotor.getEncoder();
 
 
     
-    kP = 0;
+    kP = 1e-4;
     kI = 0;
     kD = 0;
     
     
     kIz = 0;
-    kFF = 1.732e-4;
+    kFF = 1e-4;
     kMaxOutput = 1;
     kMinOutput = -1;
     
@@ -60,8 +61,16 @@ public class Shooter extends SubsystemBase {
     pidController.setIZone(kIz);
     pidController.setFF(kFF);
     pidController.setOutputRange(kMinOutput, kMaxOutput);
-    leaderMotor.enableVoltageCompensation(12.0);
-    followerMotor.enableVoltageCompensation(12.0);
+    var AAAAAAAAAa = leaderMotor.enableVoltageCompensation(10.0);
+    // var BBBBBBBBBb = followerMotor.enableVoltageCompensation(10.0);
+
+    if(AAAAAAAAAa != REVLibError.kOk) {
+        while(true)
+            System.out.println("could not set leader to the correct thingy");
+    } else {
+        System.out.println("set leader volt comp");
+    }
+    
   }
 
   public void setShooterPower(double speed) {

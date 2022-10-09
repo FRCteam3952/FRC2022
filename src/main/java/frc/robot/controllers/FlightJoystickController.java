@@ -25,7 +25,7 @@ public class FlightJoystickController {
 
     public double getHorizontalMovement() {
         double x = joystick.getX();
-        
+        //return x;
         return Math.abs(x) >= deadzone ? k * Math.signum(x) * (Math.log(Math.abs(x) + 1 - deadzone) + c) : 0;
     }
 

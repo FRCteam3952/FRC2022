@@ -45,6 +45,7 @@ public class ManualDrive extends CommandBase {
     driveTrain.setTeam();
    // System.out.println(Gyro.getGyroAngle());
 
+   /*
     // Angle Adjustment Code
     if (RobotContainer.secondaryJoystick.getLateralMovement() != 0 || RobotContainer.secondaryJoystick.getHorizontalMovement() != 0) {
       // set angle
@@ -60,6 +61,7 @@ public class ManualDrive extends CommandBase {
       angle += angle < 0 ? 270 : -90;
       zRotation = driveTrain.findZRotationSpeedFromAngle(angle);
     } else {
+    */
       // adjust movement to limelight target
       if(RobotContainer.secondaryJoystick.joystick.getRawButton(Constants.adjustAimButtonNumber)){
         limelight.turnOnLED();
@@ -74,7 +76,9 @@ public class ManualDrive extends CommandBase {
         double angleAdjust = driveTrain.getAdjustment();
         zRotation += angleAdjust;
       }
-    }
+    // }
+    
+    
 
     // microadjustment
     if (RobotContainer.primaryJoystick.joystick.getPOV() == 0) {

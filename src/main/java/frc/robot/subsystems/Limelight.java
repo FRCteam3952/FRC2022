@@ -89,15 +89,17 @@ public class Limelight extends SubsystemBase {
 
     public void turnOnLED() {
         table.getEntry("ledMode").setDouble(3);
+        // inst.flush();
     }
 
     public void turnOffLED() {
-        table.getEntry("ledMode").setDouble(1);
+        // table.getEntry("ledMode").setDouble(1);
+        // inst.flush();
     }
 
     @Override
     public void periodic() {
-
+        //System.out.println(table.getEntry("ledMode").getDouble(-69));
     }
 
     @Override

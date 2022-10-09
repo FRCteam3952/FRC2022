@@ -4,9 +4,9 @@
 
 package frc.robot.subsystems;
 
+import frc.robot.BetterMecanumDrive;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
@@ -35,12 +35,12 @@ public class DriveTrain extends SubsystemBase {
   private final RelativeEncoder rearLeftEncoder;
   private final RelativeEncoder rearRightEncoder;
 
-  private NetworkTableInstance inst;
-  private NetworkTable table;
-  private NetworkTableEntry ball;
-  private NetworkTableEntry seeBall;
+  private final NetworkTableInstance inst;
+  private final NetworkTable table;
+  private final NetworkTableEntry ball;
+  private final NetworkTableEntry seeBall;
 
-  private MecanumDrive m_dDrive;
+  private final MecanumDrive mecanumDrive;
 
   /** Creates a new ExampleSubsystem. */
   public DriveTrain() {
@@ -63,22 +63,31 @@ public class DriveTrain extends SubsystemBase {
     frontLeft.setInverted(true);
     rearLeft.setInverted(true);
 
-    m_dDrive = new MecanumDrive(frontLeft, rearLeft, frontRight, rearRight);
+    mecanumDrive = new BetterMecanumDrive(frontLeft, rearLeft, frontRight, rearRight);
 
-    m_dDrive.setSafetyEnabled(false);
+    // m_dDrive.setSafetyEnabled(false);
+
+    // resetEncoders();
 
   }
 
   public void drive(double ySpeed, double xSpeed, double zRotation) {
-    m_dDrive.driveCartesian(ySpeed, xSpeed, zRotation, -Gyro.getGyroAngle());
-    
+      //m_dDrive.driveCartesian(0, 0, 0, -Gyro.getGyroAngle());
+      //5System.out.println("ySpeed: " + ySpeed + ", xSpeed: " + xSpeed + ", zRotation: " + zRotation);
+    mecanumDrive.driveCartesian(ySpeed, xSpeed, zRotation, -Gyro.getGyroAngle());
+    /*
+    frontLeft.set(0.2);
+    frontRight.set(-0.2);
+    rearLeft.set(-0.2);
+    rearRight.set(0.2);
+    */
     if (RobotContainer.primaryJoystick.joystick.getRawButtonPressed(Constants.resetGyroButtonNumber)) {
       Gyro.resetGyroAngle();
     }
   }
 
   public void driveRR(double ySpeed, double xSpeed, double zRotation) {
-    m_dDrive.driveCartesian(ySpeed, xSpeed, zRotation, 0);
+    mecanumDrive.driveCartesian(ySpeed, xSpeed, zRotation, 0);
     
     if (RobotContainer.primaryJoystick.joystick.getRawButtonPressed(Constants.resetGyroButtonNumber)) {
       Gyro.resetGyroAngle();
@@ -141,9 +150,28 @@ public class DriveTrain extends SubsystemBase {
     // System.out.println(frontLeftEncoder.getPosition());
     return Math.abs(frontLeftEncoder.getPosition());
   }
+  public double getFrontRightEncoder() {
+    // System.out.println(frontLeftEncoder.getPosition());
+    return Math.abs(frontRightEncoder.getPosition());
+  }
+  public double getRearLeftEncoder() {
+    // System.out.println(frontLeftEncoder.getPosition());
+    return Math.abs(rearLeftEncoder.getPosition());
+  }
+  public double getRearRightEncoder() {
+    // System.out.println(frontLeftEncoder.getPosition());
+    return Math.abs(rearRightEncoder.getPosition());
+  }
 
   public void resetFrontLeftEncoder() {
     frontLeftEncoder.setPosition(0);
+  }
+
+  public void resetEncoders() {
+      frontLeftEncoder.setPosition(0);
+      frontRightEncoder.setPosition(0);
+      rearLeftEncoder.setPosition(0);
+      rearRightEncoder.setPosition(0);
   }
 
   public void setAllEncoders(double position) {
@@ -165,8 +193,10 @@ public class DriveTrain extends SubsystemBase {
 
   @Override
   public void periodic() {
+    //System.out.println("FL: " + getFrontLeftEncoder() + ", FR: " + getFrontRightEncoder() + ", RL: " + getRearLeftEncoder() + ", RR: " + getRearRightEncoder());
+    System.out.println("FL: " + frontLeft.get() + ", FR: " + frontRight.get() + ", RL: " + rearLeft.get() + ", RR: " + rearRight.get());
 
-  }
+}
 
   @Override
   public void simulationPeriodic() {
@@ -174,7 +204,7 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public void stopMotors() {
-    m_dDrive.stopMotor();
+    mecanumDrive.stopMotor();
   }
 
 }

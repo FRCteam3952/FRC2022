@@ -91,9 +91,9 @@ public class BallHandling extends CommandBase {
             RobotContainer.primaryJoystick.joystick.getRawButton(Constants.rollIngesterButtonNumber) ? INGEST_SPEED : 0);
       }
       if (TESTING) {
-        shooter.setShooterToRPM();
-        System.out.println(shooter.getRPMValue());
-        System.out.println(shooter.getEncoderRPMValue());
+        //shooter.setShooterToRPM();
+        //System.out.println(shooter.getRPMValue());
+        //System.out.println(shooter.getEncoderRPMValue());
       }
   
       //System.out.println(shooter.getRPMValue());

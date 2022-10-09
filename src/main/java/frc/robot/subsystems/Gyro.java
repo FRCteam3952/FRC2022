@@ -13,6 +13,7 @@ public class Gyro extends SubsystemBase {
   public Gyro() {
     gyro = new ADIS16470_IMU();
     gyro.setYawAxis(ADIS16470_IMU.IMUAxis.kY);
+    gyro.calibrate();
   }
 
   public static double getGyroAngle() {
@@ -29,7 +30,8 @@ public class Gyro extends SubsystemBase {
 
   @Override
   public void periodic() {
-
+    //System.out.println(getGyroAngle());
+    // resetGyroAngle();
   }
 
   @Override
