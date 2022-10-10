@@ -79,8 +79,8 @@ public class BetterMecanumDrive extends MecanumDrive {
             for(int i = 0; i < moreSpeeds.length; i++) {
                 moreSpeeds[i] *= mults[i];
             }
-            normalize(moreSpeeds);
         }
+        normalize(moreSpeeds);
 
         this.frontLeft.set(moreSpeeds[0]);
         this.frontRight.set(moreSpeeds[1]);
