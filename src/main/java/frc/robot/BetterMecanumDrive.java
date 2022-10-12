@@ -8,6 +8,9 @@ import edu.wpi.first.wpilibj.drive.MecanumDrive;
 
 import java.lang.reflect.Field;
 
+/**
+ * A modified MecanumDrive implementation to allow modifying the actual values sent to the motors.
+ */
 public class BetterMecanumDrive extends MecanumDrive {
     public static final double X_SPEED_MINIMUM = 0;
 
