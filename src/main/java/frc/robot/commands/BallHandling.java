@@ -23,7 +23,7 @@ public class BallHandling extends CommandBase {
 
   private final double INGEST_SPEED = -0.7;
   private final double SHOOT_INDEX_SPEED = 0.8;
-  private final double MOVE_BALL_DOWN_SPEED = -0.3;
+  private final double MOVE_BALL_DOWN_SPEED = -0.25;
   private final double INDEX_SPEED = 0.15;
   private final double DELTA = 500;
 

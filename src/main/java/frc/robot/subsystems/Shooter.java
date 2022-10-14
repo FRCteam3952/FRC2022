@@ -41,23 +41,23 @@ public class Shooter extends SubsystemBase {
     rpmValue = 0;
     this.init();
 
-    leaderMotor.enableVoltageCompensation(10.0);
-    followerMotor.enableVoltageCompensation(10.0);
+    leaderMotor.enableVoltageCompensation(10.9);
+    followerMotor.enableVoltageCompensation(10.9);
   }
 
   /**
    * Initializes PID stuff
    */
   protected void init() {
-    kP = 0;
-    kI = 0;
-    kD = 0;
+    kP = 1.2e-4;
+    kI = 1e-8;
+    kD = 1e-7;
 
 
     kIz = 0;
-    kFF = 1.7e-4;
+    kFF = 1.95e-4;
     kMaxOutput = 1;
-    kMinOutput = -1;
+    kMinOutput = 0;
 
     pidController.setP(kP);
     pidController.setI(kI);

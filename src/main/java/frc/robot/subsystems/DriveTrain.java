@@ -63,7 +63,7 @@ public class DriveTrain extends SubsystemBase {
     frontLeft.setInverted(true);
     rearLeft.setInverted(true);
 
-    mecanumDrive = new BetterMecanumDrive(frontLeft, rearLeft, frontRight, rearRight);
+    mecanumDrive = new BetterMecanumDrive(frontLeft, rearLeft, frontRight, rearRight, 1, 1, 1, 1);
 
     // m_dDrive.setSafetyEnabled(false);
 
