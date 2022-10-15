@@ -92,7 +92,7 @@ public class BallHandling extends CommandBase {
       }
       if (TESTING) {
         shooter.setShooterToRPM();
-        System.out.println(shooter.getRPMValue());
+        System.out.println(shooter.getTargetRPMValue());
         System.out.println(shooter.getEncoderRPMValue());
       }
   
@@ -139,7 +139,7 @@ public class BallHandling extends CommandBase {
           break;
   
         case SHOOT_FIRST_BALL:
-          if (shooter.getEncoderRPMValue() > shooter.getRPMValue() - DELTA) {
+          if (shooter.getEncoderRPMValue() > shooter.getTargetRPMValue() - DELTA) {
             topIndexer.setIndexSpeed(SHOOT_INDEX_SPEED);
             timer.reset();
             state = ShootingStates.SHOOT_LAST_BALL;

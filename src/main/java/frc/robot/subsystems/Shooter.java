@@ -89,7 +89,7 @@ public class Shooter extends SubsystemBase {
     return leaderEncoder.getVelocity();
   }
 
-  public double getRPMValue() {
+  public double getTargetRPMValue() {
     return rpmValue;
   }
 

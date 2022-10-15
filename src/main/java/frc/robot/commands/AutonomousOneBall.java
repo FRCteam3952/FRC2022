@@ -151,7 +151,7 @@ public class AutonomousOneBall extends CommandBase {
           break;
 
         case SHOOT_FIRST_BALL:
-          if (shooter.getEncoderRPMValue() > shooter.getRPMValue() - 50) {
+          if (shooter.getEncoderRPMValue() > shooter.getTargetRPMValue() - 50) {
             topIndexer.setIndexSpeed(0.8);
             timer.reset();
             stage = AutonStages.WAIT;

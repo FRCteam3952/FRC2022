@@ -40,7 +40,7 @@ public class AdjustShooterPowerManual extends CommandBase {
   @Override
   public void execute() {
     setShooterRPM();
-    previousShooterRPM = shooter.getRPMValue();
+    previousShooterRPM = shooter.getTargetRPMValue();
     shooter.setRPMValue(previousShooterRPM + shooterRPM); // pass new RPM value to shooter subsystem
   }
 
