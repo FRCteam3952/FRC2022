@@ -20,7 +20,6 @@ public class AutonomousTwoBallPreLoadedBottomHub extends CommandBase {
     private final Shooter shooter;
     private final BottomIndexer bottomIndexer;
     private final TopIndexer topIndexer;
-    private final Limelight limelight;
 
     private AutonStages stage = AutonStages.BACK_UP;
 
@@ -29,15 +28,14 @@ public class AutonomousTwoBallPreLoadedBottomHub extends CommandBase {
     public static final double SHOOT_LOWER_HUB_RPM = 1675; // i saw this somewhere in the code so this is it now, tune if needed
 
     public AutonomousTwoBallPreLoadedBottomHub(DriveTrain driveTrain, ClimberHooks climberHooks, ClimberArm climberArm, Shooter shooter,
-                                      BottomIndexer bottomIndexer, TopIndexer topIndexer, Limelight limelight) {
+                                      BottomIndexer bottomIndexer, TopIndexer topIndexer) {
         this.driveTrain = driveTrain;
         this.climberHooks = climberHooks;
         this.climberArm = climberArm;
         this.shooter = shooter;
         this.bottomIndexer = bottomIndexer;
         this.topIndexer = topIndexer;
-        this.limelight = limelight;
-        addRequirements(driveTrain, climberHooks, climberArm, shooter, bottomIndexer, topIndexer, limelight);
+        addRequirements(driveTrain, climberHooks, climberArm, shooter, bottomIndexer, topIndexer);
     }
 
     private enum AutonStages {

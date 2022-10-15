@@ -4,53 +4,33 @@
 
 package frc.robot;
 
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.networktables.EntryListenerFlags;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import frc.robot.commands.ManualDrive;
-import frc.robot.commands.SetShooterPower;
-import frc.robot.commands.SetShooterPowerManual;
-import frc.robot.commands.AdjustShooterPowerManual;
-import frc.robot.commands.ControlArm;
-import frc.robot.commands.ControlHooks;
-import frc.robot.commands.StartingConfig;
-import frc.robot.commands.BallHandling;
-import frc.robot.commands.AutoClimb;
-import frc.robot.commands.AutonomousOneBall;
-import frc.robot.commands.AutonomousTaxiOnly;
-import frc.robot.commands.ResetAutoClimb;
-import frc.robot.commands.AutonomousTwoBall;
-import frc.robot.commands.AutonomousTwoBallNoShoot;
-
-import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.ClimberArm;
-import frc.robot.subsystems.ClimberHooks;
-import frc.robot.subsystems.BottomIndexer;
-import frc.robot.subsystems.TopIndexer;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Gyro;
-import frc.robot.subsystems.Limelight;
-
-import frc.robot.controllers.FlightJoystickController;
-
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.commands.*;
+import frc.robot.controllers.FlightJoystickController;
+import frc.robot.subsystems.*;
 
 public class RobotContainer {
-  public static int autonToUse = 2;
   /**
-   * KEY FOR AUTON ABOVE ^
-   * 
+   * KEY FOR AUTON BELOW:
+   * <p>
    * 0: {@link frc.robot.commands.AutonomousOneBall}
+   * <p>
    * 1: {@link frc.robot.commands.AutonomousTaxiOnly}
+   * <p>
    * 2: {@link frc.robot.commands.AutonomousTwoBall}
+   * <p>
    * 3: {@link frc.robot.commands.AutonomousTwoBallNoShoot}
+   * <p>
+   * 4: {@link frc.robot.commands.AutonomousTwoBallPreLoadedBottomHub}
+   * <p>
+   * 5: {@link frc.robot.commands.AutonomousTwoBallPreLoaded}
+   * <p>
+   * 6: {@link frc.robot.commands.AutonomousThreeBall}
    */
-
+  public static final int autonToUse = 4;
 
   public static boolean inTeleop = true;
 
@@ -111,6 +91,9 @@ public class RobotContainer {
       climberArm, shooter, bottomIndexer, topIndexer, limelight);
   public static final AutonomousTwoBallNoShoot autonomousTwoBallNoShoot = new AutonomousTwoBallNoShoot(driveTrain,
       climberHooks, climberArm, shooter, bottomIndexer, topIndexer);
+  public static final AutonomousTwoBallPreLoadedBottomHub autonomousTwoBallPreLoadedBottomHub = new AutonomousTwoBallPreLoadedBottomHub(driveTrain, climberHooks, climberArm, shooter, bottomIndexer, topIndexer);
+  public static final AutonomousTwoBallPreLoaded autonomousTwoBallPreLoaded = new AutonomousTwoBallPreLoaded(driveTrain, climberHooks, climberArm, shooter, bottomIndexer, topIndexer, limelight);
+  public static final AutonomousThreeBall autonomousThreeBall = new AutonomousThreeBall(driveTrain, climberHooks, climberArm, shooter, bottomIndexer, topIndexer, limelight);
 
   public static final ManualDrive manualDrive = new ManualDrive(driveTrain, limelight);
 
@@ -199,6 +182,14 @@ public class RobotContainer {
         autonomousTwoBallNoShoot.schedule();
         System.out.println("auton two ball w/ no shoot scheduled");
         break;
+      case 4:
+        autonomousTwoBallPreLoadedBottomHub.schedule();
+        break;
+      case 5:
+        autonomousTwoBallPreLoaded.schedule();
+        break;
+      case 6:
+        autonomousThreeBall.schedule();
       default:
         break; // CHOOSE A DEFAULT EVEN THOUGH IT SHOULD NEVER BE HERE
     }
