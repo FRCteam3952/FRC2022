@@ -27,7 +27,7 @@ public class BallHandling extends CommandBase {
   private final double INDEX_SPEED = 0.15;
   private final double DELTA = 500;
 
-  private final boolean TESTING = true;
+  private final boolean TESTING = false;
 
   // private ShootingStates state = ShootingStates.TESTING;
   private ShootingStates state = ShootingStates.INDEX_FIRST_BALL;

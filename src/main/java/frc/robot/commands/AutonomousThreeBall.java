@@ -33,6 +33,7 @@ public class AutonomousThreeBall extends CommandBase {
   private AutonStages stage = AutonStages.CLIMBER_HOOKS_ARMS;
 
   private final double MAX_POSITION = 30; // measured in motor rotations, measure later
+  private double AutoSetRPM = 4500;
 
   public AutonomousThreeBall(DriveTrain driveTrain, ClimberHooks climberHooks, ClimberArm climberArm, Shooter shooter,
       BottomIndexer bottomIndexer, TopIndexer topIndexer, Limelight limelight) {
@@ -138,6 +139,8 @@ public class AutonomousThreeBall extends CommandBase {
         case AIM:
           driveTrain.drive(0, 0, limelight.getAdjustment());
           if(timer.hasElapsed(3)){
+            limelight.setShooterRPM();
+            AutoSetRPM = limelight.getShooterRPM();
             limelight.turnOffLED();
             stage = AutonStages.LOWER_BALLS;
           }
@@ -151,7 +154,7 @@ public class AutonomousThreeBall extends CommandBase {
           else{
             topIndexer.setIndexSpeed(0);
             bottomIndexer.setIndexSpeed(0);
-            shooter.setRPMValue(4000);
+            shooter.setRPMValue(AutoSetRPM);
             shooter.setShooterToRPM();
             stage = AutonStages.SHOOT_FIRST_BALL;
           }
@@ -172,7 +175,7 @@ public class AutonomousThreeBall extends CommandBase {
             bottomIndexer.setIndexSpeed(-0.8);
             System.out.println("shoot second ball");
             timer.reset();
-            stage = AutonStages.FIND_THIRD_BALL;
+            stage = AutonStages.FINISH;
           }
           break;
 

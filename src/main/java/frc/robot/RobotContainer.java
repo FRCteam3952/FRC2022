@@ -30,7 +30,7 @@ public class RobotContainer {
    * <p>
    * 6: {@link frc.robot.commands.AutonomousThreeBall}
    */
-  public static final int autonToUse = 4;
+  public static final int autonToUse = 6;
 
   public static boolean inTeleop = true;
 
