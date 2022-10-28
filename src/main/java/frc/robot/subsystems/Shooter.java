@@ -103,7 +103,7 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // System.out.println(getRPMValue());
+    System.out.println(topShooterLim.get());
   }
 
   @Override

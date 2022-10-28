@@ -31,7 +31,7 @@ public class ControlHooks extends CommandBase {
 
   @Override
   public void execute() {
-    System.out.println(climberHooks.bottomLimitPressed());
+    // System.out.println(climberHooks.bottomLimitPressed());
     // System.out.println(ClimberHooks.getHookEncoder());
     // System.out.println("hook");
     double hookSpeed = RobotContainer.tertiaryJoystick.getLateralMovement();

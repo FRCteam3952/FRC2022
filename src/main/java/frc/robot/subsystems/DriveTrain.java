@@ -38,7 +38,6 @@ public class DriveTrain extends SubsystemBase {
   private final NetworkTableInstance inst;
   private final NetworkTable table;
   private final NetworkTableEntry ball;
-  private final NetworkTableEntry seeBall;
 
   private final MecanumDrive mecanumDrive;
 
@@ -47,7 +46,6 @@ public class DriveTrain extends SubsystemBase {
     inst = NetworkTableInstance.getDefault();
     table = inst.getTable("Vision");
     ball = table.getEntry("PID");
-    seeBall = table.getEntry("seeBall");
 
     frontLeft = new CANSparkMax(Constants.frontLeftMotorPort, MotorType.kBrushless);
     frontRight = new CANSparkMax(Constants.frontRightMotorPort, MotorType.kBrushless);
@@ -125,11 +123,11 @@ public class DriveTrain extends SubsystemBase {
   public double getAdjustment() {
     double adjustAngle = 0;
 
-    if (seeBall.getBoolean(false)) {
+    //if (seeBall.getBoolean(false)) {
       double adjustment = ball.getNumber(0).doubleValue() / 2;
       adjustAngle = adjustment;
 
-    }
+    //}
 
     return adjustAngle;
   }
