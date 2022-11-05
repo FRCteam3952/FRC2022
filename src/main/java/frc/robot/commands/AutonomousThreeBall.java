@@ -132,7 +132,7 @@ public class AutonomousThreeBall extends CommandBase {
             driveTrain.drive(0, 0, 0);
             timer.reset();
             limelight.turnOnLED();
-            stage = AutonStages.LOWER_BALLS;
+            stage = AutonStages.AIM;
           }
         break;
 

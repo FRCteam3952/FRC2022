@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -30,7 +32,7 @@ public class RobotContainer {
    * <p>
    * 6: {@link frc.robot.commands.AutonomousThreeBall}
    */
-  public static final int autonToUse = 6;
+  public static final int autonToUse = 2;
 
   public static boolean inTeleop = true;
 
@@ -76,6 +78,7 @@ public class RobotContainer {
   public static final ResetAutoClimb resetAutoClimb = new ResetAutoClimb();
 
   public static final BallHandling ballHandling = new BallHandling(shooter, bottomIndexer, topIndexer);
+  public static final BetterBallHandling betterBallHandling = new BetterBallHandling(shooter, bottomIndexer, topIndexer);
   public static final SetShooterPower setShooterPower = new SetShooterPower(shooter, limelight);
   public static final SetShooterPowerManual setShooterPowerManual = new SetShooterPowerManual(shooter);
   public static final AdjustShooterPowerManual adjustShooterPowerManual = new AdjustShooterPowerManual(shooter);
@@ -96,15 +99,14 @@ public class RobotContainer {
   public static final AutonomousThreeBall autonomousThreeBall = new AutonomousThreeBall(driveTrain, climberHooks, climberArm, shooter, bottomIndexer, topIndexer, limelight);
 
   public static final ManualDrive manualDrive = new ManualDrive(driveTrain, limelight);
-
-  // public static CvSink cvSink;
+  public static CvSink cvSink;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    * (it's supposed to but.... )
    */
   public RobotContainer() {
-    // cvSink = CameraServer.getVideo("Front Camera");
+    // var camera = CameraServer.startAutomaticCapture();
     System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA INITIALIZE");
     
     /*
@@ -205,7 +207,7 @@ public class RobotContainer {
     autonomousTwoBallNoShoot.cancel();
 
     configureButtonBindings();
-    shooter.setDefaultCommand(ballHandling);
+    shooter.setDefaultCommand(betterBallHandling);
     driveTrain.setDefaultCommand(manualDrive);
     climberHooks.setDefaultCommand(controlHooks);
     climberArm.setDefaultCommand(controlArm);

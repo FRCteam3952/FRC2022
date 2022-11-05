@@ -127,7 +127,7 @@ public class AutonomousTwoBall extends CommandBase {
             driveTrain.drive(0, 0, 0);
             timer.reset();
             limelight.turnOnLED();
-            stage = AutonStages.LOWER_BALLS;
+            stage = AutonStages.AIM;
           }
         break;
 
@@ -143,11 +143,13 @@ public class AutonomousTwoBall extends CommandBase {
           if(shooter.topShooterLimitPressed()){
             topIndexer.setIndexSpeed(-0.5);
             bottomIndexer.setIndexSpeed(0.5);
+            limelight.setShooterRPM();
           }
           else{
             topIndexer.setIndexSpeed(0);
             bottomIndexer.setIndexSpeed(0);
-            shooter.setRPMValue(4000);
+            shooter.setRPMValue(limelight.getShooterRPM());
+            // shooter.setRPMValue(4000);
             shooter.setShooterToRPM();
             stage = AutonStages.SHOOT_FIRST_BALL;
           }

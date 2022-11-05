@@ -94,7 +94,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public boolean bottomShooterLimitPressed() {
-    return bottomShooterLim.get();
+    return true;
   }
 
   public boolean topShooterLimitPressed() {
@@ -103,7 +103,7 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
-    System.out.println(topShooterLim.get());
+    //System.out.println(topShooterLim.get());
   }
 
   @Override

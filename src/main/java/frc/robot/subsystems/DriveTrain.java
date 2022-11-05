@@ -124,7 +124,7 @@ public class DriveTrain extends SubsystemBase {
     double adjustAngle = 0;
 
     //if (seeBall.getBoolean(false)) {
-      double adjustment = ball.getNumber(0).doubleValue() / 2;
+      double adjustment = ball.getDouble(0);
       adjustAngle = adjustment;
 
     //}
