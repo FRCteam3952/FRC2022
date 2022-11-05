@@ -106,7 +106,9 @@ public class RobotContainer {
    * (it's supposed to but.... )
    */
   public RobotContainer() {
-    // var camera = CameraServer.startAutomaticCapture();
+    //var yourMother = CameraServer.startAutomaticCapture();
+    //yourMother.setFPS(60);
+    
     System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA INITIALIZE");
     
     /*
