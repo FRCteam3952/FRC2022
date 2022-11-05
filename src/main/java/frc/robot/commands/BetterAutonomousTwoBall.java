@@ -118,9 +118,9 @@ public class BetterAutonomousTwoBall extends CommandBase {
         case AIM:
           driveTrain.drive(0, 0, limelight.getAdjustment());
           if(timer.hasElapsed(3)){
-            // limelight.setLaunchSpeed(); // set launch speed from distance to hoop
-            // limelight.setShooterRPM(); // set flywheel RPM from necessary launch speed
-            shooter.setRPMValue(defaultRPM); // pass RPM value to shooter subsystem
+            limelight.setLaunchSpeed(); // set launch speed from distance to hoop
+            limelight.setShooterRPM(); // set flywheel RPM from necessary launch speed
+            shooter.setRPMValue(limelight.getShooterRPM()); // pass RPM value to shooter subsystem
             shooter.setShooterToRPM();
             stage = AutonStages.SHOOT_BALLS;
             RobotContainer.betterBallHandling.setState(ShootingStates.SHOOT_FIRST_BALL);

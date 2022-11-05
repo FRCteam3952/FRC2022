@@ -51,7 +51,7 @@ public class Shooter extends SubsystemBase {
   protected void init() {
     kP = 1.2e-4;
     kI = 1e-9;
-    kD = 1e-7;
+    kD = 1e-5;
 
 
     kIz = 0;
