@@ -8,6 +8,7 @@ import java.io.UnsupportedEncodingException;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.CvSink;
+import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -113,8 +114,15 @@ public class RobotContainer {
  * @throws UnsupportedEncodingException
    */
   public RobotContainer() {
-    //var yourMother = CameraServer.startAutomaticCapture();
-    //yourMother.setFPS(60);
+    var yourMother = CameraServer.startAutomaticCapture();
+    yourMother.setFPS(60);
+    // yourMother.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+
+    var inst = NetworkTableInstance.getDefault();
+    var tab = inst.getTable("among");
+    var entry = tab.getEntry("us");
+    //entry.setString("value");
+    entry.setDouble(10);
     
     System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA INITIALIZE");
     

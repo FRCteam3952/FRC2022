@@ -60,7 +60,7 @@ public final class Constants {
     public static final int setShooterPowerButtonNumber = 3;
     public static final int setShooterManualButtonNumber = 4;
     public static final int resetIndexerAndIngesterButtonNumber = 5;
-    public static final int setToLowerHubRPMButtonNumber = 7;
+    public static final int setToTarmacRPMButtonNumber = 7;
 
     // button numbers for tertiary joystick (1-11)
     public static final int autoClimbButtonNumber = 1;

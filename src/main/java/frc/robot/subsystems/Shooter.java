@@ -49,13 +49,13 @@ public class Shooter extends SubsystemBase {
    * Initializes PID stuff
    */
   protected void init() {
-    kP = 1.2e-4;
+    kP = 1e-8;
     kI = 1e-9;
-    kD = 1e-7;
+    kD = 0;
 
 
     kIz = 0;
-    kFF = 1.95e-4;
+    kFF = 1.9569e-4;
     kMaxOutput = 1;
     kMinOutput = 0;
 
