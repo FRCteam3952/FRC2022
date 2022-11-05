@@ -44,7 +44,7 @@ public class FlightJoystickController {
     }
 
     public boolean getRawButtonWrapper(int button) {
-        return RobotContainer.inTeleop ? this.joystick.getRawButton(button) : this.overrideButtonPressShooterValue;
+        return this.joystick.getRawButton(button);
     }
 
     public void setOverrideButtonPressShooterValue(boolean bool) {

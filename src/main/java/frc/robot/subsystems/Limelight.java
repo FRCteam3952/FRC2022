@@ -28,7 +28,7 @@ public class Limelight extends SubsystemBase {
     private static final double GRAVITY = 9.80665; // in meters per second squared
     private static final double ANGLE = 60; // degrees // change to tune - max
     private static final double SHOOTER_HEIGHT = 0.65; // in meters
-    private static final double DELTA = 1.2;
+    private static final double DELTA = 1.15;
     private static final double speedFactor = 0.71; //direct multiplicative to shooter RPM
     private float prev_tx = 0f;
 
