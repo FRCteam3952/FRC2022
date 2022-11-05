@@ -4,8 +4,11 @@
 
 package frc.robot;
 
+import java.io.UnsupportedEncodingException;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.CvSink;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -31,8 +34,10 @@ public class RobotContainer {
    * 5: {@link frc.robot.commands.AutonomousTwoBallPreLoaded}
    * <p>
    * 6: {@link frc.robot.commands.AutonomousThreeBall}
+   * <p>
+   * 7: {@link frc.robot.commands.BetterAutonomousTwoBall}
    */
-  public static final int autonToUse = 2;
+  public static final int autonToUse = 7;
 
   public static boolean inTeleop = true;
 
@@ -97,13 +102,15 @@ public class RobotContainer {
   public static final AutonomousTwoBallPreLoadedBottomHub autonomousTwoBallPreLoadedBottomHub = new AutonomousTwoBallPreLoadedBottomHub(driveTrain, climberHooks, climberArm, shooter, bottomIndexer, topIndexer);
   public static final AutonomousTwoBallPreLoaded autonomousTwoBallPreLoaded = new AutonomousTwoBallPreLoaded(driveTrain, climberHooks, climberArm, shooter, bottomIndexer, topIndexer, limelight);
   public static final AutonomousThreeBall autonomousThreeBall = new AutonomousThreeBall(driveTrain, climberHooks, climberArm, shooter, bottomIndexer, topIndexer, limelight);
-
+    public static final BetterAutonomousTwoBall betterAutonomousTwoBall = new BetterAutonomousTwoBall(driveTrain, climberHooks, climberArm, limelight);
+  
   public static final ManualDrive manualDrive = new ManualDrive(driveTrain, limelight);
   public static CvSink cvSink;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    * (it's supposed to but.... )
+ * @throws UnsupportedEncodingException
    */
   public RobotContainer() {
     //var yourMother = CameraServer.startAutomaticCapture();
@@ -167,6 +174,7 @@ public class RobotContainer {
 
   public void autonomousInit() {
     inTeleop = false;
+    shooter.setDefaultCommand(betterBallHandling);
 
     topIndexer.setIndexSpeed(0);
     switch(autonToUse) {
@@ -194,6 +202,9 @@ public class RobotContainer {
         break;
       case 6:
         autonomousThreeBall.schedule();
+        break;
+      case 7:
+        betterAutonomousTwoBall.schedule();
       default:
         break; // CHOOSE A DEFAULT EVEN THOUGH IT SHOULD NEVER BE HERE
     }

@@ -41,7 +41,7 @@ public class BetterBallHandling extends CommandBase {
     addRequirements(shooter, bottomIndexer, topIndexer);
   }
 
-  private enum ShootingStates {
+  public static enum ShootingStates {
     WAITING_FOR_SHOOT,
     PREPARE_TO_SHOOT,
     SHOOT_FIRST_BALL,
@@ -143,6 +143,13 @@ public class BetterBallHandling extends CommandBase {
     if(!this.shooter.topShooterLimitPressed()) {
         bottomIndexer.setIndexSpeed(speed);
     }
+  }
+
+  public void setState(ShootingStates state) {
+      this.state = state;
+  }
+  public ShootingStates getState() {
+      return this.state;
   }
 
   public void resetSwitchState() {
