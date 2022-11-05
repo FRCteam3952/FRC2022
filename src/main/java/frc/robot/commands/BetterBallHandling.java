@@ -22,12 +22,12 @@ public class BetterBallHandling extends CommandBase {
   private boolean bothBallsLoaded = false;
 
   private static final double INGEST_SPEED = -0.7;
-  private static final double SHOOT_INDEX_SPEED = 0.8;
+  private static final double SHOOT_INDEX_SPEED = 0.9;
   public static final double MOVE_BALL_DOWN_SPEED = -0.2;
   private static final double INDEX_SPEED = 0.15;
-  private static final double DELTA = 69;
+  private static final double DELTA = 50;
 
-  private static final boolean TESTING = true;
+  private static final boolean TESTING = false;
   private static final boolean PRINTINGRPM = true;
 
   // private ShootingStates state = ShootingStates.TESTING;
@@ -61,11 +61,11 @@ public class BetterBallHandling extends CommandBase {
     System.out.println("balls loaded: " + this.bothBallsLoaded + ", state: " + this.state);
     // System.out.println(shoot.getBottomShooterLim());
 
-    // RESETS THE INDEXIN
-    if (RobotContainer.secondaryJoystick.joystick.getRawButton(Constants.setToLowerHubRPMButtonNumber)) {
-      shooter.setRPMValue(1675);
+    if (RobotContainer.secondaryJoystick.joystick.getRawButton(Constants.setToTarmacRPMButtonNumber)) {
+      shooter.setRPMValue(3800);
     }
 
+    // RESETS THE INDEXIN
     if (RobotContainer.secondaryJoystick.joystick.getRawButtonPressed(Constants.resetIndexerAndIngesterButtonNumber)) {
       state = ShootingStates.RESET;
     }    
@@ -106,8 +106,9 @@ public class BetterBallHandling extends CommandBase {
                 
                 break;
             case SHOOT_FIRST_BALL:
-                if (shooter.getEncoderRPMValue() > shooter.getTargetRPMValue() - DELTA) {
+                if (shooter.getEncoderRPMValue() > shooter.getTargetRPMValue() - DELTA && shooter.getEncoderRPMValue() <= shooter.getTargetRPMValue()) {
                   topIndexer.setIndexSpeed(SHOOT_INDEX_SPEED);
+                  bottomIndexer.setIndexSpeed(0);
                   timer.reset();
                   state = ShootingStates.SHOOT_LAST_BALL;
                 }
@@ -115,13 +116,13 @@ public class BetterBallHandling extends CommandBase {
                 break;
         
             case SHOOT_LAST_BALL:
-                // if (shooter.getEncoderRPMValue() > shooter.getRPMValue() - DELTA) {
+                if (shooter.getEncoderRPMValue() > shooter.getTargetRPMValue() - DELTA && shooter.getEncoderRPMValue() <= shooter.getTargetRPMValue() && timer.hasElapsed(0.2)) {
                   topIndexer.setIndexSpeed(SHOOT_INDEX_SPEED);
                   bottomIndexer.setIndexSpeed(-SHOOT_INDEX_SPEED);
                   System.out.println("shoot second ball");
                   timer.reset();
                   state = ShootingStates.RESET;
-                // }
+                }
         
                 break;
         

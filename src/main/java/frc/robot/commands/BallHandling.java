@@ -63,7 +63,7 @@ public class BallHandling extends CommandBase {
 
     // RESETS THE INDEXIN
   
-    if (RobotContainer.secondaryJoystick.joystick.getRawButton(Constants.setToLowerHubRPMButtonNumber)) {
+    if (RobotContainer.secondaryJoystick.joystick.getRawButton(Constants.setToTarmacRPMButtonNumber)) {
       shooter.setRPMValue(1675);
     }
 
