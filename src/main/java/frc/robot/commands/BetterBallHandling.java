@@ -25,9 +25,10 @@ public class BetterBallHandling extends CommandBase {
   private static final double SHOOT_INDEX_SPEED = 0.8;
   public static final double MOVE_BALL_DOWN_SPEED = -0.2;
   private static final double INDEX_SPEED = 0.15;
-  private static final double DELTA = 500;
+  private static final double DELTA = 69;
 
-  private static final boolean TESTING = false;
+  private static final boolean TESTING = true;
+  private static final boolean PRINTINGRPM = true;
 
   // private ShootingStates state = ShootingStates.TESTING;
   private ShootingStates state = ShootingStates.WAITING_FOR_SHOOT;
@@ -69,6 +70,14 @@ public class BetterBallHandling extends CommandBase {
       state = ShootingStates.RESET;
     }    
 
+    if (TESTING) {
+      shooter.setShooterToRPM();
+    }
+    if (PRINTINGRPM) {
+      System.out.println(shooter.getTargetRPMValue());
+      System.out.println(shooter.getEncoderRPMValue());
+    }
+
     // SHOOTS THE BALL
     switch(state){
             case WAITING_FOR_SHOOT:
@@ -94,11 +103,7 @@ public class BetterBallHandling extends CommandBase {
                     this.topIndexer.setIndexSpeed(MOVE_BALL_DOWN_SPEED);
                     this.bottomIndexer.setIndexSpeed(0);
                 }
-                if (TESTING) {
-                    shooter.setShooterToRPM();
-                    System.out.println(shooter.getTargetRPMValue());
-                    System.out.println(shooter.getEncoderRPMValue());
-                }
+                
                 break;
             case SHOOT_FIRST_BALL:
                 if (shooter.getEncoderRPMValue() > shooter.getTargetRPMValue() - DELTA) {

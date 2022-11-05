@@ -102,7 +102,7 @@ public class RobotContainer {
   public static final AutonomousTwoBallPreLoadedBottomHub autonomousTwoBallPreLoadedBottomHub = new AutonomousTwoBallPreLoadedBottomHub(driveTrain, climberHooks, climberArm, shooter, bottomIndexer, topIndexer);
   public static final AutonomousTwoBallPreLoaded autonomousTwoBallPreLoaded = new AutonomousTwoBallPreLoaded(driveTrain, climberHooks, climberArm, shooter, bottomIndexer, topIndexer, limelight);
   public static final AutonomousThreeBall autonomousThreeBall = new AutonomousThreeBall(driveTrain, climberHooks, climberArm, shooter, bottomIndexer, topIndexer, limelight);
-    public static final BetterAutonomousTwoBall betterAutonomousTwoBall = new BetterAutonomousTwoBall(driveTrain, climberHooks, climberArm, limelight);
+    public static final BetterAutonomousTwoBall betterAutonomousTwoBall = new BetterAutonomousTwoBall(driveTrain, climberHooks, climberArm, limelight, shooter);
   
   public static final ManualDrive manualDrive = new ManualDrive(driveTrain, limelight);
   public static CvSink cvSink;

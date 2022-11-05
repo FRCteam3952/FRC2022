@@ -9,14 +9,18 @@ import frc.robot.subsystems.ClimberHooks;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Gyro;
 import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.Shooter;
 
 public class BetterAutonomousTwoBall extends CommandBase {
     private final DriveTrain driveTrain;
   private final ClimberHooks climberHooks;
   private final ClimberArm climberArm;
   private final Limelight limelight;
+  private final Shooter shooter;
 
   private final Timer timer = new Timer();
+
+  private double defaultRPM = 4000;
 
   private static enum AutonStages {
     CLIMBER_HOOKS_ARMS,
@@ -33,12 +37,13 @@ public class BetterAutonomousTwoBall extends CommandBase {
 
   private final double MAX_POSITION = 30; // measured in motor rotations, measure later
 
-  public BetterAutonomousTwoBall(DriveTrain driveTrain, ClimberHooks climberHooks, ClimberArm climberArm, Limelight limelight) {
+  public BetterAutonomousTwoBall(DriveTrain driveTrain, ClimberHooks climberHooks, ClimberArm climberArm, Limelight limelight, Shooter shooter) {
 
     this.driveTrain = driveTrain;
     this.climberHooks = climberHooks;
     this.climberArm = climberArm;
     this.limelight = limelight;
+    this.shooter = shooter;
     addRequirements(driveTrain, climberHooks, climberArm, limelight);
   }
 
@@ -80,7 +85,7 @@ public class BetterAutonomousTwoBall extends CommandBase {
           break;
 
         case MOVE_TO_POS:
-          RobotContainer.secondaryJoystick.setOverrideButtonPressShooterValue(true);
+          //RobotContainer.secondaryJoystick.setOverrideButtonPressShooterValue(true);
           // topIndexer.setIndexSpeed(0.2);
           if (driveTrain.getFrontLeftEncoder() <= MAX_POSITION) {
             // xSpeed += drive.getAdjustment()[0];
@@ -88,7 +93,7 @@ public class BetterAutonomousTwoBall extends CommandBase {
             driveTrain.driveRR(-0.3, 0, 0);
           } else {
             driveTrain.drive(0, 0, 0);
-            RobotContainer.secondaryJoystick.setOverrideButtonPressShooterValue(false);
+            //RobotContainer.secondaryJoystick.setOverrideButtonPressShooterValue(false);
             // System.out.println("shoot 1");
             timer.reset();
             // topIndexer.setIndexSpeed(0.8);
@@ -113,9 +118,13 @@ public class BetterAutonomousTwoBall extends CommandBase {
         case AIM:
           driveTrain.drive(0, 0, limelight.getAdjustment());
           if(timer.hasElapsed(3)){
-            limelight.turnOffLED();
+            // limelight.setLaunchSpeed(); // set launch speed from distance to hoop
+            // limelight.setShooterRPM(); // set flywheel RPM from necessary launch speed
+            shooter.setRPMValue(defaultRPM); // pass RPM value to shooter subsystem
+            shooter.setShooterToRPM();
             stage = AutonStages.SHOOT_BALLS;
             RobotContainer.betterBallHandling.setState(ShootingStates.SHOOT_FIRST_BALL);
+
           }
         break;
 
