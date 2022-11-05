@@ -21,10 +21,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
     NetworkTableInstance inst = NetworkTableInstance.getDefault();
-    NetworkTable table = inst.getTable("pid");
-    NetworkTableEntry p = table.getEntry("p");
-    NetworkTableEntry i = table.getEntry("i");
-    NetworkTableEntry d = table.getEntry("d");
   private RobotContainer robotContainer;
 
   /**
@@ -65,6 +61,7 @@ public class Robot extends TimedRobot {
      * block in order for anything in the Command-based framework to work.
      */
     CommandScheduler.getInstance().run();
+    System.out.println(inst.getTable("among").getEntry("us").getString("bad"));
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
