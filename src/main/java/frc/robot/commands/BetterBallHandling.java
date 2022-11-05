@@ -70,35 +70,69 @@ public class BetterBallHandling extends CommandBase {
     }    
 
     // SHOOTS THE BALL
-    if (RobotContainer.secondaryJoystick.joystick.getRawButton(Constants.shootBallsButtonNumber)) {
-      shooter.setShooterToRPM();
-      state = true ? ShootingStates.SHOOT_FIRST_BALL : ShootingStates.SHOOT_LAST_BALL;
-    }
-    
-    // CONTROLS BALL INGESTING
-    if (RobotContainer.primaryJoystick.joystick.getRawButton(Constants.spitBothBallButtonNumber)) { //SPITS BOTH BALLS
-        this.setBottomIndexerSpeed(1);
-      topIndexer.setIndexSpeed(-1);
-      state = ShootingStates.WAITING_FOR_SHOOT;
-    }
-    else{
-      if (RobotContainer.primaryJoystick.joystick.getRawButton(Constants.spitBottomBallButtonNumber)) { //SPITS THE BOTTOM BALL
-        bottomIndexer.setIndexSpeed(1);
-        state = ShootingStates.WAITING_FOR_SHOOT;
-      } else if (!this.shooter.topShooterLimitPressed()) { //ROLLS THE BOTTOM INDEXER
-        this.topIndexer.setIndexSpeed(0);
-        this.setBottomIndexerSpeed(
-            RobotContainer.primaryJoystick.joystick.getRawButton(Constants.rollIngesterButtonNumber) ? INGEST_SPEED : 0);
-      } else {
-          System.out.println("top shooter lim pressed");
-          this.topIndexer.setIndexSpeed(MOVE_BALL_DOWN_SPEED);
-          this.bottomIndexer.setIndexSpeed(0);
-      }
-      if (TESTING) {
-        shooter.setShooterToRPM();
-        System.out.println(shooter.getTargetRPMValue());
-        System.out.println(shooter.getEncoderRPMValue());
-      }
+    switch(state){
+            case WAITING_FOR_SHOOT:
+                // CONTROLS BALL INGESTING
+                if (RobotContainer.secondaryJoystick.joystick.getRawButton(Constants.shootBallsButtonNumber)) { //SHOOTS
+                    shooter.setShooterToRPM();
+                    state = ShootingStates.SHOOT_FIRST_BALL;
+                }
+                if (RobotContainer.primaryJoystick.joystick.getRawButton(Constants.spitBothBallButtonNumber)) { //SPITS BOTH BALLS
+                    this.setBottomIndexerSpeed(1);
+                    topIndexer.setIndexSpeed(-1);
+                    state = ShootingStates.WAITING_FOR_SHOOT;
+                }
+                if (RobotContainer.primaryJoystick.joystick.getRawButton(Constants.spitBottomBallButtonNumber)) { //SPITS THE BOTTOM BALL
+                    bottomIndexer.setIndexSpeed(1);
+                    state = ShootingStates.WAITING_FOR_SHOOT;
+                } else if (!this.shooter.topShooterLimitPressed()) { //ROLLS THE BOTTOM INDEXER
+                    this.topIndexer.setIndexSpeed(INDEX_SPEED);
+                    this.setBottomIndexerSpeed(
+                        RobotContainer.primaryJoystick.joystick.getRawButton(Constants.rollIngesterButtonNumber) ? INGEST_SPEED : 0);
+                } else {
+                    System.out.println("top shooter lim pressed");
+                    this.topIndexer.setIndexSpeed(MOVE_BALL_DOWN_SPEED);
+                    this.bottomIndexer.setIndexSpeed(0);
+                }
+                if (TESTING) {
+                    shooter.setShooterToRPM();
+                    System.out.println(shooter.getTargetRPMValue());
+                    System.out.println(shooter.getEncoderRPMValue());
+                }
+                break;
+            case SHOOT_FIRST_BALL:
+                if (shooter.getEncoderRPMValue() > shooter.getTargetRPMValue() - DELTA) {
+                  topIndexer.setIndexSpeed(SHOOT_INDEX_SPEED);
+                  timer.reset();
+                  state = ShootingStates.SHOOT_LAST_BALL;
+                }
+        
+                break;
+        
+            case SHOOT_LAST_BALL:
+                // if (shooter.getEncoderRPMValue() > shooter.getRPMValue() - DELTA) {
+                  topIndexer.setIndexSpeed(SHOOT_INDEX_SPEED);
+                  bottomIndexer.setIndexSpeed(-SHOOT_INDEX_SPEED);
+                  System.out.println("shoot second ball");
+                  timer.reset();
+                  state = ShootingStates.RESET;
+                // }
+        
+                break;
+        
+            case RESET:
+                if (timer.hasElapsed(1)) {
+                  bottomIndexer.setIndexSpeed(0);
+                  topIndexer.setIndexSpeed(0);
+                  shooter.stopShooter();
+                  state = ShootingStates.WAITING_FOR_SHOOT;
+                }
+        
+            break;
+        
+            default:
+                System.err.println("No state is true");
+            break;
   
       // SWITCH STATES FOR INDEXING AND SHOOTING SEQUENCE
 
