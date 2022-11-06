@@ -1,7 +1,6 @@
 package frc.robot.controllers;
 
 import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.RobotContainer;
 
 /**
  * Currently the only one in use.
@@ -19,7 +18,6 @@ public class FlightJoystickController {
     public static final double kT = (maxT - cT) / Math.log(2 - deadzoneT);
 
     public Joystick joystick;
-    private boolean overrideButtonPressShooterValue = false;
 
     public FlightJoystickController(Joystick joystick) {
         this.joystick = joystick;
@@ -45,9 +43,5 @@ public class FlightJoystickController {
 
     public boolean getRawButtonWrapper(int button) {
         return this.joystick.getRawButton(button);
-    }
-
-    public void setOverrideButtonPressShooterValue(boolean bool) {
-        overrideButtonPressShooterValue = bool;
     }
 }
