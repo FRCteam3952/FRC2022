@@ -72,9 +72,9 @@ public class BallHandling extends CommandBase {
     }    
 
     // SHOOTS THE BALL
-    if (RobotContainer.secondaryJoystick.joystick.getRawButton(Constants.shootBallsButtonNumber)) {
+    if (RobotContainer.secondaryJoystick.joystick.getRawButtonPressed(Constants.shootBallsButtonNumber)) {
       shooter.setShooterToRPM();
-      state = true ? ShootingStates.SHOOT_FIRST_BALL : ShootingStates.SHOOT_LAST_BALL;
+      state = ShootingStates.SHOOT_FIRST_BALL;
     }
     
     // CONTROLS BALL INGESTING
@@ -87,7 +87,7 @@ public class BallHandling extends CommandBase {
       if (RobotContainer.primaryJoystick.joystick.getRawButton(Constants.spitBottomBallButtonNumber)) { //SPITS THE BOTTOM BALL
         bottomIndexer.setIndexSpeed(1);
         state = ShootingStates.INDEX_FIRST_BALL;
-      } else if (!false) { //ROLLS THE BOTTOM INDEXER
+      } else { //ROLLS THE BOTTOM INDEXER
         bottomIndexer.setIndexSpeed(
             RobotContainer.primaryJoystick.joystick.getRawButton(Constants.rollIngesterButtonNumber) ? INGEST_SPEED : 0);
       }
