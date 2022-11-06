@@ -66,7 +66,7 @@ public class ManualDrive extends CommandBase {
       if(RobotContainer.secondaryJoystick.joystick.getRawButton(Constants.adjustAimButtonNumber)){
         limelight.turnOnLED();
         double angleAdjust = limelight.getAdjustment();
-        //System.out.println(limelight.getDistance());
+        System.out.println("limlit ang: " + angleAdjust);
         zRotation += angleAdjust;
       } else {
         limelight.turnOffLED();
@@ -87,7 +87,7 @@ public class ManualDrive extends CommandBase {
       ySpeed += MICRO_PP;
       xSpeed -= MICRO_PP;
     } else if (RobotContainer.primaryJoystick.joystick.getPOV() == 270) {
-      xSpeed -= MICRO_PP - 0.05;
+      xSpeed -= (MICRO_PP-0.05);
     } else if (RobotContainer.primaryJoystick.joystick.getPOV() == 225) {
       ySpeed -= MICRO_PP;
       xSpeed -= MICRO_PP;
@@ -97,7 +97,7 @@ public class ManualDrive extends CommandBase {
       ySpeed -= MICRO_PP;
       xSpeed += MICRO_PP;
     } else if (RobotContainer.primaryJoystick.joystick.getPOV() == 90) {
-      xSpeed += MICRO_PP + 0.05;
+      xSpeed += (MICRO_PP-0.05);
     } else if (RobotContainer.primaryJoystick.joystick.getPOV() == 45) {
       ySpeed += MICRO_PP;
       xSpeed += MICRO_PP;

@@ -13,8 +13,8 @@ public class Limelight extends SubsystemBase {
     private final float ki = 0.01f;
     private final float kd = 0f;
 
-    public static final double LIMELIGHT_ANGLE_DEG = 35;
-    public static final double LIMELIGHT_HEIGHT_INCH = 22;
+    public static final double LIMELIGHT_ANGLE_DEG = 30.6;
+    public static final double LIMELIGHT_HEIGHT_INCH = 22.5;
     public static final double GOAL_HEIGHT_INCH = 104;
 
     private double launchSpeed = 0;
@@ -95,6 +95,7 @@ public class Limelight extends SubsystemBase {
         // inst.flush();
     }
 
+    
     public void turnOffLED() {
         // table.getEntry("ledMode").setDouble(1);
         // inst.flush();

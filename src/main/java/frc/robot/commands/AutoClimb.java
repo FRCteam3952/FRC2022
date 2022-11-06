@@ -94,8 +94,8 @@ public class AutoClimb extends CommandBase {
 
     switch (state) {
       case LIFTING_OFF_GROUND:
-        climberHooks.setHookSpeed(1);
-        climberArm.setArmSpeed(-0.85);
+        climberHooks.setHookSpeed(0.6667 * 1); // OG 2nd val, 2/3 of OG
+        climberArm.setArmSpeed(0.6667 * -0.85); // OG 2nd, 2/3 of OG
         System.out.println("lift set angle");
         state = ClimbingStates.LIFTING_SET_ANGLE;
       
@@ -103,8 +103,8 @@ public class AutoClimb extends CommandBase {
       
       case LIFTING_SET_ANGLE:
         if (checkHookandAngle(CLIMBING_ANGLE,50)) {
-          climberArm.setArmSpeed(-1);
-          climberHooks.setHookSpeed(1);
+          climberArm.setArmSpeed(0.6667 * -1); // OG 2nd, 2/3 of OG
+          climberHooks.setHookSpeed(0.6667 * 1); // OG 2nd, 2/3 of OG
           System.out.println("lift w/angle");
           state = ClimbingStates.LIFTING_WITH_ANGLE;
         }
@@ -113,8 +113,8 @@ public class AutoClimb extends CommandBase {
 
       case LIFTING_WITH_ANGLE:
         if (checkHookandAngle(40, 30)) {
-          climberHooks.setHookSpeed(1);
-          climberArm.setArmSpeed(1);
+          climberHooks.setHookSpeed(0.6667 * 1); // OG 2nd, 2/3 of OG
+          climberArm.setArmSpeed(0.6667 * 1); // OG 2nd, 2/3 of OG
           System.out.println("move high");
           state = ClimbingStates.MOVE_TO_HIGH;
         }
@@ -125,8 +125,8 @@ public class AutoClimb extends CommandBase {
         if (checkHookandAngle(45, 0)) {
           state = ClimbingStates.SEND_HOOKS_UP;
           System.out.println("send hook up");
-          climberHooks.setHookSpeed(-1);
-          climberArm.setArmSpeed(1);
+          climberHooks.setHookSpeed(0.6667 * -1); // OG 2nd, 2/3 of OG
+          climberArm.setArmSpeed(0.6667 * 1); // OG 2nd, 2/3 of OG
         }
 
         break;
@@ -135,7 +135,7 @@ public class AutoClimb extends CommandBase {
       
         if (checkHookandAngle(100, MAX_POSITION)) {          
           state = ClimbingStates.MOVE_TO_HIGHS;
-          climberHooks.setHookSpeed(1);
+          climberHooks.setHookSpeed(0.6667 * 1); // OG 2nd, 2/3 of OG
           System.out.println("move highs");
         }
 
@@ -145,8 +145,8 @@ public class AutoClimb extends CommandBase {
         System.out.println("move to high, lim: " + climberHooks.bottomLimitPressed());
         if (checkHookandAngle(100, 0)) {
           System.out.println("send hook 2");
-          climberHooks.setHookSpeed(-1);
-          climberArm.setArmSpeed(-1);
+          climberHooks.setHookSpeed(0.6667 * -1); // OG 2nd, 2/3 of OG
+          climberArm.setArmSpeed(0.6667 * -1); // OG 2nd, 2/3 of OG
           state = ClimbingStates.SEND_HOOKS_UP_2;
         }
 
@@ -161,7 +161,7 @@ public class AutoClimb extends CommandBase {
         break;
 
       case TRAVERSE:
-        climberHooks.setHookSpeed(1);
+        climberHooks.setHookSpeed(0.6667 * 1); // OG 2nd, 2/3 of OG
 
         if (ClimberHooks.getHookEncoder() < 200) {
           climberHooks.setHookSpeed(0);

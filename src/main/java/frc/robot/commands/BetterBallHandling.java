@@ -21,11 +21,11 @@ public class BetterBallHandling extends CommandBase {
 
   private boolean bothBallsLoaded = false;
 
-  private static final double INGEST_SPEED = -0.7;
+  private static final double INGEST_SPEED = -0.869;
   private static final double SHOOT_INDEX_SPEED = 0.9;
   public static final double MOVE_BALL_DOWN_SPEED = -0.2;
   private static final double INDEX_SPEED = 0.15;
-  private static final double DELTA = 50;
+  private static final double DELTA = 100;
 
   private static final boolean TESTING = false;
   private static final boolean PRINTINGRPM = true;
@@ -62,7 +62,7 @@ public class BetterBallHandling extends CommandBase {
     // System.out.println(shoot.getBottomShooterLim());
 
     if (RobotContainer.secondaryJoystick.joystick.getRawButton(Constants.setToTarmacRPMButtonNumber)) {
-      shooter.setRPMValue(3800);
+      shooter.setRPMValue(4000);
     }
 
     // RESETS THE INDEXIN
@@ -82,6 +82,8 @@ public class BetterBallHandling extends CommandBase {
     switch(state){
             case WAITING_FOR_SHOOT:
                 // CONTROLS BALL INGESTING
+                this.setBottomIndexerSpeed(
+                RobotContainer.primaryJoystick.joystick.getRawButton(Constants.rollIngesterButtonNumber) ? INGEST_SPEED : 0);
                 if (RobotContainer.secondaryJoystick.joystick.getRawButton(Constants.shootBallsButtonNumber)) { //SHOOTS
                     shooter.setShooterToRPM();
                     state = ShootingStates.SHOOT_FIRST_BALL;
@@ -94,29 +96,27 @@ public class BetterBallHandling extends CommandBase {
                 if (RobotContainer.primaryJoystick.joystick.getRawButton(Constants.spitBottomBallButtonNumber)) { //SPITS THE BOTTOM BALL
                     bottomIndexer.setIndexSpeed(1);
                     state = ShootingStates.WAITING_FOR_SHOOT;
-                } else if (!this.shooter.topShooterLimitPressed()) { //ROLLS THE BOTTOM INDEXER
+                }if (!this.shooter.topShooterLimitPressed()) { //ROLLS THE BOTTOM INDEXER
                     this.topIndexer.setIndexSpeed(INDEX_SPEED);
-                    this.setBottomIndexerSpeed(
-                        RobotContainer.primaryJoystick.joystick.getRawButton(Constants.rollIngesterButtonNumber) ? INGEST_SPEED : 0);
                 } else {
                     System.out.println("top shooter lim pressed");
                     this.topIndexer.setIndexSpeed(MOVE_BALL_DOWN_SPEED);
-                    this.bottomIndexer.setIndexSpeed(0);
                 }
                 
                 break;
             case SHOOT_FIRST_BALL:
-                if (shooter.getEncoderRPMValue() > shooter.getTargetRPMValue() - DELTA && shooter.getEncoderRPMValue() <= shooter.getTargetRPMValue()) {
+                if (shooter.getEncoderRPMValue() > shooter.getTargetRPMValue() - DELTA && shooter.getEncoderRPMValue() < shooter.getTargetRPMValue()+DELTA) {
                   topIndexer.setIndexSpeed(SHOOT_INDEX_SPEED);
                   bottomIndexer.setIndexSpeed(0);
                   timer.reset();
                   state = ShootingStates.SHOOT_LAST_BALL;
+
                 }
         
                 break;
         
             case SHOOT_LAST_BALL:
-                if (shooter.getEncoderRPMValue() > shooter.getTargetRPMValue() - DELTA && shooter.getEncoderRPMValue() <= shooter.getTargetRPMValue() && timer.hasElapsed(0.2)) {
+                if (shooter.getEncoderRPMValue() > shooter.getTargetRPMValue()- DELTA && shooter.getEncoderRPMValue() < shooter.getTargetRPMValue() + DELTA && timer.hasElapsed(0.2)) {
                   topIndexer.setIndexSpeed(SHOOT_INDEX_SPEED);
                   bottomIndexer.setIndexSpeed(-SHOOT_INDEX_SPEED);
                   System.out.println("shoot second ball");
